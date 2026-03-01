@@ -1,9 +1,9 @@
 # UI Control Registry - Single Source of Truth
 # Authoritative registry for all UI controls in the Collider visualization system
 
-version: "1.0"
-last_updated: "2026-01-25"
-total_authorized: 160
+version: "1.1"
+last_updated: "2026-03-01"
+total_authorized: 173
 
 panels:
   accessibility:
@@ -177,6 +177,9 @@ panels:
   filtering:
     description: 'Data subset selection and search'
     controls:
+      - id: cfg-search
+        type: control
+        status: IMPLEMENTED
       - id: filter-edges
         type: control
         status: IMPLEMENTED
@@ -316,7 +319,7 @@ panels:
         type: control
         status: IMPLEMENTED
   hover-info:
-    description: 'Hover information'
+    description: 'Hover information and tooltips'
     controls:
       - id: hover-atom
         type: control
@@ -344,6 +347,24 @@ panels:
         status: IMPLEMENTED
       - id: hover-tier
         type: control
+        status: IMPLEMENTED
+      - id: tooltip-body
+        type: display
+        status: IMPLEMENTED
+      - id: tooltip-examples
+        type: display
+        status: IMPLEMENTED
+      - id: tooltip-icon
+        type: display
+        status: IMPLEMENTED
+      - id: tooltip-subtitle
+        type: display
+        status: IMPLEMENTED
+      - id: tooltip-theory
+        type: display
+        status: IMPLEMENTED
+      - id: tooltip-title
+        type: display
         status: IMPLEMENTED
   label-config:
     description: 'Label display settings'
@@ -459,6 +480,15 @@ panels:
       - id: physics-center-num
         type: control
         status: IMPLEMENTED
+      - id: cfg-charge
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-gravity
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-link-distance
+        type: control
+        status: IMPLEMENTED
       - id: physics-charge
         type: control
         status: IMPLEMENTED
@@ -534,7 +564,16 @@ panels:
       - id: right-sidebar
         type: control
         status: IMPLEMENTED
+      - id: side-lock
+        type: control
+        status: IMPLEMENTED
+      - id: side-toggle
+        type: control
+        status: IMPLEMENTED
       - id: target-name
+        type: control
+        status: IMPLEMENTED
+      - id: timestamp
         type: control
         status: IMPLEMENTED
   view-modes:

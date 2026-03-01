@@ -7,10 +7,9 @@
     <style>
         {{STYLES}}
 
-
         /* ═══════════════════════════════════════════════════════════════════
-    COLLIDER UI - Dual Sidebar Layout
-    ═══════════════════════════════════════════════════════════════════ */
+           COLLIDER UI - Canvas-First Layout (Phase 1)
+           ═══════════════════════════════════════════════════════════════════ */
 
         * {
             margin: 0;
@@ -18,6 +17,9 @@
             box-sizing: border-box;
         }
 
+        /* ── Legacy CSS variable bridge ──
+           These inline vars are still referenced by app.js and 54 modules.
+           Phase 2 will migrate all references to the token system and remove these. */
         :root {
             --bg: #0a0a0f;
             --surface: rgba(15, 15, 22, 0.85);
@@ -34,11 +36,6 @@
             --yellow: #a09060;
             --red: #b07070;
             --cyan: #7090a0;
-            --sidebar-width: 300px;
-            --right-panel-width: 280px;
-            --min-sidebar-width: 240px;
-            --max-sidebar-width: 500px;
-            --header-height: 48px;
             --radius: 8px;
             --radius-sm: 4px;
             --glass: blur(12px);
@@ -53,20 +50,21 @@
         }
 
         /* ═══════════════════════════════════════════════════════════════════
-    LOADER
-    ═══════════════════════════════════════════════════════════════════ */
+           LOADER (inline - must render before styles.css loads)
+           ═══════════════════════════════════════════════════════════════════ */
         #loader {
             position: fixed;
             inset: 0;
-            background: var(--bg);
+            background: var(--color-bg-base, #0a0a0f);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            z-index: var(--z-index-modal);
+            z-index: var(--z-index-modal, 9999);
             font-size: 14px;
             letter-spacing: 2px;
+            color: var(--color-text-primary, rgba(220, 220, 225, 0.9));
         }
 
         #loader-status {
@@ -75,1114 +73,11 @@
         }
 
         /* ═══════════════════════════════════════════════════════════════════
-    HEADER - Top bar spanning full width
-    ═══════════════════════════════════════════════════════════════════ */
-        #header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--header-height);
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            gap: 24px;
-            z-index: var(--z-index-dropdown);
-        }
-
-        .logo {
-            font-weight: 600;
-            font-size: 14px;
-            letter-spacing: 1px;
-            color: var(--accent);
-        }
-
-        .logo span {
-            opacity: 0.5;
-            font-size: 10px;
-            margin-left: 6px;
-            color: var(--text);
-        }
-
-        .header-stats {
-            display: flex;
-            gap: 20px;
-            font-size: 11px;
-        }
-
-        .stat {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .stat-label {
-            opacity: 0.4;
-            text-transform: uppercase;
-            font-size: 9px;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-value {
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-            color: var(--cyan);
-        }
-
-        .target-name {
-            margin-left: auto;
-            font-size: 11px;
-            opacity: 0.5;
-            max-width: 400px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    MAIN LAYOUT - Graph container
-    ═══════════════════════════════════════════════════════════════════ */
+           GRAPH CONTAINER - Full viewport (Phase 1: no sidebar offsets)
+           ═══════════════════════════════════════════════════════════════════ */
         #3d-graph {
             position: fixed;
-            top: var(--header-height);
-            left: var(--sidebar-width);
-            right: var(--right-panel-width);
-            bottom: 0;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    LEFT SIDEBAR - Controls & Filters
-    ═══════════════════════════════════════════════════════════════════ */
-        #left-sidebar {
-            position: fixed;
-            top: var(--header-height);
-            left: 0;
-            bottom: 0;
-            width: var(--sidebar-width);
-            background: var(--surface);
-            backdrop-filter: var(--glass);
-            -webkit-backdrop-filter: var(--glass);
-            border-right: 1px solid var(--border);
-            overflow-y: auto;
-            overflow-x: hidden;
-            z-index: var(--z-index-panel);
-        }
-
-        #left-sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        #left-sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        #left-sidebar::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 2px;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    RIGHT SIDEBAR - Info Panels
-    ═══════════════════════════════════════════════════════════════════ */
-        #right-sidebar {
-            position: fixed;
-            top: var(--header-height);
-            right: 0;
-            bottom: 0;
-            width: var(--right-panel-width);
-            background: var(--surface);
-            backdrop-filter: var(--glass);
-            -webkit-backdrop-filter: var(--glass);
-            border-left: 1px solid var(--border);
-            overflow-y: auto;
-            overflow-x: hidden;
-            z-index: var(--z-index-panel);
-            display: flex;
-            flex-direction: column;
-        }
-
-        #right-sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        #right-sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        #right-sidebar::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 2px;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    SIDEBAR RESIZE DIVIDERS - Horizontal drag handles
-    ═══════════════════════════════════════════════════════════════════ */
-        .sidebar-resize-handle {
-            position: fixed;
-            top: var(--header-height);
-            bottom: 0;
-            width: 6px;
-            cursor: ew-resize;
-            z-index: calc(var(--z-index-panel) + 1);
-            background: transparent;
-            transition: background 0.15s;
-        }
-
-        .sidebar-resize-handle:hover,
-        .sidebar-resize-handle.dragging {
-            background: rgba(100, 110, 130, 0.25);
-        }
-
-        .sidebar-resize-handle.left {
-            left: calc(var(--sidebar-width) - 3px);
-        }
-
-        .sidebar-resize-handle.right {
-            right: calc(var(--right-panel-width) - 3px);
-        }
-
-        /* Visual indicator line */
-        .sidebar-resize-handle::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 2px;
-            height: 40px;
-            background: rgba(100, 110, 130, 0.3);
-            border-radius: 1px;
-            opacity: 0;
-            transition: opacity 0.15s;
-        }
-
-        .sidebar-resize-handle:hover::after {
-            opacity: 1;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    SECTION - Collapsible sections
-    ═══════════════════════════════════════════════════════════════════ */
-        .section {
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section-header {
-            padding: 12px 14px;
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            opacity: 0.5;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            user-select: none;
-            transition: all 0.15s;
-        }
-
-        .section-header:hover {
-            opacity: 0.9;
-            background: var(--surface-hover);
-        }
-
-        .section-header .arrow {
-            transition: transform 0.2s;
-            font-size: 8px;
-        }
-
-        .section-header.collapsed .arrow {
-            transform: rotate(-90deg);
-        }
-
-        /* PRIME SECTIONS - Highlighted config sections */
-        .section.prime {
-            background: linear-gradient(180deg, rgba(100, 110, 130, 0.06) 0%, transparent 100%);
-            border-left: 2px solid var(--color-accent-primary, rgba(100, 120, 150, 0.5));
-        }
-
-        .section.prime .section-header {
-            opacity: 0.8;
-            font-weight: 700;
-        }
-
-        .section.prime .section-header:hover {
-            opacity: 0.95;
-        }
-
-        .section-content {
-            padding: 8px 14px 14px;
-            overflow-y: auto;
-            transition: max-height 0.2s ease;
-        }
-
-        .section-content.collapsed {
-            display: none;
-        }
-
-        /* RESIZABLE SECTIONS - Vertical drag handles */
-        .section-resize-handle {
-            height: 4px;
-            cursor: ns-resize;
-            background: transparent;
-            border-bottom: 1px solid var(--border);
-            transition: background 0.15s;
-            position: relative;
-        }
-
-        .section-resize-handle:hover,
-        .section-resize-handle.dragging {
-            background: rgba(100, 110, 130, 0.2);
-        }
-
-        .section-resize-handle::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 30px;
-            height: 2px;
-            background: rgba(100, 110, 130, 0.3);
-            border-radius: 1px;
-            opacity: 0;
-            transition: opacity 0.15s;
-        }
-
-        .section-resize-handle:hover::after {
-            opacity: 1;
-        }
-
-        /* Section content height constraints when resizing */
-        .section-content.resizable {
-            min-height: 60px;
-            max-height: 400px;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    VIEW MODE TOGGLE - ATOMS vs FILES (top of left sidebar)
-    ═══════════════════════════════════════════════════════════════════ */
-        .view-mode-toggle {
-            display: flex;
-            gap: 0;
-            padding: 8px 10px;
-            background: linear-gradient(180deg, rgba(74, 158, 255, 0.08) 0%, rgba(74, 158, 255, 0.02) 100%);
-            border-bottom: 2px solid var(--accent);
-        }
-
-        .view-mode-btn {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 10px 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 600;
-        }
-
-        .view-mode-btn:first-child {
-            border-radius: var(--radius-sm) 0 0 var(--radius-sm);
-            border-right: none;
-        }
-
-        .view-mode-btn:last-child {
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-        }
-
-        .view-mode-btn:hover {
-            background: rgba(74, 158, 255, 0.15);
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .view-mode-btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: #000;
-            box-shadow: 0 0 12px rgba(74, 158, 255, 0.4);
-        }
-
-        .view-mode-icon {
-            font-size: 14px;
-        }
-
-        .view-mode-label {
-            font-size: 10px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    BUTTON GRID - For presets and actions
-    ═══════════════════════════════════════════════════════════════════ */
-        .btn-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-        }
-
-        .btn-grid-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .btn-grid-4 {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        .btn-grid-6 {
-            grid-template-columns: repeat(6, 1fr);
-        }
-
-        .btn {
-            padding: 8px 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text-dim);
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: all 0.15s;
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text);
-            border-color: var(--border-accent);
-        }
-
-        .btn.active {
-            background: var(--accent-dim);
-            border-color: var(--accent);
-            color: var(--accent);
-            box-shadow: 0 0 12px var(--accent-glow);
-        }
-
-        /* Icon buttons */
-        .btn-icon {
-            width: 36px;
-            height: 36px;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    SLIDERS
-    ═══════════════════════════════════════════════════════════════════ */
-        .slider-row {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-bottom: 12px;
-        }
-
-        .slider-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .slider-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .slider-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10px;
-        }
-
-        .slider-label {
-            opacity: 0.6;
-        }
-
-        .slider-value {
-            display: none;
-            /* Replaced by input */
-        }
-
-        .number-input {
-            width: 48px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--cyan);
-            font-family: 'SF Mono', Monaco, monospace;
-            font-size: 10px;
-            padding: 2px 4px;
-            text-align: right;
-            -moz-appearance: textfield;
-        }
-
-        .number-input::-webkit-outer-spin-button,
-        .number-input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        .number-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            cursor: pointer;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
-            background: var(--accent);
-            border-radius: 50%;
-            cursor: grab;
-            box-shadow: 0 0 8px var(--accent-glow);
-        }
-
-        input[type="range"]::-webkit-slider-thumb:active {
-            cursor: grabbing;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    FILTER CHIPS
-    ═══════════════════════════════════════════════════════════════════ */
-        .filter-group {
-            margin-bottom: 12px;
-        }
-
-        .filter-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .filter-label {
-            font-size: 9px;
-            opacity: 0.4;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-
-        .chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
-        .chip {
-            padding: 5px 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            font-size: 9px;
-            cursor: pointer;
-            transition: all 0.15s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .chip:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .chip.active {
-            background: var(--accent-dim);
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .chip .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    TOGGLE SWITCHES
-    ═══════════════════════════════════════════════════════════════════ */
-        .toggle-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 10px;
-            padding: 6px 0;
-        }
-
-        .toggle-row .toggle-label {
-            opacity: 0.7;
-        }
-
-        .toggle {
-            width: 36px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            cursor: pointer;
-            position: relative;
-            transition: background 0.2s;
-        }
-
-        .toggle::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 16px;
-            height: 16px;
-            background: var(--text);
-            border-radius: 50%;
-            transition: transform 0.2s;
-        }
-
-        .toggle.active {
-            background: var(--accent);
-        }
-
-        .toggle.active::after {
-            transform: translateX(16px);
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    INFO PANEL - Right sidebar node info
-    ═══════════════════════════════════════════════════════════════════ */
-        .info-panel {
-            padding: 14px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .info-panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .info-panel-title {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            opacity: 0.5;
-        }
-
-        .node-info {
-            display: none;
-        }
-
-        .node-info.visible {
-            display: block;
-        }
-
-        .node-name {
-            font-weight: 600;
-            font-size: 13px;
-            margin-bottom: 4px;
-            word-break: break-all;
-            color: var(--cyan);
-        }
-
-        .node-kind {
-            font-size: 10px;
-            opacity: 0.5;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10px;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-row .label {
-            opacity: 0.4;
-        }
-
-        .info-row .value {
-            text-align: right;
-        }
-
-        .node-file {
-            font-size: 9px;
-            opacity: 0.3;
-            margin-top: 10px;
-            word-break: break-all;
-            font-family: 'SF Mono', Monaco, monospace;
-        }
-
-        .placeholder-text {
-            font-size: 10px;
-            opacity: 0.3;
-            text-align: center;
-            padding: 20px;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    SELECTION PANEL
-    ═══════════════════════════════════════════════════════════════════ */
-        .selection-panel {
-            flex: 1;
-            padding: 14px;
-            overflow-y: auto;
-        }
-
-        .selection-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .selection-title {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            opacity: 0.5;
-        }
-
-        .selection-count {
-            font-size: 9px;
-            padding: 2px 8px;
-            background: var(--accent-dim);
-            border-radius: 10px;
-            color: var(--accent);
-        }
-
-        .selection-clear {
-            font-size: 9px;
-            padding: 4px 8px;
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text-dim);
-            cursor: pointer;
-        }
-
-        .selection-clear:hover {
-            color: var(--text);
-            border-color: var(--text-dim);
-        }
-
-        .selection-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .selection-item {
-            font-size: 10px;
-            padding: 6px 8px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            margin-bottom: 2px;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .selection-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--accent);
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    STATS PANEL (bottom of right sidebar)
-    ═══════════════════════════════════════════════════════════════════ */
-        .stats-panel {
-            padding: 14px;
-            background: rgba(0, 0, 0, 0.3);
-            border-top: 1px solid var(--border);
-            margin-top: auto;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-
-        .stats-item {
-            text-align: center;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: var(--radius-sm);
-        }
-
-        .stats-item .value {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--cyan);
-            font-variant-numeric: tabular-nums;
-        }
-
-        .stats-item .label {
-            font-size: 8px;
-            opacity: 0.4;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    COLOR PANELS (right sidebar color controls)
-    ═══════════════════════════════════════════════════════════════════ */
-        .color-panel,
-        .schemes-panel {
-            padding: 12px 14px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .color-panel .section-content,
-        .schemes-panel .section-content {
-            padding: 0;
-            margin-top: 10px;
-        }
-
-        .color-panel .btn-grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-        }
-
-        .color-panel .btn {
-            padding: 6px 8px;
-            font-size: 9px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all 0.15s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .color-panel .btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .color-panel .btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: #000;
-        }
-
-        /* Collapsible header for schemes panel */
-        .info-panel-header.collapsible {
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .info-panel-header.collapsible:hover {
-            opacity: 0.9;
-        }
-
-        .info-panel-header .collapse-icon {
-            font-size: 8px;
-            transition: transform 0.2s;
-        }
-
-        .info-panel-header.collapsed .collapse-icon {
-            transform: rotate(-90deg);
-        }
-
-        .schemes-panel .section-content {
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        .schemes-panel .section-content::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .schemes-panel .section-content::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 2px;
-        }
-
-        .schemes-panel .section-content.collapsed {
-            display: none;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    PERFORMANCE HUD (optional overlay)
-    ═══════════════════════════════════════════════════════════════════ */
-        #perf-hud {
-            position: fixed;
-            top: calc(var(--header-height) + 8px);
-            left: calc(var(--sidebar-width) + 8px);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 6px 10px;
-            border-radius: var(--radius-sm);
-            font-size: 10px;
-            font-family: 'SF Mono', Monaco, monospace;
-            z-index: var(--z-index-panel);
-            display: none;
-        }
-
-        #perf-hud.visible {
-            display: block;
-        }
-
-        .perf-row {
-            display: flex;
-            gap: 12px;
-        }
-
-        .perf-label {
-            opacity: 0.5;
-        }
-
-        .perf-value {
-            font-variant-numeric: tabular-nums;
-        }
-
-        .perf-good {
-            color: var(--green);
-        }
-
-        .perf-warn {
-            color: var(--yellow);
-        }
-
-        .perf-bad {
-            color: var(--red);
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    TOAST NOTIFICATIONS
-    ═══════════════════════════════════════════════════════════════════ */
-        #toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--surface);
-            border: 1px solid var(--border-accent);
-            padding: 12px 24px;
-            border-radius: var(--radius);
-            font-size: 12px;
-            z-index: var(--z-index-overlay);
-            opacity: 0;
-            transition: all 0.3s;
-        }
-
-        #toast.visible {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        /* Selection box for drag select */
-        #selection-box {
-            position: fixed;
-            border: 1px solid var(--accent);
-            background: rgba(100, 120, 150, 0.1);
-            pointer-events: none;
-            z-index: var(--z-index-sticky);
-            display: none;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    SECTION-SPECIFIC STYLING
-    ═══════════════════════════════════════════════════════════════════ */
-
-        /* Color mode buttons with color indicators */
-        .color-btn {
-            position: relative;
-        }
-
-        .color-btn::before {
-            content: '';
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-        }
-
-        .color-btn[data-preset="tier"]::before {
-            background: #ff6b6b;
-        }
-
-        .color-btn[data-preset="family"]::before {
-            background: #4ecdc4;
-        }
-
-        .color-btn[data-preset="layer"]::before {
-            background: #95e1d3;
-        }
-
-        .color-btn[data-preset="ring"]::before {
-            background: #f9ed69;
-        }
-
-        .color-btn[data-preset="file"]::before {
-            background: #a8e6cf;
-        }
-
-        .color-btn[data-preset="flow"]::before {
-            background: #dcd6f7;
-        }
-
-        /* Layout buttons with mini icons */
-        .layout-btn {
-            height: 32px;
-        }
-
-        /* ═══════════════════════════════════════════════════════════════════
-    GRIDSTACK PANEL CONTAINER - Bottom dock for modular controls
-    ═══════════════════════════════════════════════════════════════════ */
-        .panel-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 320px;
-            background: rgba(10, 10, 15, 0.95);
-            border-top: 1px solid var(--border);
-            z-index: var(--z-index-panel);
-            padding: 8px;
-        }
-
-        .panel-container .grid-stack-item-content {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 12px;
-            background: rgba(40, 40, 50, 0.6);
-            cursor: move;
-            font-weight: 600;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .panel-header span {
-            opacity: 0.7;
-        }
-
-        .panel-collapse {
-            background: none;
-            border: none;
-            color: var(--text-dim);
-            font-size: 14px;
-            cursor: pointer;
-            padding: 0 4px;
-            line-height: 1;
-        }
-
-        .panel-collapse:hover {
-            color: var(--text);
-        }
-
-        .panel-body {
-            padding: 10px 12px;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .panel-body.collapsed {
-            display: none;
-        }
-
-        .panel-body::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .panel-body::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 2px;
-        }
-
-        /* Hidden panel state */
-        .gs-hidden {
-            display: none !important;
-        }
-
-        /* Gridstack overrides for dark theme */
-        .grid-stack>.grid-stack-item>.grid-stack-item-content {
-            inset: 4px;
-        }
-
-        .grid-stack>.grid-stack-item>.ui-resizable-se {
-            background: none;
-        }
-
-        .grid-stack>.grid-stack-item>.ui-resizable-se::after {
-            content: '';
-            position: absolute;
-            right: 4px;
-            bottom: 4px;
-            width: 8px;
-            height: 8px;
-            border-right: 2px solid var(--border);
-            border-bottom: 2px solid var(--border);
-        }
-
-        /* Panel-specific controls */
-        .panel-search {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 6px 10px;
-            color: var(--text);
-            font-size: 11px;
-            margin-bottom: 8px;
-        }
-
-        .panel-search:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .panel-search::placeholder {
-            color: var(--text-muted);
-        }
-
-        /* Adjust graph container when panels are visible */
-        body.panels-open #3d-graph {
-            bottom: 320px;
-        }
-
-        body.panels-open #left-sidebar,
-        body.panels-open #right-sidebar {
-            bottom: 320px;
+            inset: 0;
         }
     </style>
 
@@ -1195,11 +90,6 @@
     <script src="https://unpkg.com/three@0.149.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://unpkg.com/3d-force-graph@1.73.3/dist/3d-force-graph.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
-
-    <!-- Gridstack.js for draggable/resizable panels -->
-    <link href="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack-extra.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack-all.js"></script>
 </head>
 
 <body>
@@ -1209,10 +99,16 @@
         <div id="loader-status">Loading data...</div>
     </div>
 
-    <!-- Header -->
-    <div id="header">
-        <div class="logo">COLLIDER <span>v{{VERSION}}</span></div>
-        <div class="header-stats">
+    <!-- Graph Container - Full viewport canvas -->
+    <div id="3d-graph"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         HUD OVERLAY - All controls are transparent overlays on the canvas
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div id="hud">
+
+        <!-- Top Center: Stats bar (nodes, edges, entropy) -->
+        <div class="hud-panel top-center">
             <div class="stat">
                 <span class="stat-label">Nodes</span>
                 <span class="stat-value" id="stat-nodes">0</span>
@@ -1226,835 +122,122 @@
                 <span class="stat-value" id="stat-entropy">--</span>
             </div>
         </div>
-        <div class="target-name" id="target-name"></div>
-    </div>
 
-    <!-- Left Sidebar -->
-    <div id="left-sidebar">
-        <!-- VIEW MODE TOGGLE - TOP PRIORITY -->
-        <div class="view-mode-toggle" id="view-mode-toggle">
-            <button class="view-mode-btn active" data-mode="atoms">
-                <span class="view-mode-icon">◉</span>
-                <span class="view-mode-label">ATOMS</span>
-            </button>
-            <button class="view-mode-btn" data-mode="files">
-                <span class="view-mode-icon">◫</span>
-                <span class="view-mode-label">FILES</span>
-            </button>
+        <!-- Top Left: Target info -->
+        <div class="hud-panel top-left">
+            <div class="hud-title">COLLIDER <span class="hud-version">v{{VERSION}}</span></div>
+            <div class="hud-target" id="target-name"></div>
+            <div class="hud-timestamp" id="timestamp"></div>
         </div>
 
-
-        <!-- NODE CONFIG - PRIME POSITION -->
-        <div class="section prime">
-            <div class="section-header" data-section="node-config">
-                <span>⬢ Node Config</span>
-                <span class="arrow">▼</span>
+        <!-- Bottom Dock: Primary controls -->
+        <div class="hud-panel bottom-dock">
+            <!-- View Mode: Atoms / Files -->
+            <div class="dock-group" id="dock-view-mode">
+                <button class="dock-btn active" data-mode="atoms" title="Atom-level view">Atoms</button>
+                <button class="dock-btn" data-mode="files" title="File-level view">Files</button>
             </div>
-            <div class="section-content" id="section-node-config">
-                <!-- Size Mode Selector -->
-                <div class="filter-group">
-                    <div class="filter-label">Size Mode</div>
-                    <div class="btn-grid btn-grid-4">
-                        <button class="btn active" data-size-mode="uniform">Uniform</button>
-                        <button class="btn" data-size-mode="degree">Degree</button>
-                        <button class="btn" data-size-mode="fanout">Fanout</button>
-                        <button class="btn" data-size-mode="complexity">Complex</button>
-                    </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Base Size</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="cfg-node-size" min="0.2" max="4" step="0.1" value="1">
-                        <input type="number" id="cfg-node-size-num" class="number-input" min="0.2" max="4" step="0.1"
-                            value="1">
-                    </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Opacity</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="cfg-node-opacity" min="0.1" max="1" step="0.05" value="1">
-                        <input type="number" id="cfg-node-opacity-num" class="number-input" min="0.1" max="1"
-                            step="0.05" value="1">
-                    </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Resolution</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="cfg-node-res" min="4" max="32" step="4" value="8">
-                        <input type="number" id="cfg-node-res-num" class="number-input" min="4" max="32" step="4"
-                            value="8">
-                    </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Label Size</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="cfg-label-size" min="0" max="3" step="0.1" value="1">
-                        <input type="number" id="cfg-label-size-num" class="number-input" min="0" max="3" step="0.1"
-                            value="1">
-                    </div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-label">Show Labels</span>
-                    <div class="toggle active" id="cfg-toggle-labels"></div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-label">Highlight Selected</span>
-                    <div class="toggle active" id="cfg-toggle-highlight"></div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-label">Pulse Animation</span>
-                    <div class="toggle" id="cfg-toggle-pulse"></div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-label">3D Depth Shading</span>
-                    <div class="toggle active" id="cfg-toggle-depth"></div>
-                </div>
+
+            <div class="dock-sep"></div>
+
+            <!-- Color Mode -->
+            <div class="dock-group" id="dock-color-mode">
+                <button class="dock-btn active" data-color="tier" title="Color by tier">Tier</button>
+                <button class="dock-btn" data-color="family" title="Color by family">Family</button>
+                <button class="dock-btn" data-color="layer" title="Color by layer">Layer</button>
+                <button class="dock-btn" data-color="ring" title="Color by ring">Ring</button>
+                <button class="dock-btn" data-color="file" title="Color by file">File</button>
+                <button class="dock-btn" data-color="flow" title="Color by flow">Flow</button>
+            </div>
+
+            <div class="dock-sep"></div>
+
+            <!-- Actions -->
+            <div class="dock-group" id="dock-actions">
+                <button class="dock-btn" id="btn-reset" title="Reset camera">Reset</button>
+                <button class="dock-btn" id="btn-screenshot" title="Screenshot">Shot</button>
+                <button class="dock-btn" id="btn-freeze" title="Freeze layout">Freeze</button>
             </div>
         </div>
 
-        <!-- EDGE CONFIG - PRIME POSITION -->
-        <div class="section prime">
-            <div class="section-header" data-section="edge-config">
-                <span>⟷ Edge Config</span>
-                <span class="arrow">▼</span>
+        <!-- Side Dock: Hover-reveal control panel (left edge) -->
+        <div class="side-dock" id="side-dock">
+            <div class="side-handle-row">
+                <button class="side-handle" id="side-toggle" title="Toggle controls">Controls</button>
+                <button class="side-lock" id="side-lock" title="Pin panel open">Pin</button>
             </div>
-            <div class="section-content" id="section-edge-config">
-                <!-- Edge Style Selector -->
-                <div class="filter-group">
-                    <div class="filter-label">Edge Style</div>
-                    <div class="btn-grid">
-                        <button class="btn active" data-edge-style="solid">Solid</button>
-                        <button class="btn" data-edge-style="dashed">Dashed</button>
-                        <button class="btn" data-edge-style="particle">Particle</button>
+            <div class="side-content">
+                <!-- Appearance Section -->
+                <div class="side-section">
+                    <div class="side-title collapsible" data-section="appearance">
+                        <span class="collapse-icon">&#9662;</span> Appearance
                     </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Opacity</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="cfg-edge-opacity" min="0" max="1" step="0.05" value="0.6">
-                        <input type="number" id="cfg-edge-opacity-num" class="number-input" min="0" max="1" step="0.05"
-                            value="0.6">
-                    </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Width</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="cfg-edge-width" min="0.2" max="5" step="0.2" value="1.5">
-                        <input type="number" id="cfg-edge-width-num" class="number-input" min="0.2" max="5" step="0.1"
-                            value="1.5">
-                    </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Curvature</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="cfg-edge-curve" min="0" max="1" step="0.05" value="0">
-                        <input type="number" id="cfg-edge-curve-num" class="number-input" min="0" max="1" step="0.05"
-                            value="0">
-                    </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Particle Speed</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="cfg-particle-speed" min="0" max="0.05" step="0.005" value="0.01">
-                        <input type="number" id="cfg-particle-speed-num" class="number-input" min="0" max="0.05"
-                            step="0.005" value="0.01">
-                    </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Particle Density</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="cfg-particle-count" min="0" max="10" step="1" value="0">
-                        <input type="number" id="cfg-particle-count-num" class="number-input" min="0" max="10" step="1"
-                            value="0">
-                    </div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-label">Show Arrows</span>
-                    <div class="toggle" id="cfg-toggle-arrows"></div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-label">Gradient Colors</span>
-                    <div class="toggle active" id="cfg-toggle-gradient"></div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-label">Highlight on Hover</span>
-                    <div class="toggle active" id="cfg-toggle-edge-hover"></div>
-                </div>
-                <div class="toggle-row">
-                    <span class="toggle-label">Show Codome Boundaries</span>
-                    <div class="toggle" id="cfg-toggle-codome"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- LAYOUT -->
-        <div class="section">
-            <div class="section-header" data-section="layout">
-                <span>Layout</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="section-content" id="section-layout">
-                <div class="btn-grid">
-                    <button class="btn layout-btn active" data-layout="force">Force</button>
-                    <button class="btn layout-btn" data-layout="radial">Radial</button>
-                    <button class="btn layout-btn" data-layout="orbital">Orbital</button>
-                    <button class="btn layout-btn" data-layout="sphere">Sphere</button>
-                    <button class="btn layout-btn" data-layout="grid">Grid</button>
-                    <button class="btn layout-btn" data-layout="spiral">Spiral</button>
-                    <button class="btn layout-btn" data-layout="tree">Tree</button>
-                    <button class="btn layout-btn" data-layout="galaxy">Galaxy</button>
-                    <button class="btn layout-btn" data-layout="flock">Flock</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- PHYSICS -->
-        <div class="section">
-            <div class="section-header" data-section="physics">
-                <span>Physics</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="section-content" id="section-physics">
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Repulsion</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="physics-charge" min="-500" max="0" value="-120">
-                        <input type="number" id="physics-charge-num" class="number-input" min="-500" max="0"
-                            value="-120">
-                    </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Link Distance</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="physics-link" min="10" max="200" value="50">
-                        <input type="number" id="physics-link-num" class="number-input" min="10" max="200" value="50">
-                    </div>
-                </div>
-                <div class="slider-row">
-                    <div class="slider-header">
-                        <span class="slider-label">Center Pull</span>
-                    </div>
-                    <div class="slider-controls">
-                        <input type="range" id="physics-center" min="0" max="0.5" step="0.01" value="0.05">
-                        <input type="number" id="physics-center-num" class="number-input" min="0" max="0.5" step="0.01"
-                            value="0.05">
-                    </div>
-                </div>
-                <div class="btn-grid btn-grid-4" style="margin-top: 8px;">
-                    <button class="btn" data-physics="default">Def</button>
-                    <button class="btn" data-physics="tight">Tight</button>
-                    <button class="btn" data-physics="loose">Loose</button>
-                    <button class="btn" data-physics="explosive">Boom</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- FILTERS -->
-        <div class="section">
-            <div class="section-header" data-section="filters">
-                <span>Filters</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="section-content" id="section-filters">
-                <div class="filter-group">
-                    <div class="filter-label">Tiers</div>
-                    <div class="chips" id="filter-tiers"></div>
-                </div>
-                <div class="filter-group">
-                    <div class="filter-label">Rings</div>
-                    <div class="chips" id="filter-rings"></div>
-                </div>
-                <div class="filter-group">
-                    <div class="filter-label">Edge Types</div>
-                    <div class="chips" id="filter-edges"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ACTIONS -->
-        <div class="section">
-            <div class="section-header collapsed" data-section="actions">
-                <span>Actions</span>
-                <span class="arrow">▼</span>
-            </div>
-            <div class="section-content collapsed" id="section-actions">
-                <div class="btn-grid btn-grid-2">
-                    <button class="btn" id="btn-reset">Reset View</button>
-                    <button class="btn" id="btn-screenshot">Screenshot</button>
-                    <button class="btn" id="btn-2d">Toggle 2D</button>
-                    <button class="btn" id="btn-freeze">Freeze</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Graph Container -->
-    <div id="3d-graph"></div>
-
-    <!-- Sidebar Resize Handles -->
-    <div class="sidebar-resize-handle left" id="left-resize-handle"></div>
-    <div class="sidebar-resize-handle right" id="right-resize-handle"></div>
-
-    <!-- Right Sidebar -->
-    <div id="right-sidebar">
-        <!-- Hover Info Panel -->
-        <div class="info-panel">
-            <div class="info-panel-header">
-                <span class="info-panel-title">Node Info</span>
-            </div>
-            <div class="node-info" id="hover-panel">
-                <div class="node-name" id="hover-name">Node Name</div>
-                <div class="node-kind" id="hover-kind">function</div>
-                <div class="info-row"><span class="label">Atom</span><span class="value" id="hover-atom">--</span></div>
-                <div class="info-row"><span class="label">Family</span><span class="value" id="hover-family">--</span>
-                </div>
-                <div class="info-row"><span class="label">Ring</span><span class="value" id="hover-ring">--</span></div>
-                <div class="info-row"><span class="label">Tier</span><span class="value" id="hover-tier">--</span></div>
-                <div class="info-row"><span class="label">Role</span><span class="value" id="hover-role">--</span></div>
-                <div class="node-file" id="hover-file"></div>
-            </div>
-            <div class="placeholder-text" id="hover-placeholder">Hover over a node to see details</div>
-        </div>
-
-        <!-- Selection Panel -->
-        <div class="selection-panel">
-            <div class="selection-header">
-                <span class="selection-title">Selection</span>
-                <span class="selection-count" id="selection-count">0</span>
-            </div>
-            <div id="selection-actions" style="display: none; margin-bottom: 10px;">
-                <button class="selection-clear" id="selection-clear">Clear</button>
-            </div>
-            <div class="selection-list" id="selection-list">
-                <div class="placeholder-text">Click nodes to select</div>
-            </div>
-        </div>
-
-        <!-- Stats Panel -->
-        <div class="stats-panel">
-            <div class="stats-grid">
-                <div class="stats-item">
-                    <div class="value" id="stats-nodes">0</div>
-                    <div class="label">Visible</div>
-                </div>
-                <div class="stats-item">
-                    <div class="value" id="stats-edges">0</div>
-                    <div class="label">Edges</div>
-                </div>
-                <div class="stats-item">
-                    <div class="value" id="stats-files">0</div>
-                    <div class="label">Files</div>
-                </div>
-                <div class="stats-item">
-                    <div class="value" id="stats-density">--</div>
-                    <div class="label">Density</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- COLOR SCHEMES (33 Named Gradients) - Primary color selection -->
-        <div class="info-panel schemes-panel">
-            <div class="info-panel-header collapsible" data-target="section-schemes">
-                <span class="info-panel-title">Color Schemes</span>
-                <span class="collapse-icon">▼</span>
-            </div>
-            <div class="section-content" id="section-schemes">
-                <!-- Populated dynamically by sidebar.js -->
-            </div>
-        </div>
-
-        <!-- COLOR MODE (Presets) - What dimension to color by -->
-        <div class="info-panel color-panel">
-            <div class="info-panel-header">
-                <span class="info-panel-title">Color Mode</span>
-            </div>
-            <div class="section-content" id="section-color">
-                <div class="btn-grid btn-grid-3">
-                    <button class="btn color-btn active" data-preset="tier">Tier</button>
-                    <button class="btn color-btn" data-preset="family">Family</button>
-                    <button class="btn color-btn" data-preset="layer">Layer</button>
-                    <button class="btn color-btn" data-preset="ring">Ring</button>
-                    <button class="btn color-btn" data-preset="file">File</button>
-                    <button class="btn color-btn" data-preset="flow">Flow</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         MODULAR PANEL CONTAINER - Gridstack-based draggable panels
-         ═══════════════════════════════════════════════════════════════════ -->
-    <div class="panel-container grid-stack">
-
-        <!-- FILTERING Panel -->
-        <div class="grid-stack-item" gs-id="filtering" gs-x="0" gs-y="0" gs-w="3" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>Filtering</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <input type="text" class="panel-search" id="panel-search-nodes" placeholder="Search nodes...">
-                    <div class="filter-group">
-                        <div class="filter-label">Quick Filters</div>
-                        <div class="chips" id="panel-filter-chips"></div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">Hide Orphans</span>
-                        <div class="toggle" id="panel-toggle-orphans"></div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">Hide Dead Code</span>
-                        <div class="toggle" id="panel-toggle-dead"></div>
-                    </div>
-                    <div class="slider-row">
-                        <div class="slider-header">
-                            <span class="slider-label">Min Degree</span>
+                    <div class="collapsible-content" id="sec-appearance">
+                        <div class="filter-row">
+                            <label class="filter-label">Node Size</label>
+                            <input type="range" class="slider" id="cfg-node-size" min="1" max="20" value="4" step="0.5">
                         </div>
-                        <div class="slider-controls">
-                            <input type="range" id="panel-filter-degree" min="0" max="20" value="0">
-                            <input type="number" id="panel-filter-degree-num" class="number-input" min="0" max="20"
-                                value="0">
+                        <div class="filter-row">
+                            <label class="filter-label">Node Opacity</label>
+                            <input type="range" class="slider" id="cfg-node-opacity" min="0" max="1" value="0.85" step="0.05">
+                        </div>
+                        <div class="filter-row">
+                            <label class="filter-label">Edge Opacity</label>
+                            <input type="range" class="slider" id="cfg-edge-opacity" min="0" max="1" value="0.3" step="0.05">
+                        </div>
+                        <div class="filter-row">
+                            <label class="filter-label">Label Size</label>
+                            <input type="range" class="slider" id="cfg-label-size" min="0" max="6" value="2" step="0.5">
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label>Filter by Tier</label>
-                        <div class="chips" id="filter-tier-chips"></div>
+                </div>
+
+                <!-- Physics Section -->
+                <div class="side-section">
+                    <div class="side-title collapsible collapsed" data-section="physics">
+                        <span class="collapse-icon">&#9662;</span> Physics
                     </div>
-                    <div class="control-group">
-                        <label>Filter by Family</label>
-                        <div class="chips" id="filter-family-chips"></div>
-                    </div>
-                    <div class="control-group">
-                        <label>Filter by Role</label>
-                        <div class="chips" id="filter-role-chips"></div>
-                    </div>
-                    <div class="control-group">
-                        <label>Min Degree</label>
-                        <input type="range" id="filter-min-degree" min="0" max="50" value="0" class="slider">
-                        <span class="slider-value" id="filter-min-degree-val">0</span>
-                    </div>
-                    <div class="control-group">
-                        <label>Max Degree</label>
-                        <input type="range" id="filter-max-degree" min="0" max="50" value="50" class="slider">
-                        <span class="slider-value" id="filter-max-degree-val">50</span>
-                    </div>
-                    <div class="control-group toggle-row">
-                        <span>Hide Orphans</span>
-                        <div class="toggle" id="filter-hide-orphans"></div>
-                    </div>
-                    <div class="control-group toggle-row">
-                        <span>Hide Dead Code</span>
-                        <div class="toggle" id="filter-hide-dead"></div>
+                    <div class="collapsible-content collapsed" id="sec-physics">
+                        <div class="filter-row">
+                            <label class="filter-label">Charge</label>
+                            <input type="range" class="slider" id="cfg-charge" min="-200" max="0" value="-30" step="5">
+                        </div>
+                        <div class="filter-row">
+                            <label class="filter-label">Link Distance</label>
+                            <input type="range" class="slider" id="cfg-link-distance" min="10" max="200" value="30" step="5">
+                        </div>
+                        <div class="filter-row">
+                            <label class="filter-label">Gravity</label>
+                            <input type="range" class="slider" id="cfg-gravity" min="0" max="1" value="0.1" step="0.05">
+                        </div>
+                        <div class="preset-grid">
+                            <button class="preset-btn" data-preset="tight">Tight</button>
+                            <button class="preset-btn" data-preset="spread">Spread</button>
+                            <button class="preset-btn" data-preset="cluster">Cluster</button>
+                            <button class="preset-btn active" data-preset="default">Default</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- SELECTION Panel -->
-        <div class="grid-stack-item" gs-id="selection" gs-x="3" gs-y="0" gs-w="2" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>Selection</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <div class="filter-group">
-                        <div class="filter-label">Mode</div>
-                        <div class="btn-grid btn-grid-3">
-                            <button class="btn active" data-selection-mode="single">Single</button>
-                            <button class="btn" data-selection-mode="multi">Multi</button>
-                            <button class="btn" data-selection-mode="lasso">Lasso</button>
-                        </div>
+                <!-- Filters Section -->
+                <div class="side-section">
+                    <div class="side-title collapsible collapsed" data-section="filters">
+                        <span class="collapse-icon">&#9662;</span> Filters
                     </div>
-                    <div class="slider-row">
-                        <div class="slider-header">
-                            <span class="slider-label">K-Hop Expand</span>
-                        </div>
-                        <div class="slider-controls">
-                            <input type="range" id="panel-khop" min="1" max="5" value="1">
-                            <input type="number" id="panel-khop-num" class="number-input" min="1" max="5" value="1">
-                        </div>
-                    </div>
-                    <div class="btn-grid btn-grid-2" style="margin-top: 8px;">
-                        <button class="btn" id="panel-select-expand">Expand</button>
-                        <button class="btn" id="panel-select-isolate">Isolate</button>
-                    </div>
-                    <div class="btn-grid btn-grid-2" style="margin-top: 8px;">
-                        <button class="btn" id="panel-select-invert">Invert</button>
-                        <button class="btn" id="panel-select-clear">Clear</button>
-                    </div>
-                    <div class="control-group">
-                        <div class="selection-info" id="selection-count">0 selected</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CAMERA Panel -->
-        <div class="grid-stack-item" gs-id="camera" gs-x="5" gs-y="0" gs-w="2" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>Camera</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <!-- 1. Auto-rotate toggle -->
-                    <div class="control-group toggle-row">
-                        <span>Auto Rotate</span>
-                        <div class="toggle" id="camera-auto-rotate"></div>
-                    </div>
-
-                    <!-- 2. Rotation speed slider -->
-                    <div class="control-group">
-                        <label>Rotation Speed</label>
-                        <input type="range" id="camera-rotate-speed" min="0.1" max="5" step="0.1" value="1"
-                            class="slider">
-                        <span class="slider-value" id="camera-rotate-speed-val">1.0</span>
-                    </div>
-
-                    <!-- 3. Camera preset buttons -->
-                    <div class="control-group">
-                        <label>Camera Presets</label>
-                        <div class="btn-grid btn-grid-3">
-                            <button class="btn" data-camera-preset="top">Top</button>
-                            <button class="btn" data-camera-preset="front">Front</button>
-                            <button class="btn" data-camera-preset="side">Side</button>
-                        </div>
-                    </div>
-
-                    <!-- 4. Bookmark controls -->
-                    <div class="control-group">
-                        <label>Bookmarks</label>
-                        <div class="btn-grid btn-grid-2">
-                            <button class="btn" id="camera-save-bookmark">Save View</button>
-                            <button class="btn" id="camera-reset">Reset</button>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <select id="camera-bookmarks" class="select-input">
-                            <option value="">Load bookmark...</option>
-                        </select>
-                    </div>
-
-                    <!-- 5. Zoom controls -->
-                    <div class="control-group">
-                        <label>Zoom</label>
-                        <div class="btn-grid btn-grid-3">
-                            <button class="btn" id="camera-zoom-in">+</button>
-                            <button class="btn" id="camera-zoom-fit">Fit</button>
-                            <button class="btn" id="camera-zoom-out">-</button>
+                    <div class="collapsible-content collapsed" id="sec-filters">
+                        <div class="filter-row">
+                            <input type="text" class="filter-input" id="cfg-search" placeholder="Search nodes...">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ACCESSIBILITY Panel -->
-        <div class="grid-stack-item" gs-id="accessibility" gs-x="7" gs-y="0" gs-w="2" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>Accessibility</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <div class="filter-group">
-                        <div class="filter-label">Colorblind Mode</div>
-                        <select id="panel-colorblind" class="panel-search" style="margin-bottom: 0;">
-                            <option value="none">None</option>
-                            <option value="deuteranopia">Deuteranopia</option>
-                            <option value="protanopia">Protanopia</option>
-                            <option value="tritanopia">Tritanopia</option>
-                        </select>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">High Contrast</span>
-                        <div class="toggle" id="panel-high-contrast"></div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">Reduced Motion</span>
-                        <div class="toggle" id="panel-reduced-motion"></div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">Large Labels</span>
-                        <div class="toggle" id="a11y-large-text"></div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">Focus Indicators</span>
-                        <div class="toggle" id="a11y-focus-indicators"></div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">Screen Reader Mode</span>
-                        <div class="toggle" id="a11y-screen-reader"></div>
-                    </div>
-                    <div class="filter-group">
-                        <div class="filter-label">UI Font Size</div>
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <input type="range" id="a11y-font-size" min="12" max="24" value="14" class="slider"
-                                style="flex: 1;">
-                            <span class="slider-value" id="a11y-font-size-val">14px</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- EXPORT Panel -->
-        <div class="grid-stack-item" gs-id="export" gs-x="9" gs-y="0" gs-w="2" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>Export</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <div class="btn-grid btn-grid-2">
-                        <button class="btn" id="panel-export-png">PNG</button>
-                        <button class="btn" id="panel-export-json">JSON</button>
-                        <button class="btn" id="panel-export-svg">SVG</button>
-                        <button class="btn" id="panel-export-embed">Embed</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ANALYSIS Panel (wider) -->
-        <div class="grid-stack-item" gs-id="analysis" gs-x="0" gs-y="2" gs-w="4" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>Analysis</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
-                        <div class="stats-item">
-                            <div class="value" id="panel-stat-visible">0</div>
-                            <div class="label">Visible</div>
-                        </div>
-                        <div class="stats-item">
-                            <div class="value" id="panel-stat-selected">0</div>
-                            <div class="label">Selected</div>
-                        </div>
-                        <div class="stats-item">
-                            <div class="value" id="panel-stat-edges">0</div>
-                            <div class="label">Edges</div>
-                        </div>
-                        <div class="stats-item">
-                            <div class="value" id="panel-stat-density">--</div>
-                            <div class="label">Density</div>
-                        </div>
-                    </div>
-                    <div class="toggle-row" style="margin-top: 8px;">
-                        <span class="toggle-label">Show Metrics Overlay</span>
-                        <div class="toggle" id="panel-toggle-metrics"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- LAYOUT Panel -->
-        <div class="grid-stack-item" gs-id="layout-phys" gs-x="4" gs-y="2" gs-w="3" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>Layout</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <div class="btn-grid btn-grid-3" style="margin-bottom: 8px;">
-                        <button class="btn" id="panel-reheat">Reheat</button>
-                        <button class="btn" id="panel-freeze">Freeze</button>
-                        <button class="btn" id="panel-cool">Cool</button>
-                    </div>
-                    <div class="slider-row">
-                        <div class="slider-header">
-                            <span class="slider-label">Alpha Decay</span>
-                        </div>
-                        <div class="slider-controls">
-                            <input type="range" id="panel-alpha-decay" min="0" max="0.1" step="0.005" value="0.0228">
-                            <input type="number" id="panel-alpha-decay-num" class="number-input" min="0" max="0.1"
-                                step="0.005" value="0.0228">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW MODES Panel -->
-        <div class="grid-stack-item" gs-id="view-modes" gs-x="7" gs-y="2" gs-w="2" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>View</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <div class="btn-grid btn-grid-2">
-                        <button class="btn active" id="panel-view-3d">3D</button>
-                        <button class="btn" id="panel-view-2d">2D</button>
-                    </div>
-                    <div class="btn-grid btn-grid-2" style="margin-top: 8px;">
-                        <button class="btn active" data-panel-mode="atoms">Atoms</button>
-                        <button class="btn" data-panel-mode="files">Files</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- NODE APPEARANCE Panel -->
-        <div class="grid-stack-item" gs-id="node-appear" gs-x="0" gs-y="4" gs-w="3" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>Node Appearance</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <div class="filter-group">
-                        <div class="filter-label">Size Mode</div>
-                        <div class="btn-grid btn-grid-4">
-                            <button class="btn active" data-panel-size-mode="uniform">Uniform</button>
-                            <button class="btn" data-panel-size-mode="degree">Degree</button>
-                            <button class="btn" data-panel-size-mode="fanout">Fanout</button>
-                            <button class="btn" data-panel-size-mode="complexity">Complex</button>
-                        </div>
-                    </div>
-                    <div class="slider-row">
-                        <div class="slider-header"><span class="slider-label">Node Size</span></div>
-                        <div class="slider-controls">
-                            <input type="range" id="panel-node-size" min="0.2" max="4" step="0.1" value="1">
-                            <input type="number" id="panel-node-size-num" class="number-input" min="0.2" max="4"
-                                step="0.1" value="1">
-                        </div>
-                    </div>
-                    <div class="slider-row">
-                        <div class="slider-header"><span class="slider-label">Node Opacity</span></div>
-                        <div class="slider-controls">
-                            <input type="range" id="panel-node-opacity" min="0.1" max="1" step="0.05" value="1">
-                            <input type="number" id="panel-node-opacity-num" class="number-input" min="0.1" max="1"
-                                step="0.05" value="1">
-                        </div>
-                    </div>
-                    <div class="slider-row">
-                        <div class="slider-header"><span class="slider-label">Label Size</span></div>
-                        <div class="slider-controls">
-                            <input type="range" id="panel-label-size" min="0" max="3" step="0.1" value="1">
-                            <input type="number" id="panel-label-size-num" class="number-input" min="0" max="3"
-                                step="0.1" value="1">
-                        </div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">Show Labels</span>
-                        <div class="toggle active" id="panel-toggle-labels"></div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">Highlight Selected</span>
-                        <div class="toggle active" id="panel-toggle-highlight"></div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">3D Depth Shading</span>
-                        <div class="toggle active" id="panel-toggle-depth"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- EDGE APPEARANCE Panel -->
-        <div class="grid-stack-item" gs-id="edge-appear" gs-x="3" gs-y="4" gs-w="3" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>Edge Appearance</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <div class="filter-group">
-                        <div class="filter-label">Edge Style</div>
-                        <div class="btn-grid btn-grid-3">
-                            <button class="btn active" data-panel-edge-style="solid">Solid</button>
-                            <button class="btn" data-panel-edge-style="dashed">Dashed</button>
-                            <button class="btn" data-panel-edge-style="particle">Particle</button>
-                        </div>
-                    </div>
-                    <div class="slider-row">
-                        <div class="slider-header"><span class="slider-label">Edge Opacity</span></div>
-                        <div class="slider-controls">
-                            <input type="range" id="panel-edge-opacity" min="0" max="1" step="0.05" value="0.6">
-                            <input type="number" id="panel-edge-opacity-num" class="number-input" min="0" max="1"
-                                step="0.05" value="0.6">
-                        </div>
-                    </div>
-                    <div class="slider-row">
-                        <div class="slider-header"><span class="slider-label">Edge Width</span></div>
-                        <div class="slider-controls">
-                            <input type="range" id="panel-edge-width" min="0.2" max="5" step="0.2" value="1.5">
-                            <input type="number" id="panel-edge-width-num" class="number-input" min="0.2" max="5"
-                                step="0.2" value="1.5">
-                        </div>
-                    </div>
-                    <div class="slider-row">
-                        <div class="slider-header"><span class="slider-label">Curvature</span></div>
-                        <div class="slider-controls">
-                            <input type="range" id="panel-edge-curve" min="0" max="1" step="0.05" value="0">
-                            <input type="number" id="panel-edge-curve-num" class="number-input" min="0" max="1"
-                                step="0.05" value="0">
-                        </div>
-                    </div>
-                    <div class="slider-row">
-                        <div class="slider-header"><span class="slider-label">Particle Speed</span></div>
-                        <div class="slider-controls">
-                            <input type="range" id="panel-particle-speed" min="0" max="0.05" step="0.005" value="0.01">
-                            <input type="number" id="panel-particle-speed-num" class="number-input" min="0" max="0.05"
-                                step="0.005" value="0.01">
-                        </div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">Show Arrows</span>
-                        <div class="toggle" id="panel-toggle-arrows"></div>
-                    </div>
-                    <div class="toggle-row">
-                        <span class="toggle-label">Gradient Colors</span>
-                        <div class="toggle active" id="panel-toggle-gradient"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PANEL SETTINGS (toggle visibility, reset) -->
-        <div class="grid-stack-item" gs-id="panel-settings" gs-x="9" gs-y="2" gs-w="2" gs-h="2">
-            <div class="grid-stack-item-content">
-                <div class="panel-header">
-                    <span>Panels</span>
-                    <button class="panel-collapse">−</button>
-                </div>
-                <div class="panel-body">
-                    <button class="btn active" id="panel-open-settings"
-                        style="width: 100%; margin-bottom: 8px; border-color: var(--accent);">Global Settings</button>
-                    <button class="btn" id="panel-reset-layout" style="width: 100%; margin-bottom: 8px;">Reset
-                        Layout</button>
-                    <button class="btn" id="panel-toggle-dock" style="width: 100%;">Hide Panels</button>
-                </div>
-            </div>
-        </div>
+        <!-- HUD Toast: Notification overlay -->
+        <div class="hud-toast" id="hud-toast"></div>
 
     </div>
+    <!-- /hud -->
 
     <!-- Performance HUD -->
     <div id="perf-hud">
@@ -2066,11 +249,25 @@
         </div>
     </div>
 
-    <!-- Toast -->
+    <!-- Toast (legacy compat) -->
     <div id="toast"></div>
 
-    <!-- Core Application Injection -->
+    <!-- Selection Box -->
     <div id="selection-box"></div>
+
+    <!-- Topology Tooltip -->
+    <div class="topo-tooltip" id="topo-tooltip">
+        <div class="topo-tooltip-header">
+            <span class="topo-tooltip-icon" id="tooltip-icon"></span>
+            <div>
+                <div class="topo-tooltip-title" id="tooltip-title"></div>
+                <div class="topo-tooltip-subtitle" id="tooltip-subtitle"></div>
+            </div>
+        </div>
+        <div class="topo-tooltip-body" id="tooltip-body"></div>
+        <div class="topo-tooltip-theory" id="tooltip-theory"></div>
+        <div class="topo-tooltip-examples" id="tooltip-examples"></div>
+    </div>
 
     <!-- INLINED MODULES FOR GENERATED REPORTS -->
     <script>
@@ -2210,6 +407,7 @@
         /**
          * @module SettingsPanel
          * (Inlined for standalone report generation)
+         * Modified for Phase 1: attaches toggle to dock-actions instead of sidebar section-actions
          */
         const SettingsPanel = (function () {
             'use strict';
@@ -2232,33 +430,32 @@
             }
 
             function createToggleButton() {
+                // Phase 1: Try HUD dock-actions first, then fall back to legacy section-actions
+                const dockActions = document.getElementById('dock-actions');
                 const actionsSection = document.getElementById('section-actions');
-                if (!actionsSection) {
-                    // If section-actions doesn't exist (e.g. older template), try to create it or append to sidebar
-                    console.warn('[SettingsPanel] #section-actions not found, attempting fallback');
-                    // Fallback logic omitted for brevity, assuming newer template structure
+                const target = dockActions || actionsSection;
+
+                if (!target) {
+                    console.warn('[SettingsPanel] No actions container found for settings button');
                     return;
                 }
 
-                // In template.html specifically, section-actions content might be collapsed or structured differently.
-                // We append to the .section-content
-                let contentDiv = actionsSection.querySelector('.section-content') || actionsSection;
-                if (actionsSection.classList.contains('section-content')) contentDiv = actionsSection;
-
                 const btn = document.createElement('button');
-                btn.className = 'btn'; // Re-use existing styling in template (btn vs nav-btn)
-                btn.innerHTML = `<span class="icon">⚙️</span> Settings`;
+                btn.className = dockActions ? 'dock-btn' : 'btn';
+                btn.textContent = 'Settings';
                 btn.onclick = togglePanel;
                 btn.title = 'Configure Controls & Settings';
-                btn.style.marginTop = '4px';
-                btn.style.width = '100%';
 
-                // If entry is a grid, we might want to append to the grid or after it
-                const grid = contentDiv.querySelector('.btn-grid');
-                if (grid) {
-                    grid.appendChild(btn);
+                if (dockActions) {
+                    dockActions.appendChild(btn);
                 } else {
-                    contentDiv.appendChild(btn);
+                    let contentDiv = actionsSection.querySelector('.section-content') || actionsSection;
+                    const grid = contentDiv.querySelector('.btn-grid');
+                    if (grid) {
+                        grid.appendChild(btn);
+                    } else {
+                        contentDiv.appendChild(btn);
+                    }
                 }
             }
 
@@ -2294,7 +491,7 @@
                 title.style.fontSize = '18px';
 
                 const closeBtn = document.createElement('button');
-                closeBtn.innerText = '×';
+                closeBtn.innerText = '\u00d7';
                 closeBtn.style.background = 'none';
                 closeBtn.style.border = 'none';
                 closeBtn.style.color = '#fff';

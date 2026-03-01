@@ -520,14 +520,19 @@ def generate_webgl_html(json_source: Any, output_path: str):
     viz_dir = Path(__file__).parent.parent / "src/core/viz"
     viz_assets = viz_dir / "assets"
     vite_dist = viz_dir / "build" / "dist"
+    vite_modules = viz_dir / "build" / "src" / "modules"
     vite_template = viz_dir / "templates" / "standalone.html"
 
-    # Determine build path: Vite bundle (modern) or legacy concatenation
-    use_vite = (
-        (vite_dist / "collider-viz.js").exists()
-        and vite_template.exists()
-        and os.getenv("COLLIDER_USE_VITE", "1") == "1"
-    )
+    # Determine build path: Vite bundle (modern), hybrid (transitional), or legacy
+    has_vite_bundle = (vite_dist / "collider-viz.js").exists()
+    has_template = vite_template.exists()
+    has_legacy_app = (viz_assets / "app.js").exists()
+    vite_enabled = os.getenv("COLLIDER_USE_VITE", "1") == "1"
+
+    use_vite = has_vite_bundle and has_template and vite_enabled
+    # Hybrid only when: no vite bundle, template exists, AND no legacy app.js
+    # (legacy path has priority when app.js + 54 modules are available)
+    use_hybrid = (not has_vite_bundle) and has_template and vite_enabled and (not has_legacy_app)
 
     # INJECT CSS VARIABLES FROM TOKENS (shared by both paths)
     css_variables = resolver.generate_all_themes_css(include=["theme", "layout"])
@@ -558,6 +563,106 @@ def generate_webgl_html(json_source: Any, output_path: str):
         template = vite_template.read_text(encoding='utf-8')
 
         print("Generating HTML (Vite path)...")
+        html_content = template
+        html_content = html_content.replace("__STYLES_PLACEHOLDER__", styles)
+        html_content = html_content.replace("__BUNDLE_JS_PLACEHOLDER__", bundle_js)
+        html_content = html_content.replace("__PAYLOAD_PLACEHOLDER__", b64_payload)
+        html_content = html_content.replace("__VERSION_PLACEHOLDER__", str(version))
+
+    elif use_hybrid:
+        # ═══════════════════════════════════════════════════════════════════
+        # HYBRID PATH: standalone.html template + manual module concatenation
+        # Uses the modern template with __PLACEHOLDER__ syntax but loads JS
+        # modules individually from build/src/modules/ (no Vite bundle needed)
+        # ═══════════════════════════════════════════════════════════════════
+        print("Using hybrid path (template + module concatenation)...")
+
+        HYBRID_MODULE_ORDER = [
+            "utils.js",
+            "aquarela.js",
+            "event-bus.js",
+            "registry.js",
+            "perf-monitor.js",
+            "core.js",
+            "theory.js",
+            "node-accessors.js",
+            "node-helpers.js",
+            "color-helpers.js",
+            "color-telemetry.js",
+            "color-engine.js",
+            "refresh-throttle.js",
+            "legend-manager.js",
+            "data-manager.js",
+            "vis-state.js",
+            "ui-manager.js",
+            "physics.js",
+            "datamap.js",
+            "groups.js",
+            "hover.js",
+            "flow.js",
+            "ui-builders.js",
+            "layout-helpers.js",
+            "spatial.js",
+            "layout.js",
+            "hud.js",
+            "dimension.js",
+            "report.js",
+            "visibility.js",
+            "animation.js",
+            "selection.js",
+            "panels.js",
+            "sidebar.js",
+            "filter-state.js",
+            "panel-system.js",
+            "panel-handlers.js",
+            "edge-system.js",
+            "file-color-model.js",
+            "layout-forces.js",
+            "hull-visualizer.js",
+            "file-viz.js",
+            "tooltips.js",
+            "theme.js",
+            "upb/scales.js",
+            "upb/endpoints.js",
+            "upb/blenders.js",
+            "upb/bindings.js",
+            "upb/index.js",
+            "vis-schema.js",
+            "upb-defaults.js",
+            "property-query.js",
+            "property-query-init.js",
+            "control-bar.js",
+            "main.js",
+            "circuit-breaker.js",
+            "color-contract-test.js",
+        ]
+
+        js_parts = []
+        for mod_name in HYBRID_MODULE_ORDER:
+            mod_file = vite_modules / mod_name
+            if mod_file.exists():
+                content = mod_file.read_text(encoding='utf-8')
+                # Strip ES module syntax for concatenation
+                content = content.replace("export ", "")
+                lines = content.split("\n")
+                lines = [l for l in lines if not l.strip().startswith("import ")]
+                js_parts.append(f"// ═══ MODULE: {mod_name} ═══\n" + "\n".join(lines))
+                print(f"  Loaded module: {mod_name}")
+            else:
+                print(f"  Skipped module (not found): {mod_name}")
+
+        bundle_js = "\n\n".join(js_parts)
+        print(f"  Total JS modules loaded: {len(js_parts)}")
+
+        with open(viz_assets / "styles.css", "r", encoding='utf-8') as f:
+            styles = f.read()
+
+        if css_variables:
+            styles = f"/* === DESIGN TOKENS (auto-generated) === */\n{css_variables}\n\n/* === COMPONENT STYLES === */\n{styles}"
+
+        template = vite_template.read_text(encoding='utf-8')
+
+        print("Generating HTML (hybrid path)...")
         html_content = template
         html_content = html_content.replace("__STYLES_PLACEHOLDER__", styles)
         html_content = html_content.replace("__BUNDLE_JS_PLACEHOLDER__", bundle_js)

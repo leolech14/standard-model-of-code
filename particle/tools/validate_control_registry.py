@@ -35,7 +35,11 @@ STRUCTURAL_IDS = {
     '3d-graph', 'header', 'loader', 'toast', 'control-bar-container',
     'filtering', 'selection', 'camera', 'accessibility', 'export',
     'analysis', 'layout-phys', 'view-modes', 'panel-settings',
-    'node-appear', 'edge-appear'
+    'node-appear', 'edge-appear',
+    # Phase 1 HUD containers (no interactive behavior)
+    'hud', 'hud-toast', 'side-dock', 'topo-tooltip',
+    'sec-appearance', 'sec-filters', 'sec-physics',
+    'dock-view-mode', 'dock-color-mode', 'dock-actions',
 }
 
 
