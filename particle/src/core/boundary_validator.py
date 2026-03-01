@@ -123,6 +123,7 @@ def load_boundaries(path: str) -> Dict[str, Any]:
 def assign_compartments(
     nodes: List[Dict[str, Any]],
     boundaries: Dict[str, Any],
+    project_root: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Assign each node to a compartment based on file_path glob matching.
@@ -135,6 +136,10 @@ def assign_compartments(
     Args:
         nodes: List of node dicts (must have 'file_path' and 'id')
         boundaries: Output of load_boundaries()
+        project_root: If provided, absolute file_path values are
+            relativized to this root before glob matching.  This is
+            necessary during pipeline execution where node file_path
+            values are absolute but boundary globs are relative.
 
     Returns:
         {
@@ -149,6 +154,13 @@ def assign_compartments(
     unmapped: List[str] = []
     multi_mapped: List[str] = []
 
+    # Pre-compute root prefix for fast stripping
+    root_prefix = ""
+    if project_root:
+        root_prefix = str(project_root)
+        if not root_prefix.endswith("/"):
+            root_prefix += "/"
+
     for node in nodes:
         node_id = node.get("id", "")
         file_path = node.get("file_path", "")
@@ -157,10 +169,15 @@ def assign_compartments(
             unmapped.append(node_id)
             continue
 
+        # Relativize absolute paths for glob matching
+        match_path = file_path
+        if root_prefix and file_path.startswith(root_prefix):
+            match_path = file_path[len(root_prefix):]
+
         matches: List[str] = []
         for comp_name, defn in compartments.items():
             for glob_pattern in defn.get("globs", []):
-                if fnmatch(file_path, glob_pattern):
+                if fnmatch(match_path, glob_pattern):
                     matches.append(comp_name)
                     break  # One match per compartment is enough
 

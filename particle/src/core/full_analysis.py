@@ -1338,6 +1338,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 nodes, edges,
                 G_full=_G_full,
                 survey_result=survey_result,
+                project_root=str(target),
             )
             n_comps = len(inferred_boundaries.get("compartments", {}))
             meta = inferred_boundaries.get("inference_metadata", {})
@@ -1381,7 +1382,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     validate_boundaries, format_boundary_summary,
                     compute_boundary_compliance_score,
                 )
-                assignment_result = assign_compartments(nodes, boundaries)
+                assignment_result = assign_compartments(
+                    nodes, boundaries, project_root=str(target)
+                )
                 boundary_assignments = assignment_result["assignments"]
                 validation_result = validate_boundaries(
                     nodes, edges, boundary_assignments, boundaries

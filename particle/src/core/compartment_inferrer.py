@@ -19,7 +19,7 @@ Extracted into dedicated module during Feature 5 implementation (2026-03-01).
 """
 
 from collections import Counter, defaultdict
-from pathlib import PurePosixPath
+from pathlib import Path, PurePosixPath
 from typing import Dict, List, Any, Optional, Set, Tuple
 
 # =============================================================================
@@ -50,6 +50,7 @@ def infer_compartments(
     edges: List[Dict],
     G_full: Optional[Any] = None,
     survey_result: Optional[Dict] = None,
+    project_root: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Auto-infer architectural compartments from pipeline signals.
 
@@ -75,9 +76,22 @@ def infer_compartments(
         edges: Edge dicts (need source, target)
         G_full: Optional NetworkX DiGraph from Stage 6.5
         survey_result: Optional survey output with identity/archetype info
+        project_root: Optional project root path. When provided, absolute file_path
+            values are relativized before processing. During pipeline execution
+            (Stage 6.85), node file_paths are absolute — without relativizing,
+            _extract_directory_prefix() would collapse all nodes into one group.
     """
     if not nodes:
         return {"compartments": {}, "inference_metadata": {"total_nodes_assigned": 0}}
+
+    # Relativize file paths if project_root is provided.
+    # During pipeline execution, file_paths are absolute (e.g.,
+    # /Users/.../particle/src/core/engine.py). Strategies expect relative
+    # paths (src/core/engine.py). We build a local copy of nodes with
+    # relativized paths to avoid mutating the pipeline's node dicts.
+    if project_root:
+        root = Path(project_root)
+        nodes = _relativize_node_paths(nodes, root)
 
     # Build node ID index for fast lookup
     node_by_id = {n.get("id", n.get("name", "")): n for n in nodes}
@@ -161,6 +175,49 @@ def infer_compartments(
             "source": "inferred",
         },
     }
+
+
+# =============================================================================
+# PATH NORMALIZATION
+# =============================================================================
+
+def _relativize_node_paths(nodes: List[Dict], root: Path) -> List[Dict]:
+    """Create shallow copies of nodes with file_path relativized to root.
+
+    Only modifies nodes whose file_path is absolute and starts with root.
+    Synthetic nodes (file_path starting with '__') are left as-is.
+
+    This does NOT mutate the original node dicts — it creates new dicts
+    with a replaced 'file_path' key, sharing all other keys with the original.
+    """
+    result = []
+    root_str = str(root)
+    # Ensure root_str ends with separator for clean prefix stripping
+    if not root_str.endswith("/"):
+        root_str += "/"
+
+    for node in nodes:
+        fp = node.get("file_path", "")
+        if fp and not fp.startswith("__") and fp.startswith("/"):
+            # Absolute path — try to relativize
+            if fp.startswith(root_str):
+                # Fast string strip (avoid Path overhead for thousands of nodes)
+                rel = fp[len(root_str):]
+                node = {**node, "file_path": rel}
+            else:
+                # Absolute but outside project root — use Path.relative_to
+                # with fallback to just the file name
+                try:
+                    rel = str(Path(fp).relative_to(root))
+                    node = {**node, "file_path": rel}
+                except ValueError:
+                    # Truly outside project — keep last 2 path components
+                    parts = PurePosixPath(fp).parts
+                    if len(parts) >= 2:
+                        node = {**node, "file_path": f"{parts[-2]}/{parts[-1]}"}
+        result.append(node)
+
+    return result
 
 
 # =============================================================================

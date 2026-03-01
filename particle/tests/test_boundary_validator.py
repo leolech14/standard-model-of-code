@@ -553,3 +553,139 @@ class TestIntegration:
         assert validation["compliant_edges"] == 3
         assert validation["compliance_rate"] == 0.5
         assert compute_boundary_compliance_score(validation) == 5.0
+
+
+# =============================================================================
+# ABSOLUTE PATH HANDLING (project_root parameter)
+# =============================================================================
+
+class TestAssignCompartmentsAbsolutePaths:
+    """Test that assign_compartments correctly handles absolute file_path values
+    when project_root is provided.
+
+    During pipeline execution (Stages 1-11), node file_path values are ABSOLUTE.
+    Boundary globs (whether from YAML or auto-inferred) are RELATIVE.
+    The project_root parameter bridges this gap.
+    """
+
+    def test_absolute_paths_with_project_root(self):
+        """Absolute file_path values are correctly matched when project_root is set."""
+        root = "/Users/dev/project"
+        nodes = [
+            {"id": "a", "file_path": f"{root}/src/api/routes.py"},
+            {"id": "b", "file_path": f"{root}/src/core/engine.py"},
+            {"id": "c", "file_path": f"{root}/src/models/user.py"},
+        ]
+        boundaries = _make_boundaries()
+        result = assign_compartments(nodes, boundaries, project_root=root)
+        assert result["mapped_count"] == 3
+        assert result["assignments"]["a"] == "api"
+        assert result["assignments"]["b"] == "core"
+        assert result["assignments"]["c"] == "models"
+
+    def test_absolute_paths_without_project_root_fails(self):
+        """Without project_root, absolute paths don't match relative globs."""
+        root = "/Users/dev/project"
+        nodes = [
+            {"id": "a", "file_path": f"{root}/src/api/routes.py"},
+            {"id": "b", "file_path": f"{root}/src/core/engine.py"},
+        ]
+        boundaries = _make_boundaries()
+        result = assign_compartments(nodes, boundaries)  # No project_root
+        # All nodes unmapped — this is the bug we're fixing
+        assert result["mapped_count"] == 0
+        assert len(result["unmapped_nodes"]) == 2
+
+    def test_absolute_matches_relative_results(self):
+        """project_root produces same assignments as relative paths."""
+        root = "/home/user/project"
+        boundaries = _make_boundaries()
+
+        # Relative paths
+        rel_nodes = [
+            {"id": "a", "file_path": "src/api/routes.py"},
+            {"id": "b", "file_path": "src/core/engine.py"},
+            {"id": "c", "file_path": "tests/test_api.py"},
+        ]
+        rel_result = assign_compartments(rel_nodes, boundaries)
+
+        # Absolute paths with project_root
+        abs_nodes = [
+            {"id": "a", "file_path": f"{root}/src/api/routes.py"},
+            {"id": "b", "file_path": f"{root}/src/core/engine.py"},
+            {"id": "c", "file_path": f"{root}/tests/test_api.py"},
+        ]
+        abs_result = assign_compartments(abs_nodes, boundaries, project_root=root)
+
+        assert rel_result["assignments"] == abs_result["assignments"]
+
+    def test_project_root_with_trailing_slash(self):
+        """project_root with trailing slash works correctly."""
+        root = "/Users/dev/project/"
+        nodes = [
+            {"id": "a", "file_path": "/Users/dev/project/src/api/routes.py"},
+        ]
+        boundaries = _make_boundaries()
+        result = assign_compartments(nodes, boundaries, project_root=root)
+        assert result["mapped_count"] == 1
+        assert result["assignments"]["a"] == "api"
+
+    def test_mixed_absolute_and_relative_paths(self):
+        """Nodes with already-relative paths still work when project_root is set."""
+        root = "/Users/dev/project"
+        nodes = [
+            {"id": "a", "file_path": f"{root}/src/api/routes.py"},  # Absolute
+            {"id": "b", "file_path": "src/core/engine.py"},  # Already relative
+        ]
+        boundaries = _make_boundaries()
+        result = assign_compartments(nodes, boundaries, project_root=root)
+        assert result["mapped_count"] == 2
+        assert result["assignments"]["a"] == "api"
+        assert result["assignments"]["b"] == "core"
+
+    def test_absolute_paths_mutate_compartment_field(self):
+        """With absolute paths, compartment is still set on original node dict."""
+        root = "/opt/project"
+        nodes = [
+            {"id": "a", "file_path": f"{root}/src/core/engine.py"},
+        ]
+        boundaries = _make_boundaries()
+        assign_compartments(nodes, boundaries, project_root=root)
+        assert nodes[0]["compartment"] == "core"
+
+    def test_macos_long_absolute_paths(self):
+        """Realistic macOS paths with deeply nested worktree dirs."""
+        root = "/Users/lech/PROJECTS_all/PROJECT_elements/.claude/worktrees/jolly-tereshkova/particle"
+        nodes = [
+            {"id": "a", "file_path": f"{root}/src/core/full_analysis.py"},
+            {"id": "b", "file_path": f"{root}/tests/test_api.py"},
+            {"id": "c", "file_path": f"{root}/src/models/user.py"},
+        ]
+        boundaries = _make_boundaries()
+        result = assign_compartments(nodes, boundaries, project_root=root)
+        assert result["mapped_count"] == 3
+        assert result["assignments"]["a"] == "core"
+        assert result["assignments"]["b"] == "tests"
+        assert result["assignments"]["c"] == "models"
+
+    def test_integration_absolute_paths_full_pipeline(self):
+        """Full pipeline: assign with absolute paths → validate → score."""
+        root = "/Users/dev/project"
+        boundaries = _make_boundaries()
+        nodes = [
+            {"id": "a", "file_path": f"{root}/src/api/routes.py"},
+            {"id": "b", "file_path": f"{root}/src/core/engine.py"},
+            {"id": "c", "file_path": f"{root}/src/models/user.py"},
+        ]
+        assignment = assign_compartments(nodes, boundaries, project_root=root)
+        assert assignment["mapped_count"] == 3
+
+        edges = [
+            {"source": "a", "target": "b", "edge_type": "calls"},  # api->core: OK
+            {"source": "c", "target": "a", "edge_type": "calls"},  # models->api: VIOLATION
+        ]
+        validation = validate_boundaries(nodes, edges, assignment["assignments"], boundaries)
+        assert validation["violation_count"] == 1
+        assert validation["compliant_edges"] == 1
+        score = compute_boundary_compliance_score(validation)
+        assert score == 5.0

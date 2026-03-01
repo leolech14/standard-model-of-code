@@ -22,6 +22,7 @@ from src.core.compartment_inferrer import (
     _merge_tiny_groups,
     _match_naming_pattern,
     _build_compartment_globs,
+    _relativize_node_paths,
     MIN_COMPARTMENT_SIZE,
 )
 
@@ -538,3 +539,177 @@ class TestInferCompartmentsFull:
         meta = result["inference_metadata"]
         # Community detection should have contributed
         assert "community" in meta.get("strategy_contributions", {})
+
+
+# =============================================================================
+# PATH NORMALIZATION (absolute path handling)
+# =============================================================================
+
+class TestRelativizeNodePaths:
+    """Test that absolute file paths are correctly relativized."""
+
+    def test_basic_relativization(self):
+        from pathlib import Path
+        root = Path("/home/user/projects/myapp")
+        nodes = [
+            _make_node("a", "/home/user/projects/myapp/src/api/routes.py"),
+            _make_node("b", "/home/user/projects/myapp/src/core/engine.py"),
+        ]
+        result = _relativize_node_paths(nodes, root)
+        assert result[0]["file_path"] == "src/api/routes.py"
+        assert result[1]["file_path"] == "src/core/engine.py"
+
+    def test_already_relative_paths_unchanged(self):
+        from pathlib import Path
+        root = Path("/home/user/projects/myapp")
+        nodes = [
+            _make_node("a", "src/api/routes.py"),
+            _make_node("b", "src/core/engine.py"),
+        ]
+        result = _relativize_node_paths(nodes, root)
+        assert result[0]["file_path"] == "src/api/routes.py"
+        assert result[1]["file_path"] == "src/core/engine.py"
+
+    def test_synthetic_nodes_preserved(self):
+        from pathlib import Path
+        root = Path("/home/user/projects/myapp")
+        nodes = [
+            _make_node("codome", "__codome__"),
+            _make_node("real", "/home/user/projects/myapp/src/x.py"),
+        ]
+        result = _relativize_node_paths(nodes, root)
+        assert result[0]["file_path"] == "__codome__"
+        assert result[1]["file_path"] == "src/x.py"
+
+    def test_does_not_mutate_original(self):
+        from pathlib import Path
+        root = Path("/home/user/projects/myapp")
+        original = _make_node("a", "/home/user/projects/myapp/src/api/routes.py")
+        nodes = [original]
+        result = _relativize_node_paths(nodes, root)
+        # Result has relative path
+        assert result[0]["file_path"] == "src/api/routes.py"
+        # Original unchanged
+        assert original["file_path"] == "/home/user/projects/myapp/src/api/routes.py"
+
+    def test_path_outside_root_fallback(self):
+        from pathlib import Path
+        root = Path("/home/user/projects/myapp")
+        nodes = [
+            _make_node("ext", "/other/place/lib/utils.py"),
+        ]
+        result = _relativize_node_paths(nodes, root)
+        # Falls back to last 2 components
+        assert result[0]["file_path"] == "lib/utils.py"
+
+    def test_empty_file_path_preserved(self):
+        from pathlib import Path
+        root = Path("/home/user/projects/myapp")
+        nodes = [_make_node("x", "")]
+        result = _relativize_node_paths(nodes, root)
+        assert result[0]["file_path"] == ""
+
+    def test_macos_style_absolute_paths(self):
+        """Simulates the actual bug: macOS absolute paths during pipeline."""
+        from pathlib import Path
+        root = Path("/Users/lech/PROJECTS_all/PROJECT_elements/particle")
+        nodes = [
+            _make_node("a", "/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/engine.py"),
+            _make_node("b", "/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/api/routes.py"),
+            _make_node("c", "/Users/lech/PROJECTS_all/PROJECT_elements/particle/cli.py"),
+        ]
+        result = _relativize_node_paths(nodes, root)
+        assert result[0]["file_path"] == "src/core/engine.py"
+        assert result[1]["file_path"] == "src/api/routes.py"
+        assert result[2]["file_path"] == "cli.py"
+
+
+class TestAbsolutePathIntegration:
+    """End-to-end tests with absolute paths + project_root parameter."""
+
+    def test_infer_with_absolute_paths(self):
+        """The exact scenario that caused the bug: absolute paths during pipeline."""
+        nodes = [
+            _make_node("a1", "/proj/src/api/routes.py", d2_layer="Interface"),
+            _make_node("a2", "/proj/src/api/auth.py", d2_layer="Interface"),
+            _make_node("a3", "/proj/src/api/middleware.py", d2_layer="Interface"),
+            _make_node("c1", "/proj/src/core/engine.py", d2_layer="Core"),
+            _make_node("c2", "/proj/src/core/parser.py", d2_layer="Core"),
+            _make_node("c3", "/proj/src/core/analyzer.py", d2_layer="Core"),
+            _make_node("t1", "/proj/tests/test_api.py", d2_layer="Test"),
+            _make_node("t2", "/proj/tests/test_core.py", d2_layer="Test"),
+            _make_node("t3", "/proj/tests/test_models.py", d2_layer="Test"),
+        ]
+        edges = [
+            _make_edge("a1", "c1"),
+            _make_edge("a2", "c2"),
+            _make_edge("t1", "a1"),
+            _make_edge("t2", "c1"),
+        ]
+
+        # WITHOUT project_root: all nodes collapse into one compartment
+        result_broken = infer_compartments(nodes, edges)
+        # This would produce a single "proj" or similar compartment
+        broken_comps = set(result_broken.get("compartments", {}).keys())
+
+        # WITH project_root: proper compartment inference
+        result_fixed = infer_compartments(nodes, edges, project_root="/proj")
+        fixed_comps = set(result_fixed.get("compartments", {}).keys())
+
+        # Fixed version should produce more granular compartments
+        assert len(fixed_comps) > len(broken_comps) or len(fixed_comps) >= 2
+        # Should see meaningful names like 'api', 'core', 'tests' (not 'proj' or 'Users')
+        fixed_names = " ".join(fixed_comps)
+        assert "api" in fixed_names or "core" in fixed_names or "test" in fixed_names
+
+    def test_absolute_paths_produce_same_as_relative(self):
+        """Absolute + project_root should produce identical results to relative paths."""
+        rel_nodes = [
+            _make_node("a1", "src/api/routes.py", d2_layer="Interface"),
+            _make_node("a2", "src/api/auth.py", d2_layer="Interface"),
+            _make_node("a3", "src/api/middleware.py", d2_layer="Interface"),
+            _make_node("c1", "src/core/engine.py", d2_layer="Core"),
+            _make_node("c2", "src/core/parser.py", d2_layer="Core"),
+            _make_node("c3", "src/core/analyzer.py", d2_layer="Core"),
+        ]
+        abs_nodes = [
+            _make_node("a1", "/proj/src/api/routes.py", d2_layer="Interface"),
+            _make_node("a2", "/proj/src/api/auth.py", d2_layer="Interface"),
+            _make_node("a3", "/proj/src/api/middleware.py", d2_layer="Interface"),
+            _make_node("c1", "/proj/src/core/engine.py", d2_layer="Core"),
+            _make_node("c2", "/proj/src/core/parser.py", d2_layer="Core"),
+            _make_node("c3", "/proj/src/core/analyzer.py", d2_layer="Core"),
+        ]
+        edges = [_make_edge("a1", "c1"), _make_edge("a2", "c2")]
+
+        result_rel = infer_compartments(rel_nodes, edges)
+        result_abs = infer_compartments(abs_nodes, edges, project_root="/proj")
+
+        # Same number of compartments
+        assert len(result_rel["compartments"]) == len(result_abs["compartments"])
+        # Same compartment names
+        assert set(result_rel["compartments"].keys()) == set(result_abs["compartments"].keys())
+
+    def test_directory_strategy_with_absolute_paths_before_fix(self):
+        """Verify the exact failure mode: _extract_directory_prefix on absolute paths."""
+        # Before fix: PurePosixPath("/Users/lech/proj/src/core/x.py").parts
+        # = ('/', 'Users', 'lech', 'proj', 'src', 'core', 'x.py')
+        # -> prefix = "//Users" -> sanitizes to "Users" -> all nodes in one group
+        prefix = _extract_directory_prefix("/Users/lech/proj/src/core/x.py")
+        # This SHOULD produce something like "//Users" which is wrong
+        # (demonstrating the bug at the unit level — this test documents the behavior)
+        assert prefix.startswith("/"), "Absolute paths produce /-prefixed prefix"
+
+    def test_project_root_none_still_works_with_relative(self):
+        """project_root=None with relative paths should work as before."""
+        nodes = [
+            _make_node("a1", "src/api/routes.py"),
+            _make_node("a2", "src/api/auth.py"),
+            _make_node("a3", "src/api/middleware.py"),
+            _make_node("c1", "src/core/engine.py"),
+            _make_node("c2", "src/core/parser.py"),
+            _make_node("c3", "src/core/analyzer.py"),
+        ]
+        edges = [_make_edge("a1", "c1")]
+        result = infer_compartments(nodes, edges, project_root=None)
+        assert len(result["compartments"]) >= 2
