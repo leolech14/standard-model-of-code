@@ -354,6 +354,18 @@ def main():
         action="store_true",
         help="List all database features and exit"
     )
+    full_parser.add_argument(
+        "--boundaries",
+        type=str,
+        metavar="PATH",
+        help="Path to compartments YAML file for boundary validation"
+    )
+    full_parser.add_argument(
+        "--layer-hints",
+        type=str,
+        metavar="PATH",
+        help="Path to layer hints YAML file for level classification overrides"
+    )
 
     # ==========================================
     # QUERY Command - Database Search
@@ -662,6 +674,34 @@ def main():
         type=float,
         default=0.75,
         help="Minimum confidence threshold for matching (default: 0.75)"
+    )
+
+    # ==========================================
+    # DIFF Command (Architectural Diff)
+    # ==========================================
+    diff_parser = subparsers.add_parser(
+        "diff",
+        help="Compare two analysis snapshots architecturally",
+        description="Compute architectural deltas between two unified_analysis.json snapshots."
+    )
+    diff_parser.add_argument(
+        "before",
+        help="Path to the 'before' unified_analysis.json snapshot"
+    )
+    diff_parser.add_argument(
+        "after",
+        help="Path to the 'after' unified_analysis.json snapshot"
+    )
+    diff_parser.add_argument(
+        "--output", "-o",
+        default=None,
+        help="Output directory for diff results (default: stdout)"
+    )
+    diff_parser.add_argument(
+        "--format", "-f",
+        choices=["json", "markdown"],
+        default="json",
+        help="Output format (default: json)"
     )
 
     # Parse
@@ -1101,6 +1141,12 @@ def main():
                     options["analytics"] = True
 
             options["skip_html"] = not getattr(args, 'html', False)
+
+            # Boundary and layer hint options (Consumer Agent Features)
+            if getattr(args, 'boundaries', None):
+                options["boundaries"] = args.boundaries
+            if getattr(args, 'layer_hints', None):
+                options["layer_hints"] = args.layer_hints
 
             run_full_analysis(args.path, args.output, options=options)
 
@@ -1597,6 +1643,53 @@ def main():
             if dep in nodes and dep not in seen_deps:
                 seen_deps.add(dep)
                 c.print(f"   - {nodes[dep]['name']} [dim]({nodes[dep]['file_path']})[/dim]")
+
+        sys.exit(0)
+
+    elif args.command == "diff":
+        import json as json_module
+        from src.core.arch_diff import compute_arch_diff, format_diff_markdown
+
+        before_path = Path(args.before)
+        after_path = Path(args.after)
+
+        if not before_path.exists():
+            print(f"Error: Before snapshot not found: {before_path}")
+            sys.exit(1)
+        if not after_path.exists():
+            print(f"Error: After snapshot not found: {after_path}")
+            sys.exit(1)
+
+        print(f"🔬 Architectural Diff")
+        print(f"   Before: {before_path}")
+        print(f"   After:  {after_path}")
+        print()
+
+        with open(before_path) as f:
+            before_data = json_module.load(f)
+        with open(after_path) as f:
+            after_data = json_module.load(f)
+
+        diff_result = compute_arch_diff(before_data, after_data)
+
+        output_format = getattr(args, 'format', 'json')
+        output_path = getattr(args, 'output', None)
+
+        if output_format == "markdown":
+            output_text = format_diff_markdown(diff_result)
+        else:
+            output_text = json_module.dumps(diff_result, indent=2, default=str)
+
+        if output_path:
+            out_dir = Path(output_path)
+            out_dir.mkdir(parents=True, exist_ok=True)
+            ext = "md" if output_format == "markdown" else "json"
+            out_file = out_dir / f"arch_diff.{ext}"
+            with open(out_file, "w") as f:
+                f.write(output_text)
+            print(f"   Diff written to: {out_file}")
+        else:
+            print(output_text)
 
         sys.exit(0)
 

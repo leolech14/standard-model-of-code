@@ -454,18 +454,36 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
 
     # Stage 2.6: Holarchy Level Classification (L-3..L12)
     print("\n📊 Stage 2.6: Holarchy Level Classification...")
+    layer_hint_stats = {}
     with StageTimer(perf_manager, "Stage 2.6: Level Classification") as timer:
         try:
-            from level_classifier import classify_level_batch, compute_level_statistics, infer_package_levels
-            level_count = classify_level_batch(nodes)
+            from level_classifier import (
+                classify_level_batch, compute_level_statistics,
+                infer_package_levels, load_layer_hints, compute_hint_statistics
+            )
+
+            # Load user-provided layer hints if specified
+            user_hints = None
+            hints_path = options.get("layer_hints")
+            if hints_path:
+                try:
+                    user_hints = load_layer_hints(hints_path)
+                    print(f"   → Loaded {len(user_hints)} layer hints from {hints_path}")
+                except (FileNotFoundError, ValueError) as he:
+                    print(f"   ⚠️ Layer hints error: {he}")
+
+            level_count = classify_level_batch(nodes, user_hints=user_hints)
             pkg_count = infer_package_levels(nodes)
             level_stats = compute_level_statistics(nodes)
+            layer_hint_stats = compute_hint_statistics(nodes)
             timer.set_output(nodes_classified=level_count, packages_detected=pkg_count, distribution=level_stats)
             # Show distribution summary
             dist_str = ", ".join(f"{k}:{v}" for k, v in level_stats.items() if v > 0)
             print(f"   → {level_count} nodes assigned holarchy levels ({dist_str})")
             if pkg_count > 0:
                 print(f"   → {pkg_count} implicit L6 packages detected")
+            if user_hints and layer_hint_stats.get("user_hint", 0) > 0:
+                print(f"   → {layer_hint_stats['user_hint']} nodes overridden by layer hints")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Level classification skipped: {e}")
@@ -1310,6 +1328,75 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Codome boundary generation skipped: {e}")
 
+    # Stage 6.9: Boundary Validation (optional — requires --boundaries flag)
+    boundary_validation = {}
+    boundary_assignments = {}
+    boundaries_path = options.get("boundaries")
+    if boundaries_path:
+        print("\n🏗️  Stage 6.9: Boundary Validation...")
+        with StageTimer(perf_manager, "Stage 6.9: Boundary Validation") as timer:
+            try:
+                from boundary_validator import (
+                    load_boundaries, assign_compartments,
+                    validate_boundaries, format_boundary_summary,
+                    compute_boundary_compliance_score,
+                )
+                boundaries = load_boundaries(boundaries_path)
+                assignment_result = assign_compartments(nodes, boundaries)
+                boundary_assignments = assignment_result["assignments"]
+                validation_result = validate_boundaries(
+                    nodes, edges, boundary_assignments, boundaries
+                )
+                compliance_score = compute_boundary_compliance_score(validation_result)
+                boundary_validation = {
+                    "assignment": assignment_result,
+                    "validation": validation_result,
+                    "compliance_score": compliance_score,
+                }
+                timer.set_output(
+                    mapped=assignment_result["mapped_count"],
+                    unmapped=len(assignment_result["unmapped_nodes"]),
+                    violations=validation_result["violation_count"],
+                    compliance=validation_result["compliance_rate"],
+                )
+                print(f"   → {assignment_result['mapped_count']} nodes mapped to compartments")
+                if assignment_result["unmapped_nodes"]:
+                    print(f"   → {len(assignment_result['unmapped_nodes'])} unmapped nodes")
+                print(f"   → {validation_result['violation_count']} boundary violations")
+                print(f"   → Compliance: {validation_result['compliance_rate']:.1%}")
+            except (FileNotFoundError, ValueError) as be:
+                timer.set_status("WARN", str(be))
+                print(f"   ⚠️ Boundary validation error: {be}")
+            except Exception as e:
+                timer.set_status("WARN", str(e))
+                print(f"   ⚠️ Boundary validation skipped: {e}")
+
+    # Stage 6.95: Group Cohesion (optional — requires boundaries)
+    group_cohesion_result = {}
+    if boundary_assignments:
+        print("\n📊 Stage 6.95: Group Cohesion Analysis...")
+        with StageTimer(perf_manager, "Stage 6.95: Group Cohesion") as timer:
+            try:
+                from group_cohesion import compute_group_cohesion, format_cohesion_summary
+                group_cohesion_result = compute_group_cohesion(
+                    nodes, edges, boundary_assignments
+                )
+                timer.set_output(
+                    groups=len(group_cohesion_result.get("per_group", {})),
+                    modularity=group_cohesion_result.get("overall_modularity", 0),
+                )
+                modularity = group_cohesion_result.get("overall_modularity", 0)
+                n_groups = len(group_cohesion_result.get("per_group", {}))
+                print(f"   → {n_groups} compartments analyzed")
+                print(f"   → Overall modularity: {modularity:.1%}")
+                # Show per-group summary
+                for gname, gstats in sorted(group_cohesion_result.get("per_group", {}).items()):
+                    print(f"   → {gname}: cohesion={gstats['cohesion_ratio']:.1%}, "
+                          f"instability={gstats['instability']:.2f}")
+            except Exception as e:
+                timer.set_status("WARN", str(e))
+                print(f"   ⚠️ Group cohesion skipped: {e}")
+
     # Stage 7: Data Flow
     print("\n🌊 Stage 7: Data Flow Analysis...")
     with StageTimer(perf_manager, "Stage 7: Data Flow Analysis") as timer:
@@ -1511,6 +1598,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             'total_boundaries': codome_result.get('total_boundaries', 0),
             'total_inferred_edges': codome_result.get('total_inferred_edges', 0)
         },
+        # Consumer Agent Features (optional — only populated when flags are used)
+        'boundary_validation': boundary_validation if boundary_validation else None,
+        'group_cohesion': group_cohesion_result if group_cohesion_result else None,
+        'layer_hint_stats': layer_hint_stats if layer_hint_stats else None,
     }
 
     # Compute top hubs

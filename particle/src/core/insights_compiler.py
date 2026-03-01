@@ -99,11 +99,18 @@ class InsightsReport:
         lines.append("")
         lines.append("| Component | Score | Weight |")
         lines.append("|-----------|-------|--------|")
-        weights = {
-            'topology': 0.20, 'constraints': 0.20, 'purpose': 0.15,
-            'test_coverage': 0.15, 'dead_code': 0.10, 'entanglement': 0.10,
-            'rpbl_balance': 0.10,
-        }
+        if 'boundary_compliance' in self.health_components:
+            weights = {
+                'topology': 0.18, 'constraints': 0.18, 'purpose': 0.12,
+                'test_coverage': 0.12, 'dead_code': 0.08, 'entanglement': 0.08,
+                'rpbl_balance': 0.08, 'boundary_compliance': 0.16,
+            }
+        else:
+            weights = {
+                'topology': 0.20, 'constraints': 0.20, 'purpose': 0.15,
+                'test_coverage': 0.15, 'dead_code': 0.10, 'entanglement': 0.10,
+                'rpbl_balance': 0.10,
+            }
         for comp, score in self.health_components.items():
             w = weights.get(comp, 0)
             lines.append(f"| {comp} | {score:.1f}/10 | {w:.0%} |")
@@ -578,8 +585,12 @@ class InsightsCompiler:
     # -------------------------------------------------------------------------
 
     def _compute_health_components(self) -> Dict[str, float]:
-        """Compute individual health component scores (each 0-10)."""
-        return {
+        """Compute individual health component scores (each 0-10).
+
+        When boundary_validation data is present (--boundaries was used),
+        includes an 8th component: boundary_compliance.
+        """
+        components = {
             'topology': self._score_topology(),
             'constraints': self._score_constraints(),
             'purpose': self._score_purpose(),
@@ -588,6 +599,12 @@ class InsightsCompiler:
             'entanglement': self._score_entanglement(),
             'rpbl_balance': self._score_rpbl_balance(),
         }
+
+        # Add boundary compliance if boundary validation was performed
+        if self.data.get('boundary_validation'):
+            components['boundary_compliance'] = self._score_boundary_compliance()
+
+        return components
 
     def _score_topology(self) -> float:
         shape = self.kpis.get('topology_shape', 'UNKNOWN')
@@ -684,16 +701,42 @@ class InsightsCompiler:
             penalties += 1.5
         return max(2.0, 10.0 - penalties)
 
+    def _score_boundary_compliance(self) -> float:
+        """Score boundary compliance from validation results (0-10).
+
+        Uses the compliance_rate from boundary_validation data.
+        Linear mapping: 100% compliance -> 10.0, 0% -> 0.0.
+        """
+        bv = self.data.get('boundary_validation', {})
+        total_cross = bv.get('total_cross_compartment_edges', 0)
+        if total_cross == 0:
+            return 10.0  # No cross-compartment edges to violate
+        compliance_rate = bv.get('compliance_rate', 1.0)
+        return round(compliance_rate * 10.0, 2)
+
     def _compute_health_score(self, components: Dict[str, float]) -> float:
-        weights = {
-            'topology': 0.20,
-            'constraints': 0.20,
-            'purpose': 0.15,
-            'test_coverage': 0.15,
-            'dead_code': 0.10,
-            'entanglement': 0.10,
-            'rpbl_balance': 0.10,
-        }
+        # Dual weight table: 7-component without boundaries, 8-component with
+        if 'boundary_compliance' in components:
+            weights = {
+                'topology': 0.18,
+                'constraints': 0.18,
+                'purpose': 0.12,
+                'test_coverage': 0.12,
+                'dead_code': 0.08,
+                'entanglement': 0.08,
+                'rpbl_balance': 0.08,
+                'boundary_compliance': 0.16,
+            }
+        else:
+            weights = {
+                'topology': 0.20,
+                'constraints': 0.20,
+                'purpose': 0.15,
+                'test_coverage': 0.15,
+                'dead_code': 0.10,
+                'entanglement': 0.10,
+                'rpbl_balance': 0.10,
+            }
         score = sum(components.get(k, 5.0) * w for k, w in weights.items())
         return round(min(10.0, max(0.0, score)), 2)
 

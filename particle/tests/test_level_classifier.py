@@ -20,8 +20,11 @@ from level_classifier import (
     classify_level_batch,
     compute_level_statistics,
     compute_zone_statistics,
+    compute_hint_statistics,
     get_level_info,
     infer_package_levels,
+    load_layer_hints,
+    apply_layer_hints,
     LEVEL_NAMES,
     LEVEL_ZONES,
     LEVEL_ORDER,
@@ -249,3 +252,123 @@ class TestDataIntegrity:
     def test_kind_to_level_values_are_valid(self):
         for kind, level in KIND_TO_LEVEL.items():
             assert level in LEVEL_NAMES, f"Kind '{kind}' maps to invalid level '{level}'"
+
+
+# =============================================================================
+# LAYER HINTS
+# =============================================================================
+
+class TestLayerHints:
+    """Test user-provided layer hint loading and application."""
+
+    def test_load_layer_hints_valid(self, tmp_path):
+        hints_file = tmp_path / "hints.yaml"
+        hints_file.write_text(
+            "layers:\n"
+            '  "src/api/**": L7\n'
+            '  "src/models/**": L4\n'
+            '  "tests/**": L3\n'
+        )
+        hints = load_layer_hints(str(hints_file))
+        assert hints == {
+            "src/api/**": "L7",
+            "src/models/**": "L4",
+            "tests/**": "L3",
+        }
+
+    def test_load_layer_hints_invalid_level(self, tmp_path):
+        hints_file = tmp_path / "bad.yaml"
+        hints_file.write_text(
+            "layers:\n"
+            '  "src/**": L99\n'
+        )
+        with pytest.raises(ValueError, match="Invalid level"):
+            load_layer_hints(str(hints_file))
+
+    def test_load_layer_hints_missing_layers_key(self, tmp_path):
+        hints_file = tmp_path / "no_layers.yaml"
+        hints_file.write_text("something_else: true\n")
+        with pytest.raises(ValueError, match="must contain a 'layers' key"):
+            load_layer_hints(str(hints_file))
+
+    def test_load_layer_hints_file_not_found(self):
+        with pytest.raises(FileNotFoundError):
+            load_layer_hints("/nonexistent/path.yaml")
+
+    def test_apply_layer_hints_match(self):
+        hints = {"src/api/**": "L7", "tests/**": "L3"}
+        node = {"file_path": "src/api/routes/auth.py", "kind": "function"}
+        result = apply_layer_hints(node, hints)
+        assert result == "L7"
+
+    def test_apply_layer_hints_no_match(self):
+        hints = {"src/api/**": "L7"}
+        node = {"file_path": "src/core/engine.py", "kind": "function"}
+        result = apply_layer_hints(node, hints)
+        assert result is None
+
+    def test_apply_layer_hints_no_file_path(self):
+        hints = {"src/api/**": "L7"}
+        node = {"kind": "function", "name": "test"}
+        result = apply_layer_hints(node, hints)
+        assert result is None
+
+    def test_apply_layer_hints_first_match_wins(self):
+        """When multiple patterns match, first one wins."""
+        hints = {"src/**": "L6", "src/api/**": "L7"}
+        node = {"file_path": "src/api/routes.py"}
+        result = apply_layer_hints(node, hints)
+        assert result == "L6"  # First match
+
+    def test_classify_level_hint_priority(self):
+        """User hints should override KIND_TO_LEVEL."""
+        hints = {"tests/**": "L5"}
+        # This node's kind='function' would normally give L3
+        node = {"kind": "function", "name": "test_something", "file_path": "tests/test_foo.py"}
+        level = classify_level(node, user_hints=hints)
+        assert level == "L5"
+        assert node.get("level_source") == "user_hint"
+
+    def test_classify_level_falls_through_without_hint(self):
+        """Without hints, kind_mapping should still work."""
+        node = {"kind": "function", "name": "do_stuff", "file_path": "src/core/engine.py"}
+        level = classify_level(node)
+        assert level == "L3"
+        assert node.get("level_source") == "kind_mapping"
+
+    def test_classify_level_heuristic_source(self):
+        """When no kind matches, heuristic fallback should set source."""
+        node = {"kind": "alien_thing", "name": "mystery", "parent": "SomeClass"}
+        level = classify_level(node)
+        assert level == "L3"
+        assert node.get("level_source") == "heuristic"
+
+    def test_classify_level_batch_with_hints(self):
+        hints = {"tests/**": "L5", "src/api/**": "L7"}
+        nodes = [
+            {"kind": "function", "name": "test_a", "file_path": "tests/test_a.py"},
+            {"kind": "function", "name": "handler", "file_path": "src/api/handler.py"},
+            {"kind": "class", "name": "Engine", "file_path": "src/core/engine.py"},
+        ]
+        count = classify_level_batch(nodes, user_hints=hints)
+        assert count == 3
+        assert nodes[0]["level"] == "L5"  # hint override
+        assert nodes[0]["level_source"] == "user_hint"
+        assert nodes[1]["level"] == "L7"  # hint override
+        assert nodes[1]["level_source"] == "user_hint"
+        assert nodes[2]["level"] == "L4"  # kind_mapping (no hint match)
+        assert nodes[2]["level_source"] == "kind_mapping"
+
+    def test_compute_hint_statistics(self):
+        nodes = [
+            {"level_source": "user_hint"},
+            {"level_source": "user_hint"},
+            {"level_source": "kind_mapping"},
+            {"level_source": "kind_mapping"},
+            {"level_source": "kind_mapping"},
+            {"level_source": "heuristic"},
+        ]
+        stats = compute_hint_statistics(nodes)
+        assert stats["user_hint"] == 2
+        assert stats["kind_mapping"] == 3
+        assert stats["heuristic"] == 1

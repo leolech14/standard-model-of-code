@@ -26,6 +26,10 @@ The 16-Level Scale (Koestler's Holons):
 
 from typing import Dict, Any, List, Optional, Tuple
 from collections import Counter, defaultdict
+from fnmatch import fnmatch
+from pathlib import Path
+
+import yaml
 
 
 # =============================================================================
@@ -166,33 +170,123 @@ DEFAULT_LEVEL = "L3"  # Conservative: assume atom-level
 
 
 # =============================================================================
+# LAYER HINTS (user-provided level overrides)
+# =============================================================================
+
+def load_layer_hints(path: str) -> Dict[str, str]:
+    """
+    Load user-provided layer hints from a YAML file.
+
+    Format:
+        layers:
+          "src/api/**":    L7
+          "src/models/**": L4
+          "tests/**":      L3
+
+    Args:
+        path: Path to the YAML hints file
+
+    Returns:
+        Dict mapping glob patterns to level strings
+
+    Raises:
+        ValueError: If a level in the hints file is not a valid holarchy level
+        FileNotFoundError: If the hints file doesn't exist
+    """
+    hints_path = Path(path)
+    if not hints_path.exists():
+        raise FileNotFoundError(f"Layer hints file not found: {path}")
+
+    with open(hints_path) as f:
+        raw = yaml.safe_load(f)
+
+    if not isinstance(raw, dict) or "layers" not in raw:
+        raise ValueError(f"Layer hints file must contain a 'layers' key: {path}")
+
+    layers = raw["layers"]
+    if not isinstance(layers, dict):
+        raise ValueError(f"'layers' must be a mapping of glob -> level: {path}")
+
+    hints: Dict[str, str] = {}
+    for pattern, level in layers.items():
+        level_str = str(level).strip()
+        if level_str not in LEVEL_ORDER:
+            raise ValueError(
+                f"Invalid level '{level_str}' for pattern '{pattern}'. "
+                f"Valid levels: {', '.join(sorted(LEVEL_ORDER.keys(), key=lambda x: LEVEL_ORDER[x]))}"
+            )
+        hints[str(pattern)] = level_str
+
+    return hints
+
+
+def apply_layer_hints(node: Dict[str, Any], hints: Dict[str, str]) -> Optional[str]:
+    """
+    Match a node's file_path against user-provided glob patterns.
+
+    Checks in insertion order (first match wins). Patterns are matched against
+    the node's file_path using fnmatch glob semantics.
+
+    Args:
+        node: Node dict (must have 'file_path')
+        hints: Dict from load_layer_hints()
+
+    Returns:
+        Matched level string, or None if no pattern matches
+    """
+    file_path = node.get("file_path", "")
+    if not file_path:
+        return None
+
+    for pattern, level in hints.items():
+        if fnmatch(file_path, pattern):
+            return level
+
+    return None
+
+
+# =============================================================================
 # LEVEL CLASSIFIER
 # =============================================================================
 
-def classify_level(node: Dict[str, Any]) -> str:
+def classify_level(node: Dict[str, Any], user_hints: Optional[Dict[str, str]] = None) -> str:
     """
     Assign a holarchy level to a node based on its `kind` field.
 
-    The mapping is deterministic: kind -> level.
-    Falls back to heuristic inference when kind is missing.
+    Resolution order:
+        1. User-provided layer hints (if given) — highest priority
+        2. KIND_TO_LEVEL deterministic mapping
+        3. Heuristic inference from node properties
+
+    When user_hints match, the node is also annotated with level_source.
 
     Args:
         node: A node dict with at least 'kind' or 'type' field
+        user_hints: Optional dict from load_layer_hints() mapping globs to levels
 
     Returns:
         Level string (e.g., "L3", "L5")
     """
+    # 1. User-provided hints take highest priority
+    if user_hints:
+        hint_level = apply_layer_hints(node, user_hints)
+        if hint_level:
+            node["level_source"] = "user_hint"
+            return hint_level
+
     kind = node.get("kind", "").lower()
     if not kind:
         kind = node.get("type", "").lower()
     if not kind:
         kind = node.get("symbol_kind", "").lower()
 
-    # Direct mapping
+    # 2. Direct mapping
     if kind in KIND_TO_LEVEL:
+        node["level_source"] = "kind_mapping"
         return KIND_TO_LEVEL[kind]
 
-    # Heuristic fallbacks based on node properties
+    # 3. Heuristic fallbacks based on node properties
+    node["level_source"] = "heuristic"
     return _infer_level_from_properties(node, kind)
 
 
@@ -223,7 +317,7 @@ def _infer_level_from_properties(node: Dict[str, Any], kind: str) -> str:
     return DEFAULT_LEVEL
 
 
-def classify_level_batch(nodes: List[Dict[str, Any]]) -> int:
+def classify_level_batch(nodes: List[Dict[str, Any]], user_hints: Optional[Dict[str, str]] = None) -> int:
     """
     Assign holarchy levels to all nodes in a batch.
 
@@ -231,16 +325,18 @@ def classify_level_batch(nodes: List[Dict[str, Any]]) -> int:
         - 'level': The holarchy level string (e.g., "L3")
         - 'level_name': Human-readable name (e.g., "NODE")
         - 'level_zone': Zone grouping (e.g., "SEMANTIC")
+        - 'level_source': How the level was determined ("user_hint", "kind_mapping", "heuristic")
 
     Args:
         nodes: List of node dicts
+        user_hints: Optional dict from load_layer_hints() mapping globs to levels
 
     Returns:
         Number of nodes classified
     """
     classified = 0
     for node in nodes:
-        level = classify_level(node)
+        level = classify_level(node, user_hints=user_hints)
         node["level"] = level
         node["level_name"] = LEVEL_NAMES.get(level, "UNKNOWN")
         node["level_zone"] = LEVEL_ZONES.get(level, "UNKNOWN")
@@ -337,6 +433,23 @@ def get_level_info(level: str) -> Dict[str, Any]:
         "order": LEVEL_ORDER.get(level, 0),
         "description": descriptions.get(level, "Unknown level"),
     }
+
+
+def compute_hint_statistics(nodes: List[Dict[str, Any]]) -> Dict[str, int]:
+    """
+    Compute how levels were determined across all classified nodes.
+
+    Useful for evaluating user_hints coverage vs automatic classification.
+
+    Returns:
+        Dict with counts per source, e.g.:
+        {"user_hint": 120, "kind_mapping": 350, "heuristic": 30}
+    """
+    counter = Counter()
+    for node in nodes:
+        source = node.get("level_source", "unknown")
+        counter[source] += 1
+    return dict(sorted(counter.items()))
 
 
 def format_level_summary(nodes: List[Dict[str, Any]]) -> str:
