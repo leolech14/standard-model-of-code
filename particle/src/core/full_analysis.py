@@ -1806,6 +1806,29 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 timer.set_status("WARN", str(e))
                 print(f"   ⚠️ Database persistence failed: {e}")
 
+    # Stage 14: Semantic Vector Indexing (GraphRAG)
+    vectorization_status = "not_run"
+    vectorization_error = ""
+    try:
+        from src.core.rag.embedder import GraphRAGEmbedder
+        # We explicitly bind vectors to the root .collider dir, not the dynamic runs dir
+        persistent_db = target / ".collider" / "collider.db"
+        embedder = GraphRAGEmbedder(db_path=persistent_db)
+        embedder.embed_graph()
+        vectorization_status = "ok"
+    except Exception as e:
+        vectorization_status = "failed"
+        vectorization_error = str(e)
+        print(f"\n   [red]⚠️ Stage 14 Vectorization Failed:[/red] {e}")
+
+    # Persist optional stage status for downstream scoring and diagnostics.
+    full_output.setdefault('kpis', {})['vectorization_status'] = vectorization_status
+    full_output['kpis']['vectorization_error'] = vectorization_error
+    if vectorization_status == "failed":
+        warnings_list = full_output.setdefault('warnings', [])
+        if isinstance(warnings_list, list):
+            warnings_list.append(f"stage14_vectorization_failed: {vectorization_error}")
+
     # Stage 11.95: Insights Compilation
     print("\n🔬 Stage 11.95: Insights Compilation...")
     with StageTimer(perf_manager, "Stage 11.95: Insights Compilation") as timer:
@@ -1887,29 +1910,6 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         except Exception as e:
             timer.set_status("FAIL", str(e))
             print(f"   ⚠️ Output generation failed: {e}")
-
-    # Stage 14: Semantic Vector Indexing (GraphRAG)
-    vectorization_status = "not_run"
-    vectorization_error = ""
-    try:
-        from src.core.rag.embedder import GraphRAGEmbedder
-        # We explicitly bind vectors to the root .collider dir, not the dynamic runs dir
-        persistent_db = target / ".collider" / "collider.db"
-        embedder = GraphRAGEmbedder(db_path=persistent_db)
-        embedder.embed_graph()
-        vectorization_status = "ok"
-    except Exception as e:
-        vectorization_status = "failed"
-        vectorization_error = str(e)
-        print(f"\n   [red]⚠️ Stage 14 Vectorization Failed:[/red] {e}")
-
-    # Persist optional stage status for downstream scoring and diagnostics.
-    full_output.setdefault('kpis', {})['vectorization_status'] = vectorization_status
-    full_output['kpis']['vectorization_error'] = vectorization_error
-    if vectorization_status == "failed":
-        warnings_list = full_output.setdefault('warnings', [])
-        if isinstance(warnings_list, list):
-            warnings_list.append(f"stage14_vectorization_failed: {vectorization_error}")
 
     # Final timing summary
     total_time = time.time() - start_time
