@@ -440,15 +440,20 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         pass  # Registry not available, skip validation
 
     # Stage 2.5: Ecosystem discovery (hybrid T2 approach)
+    ecosystem_discovery = {}
+    ecosystem_discovery_status = "not_run"
+    ecosystem_discovery_error = ""
     print("\n🧭 Stage 2.5: Ecosystem Discovery...")
     with StageTimer(perf_manager, "Stage 2.5: Ecosystem Discovery") as timer:
         try:
             from discovery_engine import discover_ecosystem_unknowns
             ecosystem_discovery = discover_ecosystem_unknowns(nodes)
+            ecosystem_discovery_status = "ok"
             timer.set_output(unknowns=ecosystem_discovery.get('total_unknowns', 0))
             print(f"   → {ecosystem_discovery.get('total_unknowns', 0)} unknown ecosystem patterns")
         except Exception as e:
-            ecosystem_discovery = {}
+            ecosystem_discovery_status = "skipped"
+            ecosystem_discovery_error = str(e)
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Ecosystem discovery skipped: {e}")
 
@@ -1486,6 +1491,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             # Codome boundary KPIs
             'codome_boundary_count': codome_result.get('total_boundaries', 0),
             'codome_inferred_edges': codome_result.get('total_inferred_edges', 0),
+            # Capability status KPIs (optional stages)
+            'ecosystem_discovery_status': ecosystem_discovery_status,
+            'ecosystem_discovery_error': ecosystem_discovery_error,
         },
         'purpose_field': purpose_field.summary(),
         'execution_flow': dict(exec_flow.summary(), **{
@@ -1881,14 +1889,27 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             print(f"   ⚠️ Output generation failed: {e}")
 
     # Stage 14: Semantic Vector Indexing (GraphRAG)
+    vectorization_status = "not_run"
+    vectorization_error = ""
     try:
         from src.core.rag.embedder import GraphRAGEmbedder
         # We explicitly bind vectors to the root .collider dir, not the dynamic runs dir
         persistent_db = target / ".collider" / "collider.db"
         embedder = GraphRAGEmbedder(db_path=persistent_db)
         embedder.embed_graph()
+        vectorization_status = "ok"
     except Exception as e:
+        vectorization_status = "failed"
+        vectorization_error = str(e)
         print(f"\n   [red]⚠️ Stage 14 Vectorization Failed:[/red] {e}")
+
+    # Persist optional stage status for downstream scoring and diagnostics.
+    full_output.setdefault('kpis', {})['vectorization_status'] = vectorization_status
+    full_output['kpis']['vectorization_error'] = vectorization_error
+    if vectorization_status == "failed":
+        warnings_list = full_output.setdefault('warnings', [])
+        if isinstance(warnings_list, list):
+            warnings_list.append(f"stage14_vectorization_failed: {vectorization_error}")
 
     # Final timing summary
     total_time = time.time() - start_time

@@ -268,6 +268,50 @@ class TestPurposeInterpretation:
         assert len(purpose_findings) == 1
         assert purpose_findings[0]['severity'] == 'critical'
 
+    def test_misalignment_overrides_high_qscore(self):
+        data = _base_output(
+            kpis={'codebase_intelligence': 0.95, 'codebase_interpretation': 'Sharp'},
+            purpose_field={
+                'total_nodes': 100,
+                'uncertain_count': 45,
+                'god_class_count': 35,
+                'alignment_health': 'CRITICAL',
+                'purpose_clarity': 0.55,
+            },
+        )
+        result = compile_insights(data)
+        purpose_findings = [f for f in result['findings'] if f['category'] == 'purpose']
+        assert len(purpose_findings) == 1
+        assert purpose_findings[0]['title'] == 'Purpose-field misalignment'
+        assert purpose_findings[0]['severity'] in ('high', 'critical')
+
+
+class TestExecutionCapabilityInterpretation:
+
+    def test_vectorization_failure_emits_finding(self):
+        data = _base_output(
+            kpis={
+                'vectorization_status': 'failed',
+                'vectorization_error': "No module named 'lancedb'",
+            },
+        )
+        result = compile_insights(data)
+        findings = [f for f in result['findings'] if f['category'] == 'execution']
+        assert len(findings) == 1
+        assert findings[0]['title'] == 'Vectorization unavailable'
+
+    def test_ecosystem_skip_emits_finding(self):
+        data = _base_output(
+            kpis={
+                'ecosystem_discovery_status': 'skipped',
+                'ecosystem_discovery_error': "No module named 'discovery_engine'",
+            },
+        )
+        result = compile_insights(data)
+        findings = [f for f in result['findings'] if f['category'] == 'execution']
+        assert len(findings) == 1
+        assert findings[0]['title'] == 'Ecosystem discovery skipped'
+
 
 # =============================================================================
 # RPBL INTERPRETATION

@@ -198,6 +198,7 @@ class InsightsCompiler:
         self._interpret_topology()
         self._interpret_constraints()
         self._interpret_performance()
+        self._interpret_execution_capability()
         self._run_insights_engine()
 
         # Sort by severity
@@ -220,7 +221,7 @@ class InsightsCompiler:
             navigation=navigation,
             theory_glossary=glossary,
             meta={
-                'compiler_version': '1.0.0',
+                'compiler_version': '1.1.0',
                 'nodes_analyzed': self.kpis.get('nodes_total', 0),
                 'edges_analyzed': self.kpis.get('edges_total', 0),
             },
@@ -348,6 +349,72 @@ class InsightsCompiler:
         ci = self.kpis.get('codebase_intelligence', 0) or 0
         interp = self.kpis.get('codebase_interpretation', 'Unknown') or 'Unknown'
         q_dist = self.kpis.get('q_distribution', {})
+        purpose_metrics = self._purpose_metrics()
+        alignment = purpose_metrics.get('alignment_health')
+        clarity = purpose_metrics.get('purpose_clarity')
+        uncertain_ratio = purpose_metrics.get('uncertain_ratio')
+        uncertain_count = purpose_metrics.get('uncertain_count')
+        god_class_count = purpose_metrics.get('god_class_count')
+
+        # Purpose-field health can override a high global Q-score.
+        severe_misalignment = (
+            alignment == 'CRITICAL'
+            or (clarity is not None and clarity < 0.55)
+            or (uncertain_ratio is not None and uncertain_ratio > 0.35)
+            or god_class_count > 30
+        )
+        moderate_misalignment = (
+            alignment == 'WARNING'
+            or (clarity is not None and clarity < 0.75)
+            or (uncertain_ratio is not None and uncertain_ratio > 0.20)
+            or god_class_count > 10
+        )
+
+        if severe_misalignment or moderate_misalignment:
+            if severe_misalignment:
+                sev = 'critical' if ci < 0.40 else 'high'
+            else:
+                sev = 'high' if ci < 0.60 else 'medium'
+
+            coherence_msg = []
+            if alignment:
+                coherence_msg.append(f"alignment={alignment}")
+            if clarity is not None:
+                coherence_msg.append(f"clarity={clarity:.2f}")
+            if uncertain_ratio is not None:
+                coherence_msg.append(f"uncertain={uncertain_ratio:.0%}")
+            if god_class_count > 0:
+                coherence_msg.append(f"god_classes={god_class_count}")
+            coherence_text = ", ".join(coherence_msg) if coherence_msg else "local purpose coherence signals are degraded"
+
+            self._add(
+                category='purpose',
+                severity=sev,
+                title='Purpose-field misalignment',
+                description=f'Global Q-score is {ci:.2f} ({interp}), but {coherence_text}.',
+                evidence={
+                    'codebase_intelligence': ci,
+                    'interpretation': interp,
+                    'q_distribution': q_dist,
+                    'alignment_health': alignment,
+                    'purpose_clarity': clarity,
+                    'uncertain_count': uncertain_count,
+                    'uncertain_ratio': round(uncertain_ratio, 3) if uncertain_ratio is not None else None,
+                    'god_class_count': god_class_count,
+                },
+                interpretation=(
+                    'Global purpose metrics look healthy, but local purpose structure is fragmented. '
+                    'This usually means the average hides pockets of unclear intent.'
+                ),
+                recommendation=(
+                    'Prioritize high-uncertainty areas and god classes in purpose_field. '
+                    'Improve naming/docstrings for uncertain nodes and split incoherent containers.'
+                ),
+                effort='medium' if sev == 'medium' else 'high',
+                theory_refs=['q_score', 'dimensions.D7_intent'],
+                drill_down={'key': 'purpose_field', 'kpi': 'purpose_clarity'},
+            )
+            return
 
         if ci >= 0.85:
             self._add(
@@ -387,6 +454,43 @@ class InsightsCompiler:
             theory_refs=['q_score', 'dimensions.D7_intent'],
             drill_down={'key': 'purpose_field', 'kpi': 'codebase_intelligence'},
         )
+
+    def _interpret_execution_capability(self):
+        """Report degraded optional capabilities that affect Collider's practical utility."""
+        vector_status = (self.kpis.get('vectorization_status') or '').lower()
+        ecosystem_status = (self.kpis.get('ecosystem_discovery_status') or '').lower()
+
+        if vector_status == 'failed':
+            self._add(
+                category='execution',
+                severity='low',
+                title='Vectorization unavailable',
+                description='Stage 14 vectorization failed; semantic search index was not refreshed.',
+                evidence={
+                    'vectorization_status': self.kpis.get('vectorization_status'),
+                    'vectorization_error': self.kpis.get('vectorization_error'),
+                },
+                interpretation='Core static analysis completed, but GraphRAG/semantic retrieval is degraded for this run.',
+                recommendation='Install optional vector dependencies and rerun full analysis to restore semantic indexing.',
+                effort='low',
+                drill_down={'key': 'kpis.vectorization_status'},
+            )
+
+        if ecosystem_status == 'skipped':
+            self._add(
+                category='execution',
+                severity='low',
+                title='Ecosystem discovery skipped',
+                description='Stage 2.5 ecosystem discovery did not run.',
+                evidence={
+                    'ecosystem_discovery_status': self.kpis.get('ecosystem_discovery_status'),
+                    'ecosystem_discovery_error': self.kpis.get('ecosystem_discovery_error'),
+                },
+                interpretation='The run remains valid, but Tier-2 ecosystem enrichment is incomplete.',
+                recommendation='Install/restore ecosystem discovery dependencies and rerun when unknown framework detection is needed.',
+                effort='low',
+                drill_down={'key': 'kpis.ecosystem_discovery_status'},
+            )
 
     def _interpret_rpbl(self):
         rpbl = self.data.get('rpbl_profile', {})
@@ -617,7 +721,38 @@ class InsightsCompiler:
 
     def _score_purpose(self) -> float:
         ci = self.kpis.get('codebase_intelligence', 0) or 0
-        return min(10.0, ci * 12)  # 0.85 -> 10.2 capped at 10
+        ci_score = max(0.0, min(10.0, ci * 10.0))
+        purpose_metrics = self._purpose_metrics()
+
+        clarity = purpose_metrics.get('purpose_clarity')
+        alignment = purpose_metrics.get('alignment_health')
+        uncertain_ratio = purpose_metrics.get('uncertain_ratio')
+        god_class_count = purpose_metrics.get('god_class_count')
+
+        # Backward-compatible fallback when purpose_field metrics are unavailable.
+        if clarity is None and alignment is None and uncertain_ratio is None and god_class_count == 0:
+            return round(ci_score, 1)
+
+        clarity_score = ci_score if clarity is None else max(0.0, min(10.0, clarity * 10.0))
+        alignment_score = {
+            'GOOD': 9.5,
+            'OK': 8.0,
+            'WARNING': 5.0,
+            'CRITICAL': 2.0,
+        }.get(alignment, ci_score)
+
+        structural_score = 10.0
+        if uncertain_ratio is not None:
+            structural_score = max(0.0, 10.0 * (1.0 - min(1.0, uncertain_ratio)))
+        structural_score = max(0.0, structural_score - min(4.0, god_class_count * 0.05))
+
+        blended = (
+            ci_score * 0.45
+            + clarity_score * 0.25
+            + alignment_score * 0.20
+            + structural_score * 0.10
+        )
+        return round(max(0.0, min(10.0, blended)), 1)
 
     def _score_test_coverage(self) -> float:
         # Use distributions to infer test ratio
@@ -683,6 +818,34 @@ class InsightsCompiler:
         if l > 6:
             penalties += 1.5
         return max(2.0, 10.0 - penalties)
+
+    def _purpose_metrics(self) -> Dict[str, Any]:
+        """Extract normalized purpose metrics from purpose_field summary."""
+        pf = self.data.get('purpose_field', {})
+        if not isinstance(pf, dict):
+            pf = {}
+
+        clarity_raw = pf.get('purpose_clarity')
+        clarity = float(clarity_raw) if isinstance(clarity_raw, (int, float)) else None
+
+        alignment_raw = pf.get('alignment_health')
+        alignment = str(alignment_raw).upper() if isinstance(alignment_raw, str) and alignment_raw else None
+
+        uncertain_count = pf.get('uncertain_count', 0) or 0
+        total_nodes = pf.get('total_nodes', 0) or 0
+        god_class_count = pf.get('god_class_count', 0) or 0
+
+        uncertain_ratio = None
+        if isinstance(uncertain_count, (int, float)) and isinstance(total_nodes, (int, float)) and total_nodes > 0:
+            uncertain_ratio = float(uncertain_count) / float(total_nodes)
+
+        return {
+            'purpose_clarity': clarity,
+            'alignment_health': alignment,
+            'uncertain_count': int(uncertain_count) if isinstance(uncertain_count, (int, float)) else 0,
+            'uncertain_ratio': uncertain_ratio,
+            'god_class_count': int(god_class_count) if isinstance(god_class_count, (int, float)) else 0,
+        }
 
     def _compute_health_score(self, components: Dict[str, float]) -> float:
         weights = {
