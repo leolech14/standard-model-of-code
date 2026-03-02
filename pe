@@ -124,6 +124,12 @@ route_intent() {
         return 0
     fi
 
+    # TEST COLLIDER FULL patterns
+    if [[ "$lower" =~ ^(test|run[[:space:]]+test|check[[:space:]]+test)[[:space:]]+collider([[:space:]]+(--full|full))?([[:space:]]|$) ]]; then
+        cmd_test collider --full
+        return 0
+    fi
+
     # TEST patterns
     if [[ "$lower" =~ ^(test|run.*test|check.*test) ]]; then
         cmd_test
@@ -207,7 +213,8 @@ EXPLICIT COMMANDS:
   ./pe autopilot <cmd>     Automation control
   ./pe tdj <cmd>           Temporal index queries
   ./pe boot                Run boot sequence
-  ./pe test                Run all tests
+  ./pe test [args]         Run tests (pytest args passthrough)
+  ./pe test collider --full  Run Collider full analysis on current repo
 
 INTENT ROUTING (just type naturally):
   ./pe "how is the system doing"     → status
@@ -216,6 +223,7 @@ INTENT ROUTING (just type naturally):
   ./pe "what files were added today" → tdj recent
   ./pe "check for stale code"        → tdj stale
   ./pe "run tests"                   → pytest
+  ./pe "test collider --full"        → collider full
   ./pe "check drift"                 → symmetry check
   ./pe "verify the docs"             → HSL audit
   ./pe "sync to cloud"               → archive mirror
@@ -284,6 +292,22 @@ cmd_deck() {
 }
 
 cmd_collider() {
+    if [ "${1:-}" = "--full" ]; then
+        shift
+        cd "$COLLIDER" && ./collider full . "$@"
+        return 0
+    fi
+
+    if [ "${1:-}" = "full" ]; then
+        shift
+        if [ $# -eq 0 ] || [[ "${1:-}" == -* ]]; then
+            cd "$COLLIDER" && ./collider full . "$@"
+        else
+            cd "$COLLIDER" && ./collider full "$@"
+        fi
+        return 0
+    fi
+
     cd "$COLLIDER" && ./collider "$@"
 }
 
@@ -300,7 +324,35 @@ cmd_boot() {
 }
 
 cmd_test() {
-    cd "$COLLIDER" && pytest tests/ -q
+    case "${1:-}" in
+        help|--help|-h)
+            cat << 'EOF'
+Usage: ./pe test [collider --full [collider flags] | pytest args]
+
+Examples:
+  ./pe test
+  ./pe test -k scope
+  ./pe test collider --full
+  ./pe test collider --full --timing
+EOF
+            return 0
+            ;;
+    esac
+
+    if [ "${1:-}" = "collider" ]; then
+        shift
+        if [ -z "${1:-}" ] || [ "${1:-}" = "--full" ] || [ "${1:-}" = "full" ]; then
+            if [ "${1:-}" = "--full" ] || [ "${1:-}" = "full" ]; then
+                shift
+            fi
+            cd "$COLLIDER" && ./collider full . "$@"
+            return 0
+        fi
+        echo "Usage: ./pe test collider --full [collider flags]"
+        return 1
+    fi
+
+    cd "$COLLIDER" && pytest tests/ -q "$@"
 }
 
 cmd_verify() {
@@ -422,7 +474,8 @@ case "${1:-help}" in
         cmd_boot
         ;;
     test)
-        cmd_test
+        shift
+        cmd_test "$@"
         ;;
     intel)
         shift

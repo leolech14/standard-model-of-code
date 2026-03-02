@@ -73,6 +73,8 @@ python3 wave/tools/ai/cerebras_spiral_intel.py status
 
 # Collider
 ./collider full . --output /tmp/analysis
+./pe collider --full --output /tmp/analysis
+./pe test collider --full --output /tmp/analysis
 ```
 
 ## Adding New Scripts

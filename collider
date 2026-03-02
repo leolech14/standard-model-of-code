@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Root shim for Collider CLI.
+# Allows `./collider ...` from repository root by forwarding to particle/collider.
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec "$SCRIPT_DIR/particle/collider" "$@"

@@ -34,8 +34,12 @@ standard-model-of-code/  Theory package (pip installable)
 ./pe status              # System health
 ./pe deck deal           # Available certified moves
 ./pe collider full .     # Run Collider on current repo
+./pe collider --full     # Alias: full analysis on current repo
+./pe test collider --full  # Test-style alias to collider full
+./pe test --help         # Show test command usage
 
 # Collider directly
+./collider full /path/to/repo --output /tmp/analysis
 .venv/bin/python3 -m collider full /path/to/repo --output /tmp/analysis
 
 # AI Tools (all via doppler for secrets)

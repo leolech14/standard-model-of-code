@@ -25,6 +25,9 @@ The **Standard Model of Code** is a theoretical framework that treats code like 
 **Collider** is the implementation that applies the theory:
 ```bash
 ./collider full /path/to/repo --output /tmp/analysis
+# From repository root:
+./pe collider --full --output /tmp/analysis
+./pe test collider --full --output /tmp/analysis
 ```
 → Go to [`src/core/`](src/core/) to develop the tool.
 

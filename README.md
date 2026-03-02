@@ -25,6 +25,9 @@ This repo is large and includes many artifacts; prefer using the built-in filter
 
 - Unified CLI `./pe` resolves tool roots from `wave/tools/` first, with legacy fallback to `context-management/tools/`.
 - Collider root is `particle/` (legacy fallback: `standard-model-of-code/`).
+- Root shim `./collider` forwards to `particle/collider`.
+- `./pe collider --full` and `./pe test collider --full` run full analysis on the current repo.
+- `./pe test --help` shows usage without running pytest.
 - `collider health` is wired to `src/core/newman_suite.py` probes.
 - `collider audit` executes Newman probes + a minimal full analysis run.
 - React TSX extraction path is Tree-sitter-first again (no fallback-only regression when optional grammars are partially installed).

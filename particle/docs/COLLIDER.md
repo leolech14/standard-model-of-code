@@ -13,6 +13,8 @@
 | `./collider full <path>` | Complete 32-stage analysis |
 | `./collider full <path> --output <dir>` | Custom output directory |
 | `./collider full <path> --ai-insights` | With LLM enrichment |
+| `./pe collider --full [flags]` | From repo root, run `collider full .` |
+| `./pe test collider --full [flags]` | Test-style alias to run `collider full .` |
 
 ### Graph Analysis
 
