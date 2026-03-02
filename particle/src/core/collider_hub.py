@@ -5,8 +5,8 @@ Collider Hub: canonical wrapper for reliable, repeatable Collider runs.
 Goals:
 - One stable entrypoint for agents and humans.
 - Always write analysis outputs to <repo>/.collider.
-- Institutionalize feedback by writing a post-run package to <repo>/.reh.
-- Keep .collider and .reh locally git-ignored.
+- Institutionalize feedback by writing a post-run package to <repo>/.collider/feedback.
+- Keep Collider output and feedback directories locally git-ignored.
 - Apply ecosystem noise exclusions by default (overrideable).
 - Make MCP checks use explicit db_dir to avoid auto-detection drift.
 """
@@ -55,7 +55,6 @@ PROFILE_EXCLUDES = {
         "temp",
         ".next",
         ".collider",
-        ".reh",
     ],
     # Ecosystem profile: balanced + known high-noise paths seen here.
     "ecosystem": [
@@ -72,7 +71,6 @@ PROFILE_EXCLUDES = {
         "temp",
         ".next",
         ".collider",
-        ".reh",
         "collider_output",
         "docs/standard-model",
         "docs/standard-model-registry.json",
@@ -111,10 +109,17 @@ def _resolve_output_dir(repo: Path, output_dir: str | None) -> Path:
     return (repo / ".collider").resolve()
 
 
-def _resolve_reh_dir(repo: Path, reh_dir: str | None) -> Path:
-    if reh_dir:
-        return Path(reh_dir).expanduser().resolve()
-    return (repo / ".reh").resolve()
+def _resolve_feedback_dir(
+    repo: Path,
+    output_dir: Path,
+    feedback_dir: str | None,
+    legacy_reh_dir: str | None = None,
+) -> Path:
+    # Backward compatibility for existing wrappers using --reh-dir.
+    candidate = feedback_dir or legacy_reh_dir
+    if candidate:
+        return Path(candidate).expanduser().resolve()
+    return (output_dir / "feedback").resolve()
 
 
 def _ignore_pattern(repo: Path, hidden_dir: Path) -> str | None:
@@ -560,7 +565,7 @@ def _render_deterministic_audit(auto_feedback: dict[str, Any], reason: str) -> s
             "3. Improve language-specific edge extraction for repositories with node-only output.",
             "",
             "## Noise Policy Updates",
-            "- Keep generated paths (`.collider`, `.reh`, `collider_output`, docs/standard-model artifacts) excluded by default.",
+            "- Keep generated paths (`.collider`, `.collider/feedback`, `collider_output`, docs/standard-model artifacts) excluded by default.",
             "- Promote repeated benign warnings into explicit ignore rules only after repeated confirmation.",
             "",
             "## Confidence",
@@ -626,7 +631,7 @@ def _sync_feedback_to_research_sinks(
     repo: Path,
     auto_json_path: Path,
     audit_md_path: Path,
-    rehport_path: Path,
+    feedback_report_path: Path,
 ) -> dict[str, list[str]]:
     """Persist all ingested feedback artifacts to one central PROJECT_elements folder."""
     slug = _slug(repo.name)
@@ -637,24 +642,24 @@ def _sync_feedback_to_research_sinks(
     targets = [
         central_root / f"{slug}_auto_feedback_{stamp}.json",
         central_root / f"{slug}_ai_user_audit_{stamp}.md",
-        central_root / f"{slug}_rehport_{stamp}.json",
+        central_root / f"{slug}_feedback_report_{stamp}.json",
     ]
     copied["central"].extend(_copy_to_sinks(auto_json_path, [targets[0]]))
     copied["central"].extend(_copy_to_sinks(audit_md_path, [targets[1]]))
-    copied["central"].extend(_copy_to_sinks(rehport_path, [targets[2]]))
+    copied["central"].extend(_copy_to_sinks(feedback_report_path, [targets[2]]))
     return copied
 
 
 def _generate_feedback_bundle(
     repo: Path,
     output_dir: Path,
-    reh_dir: Path,
+    feedback_dir: Path,
     run_mode: str,
     llm_model: str,
     llm_timeout_sec: int,
     skip_llm: bool,
 ) -> dict[str, Any]:
-    _ensure_local_ignore(repo, reh_dir)
+    _ensure_local_ignore(repo, feedback_dir)
     auto_feedback = _build_auto_feedback(repo, output_dir, run_mode=run_mode)
     audit_md, llm_meta = _generate_ai_user_audit(
         auto_feedback=auto_feedback,
@@ -664,12 +669,12 @@ def _generate_feedback_bundle(
     )
 
     stamp = _utc_stamp()
-    auto_json_path = reh_dir / f"collider_feedback_auto_{stamp}.json"
-    latest_auto_json = reh_dir / "latest_auto_feedback.json"
-    audit_md_path = reh_dir / f"ai-user-audit_{stamp}.md"
-    latest_audit_md = reh_dir / "latest_ai_user_audit.md"
-    rehport_path = reh_dir / f"collider_rehport_{stamp}.json"
-    latest_rehport_path = reh_dir / "collider_rehport_latest.json"
+    auto_json_path = feedback_dir / f"collider_feedback_auto_{stamp}.json"
+    latest_auto_json = feedback_dir / "latest_auto_feedback.json"
+    audit_md_path = feedback_dir / f"ai-user-audit_{stamp}.md"
+    latest_audit_md = feedback_dir / "latest_ai_user_audit.md"
+    feedback_report_path = feedback_dir / f"collider_feedback_report_{stamp}.json"
+    latest_feedback_report_path = feedback_dir / "collider_feedback_report_latest.json"
 
     _write_json(auto_json_path, auto_feedback)
     shutil.copy2(auto_json_path, latest_auto_json)
@@ -678,8 +683,8 @@ def _generate_feedback_bundle(
     audit_md_path.write_text(audit_md, encoding="utf-8")
     shutil.copy2(audit_md_path, latest_audit_md)
 
-    rehport = {
-        "schema_version": "collider.rehport.v1",
+    feedback_report = {
+        "schema_version": "collider.feedback.report.v1",
         "generated_at_utc": _utc_iso(),
         "repo": str(repo),
         "run_mode": run_mode,
@@ -688,26 +693,28 @@ def _generate_feedback_bundle(
         "issue_count": auto_feedback.get("issue_count", 0),
         "llm_meta": llm_meta,
         "canonical_output_root": str(output_dir),
-        "feedback_root": str(reh_dir),
+        "feedback_package_root": str(feedback_dir),
         "artifacts": {
             "auto_feedback_json": str(auto_json_path),
             "latest_auto_feedback_json": str(latest_auto_json),
             "ai_user_audit_md": str(audit_md_path),
             "latest_ai_user_audit_md": str(latest_audit_md),
+            "feedback_report_json": str(feedback_report_path),
+            "latest_feedback_report_json": str(latest_feedback_report_path),
         },
         "checksums": {
             "auto_feedback_json": _sha256(auto_json_path),
             "ai_user_audit_md": _sha256(audit_md_path),
         },
     }
-    _write_json(rehport_path, rehport)
-    shutil.copy2(rehport_path, latest_rehport_path)
+    _write_json(feedback_report_path, feedback_report)
+    shutil.copy2(feedback_report_path, latest_feedback_report_path)
 
     copied = _sync_feedback_to_research_sinks(
         repo=repo,
         auto_json_path=auto_json_path,
         audit_md_path=audit_md_path,
-        rehport_path=rehport_path,
+        feedback_report_path=feedback_report_path,
     )
 
     return {
@@ -715,8 +722,8 @@ def _generate_feedback_bundle(
         "latest_auto_feedback_json": str(latest_auto_json),
         "ai_user_audit_md": str(audit_md_path),
         "latest_ai_user_audit_md": str(latest_audit_md),
-        "rehport_json": str(rehport_path),
-        "latest_rehport_json": str(latest_rehport_path),
+        "feedback_report_json": str(feedback_report_path),
+        "latest_feedback_report_json": str(latest_feedback_report_path),
         "llm_meta": llm_meta,
         "synced": copied,
     }
@@ -724,14 +731,14 @@ def _generate_feedback_bundle(
 
 def _write_manual_feedback(
     repo: Path,
-    reh_dir: Path,
+    feedback_dir: Path,
     author: str,
     problem: str,
     evidence: str,
     expected: str,
     proposed_fix: str,
 ) -> dict[str, str]:
-    _ensure_local_ignore(repo, reh_dir)
+    _ensure_local_ignore(repo, feedback_dir)
     payload = {
         "schema_version": "collider.feedback.manual.v1",
         "ts": _utc_iso(),
@@ -743,8 +750,8 @@ def _write_manual_feedback(
         "proposed_fix": proposed_fix,
     }
     stamp = _utc_stamp()
-    manual_path = reh_dir / f"manual_feedback_{stamp}.json"
-    latest_manual = reh_dir / "latest_manual_feedback.json"
+    manual_path = feedback_dir / f"manual_feedback_{stamp}.json"
+    latest_manual = feedback_dir / "latest_manual_feedback.json"
     _write_json(manual_path, payload)
     shutil.copy2(manual_path, latest_manual)
 
@@ -760,11 +767,16 @@ def _run_feedback_pipeline(args: argparse.Namespace, repo: Path, output_dir: Pat
         print("  feedback: skipped (--no-feedback)")
         return 0
 
-    reh_dir = _resolve_reh_dir(repo, args.reh_dir)
+    feedback_dir = _resolve_feedback_dir(
+        repo=repo,
+        output_dir=output_dir,
+        feedback_dir=getattr(args, "feedback_dir", None),
+        legacy_reh_dir=getattr(args, "legacy_reh_dir", None),
+    )
     result = _generate_feedback_bundle(
         repo=repo,
         output_dir=output_dir,
-        reh_dir=reh_dir,
+        feedback_dir=feedback_dir,
         run_mode=run_mode,
         llm_model=args.llm_audit_model,
         llm_timeout_sec=args.llm_timeout_sec,
@@ -773,7 +785,7 @@ def _run_feedback_pipeline(args: argparse.Namespace, repo: Path, output_dir: Pat
     print("  feedback bundle:")
     print(f"   - auto: {result['latest_auto_feedback_json']}")
     print(f"   - audit: {result['latest_ai_user_audit_md']}")
-    print(f"   - rehport: {result['latest_rehport_json']}")
+    print(f"   - report: {result['latest_feedback_report_json']}")
     llm_meta = result.get("llm_meta", {})
     provider = llm_meta.get("provider", "unknown")
     reason = llm_meta.get("reason", "")
@@ -875,10 +887,16 @@ def cmd_feedback(args: argparse.Namespace) -> int:
 
 def cmd_manual_feedback(args: argparse.Namespace) -> int:
     repo = _repo_root(Path(args.repo))
-    reh_dir = _resolve_reh_dir(repo, args.reh_dir)
+    output_dir = _resolve_output_dir(repo, None)
+    feedback_dir = _resolve_feedback_dir(
+        repo=repo,
+        output_dir=output_dir,
+        feedback_dir=getattr(args, "feedback_dir", None),
+        legacy_reh_dir=getattr(args, "legacy_reh_dir", None),
+    )
     result = _write_manual_feedback(
         repo=repo,
-        reh_dir=reh_dir,
+        feedback_dir=feedback_dir,
         author=args.author,
         problem=args.problem,
         evidence=args.evidence,
@@ -932,9 +950,15 @@ def build_parser() -> argparse.ArgumentParser:
             help="Output directory (default: <repo>/.collider)",
         )
         sp.add_argument(
-            "--reh-dir",
+            "--feedback-dir",
             default=None,
-            help="Feedback directory (default: <repo>/.reh)",
+            help="Feedback directory (default: <repo>/.collider/feedback)",
+        )
+        sp.add_argument(
+            "--reh-dir",
+            dest="legacy_reh_dir",
+            default=None,
+            help=argparse.SUPPRESS,
         )
         sp.add_argument(
             "--collider-bin",
@@ -961,7 +985,7 @@ def build_parser() -> argparse.ArgumentParser:
         sp.add_argument(
             "--no-feedback",
             action="store_true",
-            help="Disable automatic feedback package generation in .reh",
+            help="Disable automatic feedback package generation",
         )
         sp.add_argument(
             "--no-llm-audit",
@@ -1011,7 +1035,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     feedback = sub.add_parser(
         "feedback",
-        help="Generate .reh feedback package from existing Collider artifacts",
+        help="Generate Collider feedback package from existing Collider artifacts",
     )
     add_common(feedback)
     feedback.set_defaults(func=cmd_feedback)
@@ -1021,7 +1045,8 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write manual feedback and ingest into Collider research sinks",
     )
     manual.add_argument("--repo", default=".", help="Target repository path")
-    manual.add_argument("--reh-dir", default=None, help="Feedback directory (default: <repo>/.reh)")
+    manual.add_argument("--feedback-dir", default=None, help="Feedback directory (default: <repo>/.collider/feedback)")
+    manual.add_argument("--reh-dir", dest="legacy_reh_dir", default=None, help=argparse.SUPPRESS)
     manual.add_argument("--author", default=os.environ.get("USER", "unknown"), help="Feedback author")
     manual.add_argument("--problem", required=True, help="Problem statement")
     manual.add_argument("--evidence", required=True, help="Concrete evidence")

@@ -15,17 +15,17 @@ def _write_output_bundle(output_dir: Path, unified: dict, insights: dict) -> Non
     (output_dir / "collider.db").write_bytes(b"db")
 
 
-def test_ensure_local_ignore_registers_reh_pattern(tmp_path):
+def test_ensure_local_ignore_registers_feedback_pattern(tmp_path):
     repo = tmp_path / "repo"
     repo.mkdir()
     _init_git_repo_layout(repo)
 
-    reh_dir = repo / ".reh"
-    hub._ensure_local_ignore(repo, reh_dir)
+    feedback_dir = repo / ".collider" / "feedback"
+    hub._ensure_local_ignore(repo, feedback_dir)
 
     exclude_text = (repo / ".git" / "info" / "exclude").read_text(encoding="utf-8")
-    assert ".reh/" in exclude_text
-    assert (reh_dir / ".gitignore").exists()
+    assert ".collider/feedback/" in exclude_text
+    assert (feedback_dir / ".gitignore").exists()
 
 
 def test_build_auto_feedback_flags_negative_performance_signals(tmp_path):
@@ -57,12 +57,12 @@ def test_build_auto_feedback_flags_negative_performance_signals(tmp_path):
     assert any("Negative performance values" in title for title in issue_titles)
 
 
-def test_generate_feedback_bundle_writes_latest_reh_artifacts(tmp_path, monkeypatch):
+def test_generate_feedback_bundle_writes_latest_feedback_artifacts(tmp_path, monkeypatch):
     repo = tmp_path / "repo"
     repo.mkdir()
     _init_git_repo_layout(repo)
     output_dir = repo / ".collider"
-    reh_dir = repo / ".reh"
+    feedback_dir = repo / ".collider" / "feedback"
 
     _write_output_bundle(
         output_dir=output_dir,
@@ -84,7 +84,7 @@ def test_generate_feedback_bundle_writes_latest_reh_artifacts(tmp_path, monkeypa
     result = hub._generate_feedback_bundle(
         repo=repo,
         output_dir=output_dir,
-        reh_dir=reh_dir,
+        feedback_dir=feedback_dir,
         run_mode="feedback-only",
         llm_model="qwen2.5:7b-instruct",
         llm_timeout_sec=1,
@@ -93,7 +93,7 @@ def test_generate_feedback_bundle_writes_latest_reh_artifacts(tmp_path, monkeypa
 
     assert Path(result["latest_auto_feedback_json"]).exists()
     assert Path(result["latest_ai_user_audit_md"]).exists()
-    assert Path(result["latest_rehport_json"]).exists()
+    assert Path(result["latest_feedback_report_json"]).exists()
     assert result["llm_meta"]["provider"] == "deterministic"
 
 
@@ -102,7 +102,7 @@ def test_feedback_sync_targets_single_project_elements_folder(tmp_path, monkeypa
     repo.mkdir()
     _init_git_repo_layout(repo)
     output_dir = repo / ".collider"
-    reh_dir = repo / ".reh"
+    feedback_dir = repo / ".collider" / "feedback"
 
     _write_output_bundle(
         output_dir=output_dir,
@@ -116,7 +116,7 @@ def test_feedback_sync_targets_single_project_elements_folder(tmp_path, monkeypa
     result = hub._generate_feedback_bundle(
         repo=repo,
         output_dir=output_dir,
-        reh_dir=reh_dir,
+        feedback_dir=feedback_dir,
         run_mode="feedback-only",
         llm_model="qwen2.5:7b-instruct",
         llm_timeout_sec=1,

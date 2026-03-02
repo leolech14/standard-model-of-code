@@ -79,10 +79,10 @@ cd context-management/experiments/refinery-platform && npm run dev  # Refinery :
 
 - Always run `doppler run --` before any AI tool (secrets are in Doppler, not .env)
 - Collider output goes to `.collider/` or explicit `--output` path
-- Collider Hub always writes post-run feedback to `.reh/` (git-ignored):
+- Collider Hub always writes post-run feedback to `.collider/feedback/`:
   - `latest_auto_feedback.json`
   - `latest_ai_user_audit.md`
-  - `collider_rehport_latest.json`
+  - `collider_feedback_report_latest.json`
 - Feedback ingestion sink is single and centralized:
   - `/Users/lech/PROJECTS_all/PROJECT_elements/collider_feedback/`
 - Use `--set brain` for Wave analysis, `--set body` for Particle analysis

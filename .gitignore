@@ -105,6 +105,8 @@ context-management/intelligence/socratic_audit_pipeline_*.json
 .collider/
 .collider_*/
 .collider-*/
+collider_feedback/
+particle/collider_feedback/
 standard-model-of-code/.collider/
 standard-model-of-code/.collider_*/
 standard-model-of-code/.collider-*/

@@ -38,12 +38,12 @@ collider-hub full --repo /path/to/repo
 ./pe test collider --full --output /tmp/analysis
 ```
 
-### Automatic Feedback Package (`.reh`)
+### Automatic Feedback Package (`.collider/feedback`)
 
 Collider Hub now institutionalizes post-run feedback automatically:
 
 ```bash
-# Full run + automatic .reh package
+# Full run + automatic feedback package
 ./collider-hub full --repo /path/to/repo
 
 # Generate feedback only from existing .collider artifacts
@@ -55,10 +55,10 @@ Collider Hub now institutionalizes post-run feedback automatically:
   --evidence "nodes > 0 while edges == 0 in unified_analysis.json"
 ```
 
-Artifacts are written under `<repo>/.reh/` (git-ignored):
+Artifacts are written under `<repo>/.collider/feedback/`:
 - `latest_auto_feedback.json`
 - `latest_ai_user_audit.md`
-- `collider_rehport_latest.json`
+- `collider_feedback_report_latest.json`
 
 All feedback artifacts are also ingested into one central PROJECT_elements folder:
 - `/Users/lech/PROJECTS_all/PROJECT_elements/collider_feedback/`
