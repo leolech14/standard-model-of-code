@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Collider Hub wrapper (PROJECT_elements root)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec python3 "$SCRIPT_DIR/particle/scripts/collider_hub.py" "$@"

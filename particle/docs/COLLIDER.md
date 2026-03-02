@@ -15,6 +15,9 @@
 | `./collider full <path> --ai-insights` | With LLM enrichment |
 | `./pe collider --full [flags]` | From repo root, run `collider full .` |
 | `./pe test collider --full [flags]` | Test-style alias to run `collider full .` |
+| `./collider serve [--db-dir <dir>]` | Start Collider MCP tool server |
+| `python3 scripts/collider_hub.py full --repo <path>` | Canonical full run wrapper |
+| `collider-hub full --repo <path>` | Installable canonical full run wrapper |
 
 ### Graph Analysis
 
@@ -43,6 +46,14 @@
 | `--3d` | 3D visualization |
 
 ---
+
+### Collider Hub defaults
+
+- Output: `<repo>/.collider`
+- DB path: `<repo>/.collider/collider.db` (explicitly passed)
+- MCP checks: explicit `db_dir` in tool calls
+- Local ignore: tries `.git/info/exclude` first, falls back to repo `.gitignore`
+
 
 ## 2. OUTPUT
 

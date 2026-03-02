@@ -25,6 +25,12 @@ The **Standard Model of Code** is a theoretical framework that treats code like 
 **Collider** is the implementation that applies the theory:
 ```bash
 ./collider full /path/to/repo --output /tmp/analysis
+# Canonical reliable wrapper (repo script):
+python3 scripts/collider_hub.py full --repo /path/to/repo
+# Installable console entrypoint (after `pip install .`):
+collider-hub full --repo /path/to/repo
+# MCP service mode:
+./collider serve --db-dir /path/to/repo/.collider
 # From repository root:
 ./pe collider --full --output /tmp/analysis
 ./pe test collider --full --output /tmp/analysis

@@ -12,6 +12,7 @@ Usage:
     collider serve
 """
 import json
+import os
 import sys
 from pathlib import Path
 from mcp.server.fastmcp import FastMCP
@@ -30,8 +31,12 @@ def _get_retriever(db_dir: str = None):
     """Lazily initialize the GraphRAGRetriever, loading the model only once."""
     global _retriever, _db_dir
 
+    env_db_dir = os.environ.get("COLLIDER_DB_DIR", "").strip()
+
     if db_dir:
-        target = Path(db_dir)
+        target = Path(db_dir).expanduser()
+    elif env_db_dir:
+        target = Path(env_db_dir).expanduser()
     else:
         # Default: look for .collider directory relative to cwd
         target = Path.cwd() / ".collider"
@@ -59,7 +64,7 @@ def collider_search(query: str, limit: int = 5, db_dir: str = "") -> str:
     Args:
         query: Natural language description of what you're looking for (e.g. "authentication middleware", "database connection handling")
         limit: Maximum number of results to return (default: 5)
-        db_dir: Path to the .collider directory. Leave empty to auto-detect.
+        db_dir: Path to the .collider directory. Leave empty to auto-detect or use COLLIDER_DB_DIR.
 
     Returns:
         JSON array of matching code nodes with source snippets

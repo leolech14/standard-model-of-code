@@ -412,6 +412,27 @@ def main():
         help="Export results to file"
     )
 
+
+
+    # ==========================================
+    # SERVE Command - MCP Tool Server
+    # ==========================================
+    serve_parser = subparsers.add_parser(
+        "serve",
+        help="Start Collider MCP tool server",
+        description="Starts Collider MCP server (FastMCP) for AI agents."
+    )
+    serve_parser.add_argument(
+        "--transport",
+        default="stdio",
+        help="MCP transport to use (default: stdio)"
+    )
+    serve_parser.add_argument(
+        "--db-dir",
+        default=None,
+        help="Default .collider directory used when tool calls omit db_dir"
+    )
+
     # ==========================================
     # GRAPH Command
     # ==========================================
@@ -1340,6 +1361,21 @@ def main():
             print(f"❌ Symmetry analysis failed: {e}")
             import traceback
             traceback.print_exc()
+            sys.exit(1)
+
+
+    elif args.command == "serve":
+        from src.core.rag import mcp_server
+
+        if getattr(args, 'db_dir', None):
+            os.environ["COLLIDER_DB_DIR"] = str(Path(args.db_dir).resolve())
+
+        try:
+            mcp_server.mcp.run(transport=args.transport)
+        except KeyboardInterrupt:
+            sys.exit(0)
+        except Exception as e:
+            print(f"❌ MCP server failed: {e}")
             sys.exit(1)
 
     elif args.command == "query":
