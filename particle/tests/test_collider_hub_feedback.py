@@ -79,8 +79,7 @@ def test_generate_feedback_bundle_writes_latest_reh_artifacts(tmp_path, monkeypa
         },
     )
 
-    monkeypatch.setattr(hub, "_resolve_ecoroot", lambda _repo: None)
-    monkeypatch.setattr(hub, "_INNER_FEEDBACK_ROOT", tmp_path / "inner_feedback")
+    monkeypatch.setattr(hub, "_CENTRAL_FEEDBACK_ROOT", tmp_path / "central_feedback")
 
     result = hub._generate_feedback_bundle(
         repo=repo,
@@ -96,3 +95,35 @@ def test_generate_feedback_bundle_writes_latest_reh_artifacts(tmp_path, monkeypa
     assert Path(result["latest_ai_user_audit_md"]).exists()
     assert Path(result["latest_rehport_json"]).exists()
     assert result["llm_meta"]["provider"] == "deterministic"
+
+
+def test_feedback_sync_targets_single_project_elements_folder(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    _init_git_repo_layout(repo)
+    output_dir = repo / ".collider"
+    reh_dir = repo / ".reh"
+
+    _write_output_bundle(
+        output_dir=output_dir,
+        unified={"nodes": [{"id": "a"}], "edges": [{"source": "a", "target": "b"}]},
+        insights={"grade": "B", "health_score": 8.0, "findings_by_severity": {}},
+    )
+
+    central = tmp_path / "project_elements_feedback_single"
+    monkeypatch.setattr(hub, "_CENTRAL_FEEDBACK_ROOT", central)
+
+    result = hub._generate_feedback_bundle(
+        repo=repo,
+        output_dir=output_dir,
+        reh_dir=reh_dir,
+        run_mode="feedback-only",
+        llm_model="qwen2.5:7b-instruct",
+        llm_timeout_sec=1,
+        skip_llm=True,
+    )
+
+    synced = result.get("synced", {})
+    central_paths = synced.get("central", [])
+    assert len(central_paths) == 3
+    assert all(str(path).startswith(str(central)) for path in central_paths)

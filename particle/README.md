@@ -59,6 +59,9 @@ Artifacts are written under `<repo>/.reh/` (git-ignored):
 - `latest_auto_feedback.json`
 - `latest_ai_user_audit.md`
 - `collider_rehport_latest.json`
+
+All feedback artifacts are also ingested into one central PROJECT_elements folder:
+- `/Users/lech/PROJECTS_all/PROJECT_elements/collider_feedback/`
 → Go to [`src/core/`](src/core/) to develop the tool.
 
 ---

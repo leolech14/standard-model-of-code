@@ -83,6 +83,8 @@ cd context-management/experiments/refinery-platform && npm run dev  # Refinery :
   - `latest_auto_feedback.json`
   - `latest_ai_user_audit.md`
   - `collider_rehport_latest.json`
+- Feedback ingestion sink is single and centralized:
+  - `/Users/lech/PROJECTS_all/PROJECT_elements/collider_feedback/`
 - Use `--set brain` for Wave analysis, `--set body` for Particle analysis
 - Decision Deck: check `./pe deck deal` before improvising
 - MCP server directory is `mcp_servers/` (NOT `mcp/` -- avoids shadowing pip package)

@@ -24,9 +24,11 @@ from pathlib import Path
 from typing import Any, Sequence
 
 _THIS = Path(__file__).resolve()
-_PARTICLE_ROOT = _THIS.parents[1]
-_ELEMENTS_ROOT = _PARTICLE_ROOT.parent
-_INNER_FEEDBACK_ROOT = _PARTICLE_ROOT / "docs" / "research" / "collider_feedback"
+_PARTICLE_ROOT = _THIS.parents[2]
+_ELEMENTS_ROOT = _THIS.parents[3]
+_CENTRAL_FEEDBACK_ROOT = Path(
+    os.environ.get("COLLIDER_CENTRAL_FEEDBACK_DIR", str(_ELEMENTS_ROOT / "collider_feedback"))
+).expanduser()
 
 DEFAULT_CANDIDATES = [
     str(_PARTICLE_ROOT / "collider"),
@@ -595,30 +597,6 @@ def _generate_ai_user_audit(
     return text + ("\n" if not text.endswith("\n") else ""), {"provider": "ollama", "model": llm_model, "reason": "ok"}
 
 
-def _resolve_ecoroot(repo: Path) -> Path | None:
-    candidates: list[Path] = []
-    env = os.environ.get("ECOROOT_DIR", "").strip()
-    if env:
-        candidates.append(Path(env).expanduser())
-    candidates.extend(
-        [
-            repo / ".ecoroot",
-            repo.parent / ".ecoroot",
-            _ELEMENTS_ROOT.parent / ".ecoroot",
-        ]
-    )
-
-    seen: set[str] = set()
-    for candidate in candidates:
-        key = str(candidate)
-        if key in seen:
-            continue
-        seen.add(key)
-        if candidate.exists() and candidate.is_dir():
-            return candidate.resolve()
-    return None
-
-
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -650,34 +628,20 @@ def _sync_feedback_to_research_sinks(
     audit_md_path: Path,
     rehport_path: Path,
 ) -> dict[str, list[str]]:
+    """Persist all ingested feedback artifacts to one central PROJECT_elements folder."""
     slug = _slug(repo.name)
     stamp = _utc_stamp()
-    copied = {"auto": [], "manual": []}
+    central_root = _CENTRAL_FEEDBACK_ROOT.resolve()
+    copied = {"central": []}
 
-    ecoroot = _resolve_ecoroot(repo)
-    sink_targets: list[Path] = []
-    if ecoroot:
-        sink_targets.extend(
-            [
-                ecoroot / "collider_research" / "auto" / f"{slug}_auto_feedback_{stamp}.json",
-                ecoroot / "collider_research" / "auto" / f"{slug}_ai_user_audit_{stamp}.md",
-                ecoroot / "collider_research" / "auto" / f"{slug}_rehport_{stamp}.json",
-            ]
-        )
-    sink_targets.extend(
-        [
-            _INNER_FEEDBACK_ROOT / "auto" / f"{slug}_auto_feedback_{stamp}.json",
-            _INNER_FEEDBACK_ROOT / "auto" / f"{slug}_ai_user_audit_{stamp}.md",
-            _INNER_FEEDBACK_ROOT / "auto" / f"{slug}_rehport_{stamp}.json",
-        ]
-    )
-
-    json_targets = [p for p in sink_targets if p.suffix == ".json"]
-    md_targets = [p for p in sink_targets if p.suffix == ".md"]
-
-    copied["auto"].extend(_copy_to_sinks(auto_json_path, [p for p in json_targets if "auto_feedback" in p.name]))
-    copied["auto"].extend(_copy_to_sinks(audit_md_path, md_targets))
-    copied["auto"].extend(_copy_to_sinks(rehport_path, [p for p in json_targets if "rehport" in p.name]))
+    targets = [
+        central_root / f"{slug}_auto_feedback_{stamp}.json",
+        central_root / f"{slug}_ai_user_audit_{stamp}.md",
+        central_root / f"{slug}_rehport_{stamp}.json",
+    ]
+    copied["central"].extend(_copy_to_sinks(auto_json_path, [targets[0]]))
+    copied["central"].extend(_copy_to_sinks(audit_md_path, [targets[1]]))
+    copied["central"].extend(_copy_to_sinks(rehport_path, [targets[2]]))
     return copied
 
 
@@ -785,11 +749,8 @@ def _write_manual_feedback(
     shutil.copy2(manual_path, latest_manual)
 
     slug = _slug(repo.name)
-    ecoroot = _resolve_ecoroot(repo)
-    targets: list[Path] = []
-    if ecoroot:
-        targets.append(ecoroot / "collider_research" / "manual" / f"{slug}_manual_feedback_{stamp}.json")
-    targets.append(_INNER_FEEDBACK_ROOT / "manual" / f"{slug}_manual_feedback_{stamp}.json")
+    central_root = _CENTRAL_FEEDBACK_ROOT.resolve()
+    targets = [central_root / f"{slug}_manual_feedback_{stamp}.json"]
     _copy_to_sinks(manual_path, targets)
     return {"manual_feedback_json": str(manual_path), "latest_manual_feedback_json": str(latest_manual)}
 
