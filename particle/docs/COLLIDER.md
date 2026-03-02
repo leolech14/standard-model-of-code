@@ -52,6 +52,8 @@
 |------|----------|
 | `unified_analysis.json` | Nodes, edges, metrics |
 | `output.md` | Brain Download report |
+| `collider_insights.json` | Deterministic grade, findings, health + mission matrix |
+| `collider_insights.md` | Human-readable insights report |
 | `collider_report.html` | Interactive 3D visualization |
 
 ### Brain Download Sections
@@ -66,6 +68,17 @@
 | VISUAL REASONING | Topology shape |
 | DOMAIN CONTEXT | Inferred business domain |
 | AI INSIGHTS | LLM analysis (if enabled) |
+
+### Mission Matrix (95% Targets)
+
+`collider_insights.json` now includes a top-level `mission_matrix` block with 0-100 scores and pass/gap status for:
+
+- `execution`
+- `performance`
+- `logic`
+- `purpose_fulfillment`
+
+Each dimension is evaluated against a default target of `95.0` and includes explanatory notes for deductions/calibration.
 
 ### Topology Shapes
 

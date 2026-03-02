@@ -187,6 +187,7 @@ collider audit /path/to/repo --output /tmp/collider_audit
 
 **Output:**
 - `proof_output.json` — Complete analysis data
+- `collider_insights.json` — Deterministic scorecard with findings and mission matrix (`execution`, `performance`, `logic`, `purpose_fulfillment`)
 - `collider_report.html` — Interactive visualization (open in browser)
 
 ### View Results

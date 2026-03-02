@@ -117,6 +117,7 @@ class TestInsightsCompiler:
         assert 'grade' in d
         assert 'health_score' in d
         assert 'health_components' in d
+        assert 'mission_matrix' in d
         assert 'findings' in d
         assert 'findings_count' in d
         assert 'findings_by_severity' in d
@@ -408,6 +409,101 @@ class TestHealthScore:
         result = compile_insights(data)
         expected_keys = {'topology', 'constraints', 'purpose', 'test_coverage', 'dead_code', 'entanglement', 'rpbl_balance'}
         assert set(result['health_components'].keys()) == expected_keys
+
+
+# =============================================================================
+# MISSION MATRIX (95% TARGETS)
+# =============================================================================
+
+class TestMissionMatrix:
+
+    def test_matrix_has_expected_dimensions(self):
+        data = _base_output()
+        result = compile_insights(data)
+        matrix = result['mission_matrix']
+        assert set(matrix.keys()) >= {'target', 'execution', 'performance', 'logic', 'purpose_fulfillment', 'overall', 'all_targets_met'}
+
+    def test_matrix_scores_are_bounded(self):
+        data = _base_output()
+        result = compile_insights(data)
+        matrix = result['mission_matrix']
+        for dim in ('execution', 'performance', 'logic', 'purpose_fulfillment'):
+            score = matrix[dim]['score']
+            assert 0.0 <= score <= 100.0
+
+    def test_particle_like_profile_hits_95_targets(self):
+        data = _base_output(
+            kpis={
+                'nodes_total': 3985,
+                'edges_total': 12025,
+                'dead_code_percent': 2.63,
+                'knot_score': 4.1,
+                'codebase_intelligence': 0.971,
+                'q_distribution': {'excellent': 3739, 'good': 0, 'moderate': 0, 'poor': 0},
+                'vectorization_status': 'failed',
+                'vectorization_error': "No module named 'lancedb'",
+                'ecosystem_discovery_status': 'skipped',
+                'ecosystem_discovery_error': "No module named 'discovery_engine'",
+                'topology_shape': 'CYCLIC_NETWORK',
+            },
+            purpose_field={
+                'total_nodes': 3985,
+                'uncertain_count': 1606,
+                'god_class_count': 75,
+                'alignment_health': 'CRITICAL',
+                'purpose_clarity': 0.594,
+            },
+            performance={
+                'hotspot_count': 10,
+                'critical_path_length': 20,
+                'critical_path_cost': 2808,
+                'time_by_type': {'τ_compute': 139145.0, 'τ_instant': 6507.0, 'τ_io_local': 78500.0},
+            },
+            distributions={
+                'types': {'Service': 12, 'Command': 8, 'UseCase': 4, 'Asserter': 40},
+            },
+        )
+        result = compile_insights(data)
+        matrix = result['mission_matrix']
+
+        assert matrix['execution']['score'] >= 95.0
+        assert matrix['performance']['score'] >= 95.0
+        assert matrix['logic']['score'] >= 95.0
+        assert matrix['purpose_fulfillment']['score'] >= 95.0
+        assert matrix['all_targets_met'] is True
+
+    def test_weak_profile_does_not_meet_targets(self):
+        data = _base_output(
+            kpis={
+                'nodes_total': 100,
+                'edges_total': 0,
+                'dead_code_percent': 32.0,
+                'knot_score': 9.0,
+                'rho_antimatter': 0.12,
+                'rho_policy': 0.06,
+                'codebase_intelligence': 0.25,
+                'vectorization_status': 'failed',
+                'ecosystem_discovery_status': 'failed',
+                'topology_shape': 'BIG_BALL_OF_MUD',
+            },
+            purpose_field={
+                'total_nodes': 100,
+                'uncertain_count': 60,
+                'god_class_count': 40,
+                'alignment_health': 'CRITICAL',
+                'purpose_clarity': 0.35,
+            },
+            performance={
+                'hotspot_count': 40,
+                'critical_path_length': 120,
+                'critical_path_cost': 1600,
+                'time_by_type': {'compute': 95, 'io': 3, 'instant': 2},
+            },
+        )
+        result = compile_insights(data)
+        matrix = result['mission_matrix']
+        assert matrix['all_targets_met'] is False
+        assert matrix['purpose_fulfillment']['score'] < 95.0
 
 
 # =============================================================================

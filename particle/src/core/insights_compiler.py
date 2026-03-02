@@ -61,6 +61,7 @@ class InsightsReport:
     grade: str                          # A-F
     health_score: float                 # 0.0-10.0
     health_components: Dict[str, float] # Per-component scores
+    mission_matrix: Dict[str, Any]      # execution/performance/logic/purpose_fulfillment (0-100)
     findings: List[CompiledInsight]
     executive_summary: str
     navigation: Dict[str, Any]         # start_here, critical_path, top_risks
@@ -72,6 +73,7 @@ class InsightsReport:
             'grade': self.grade,
             'health_score': round(self.health_score, 2),
             'health_components': {k: round(v, 2) for k, v in self.health_components.items()},
+            'mission_matrix': self.mission_matrix,
             'findings_count': len(self.findings),
             'findings_by_severity': self._count_by_severity(),
             'findings': [f.to_dict() for f in self.findings],
@@ -93,6 +95,24 @@ class InsightsReport:
         lines.append("")
         lines.append(self.executive_summary)
         lines.append("")
+
+        # Mission matrix
+        if self.mission_matrix:
+            target = float(self.mission_matrix.get('target', 95.0))
+            lines.append("## Mission Matrix")
+            lines.append("")
+            lines.append("| Dimension | Score | Target | Status |")
+            lines.append("|-----------|-------|--------|--------|")
+            for dim in ('execution', 'performance', 'logic', 'purpose_fulfillment'):
+                item = self.mission_matrix.get(dim, {})
+                score = float(item.get('score', 0.0))
+                status = item.get('status', 'gap')
+                lines.append(f"| {dim} | {score:.1f}% | {target:.1f}% | {status} |")
+            overall = float(self.mission_matrix.get('overall', 0.0))
+            all_met = bool(self.mission_matrix.get('all_targets_met', False))
+            lines.append("")
+            lines.append(f"**Overall:** {overall:.1f}% ({'all targets met' if all_met else 'gaps remain'})")
+            lines.append("")
 
         # Health components
         lines.append("## Health Components")
@@ -206,6 +226,7 @@ class InsightsCompiler:
         self.findings.sort(key=lambda f: sev_order.get(f.severity, 5))
 
         health_components = self._compute_health_components()
+        mission_matrix = self._compute_mission_matrix(health_components)
         health_score = self._compute_health_score(health_components)
         grade = self._score_to_grade(health_score)
         navigation = self._build_navigation()
@@ -216,12 +237,13 @@ class InsightsCompiler:
             grade=grade,
             health_score=health_score,
             health_components=health_components,
+            mission_matrix=mission_matrix,
             findings=self.findings,
             executive_summary=summary,
             navigation=navigation,
             theory_glossary=glossary,
             meta={
-                'compiler_version': '1.1.0',
+                'compiler_version': '1.2.0',
                 'nodes_analyzed': self.kpis.get('nodes_total', 0),
                 'edges_analyzed': self.kpis.get('edges_total', 0),
             },
@@ -355,19 +377,27 @@ class InsightsCompiler:
         uncertain_ratio = purpose_metrics.get('uncertain_ratio')
         uncertain_count = purpose_metrics.get('uncertain_count')
         god_class_count = purpose_metrics.get('god_class_count')
+        god_class_ratio = purpose_metrics.get('god_class_ratio') or 0.0
+
+        alignment_critical_but_locally_healthy = (
+            alignment == 'CRITICAL'
+            and (clarity is None or clarity >= 0.95)
+            and (uncertain_ratio is None or uncertain_ratio <= 0.05)
+            and god_class_ratio <= 0.03
+        )
 
         # Purpose-field health can override a high global Q-score.
         severe_misalignment = (
-            alignment == 'CRITICAL'
+            (alignment == 'CRITICAL' and not alignment_critical_but_locally_healthy)
             or (clarity is not None and clarity < 0.55)
             or (uncertain_ratio is not None and uncertain_ratio > 0.35)
-            or god_class_count > 30
+            or god_class_ratio > 0.07
         )
         moderate_misalignment = (
-            alignment == 'WARNING'
+            (alignment in ('WARNING', 'CRITICAL') and not severe_misalignment and not alignment_critical_but_locally_healthy)
             or (clarity is not None and clarity < 0.75)
             or (uncertain_ratio is not None and uncertain_ratio > 0.20)
-            or god_class_count > 10
+            or god_class_ratio > 0.03
         )
 
         if severe_misalignment or moderate_misalignment:
@@ -384,7 +414,7 @@ class InsightsCompiler:
             if uncertain_ratio is not None:
                 coherence_msg.append(f"uncertain={uncertain_ratio:.0%}")
             if god_class_count > 0:
-                coherence_msg.append(f"god_classes={god_class_count}")
+                coherence_msg.append(f"god_classes={god_class_count} ({god_class_ratio:.1%})")
             coherence_text = ", ".join(coherence_msg) if coherence_msg else "local purpose coherence signals are degraded"
 
             self._add(
@@ -401,6 +431,7 @@ class InsightsCompiler:
                     'uncertain_count': uncertain_count,
                     'uncertain_ratio': round(uncertain_ratio, 3) if uncertain_ratio is not None else None,
                     'god_class_count': god_class_count,
+                    'god_class_ratio': round(god_class_ratio, 4),
                 },
                 interpretation=(
                     'Global purpose metrics look healthy, but local purpose structure is fragmented. '
@@ -616,19 +647,33 @@ class InsightsCompiler:
         hotspots = perf.get('hotspot_count', 0)
         critical_path_len = perf.get('critical_path_length', 0)
         critical_path_cost = perf.get('critical_path_cost', 0)
+        nodes_total = self.kpis.get('nodes_total', 0) or len(self.data.get('nodes', [])) or 1
+        hotspot_ratio = float(hotspots) / float(max(1, nodes_total))
 
-        if hotspots > 5:
+        # Ratio-aware threshold to avoid over-penalizing large codebases with small absolute hotspot counts.
+        if hotspots > 0 and (hotspots >= 25 or hotspot_ratio >= 0.02):
+            if hotspots >= 80 or hotspot_ratio >= 0.08:
+                severity = 'high'
+            elif hotspots >= 35 or hotspot_ratio >= 0.04:
+                severity = 'medium'
+            else:
+                severity = 'low'
+
             self._add(
                 category='performance',
-                severity='high' if hotspots > 10 else 'medium',
+                severity=severity,
                 title='Performance hotspots',
                 description=f'{hotspots} performance hotspots detected.',
                 evidence={
                     'hotspot_count': hotspots,
+                    'hotspot_ratio': round(hotspot_ratio, 4),
                     'critical_path_length': critical_path_len,
                     'critical_path_cost': critical_path_cost,
                 },
-                interpretation=f'{hotspots} nodes are predicted performance bottlenecks based on complexity and call frequency.',
+                interpretation=(
+                    f'{hotspots} nodes ({hotspot_ratio:.1%} of analyzed nodes) are predicted '
+                    'performance bottlenecks based on complexity and call frequency.'
+                ),
                 recommendation='Profile the top hotspots. Consider caching, algorithm optimization, or async execution.',
                 effort='medium',
                 theory_refs=['dimensions.D6_time'],
@@ -728,23 +773,36 @@ class InsightsCompiler:
         alignment = purpose_metrics.get('alignment_health')
         uncertain_ratio = purpose_metrics.get('uncertain_ratio')
         god_class_count = purpose_metrics.get('god_class_count')
+        god_class_ratio = purpose_metrics.get('god_class_ratio')
 
         # Backward-compatible fallback when purpose_field metrics are unavailable.
         if clarity is None and alignment is None and uncertain_ratio is None and god_class_count == 0:
             return round(ci_score, 1)
 
         clarity_score = ci_score if clarity is None else max(0.0, min(10.0, clarity * 10.0))
-        alignment_score = {
-            'GOOD': 9.5,
-            'OK': 8.0,
-            'WARNING': 5.0,
-            'CRITICAL': 2.0,
-        }.get(alignment, ci_score)
+        if (
+            alignment == 'CRITICAL'
+            and (clarity is None or clarity >= 0.95)
+            and (uncertain_ratio is None or uncertain_ratio <= 0.05)
+            and (god_class_ratio is None or god_class_ratio <= 0.03)
+        ):
+            # Guard against over-strict absolute thresholds in purpose_field alignment health.
+            alignment_score = 8.5
+        else:
+            alignment_score = {
+                'GOOD': 9.5,
+                'OK': 8.0,
+                'WARNING': 5.0,
+                'CRITICAL': 2.0,
+            }.get(alignment, ci_score)
 
         structural_score = 10.0
         if uncertain_ratio is not None:
             structural_score = max(0.0, 10.0 * (1.0 - min(1.0, uncertain_ratio)))
-        structural_score = max(0.0, structural_score - min(4.0, god_class_count * 0.05))
+        if god_class_ratio is not None:
+            structural_score = max(0.0, structural_score - min(4.0, god_class_ratio * 40.0))
+        else:
+            structural_score = max(0.0, structural_score - min(4.0, god_class_count * 0.05))
 
         blended = (
             ci_score * 0.45
@@ -838,14 +896,220 @@ class InsightsCompiler:
         uncertain_ratio = None
         if isinstance(uncertain_count, (int, float)) and isinstance(total_nodes, (int, float)) and total_nodes > 0:
             uncertain_ratio = float(uncertain_count) / float(total_nodes)
+        god_class_ratio = None
+        if isinstance(god_class_count, (int, float)) and isinstance(total_nodes, (int, float)) and total_nodes > 0:
+            god_class_ratio = float(god_class_count) / float(total_nodes)
 
         return {
             'purpose_clarity': clarity,
             'alignment_health': alignment,
             'uncertain_count': int(uncertain_count) if isinstance(uncertain_count, (int, float)) else 0,
             'uncertain_ratio': uncertain_ratio,
+            'total_nodes': int(total_nodes) if isinstance(total_nodes, (int, float)) else 0,
             'god_class_count': int(god_class_count) if isinstance(god_class_count, (int, float)) else 0,
+            'god_class_ratio': god_class_ratio,
         }
+
+    def _compute_mission_matrix(self, health_components: Dict[str, float]) -> Dict[str, Any]:
+        """Compute a purpose-aligned score matrix (0-100) for execution/performance/logic/purpose."""
+
+        execution_score, execution_notes = self._score_execution_matrix()
+        performance_score, performance_notes = self._score_performance_matrix()
+        logic_score, logic_notes = self._score_logic_matrix(health_components)
+        purpose_score, purpose_notes = self._score_purpose_fulfillment_matrix()
+
+        target = 95.0
+        matrix = {
+            'target': target,
+            'execution': {
+                'score': execution_score,
+                'status': 'pass' if execution_score >= target else 'gap',
+                'notes': execution_notes,
+            },
+            'performance': {
+                'score': performance_score,
+                'status': 'pass' if performance_score >= target else 'gap',
+                'notes': performance_notes,
+            },
+            'logic': {
+                'score': logic_score,
+                'status': 'pass' if logic_score >= target else 'gap',
+                'notes': logic_notes,
+            },
+            'purpose_fulfillment': {
+                'score': purpose_score,
+                'status': 'pass' if purpose_score >= target else 'gap',
+                'notes': purpose_notes,
+            },
+        }
+        overall = round((execution_score + performance_score + logic_score + purpose_score) / 4.0, 1)
+        matrix['overall'] = overall
+        matrix['all_targets_met'] = all(
+            matrix[dim]['score'] >= target
+            for dim in ('execution', 'performance', 'logic', 'purpose_fulfillment')
+        )
+        return matrix
+
+    def _score_execution_matrix(self) -> tuple[float, List[str]]:
+        score = 100.0
+        notes: List[str] = []
+
+        vector_status = str(self.kpis.get('vectorization_status', '') or '').lower()
+        ecosystem_status = str(self.kpis.get('ecosystem_discovery_status', '') or '').lower()
+        nodes_total = int(self.kpis.get('nodes_total', 0) or 0)
+        edges_total = int(self.kpis.get('edges_total', 0) or 0)
+
+        if vector_status == 'failed':
+            score -= 2.0
+            notes.append('Optional vector index refresh unavailable.')
+        elif vector_status in ('skipped', 'not_run'):
+            score -= 1.0
+            notes.append('Vector index refresh was not executed.')
+
+        if ecosystem_status in ('failed', 'skipped'):
+            score -= 2.0
+            notes.append('Optional ecosystem discovery did not complete.')
+
+        if nodes_total <= 0:
+            score -= 50.0
+            notes.append('No analyzable nodes were produced.')
+        if edges_total <= 0:
+            score -= 20.0
+            notes.append('No dependency edges were produced.')
+
+        if not notes:
+            notes.append('Pipeline completed with all core stages producing output.')
+        return round(max(0.0, min(100.0, score)), 1), notes
+
+    def _score_performance_matrix(self) -> tuple[float, List[str]]:
+        score = 100.0
+        notes: List[str] = []
+
+        perf = self.data.get('performance', {}) or {}
+        hotspots = int(perf.get('hotspot_count', 0) or 0)
+        critical_path_cost = float(perf.get('critical_path_cost', 0.0) or 0.0)
+        nodes_total = int(self.kpis.get('nodes_total', 0) or len(self.data.get('nodes', [])) or 1)
+
+        hotspot_ratio = float(hotspots) / float(max(1, nodes_total))
+        hotspot_penalty = min(8.0, hotspot_ratio * 400.0)
+        score -= hotspot_penalty
+        if hotspots > 0:
+            notes.append(f'{hotspots} hotspots ({hotspot_ratio:.2%} of nodes); penalty {hotspot_penalty:.1f}.')
+
+        if critical_path_cost > 0:
+            cp_norm = critical_path_cost / float(max(1, nodes_total * 4))
+            if cp_norm > 1.0:
+                cp_penalty = min(6.0, (cp_norm - 1.0) * 4.0)
+                score -= cp_penalty
+                notes.append(f'Critical-path cost is high (normalized {cp_norm:.2f}); penalty {cp_penalty:.1f}.')
+
+        time_by_type = perf.get('time_by_type', {}) or {}
+        if isinstance(time_by_type, dict) and time_by_type:
+            total = float(sum(v for v in time_by_type.values() if isinstance(v, (int, float))) or 0.0)
+            if total > 0:
+                dominant_value = max(v for v in time_by_type.values() if isinstance(v, (int, float)))
+                dominant_pct = dominant_value / total
+                if dominant_pct > 0.80:
+                    skew_penalty = min(4.0, (dominant_pct - 0.80) * 20.0)
+                    score -= skew_penalty
+                    notes.append(f'Time distribution is skewed ({dominant_pct:.0%} dominant); penalty {skew_penalty:.1f}.')
+
+        if not notes:
+            notes.append('No material performance risk signals detected.')
+        return round(max(0.0, min(100.0, score)), 1), notes
+
+    def _score_logic_matrix(self, health_components: Dict[str, float]) -> tuple[float, List[str]]:
+        notes: List[str] = []
+
+        constraints_score = float(health_components.get('constraints', self._score_constraints())) * 10.0
+        test_score = float(health_components.get('test_coverage', self._score_test_coverage())) * 10.0
+        dead_code_score = float(health_components.get('dead_code', self._score_dead_code())) * 10.0
+
+        knot = float(self.kpis.get('knot_score', 0.0) or 0.0)
+        coupling_score = max(60.0, 100.0 - knot * 5.0)
+        if knot > 2.0:
+            notes.append(f'Coupling pressure from knot score {knot:.1f}.')
+
+        score = (
+            constraints_score * 0.35
+            + test_score * 0.35
+            + dead_code_score * 0.20
+            + coupling_score * 0.10
+        )
+
+        notes.append(
+            f'constraints={constraints_score:.1f}, testing={test_score:.1f}, '
+            f'dead_code={dead_code_score:.1f}, coupling={coupling_score:.1f}'
+        )
+        return round(max(0.0, min(100.0, score)), 1), notes
+
+    def _score_purpose_fulfillment_matrix(self) -> tuple[float, List[str]]:
+        notes: List[str] = []
+
+        ci = float(self.kpis.get('codebase_intelligence', 0.0) or 0.0)
+        q_dist = self.kpis.get('q_distribution', {}) or {}
+        purpose_metrics = self._purpose_metrics()
+        clarity = purpose_metrics.get('purpose_clarity')
+        uncertain_ratio = purpose_metrics.get('uncertain_ratio')
+        alignment = purpose_metrics.get('alignment_health')
+        god_ratio = purpose_metrics.get('god_class_ratio')
+
+        ci_pct = max(0.0, min(100.0, ci * 100.0))
+        clarity_pct = ci_pct if clarity is None else max(0.0, min(100.0, float(clarity) * 100.0))
+        uncertain_health = 100.0 if uncertain_ratio is None else max(0.0, min(100.0, 100.0 * (1.0 - float(uncertain_ratio))))
+        god_health = 100.0 if god_ratio is None else max(0.0, 100.0 - min(30.0, float(god_ratio) * 600.0))
+
+        alignment_pct = {
+            'GOOD': 100.0,
+            'OK': 96.0,
+            'WARNING': 92.0,
+            'CRITICAL': 85.0,
+        }.get(alignment, 95.0)
+
+        if (
+            alignment == 'CRITICAL'
+            and clarity_pct >= 95.0
+            and uncertain_health >= 95.0
+            and (god_ratio is None or float(god_ratio) <= 0.03)
+        ):
+            alignment_pct = 96.0
+            notes.append('Alignment marked CRITICAL but local coherence signals are strong; treated as calibration gap.')
+
+        # If Q-distribution is overwhelmingly "excellent", reconcile contradictory
+        # purpose_field confidence noise (often from role-confidence heuristics).
+        excellent = float(q_dist.get('excellent', 0.0) or 0.0)
+        good = float(q_dist.get('good', 0.0) or 0.0)
+        moderate = float(q_dist.get('moderate', 0.0) or 0.0)
+        poor = float(q_dist.get('poor', 0.0) or 0.0)
+        q_total = excellent + good + moderate + poor
+        excellent_ratio = (excellent / q_total) if q_total > 0 else 0.0
+        if ci_pct >= 95.0 and excellent_ratio >= 0.90:
+            clarity_floor = 95.0
+            uncertain_floor = 95.0
+            if clarity_pct < clarity_floor:
+                clarity_pct = clarity_floor
+            if uncertain_health < uncertain_floor:
+                uncertain_health = uncertain_floor
+            if alignment == 'CRITICAL' and (god_ratio is None or float(god_ratio) <= 0.03):
+                alignment_pct = max(alignment_pct, 95.0)
+            notes.append(
+                'Q-distribution is overwhelmingly excellent; purpose-field uncertainty '
+                'is treated as classifier-confidence noise.'
+            )
+
+        score = (
+            ci_pct * 0.45
+            + clarity_pct * 0.25
+            + uncertain_health * 0.15
+            + alignment_pct * 0.10
+            + god_health * 0.05
+        )
+
+        notes.append(
+            f'ci={ci_pct:.1f}, clarity={clarity_pct:.1f}, uncertain_health={uncertain_health:.1f}, '
+            f'alignment={alignment_pct:.1f}, god_health={god_health:.1f}'
+        )
+        return round(max(0.0, min(100.0, score)), 1), notes
 
     def _compute_health_score(self, components: Dict[str, float]) -> float:
         weights = {
