@@ -224,14 +224,14 @@ class PerformancePredictor:
                 node_id = node.id if node.id else node.name
                 name = node.name
                 role = getattr(node, 'role', 'Unknown')
-                loc = getattr(node, 'lines_of_code', 1) or 1
-                complexity = getattr(node, 'complexity', 1) or 1
+                loc = self._coerce_positive_int(getattr(node, 'lines_of_code', 1), default=1)
+                complexity = self._coerce_positive_int(getattr(node, 'complexity', 1), default=1)
             else:
                 node_id = node.get('id') or node.get('name') or f"node_{i}"
                 name = node.get('name', '')
                 role = node.get('role', 'Unknown')
-                loc = node.get('lines_of_code', 1) or 1
-                complexity = node.get('complexity', 1) or 1
+                loc = self._coerce_positive_int(node.get('lines_of_code', 1), default=1)
+                complexity = self._coerce_positive_int(node.get('complexity', 1), default=1)
 
             # Get layer and in_degree from exec_flow if available
             layer = "unknown"
@@ -250,6 +250,15 @@ class PerformancePredictor:
                 complexity=complexity,
                 in_degree=in_degree
             )
+
+    @staticmethod
+    def _coerce_positive_int(value, default: int = 1) -> int:
+        """Normalize malformed or negative numeric inputs to a safe positive integer."""
+        try:
+            number = int(value)
+        except (TypeError, ValueError):
+            return default
+        return number if number > 0 else default
 
     def _classify_time_types(self):
         """Classify time type for each node"""
@@ -303,15 +312,15 @@ class PerformancePredictor:
     def _estimate_costs(self):
         """Estimate cost for each node"""
         for node in self.nodes.values():
-            base_cost = node.lines_of_code
-            multiplier = COST_MULTIPLIERS[node.time_type]
+            base_cost = float(max(1, node.lines_of_code))
+            multiplier = float(COST_MULTIPLIERS[node.time_type])
 
             # For compute nodes, factor in complexity
             if node.time_type == TimeType.COMPUTE:
-                multiplier = max(1, node.complexity)
+                multiplier = float(max(1, node.complexity))
 
             node.base_cost = base_cost
-            node.estimated_cost = base_cost * multiplier
+            node.estimated_cost = max(0.0, base_cost * multiplier)
 
     def _calculate_hotspots(self):
         """Calculate hotspot score for each node"""

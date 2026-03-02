@@ -27,6 +27,8 @@ The **Standard Model of Code** is a theoretical framework that treats code like 
 ./collider full /path/to/repo --output /tmp/analysis
 # Canonical reliable wrapper (repo script):
 python3 scripts/collider_hub.py full --repo /path/to/repo
+# Same wrapper via executable script:
+./collider-hub full --repo /path/to/repo
 # Installable console entrypoint (after `pip install .`):
 collider-hub full --repo /path/to/repo
 # MCP service mode:
@@ -35,6 +37,28 @@ collider-hub full --repo /path/to/repo
 ./pe collider --full --output /tmp/analysis
 ./pe test collider --full --output /tmp/analysis
 ```
+
+### Automatic Feedback Package (`.reh`)
+
+Collider Hub now institutionalizes post-run feedback automatically:
+
+```bash
+# Full run + automatic .reh package
+./collider-hub full --repo /path/to/repo
+
+# Generate feedback only from existing .collider artifacts
+./collider-hub feedback --repo /path/to/repo
+
+# Register manual feedback into research sinks
+./collider-hub manual-feedback --repo /path/to/repo \
+  --problem "edge extraction missed JS call chains" \
+  --evidence "nodes > 0 while edges == 0 in unified_analysis.json"
+```
+
+Artifacts are written under `<repo>/.reh/` (git-ignored):
+- `latest_auto_feedback.json`
+- `latest_ai_user_audit.md`
+- `collider_rehport_latest.json`
 → Go to [`src/core/`](src/core/) to develop the tool.
 
 ---

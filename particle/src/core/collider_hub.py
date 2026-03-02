@@ -4,8 +4,9 @@ Collider Hub: canonical wrapper for reliable, repeatable Collider runs.
 
 Goals:
 - One stable entrypoint for agents and humans.
-- Always write outputs to <repo>/.collider.
-- Keep .collider locally git-ignored.
+- Always write analysis outputs to <repo>/.collider.
+- Institutionalize feedback by writing a post-run package to <repo>/.reh.
+- Keep .collider and .reh locally git-ignored.
 - Apply ecosystem noise exclusions by default (overrideable).
 - Make MCP checks use explicit db_dir to avoid auto-detection drift.
 """
@@ -13,23 +14,27 @@ Goals:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import shutil
 import subprocess
-import sys
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Sequence
+from typing import Any, Sequence
 
 _THIS = Path(__file__).resolve()
 _PARTICLE_ROOT = _THIS.parents[1]
 _ELEMENTS_ROOT = _PARTICLE_ROOT.parent
+_INNER_FEEDBACK_ROOT = _PARTICLE_ROOT / "docs" / "research" / "collider_feedback"
 
 DEFAULT_CANDIDATES = [
     str(_PARTICLE_ROOT / "collider"),
     str(_ELEMENTS_ROOT / "collider"),
     "collider",
 ]
+
+_PERF_SIGNAL_TOKENS = ("cost", "time", "latency", "duration", "tau", "\u03c4", "throughput")
 
 PROFILE_EXCLUDES = {
     "strict": [],
@@ -47,6 +52,8 @@ PROFILE_EXCLUDES = {
         "tmp",
         "temp",
         ".next",
+        ".collider",
+        ".reh",
     ],
     # Ecosystem profile: balanced + known high-noise paths seen here.
     "ecosystem": [
@@ -62,6 +69,11 @@ PROFILE_EXCLUDES = {
         "tmp",
         "temp",
         ".next",
+        ".collider",
+        ".reh",
+        "collider_output",
+        "docs/standard-model",
+        "docs/standard-model-registry.json",
         ".claude/worktrees",
         "workspace/.openclaw/extensions",
         "docs/ECOSYSTEM_DIAGRAM_files",
@@ -73,17 +85,56 @@ def _repo_root(path: Path) -> Path:
     return path.resolve()
 
 
+def _utc_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _utc_stamp() -> str:
+    return datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+
+
+def _slug(value: str) -> str:
+    safe = []
+    for ch in value.lower():
+        safe.append(ch if ch.isalnum() else "-")
+    text = "".join(safe).strip("-")
+    while "--" in text:
+        text = text.replace("--", "-")
+    return text or "unknown"
+
+
 def _resolve_output_dir(repo: Path, output_dir: str | None) -> Path:
     if output_dir:
         return Path(output_dir).expanduser().resolve()
     return (repo / ".collider").resolve()
 
 
-def _ensure_local_ignore(repo: Path, output_dir: Path) -> None:
-    output_dir.mkdir(parents=True, exist_ok=True)
-    gitignore = output_dir / ".gitignore"
+def _resolve_reh_dir(repo: Path, reh_dir: str | None) -> Path:
+    if reh_dir:
+        return Path(reh_dir).expanduser().resolve()
+    return (repo / ".reh").resolve()
+
+
+def _ignore_pattern(repo: Path, hidden_dir: Path) -> str | None:
+    try:
+        rel = hidden_dir.resolve().relative_to(repo.resolve())
+    except ValueError:
+        return None
+    rel_text = rel.as_posix().strip("/")
+    if not rel_text:
+        return None
+    return f"{rel_text}/"
+
+
+def _ensure_local_ignore(repo: Path, hidden_dir: Path) -> None:
+    hidden_dir.mkdir(parents=True, exist_ok=True)
+    gitignore = hidden_dir / ".gitignore"
     if not gitignore.exists():
         gitignore.write_text("*\n!.gitignore\n", encoding="utf-8")
+
+    pattern = _ignore_pattern(repo, hidden_dir)
+    if not pattern:
+        return
 
     git_dir = repo / ".git"
     if not git_dir.exists():
@@ -94,9 +145,9 @@ def _ensure_local_ignore(repo: Path, output_dir: Path) -> None:
         if exclude.parent.exists():
             current = exclude.read_text(encoding="utf-8") if exclude.exists() else ""
             lines = {line.strip() for line in current.splitlines()}
-            if ".collider/" not in lines:
+            if pattern not in lines:
                 prefix = "" if (not current or current.endswith("\n")) else "\n"
-                exclude.write_text(f"{current}{prefix}.collider/\n", encoding="utf-8")
+                exclude.write_text(f"{current}{prefix}{pattern}\n", encoding="utf-8")
             return
     except OSError:
         pass
@@ -106,9 +157,9 @@ def _ensure_local_ignore(repo: Path, output_dir: Path) -> None:
     try:
         current = root_gitignore.read_text(encoding="utf-8") if root_gitignore.exists() else ""
         lines = {line.strip() for line in current.splitlines()}
-        if ".collider/" not in lines:
+        if pattern not in lines:
             prefix = "" if (not current or current.endswith("\n")) else "\n"
-            root_gitignore.write_text(f"{current}{prefix}.collider/\n", encoding="utf-8")
+            root_gitignore.write_text(f"{current}{prefix}{pattern}\n", encoding="utf-8")
     except OSError:
         pass
 
@@ -144,6 +195,20 @@ def _resolve_collider_bin(explicit: str | None) -> str:
 def _run(cmd: Sequence[str], cwd: Path | None = None) -> int:
     proc = subprocess.run(list(cmd), cwd=str(cwd) if cwd else None, check=False)
     return proc.returncode
+
+
+def _run_capture(cmd: Sequence[str], timeout_sec: int = 90) -> tuple[int, str, str]:
+    try:
+        proc = subprocess.run(
+            list(cmd),
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=timeout_sec,
+        )
+        return proc.returncode, proc.stdout or "", proc.stderr or ""
+    except subprocess.TimeoutExpired:
+        return 124, "", "command timed out"
 
 
 def _build_full_cmd(
@@ -192,14 +257,567 @@ def _validate_artifacts(output_dir: Path) -> tuple[bool, list[str]]:
     return (len(missing) == 0, missing)
 
 
-def _read_insights(output_dir: Path) -> dict:
-    path = output_dir / "collider_insights.json"
+def _read_json(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
         return {}
+    return raw if isinstance(raw, dict) else {}
+
+
+def _read_insights(output_dir: Path) -> dict[str, Any]:
+    return _read_json(output_dir / "collider_insights.json")
+
+
+def _read_unified(output_dir: Path) -> dict[str, Any]:
+    return _read_json(output_dir / "unified_analysis.json")
+
+
+def _path_is_perf_signal(path: str) -> bool:
+    lower = path.lower()
+    return any(token in lower for token in _PERF_SIGNAL_TOKENS)
+
+
+def _collect_negative_perf_values(obj: Any, path: str = "", limit: int = 20) -> list[dict[str, Any]]:
+    findings: list[dict[str, Any]] = []
+
+    def visit(value: Any, value_path: str) -> None:
+        if len(findings) >= limit:
+            return
+        if isinstance(value, dict):
+            for key, child in value.items():
+                child_path = f"{value_path}.{key}" if value_path else str(key)
+                visit(child, child_path)
+            return
+        if isinstance(value, list):
+            for idx, child in enumerate(value):
+                child_path = f"{value_path}[{idx}]"
+                visit(child, child_path)
+            return
+        if isinstance(value, (int, float)) and value < 0 and _path_is_perf_signal(value_path):
+            findings.append({"path": value_path, "value": value})
+
+    visit(obj, path)
+    return findings
+
+
+def _extract_counts(unified: dict[str, Any]) -> tuple[int, int]:
+    nodes = unified.get("nodes")
+    edges = unified.get("edges")
+    node_count = len(nodes) if isinstance(nodes, list) else 0
+    edge_count = len(edges) if isinstance(edges, list) else 0
+
+    counts = unified.get("counts")
+    if isinstance(counts, dict):
+        if node_count == 0:
+            node_count = int(counts.get("nodes") or counts.get("total_nodes") or 0)
+        if edge_count == 0:
+            edge_count = int(counts.get("edges") or counts.get("total_edges") or 0)
+    return node_count, edge_count
+
+
+def _extract_top_findings(insights: dict[str, Any], limit: int = 5) -> list[dict[str, Any]]:
+    findings = insights.get("findings")
+    if not isinstance(findings, list):
+        return []
+    top: list[dict[str, Any]] = []
+    for item in findings:
+        if not isinstance(item, dict):
+            continue
+        title = item.get("title") or item.get("finding") or item.get("message") or "untitled_finding"
+        severity = item.get("severity", "unknown")
+        evidence = item.get("evidence") or item.get("source") or item.get("path") or ""
+        top.append(
+            {
+                "severity": str(severity).lower(),
+                "title": str(title),
+                "evidence": str(evidence),
+            }
+        )
+        if len(top) >= limit:
+            break
+    return top
+
+
+def _legacy_artifact_signals(repo: Path, output_dir: Path) -> list[str]:
+    candidates = [
+        repo / "collider_output" / "proof_output.json",
+        repo / "docs" / "standard-model" / "repo" / "proof_output.json",
+        repo / "docs" / "standard-model-registry.json",
+    ]
+    found = [str(p) for p in candidates if p.exists()]
+    if not found:
+        return []
+    output_dir_s = str(output_dir.resolve())
+    return [p for p in found if not p.startswith(output_dir_s)]
+
+
+def _build_auto_feedback(repo: Path, output_dir: Path, run_mode: str) -> dict[str, Any]:
+    insights = _read_insights(output_dir)
+    unified = _read_unified(output_dir)
+
+    checks: list[dict[str, Any]] = []
+    issues: list[dict[str, Any]] = []
+
+    ok, missing = _validate_artifacts(output_dir)
+    checks.append(
+        {
+            "id": "required_artifacts",
+            "status": "pass" if ok else "fail",
+            "details": "required Collider artifacts present" if ok else "missing required Collider artifacts",
+            "evidence": missing,
+            "action": "re-run collider-hub full and verify output contract",
+        }
+    )
+    if missing:
+        issues.append(
+            {
+                "severity": "critical",
+                "title": "Missing required output artifacts",
+                "evidence": missing,
+                "action": "re-run full analysis and fix output generation failures",
+            }
+        )
+
+    node_count, edge_count = _extract_counts(unified)
+    edge_ok = not (node_count > 0 and edge_count == 0)
+    checks.append(
+        {
+            "id": "edge_extraction",
+            "status": "pass" if edge_ok else "warn",
+            "details": f"nodes={node_count}, edges={edge_count}",
+            "action": "improve language/runtime edge extraction when nodes > 0 and edges == 0",
+        }
+    )
+    if not edge_ok:
+        issues.append(
+            {
+                "severity": "high",
+                "title": "Node extraction succeeded but edge extraction returned zero",
+                "evidence": [f"nodes={node_count}", f"edges={edge_count}"],
+                "action": "prioritize call/import edge extraction for this repository pattern",
+            }
+        )
+
+    negative_signals = _collect_negative_perf_values(unified)
+    checks.append(
+        {
+            "id": "performance_sign",
+            "status": "pass" if not negative_signals else "fail",
+            "details": "no negative performance values detected" if not negative_signals else "negative performance values detected",
+            "evidence": negative_signals[:10],
+            "action": "clamp/validate cost and timing aggregations to non-negative outputs",
+        }
+    )
+    if negative_signals:
+        issues.append(
+            {
+                "severity": "critical",
+                "title": "Negative performance values found in analysis output",
+                "evidence": negative_signals[:10],
+                "action": "fix aggregation/sign logic before trusting performance metrics",
+            }
+        )
+
+    legacy_signals = _legacy_artifact_signals(repo, output_dir)
+    checks.append(
+        {
+            "id": "artifact_governance",
+            "status": "pass" if not legacy_signals else "warn",
+            "details": "single canonical output root" if not legacy_signals else "legacy/canonical artifact drift detected",
+            "evidence": legacy_signals[:10],
+            "action": "archive/deprecate legacy outputs and keep one canonical active output root",
+        }
+    )
+    if legacy_signals:
+        issues.append(
+            {
+                "severity": "medium",
+                "title": "Parallel legacy outputs can confuse consumers",
+                "evidence": legacy_signals[:10],
+                "action": "enforce canonical output pointer and treat legacy outputs as read-only",
+            }
+        )
+
+    mission = insights.get("mission_matrix")
+    if isinstance(mission, dict):
+        for key in ("execution", "performance", "logic", "purpose_fulfillment"):
+            section = mission.get(key)
+            if not isinstance(section, dict):
+                continue
+            status = str(section.get("status", "")).lower()
+            if status in {"fail", "critical"}:
+                issues.append(
+                    {
+                        "severity": "high",
+                        "title": f"Mission matrix failure: {key}",
+                        "evidence": section.get("notes", []),
+                        "action": f"treat {key} as blocking until status returns to pass",
+                    }
+                )
+
+    findings_by_severity = insights.get("findings_by_severity")
+    if not isinstance(findings_by_severity, dict):
+        findings_by_severity = {}
+    critical_count = int(findings_by_severity.get("critical") or 0)
+    if critical_count > 0:
+        issues.append(
+            {
+                "severity": "high",
+                "title": "Critical findings reported by insights compiler",
+                "evidence": [f"critical={critical_count}"],
+                "action": "address critical findings before publishing trust claims",
+            }
+        )
+
+    grade = insights.get("grade", "unknown")
+    health_score = insights.get("health_score", None)
+    top_findings = _extract_top_findings(insights)
+
+    payload = {
+        "schema_version": "collider.feedback.auto.v1",
+        "ts": _utc_iso(),
+        "repo": str(repo),
+        "run_mode": run_mode,
+        "grade": grade,
+        "health_score": health_score,
+        "findings_by_severity": findings_by_severity,
+        "top_findings": top_findings,
+        "collider_output_dir": str(output_dir),
+        "counts": {"nodes": node_count, "edges": edge_count},
+        "checks": checks,
+        "issues": issues,
+        "issue_count": len(issues),
+        "negative_performance_signals": negative_signals[:10],
+        "legacy_artifact_signals": legacy_signals[:10],
+    }
+    return payload
+
+
+def _build_audit_prompt(auto_feedback: dict[str, Any]) -> str:
+    excerpt = {
+        "repo": auto_feedback.get("repo"),
+        "grade": auto_feedback.get("grade"),
+        "health_score": auto_feedback.get("health_score"),
+        "findings_by_severity": auto_feedback.get("findings_by_severity"),
+        "counts": auto_feedback.get("counts"),
+        "issues": auto_feedback.get("issues", [])[:8],
+        "top_findings": auto_feedback.get("top_findings", [])[:8],
+        "checks": auto_feedback.get("checks", []),
+    }
+    return (
+        "You are a strict software quality auditor.\n"
+        "Write an actionable audit in markdown with sections:\n"
+        "1) Critical defects\n"
+        "2) Root causes\n"
+        "3) First fixes (ordered)\n"
+        "4) Noise policy updates\n"
+        "5) Confidence\n\n"
+        "Rules:\n"
+        "- Focus on exact problems, not generic praise.\n"
+        "- Use direct language.\n"
+        "- Keep it concise.\n\n"
+        f"Input data:\n{json.dumps(excerpt, indent=2, ensure_ascii=False)}\n"
+    )
+
+
+def _render_deterministic_audit(auto_feedback: dict[str, Any], reason: str) -> str:
+    lines = [
+        "# AI User Audit Report",
+        "",
+        f"- ts: {auto_feedback.get('ts')}",
+        f"- repo: {auto_feedback.get('repo')}",
+        f"- grade: {auto_feedback.get('grade')}",
+        f"- health_score: {auto_feedback.get('health_score')}",
+        f"- mode: deterministic_fallback ({reason})",
+        "",
+        "## Critical Defects",
+    ]
+    issues = auto_feedback.get("issues", [])
+    if isinstance(issues, list) and issues:
+        for item in issues[:10]:
+            if not isinstance(item, dict):
+                continue
+            sev = item.get("severity", "unknown")
+            title = item.get("title", "untitled_issue")
+            lines.append(f"- [{sev}] {title}")
+    else:
+        lines.append("- No critical defects detected by deterministic checks.")
+
+    lines.extend(
+        [
+            "",
+            "## Root Causes",
+            "- Artifact drift, extraction gaps, and invalid metric semantics are the main observed causes.",
+            "",
+            "## First Fixes",
+            "1. Fix any fail-level checks first (required artifacts, negative performance values).",
+            "2. Remove/archive parallel legacy outputs and keep one canonical output root.",
+            "3. Improve language-specific edge extraction for repositories with node-only output.",
+            "",
+            "## Noise Policy Updates",
+            "- Keep generated paths (`.collider`, `.reh`, `collider_output`, docs/standard-model artifacts) excluded by default.",
+            "- Promote repeated benign warnings into explicit ignore rules only after repeated confirmation.",
+            "",
+            "## Confidence",
+            "- Medium: deterministic checks are reliable for structural/output defects and metric sanity.",
+        ]
+    )
+    return "\n".join(lines).strip() + "\n"
+
+
+def _generate_ai_user_audit(
+    auto_feedback: dict[str, Any],
+    llm_model: str,
+    timeout_sec: int,
+    skip_llm: bool,
+) -> tuple[str, dict[str, Any]]:
+    if skip_llm:
+        reason = "llm_audit_disabled"
+        return _render_deterministic_audit(auto_feedback, reason), {"provider": "deterministic", "reason": reason}
+
+    prompt = _build_audit_prompt(auto_feedback)
+    ollama = shutil.which("ollama")
+    if not ollama:
+        reason = "ollama_not_found"
+        return _render_deterministic_audit(auto_feedback, reason), {"provider": "deterministic", "reason": reason}
+
+    rc, stdout, stderr = _run_capture([ollama, "run", llm_model, prompt], timeout_sec=timeout_sec)
+    text = stdout.strip()
+    if rc != 0 or not text:
+        reason = f"ollama_failed_rc_{rc}"
+        if stderr.strip():
+            reason = f"{reason}:{stderr.strip()[:140]}"
+        return _render_deterministic_audit(auto_feedback, reason), {"provider": "deterministic", "reason": reason}
+
+    return text + ("\n" if not text.endswith("\n") else ""), {"provider": "ollama", "model": llm_model, "reason": "ok"}
+
+
+def _resolve_ecoroot(repo: Path) -> Path | None:
+    candidates: list[Path] = []
+    env = os.environ.get("ECOROOT_DIR", "").strip()
+    if env:
+        candidates.append(Path(env).expanduser())
+    candidates.extend(
+        [
+            repo / ".ecoroot",
+            repo.parent / ".ecoroot",
+            _ELEMENTS_ROOT.parent / ".ecoroot",
+        ]
+    )
+
+    seen: set[str] = set()
+    for candidate in candidates:
+        key = str(candidate)
+        if key in seen:
+            continue
+        seen.add(key)
+        if candidate.exists() and candidate.is_dir():
+            return candidate.resolve()
+    return None
+
+
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def _sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _copy_to_sinks(src: Path, targets: list[Path]) -> list[str]:
+    copied: list[str] = []
+    for target in targets:
+        try:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, target)
+            copied.append(str(target))
+        except OSError:
+            continue
+    return copied
+
+
+def _sync_feedback_to_research_sinks(
+    repo: Path,
+    auto_json_path: Path,
+    audit_md_path: Path,
+    rehport_path: Path,
+) -> dict[str, list[str]]:
+    slug = _slug(repo.name)
+    stamp = _utc_stamp()
+    copied = {"auto": [], "manual": []}
+
+    ecoroot = _resolve_ecoroot(repo)
+    sink_targets: list[Path] = []
+    if ecoroot:
+        sink_targets.extend(
+            [
+                ecoroot / "collider_research" / "auto" / f"{slug}_auto_feedback_{stamp}.json",
+                ecoroot / "collider_research" / "auto" / f"{slug}_ai_user_audit_{stamp}.md",
+                ecoroot / "collider_research" / "auto" / f"{slug}_rehport_{stamp}.json",
+            ]
+        )
+    sink_targets.extend(
+        [
+            _INNER_FEEDBACK_ROOT / "auto" / f"{slug}_auto_feedback_{stamp}.json",
+            _INNER_FEEDBACK_ROOT / "auto" / f"{slug}_ai_user_audit_{stamp}.md",
+            _INNER_FEEDBACK_ROOT / "auto" / f"{slug}_rehport_{stamp}.json",
+        ]
+    )
+
+    json_targets = [p for p in sink_targets if p.suffix == ".json"]
+    md_targets = [p for p in sink_targets if p.suffix == ".md"]
+
+    copied["auto"].extend(_copy_to_sinks(auto_json_path, [p for p in json_targets if "auto_feedback" in p.name]))
+    copied["auto"].extend(_copy_to_sinks(audit_md_path, md_targets))
+    copied["auto"].extend(_copy_to_sinks(rehport_path, [p for p in json_targets if "rehport" in p.name]))
+    return copied
+
+
+def _generate_feedback_bundle(
+    repo: Path,
+    output_dir: Path,
+    reh_dir: Path,
+    run_mode: str,
+    llm_model: str,
+    llm_timeout_sec: int,
+    skip_llm: bool,
+) -> dict[str, Any]:
+    _ensure_local_ignore(repo, reh_dir)
+    auto_feedback = _build_auto_feedback(repo, output_dir, run_mode=run_mode)
+    audit_md, llm_meta = _generate_ai_user_audit(
+        auto_feedback=auto_feedback,
+        llm_model=llm_model,
+        timeout_sec=llm_timeout_sec,
+        skip_llm=skip_llm,
+    )
+
+    stamp = _utc_stamp()
+    auto_json_path = reh_dir / f"collider_feedback_auto_{stamp}.json"
+    latest_auto_json = reh_dir / "latest_auto_feedback.json"
+    audit_md_path = reh_dir / f"ai-user-audit_{stamp}.md"
+    latest_audit_md = reh_dir / "latest_ai_user_audit.md"
+    rehport_path = reh_dir / f"collider_rehport_{stamp}.json"
+    latest_rehport_path = reh_dir / "collider_rehport_latest.json"
+
+    _write_json(auto_json_path, auto_feedback)
+    shutil.copy2(auto_json_path, latest_auto_json)
+
+    audit_md_path.parent.mkdir(parents=True, exist_ok=True)
+    audit_md_path.write_text(audit_md, encoding="utf-8")
+    shutil.copy2(audit_md_path, latest_audit_md)
+
+    rehport = {
+        "schema_version": "collider.rehport.v1",
+        "generated_at_utc": _utc_iso(),
+        "repo": str(repo),
+        "run_mode": run_mode,
+        "grade": auto_feedback.get("grade"),
+        "health_score": auto_feedback.get("health_score"),
+        "issue_count": auto_feedback.get("issue_count", 0),
+        "llm_meta": llm_meta,
+        "canonical_output_root": str(output_dir),
+        "feedback_root": str(reh_dir),
+        "artifacts": {
+            "auto_feedback_json": str(auto_json_path),
+            "latest_auto_feedback_json": str(latest_auto_json),
+            "ai_user_audit_md": str(audit_md_path),
+            "latest_ai_user_audit_md": str(latest_audit_md),
+        },
+        "checksums": {
+            "auto_feedback_json": _sha256(auto_json_path),
+            "ai_user_audit_md": _sha256(audit_md_path),
+        },
+    }
+    _write_json(rehport_path, rehport)
+    shutil.copy2(rehport_path, latest_rehport_path)
+
+    copied = _sync_feedback_to_research_sinks(
+        repo=repo,
+        auto_json_path=auto_json_path,
+        audit_md_path=audit_md_path,
+        rehport_path=rehport_path,
+    )
+
+    return {
+        "auto_feedback_json": str(auto_json_path),
+        "latest_auto_feedback_json": str(latest_auto_json),
+        "ai_user_audit_md": str(audit_md_path),
+        "latest_ai_user_audit_md": str(latest_audit_md),
+        "rehport_json": str(rehport_path),
+        "latest_rehport_json": str(latest_rehport_path),
+        "llm_meta": llm_meta,
+        "synced": copied,
+    }
+
+
+def _write_manual_feedback(
+    repo: Path,
+    reh_dir: Path,
+    author: str,
+    problem: str,
+    evidence: str,
+    expected: str,
+    proposed_fix: str,
+) -> dict[str, str]:
+    _ensure_local_ignore(repo, reh_dir)
+    payload = {
+        "schema_version": "collider.feedback.manual.v1",
+        "ts": _utc_iso(),
+        "author": author,
+        "repo": str(repo),
+        "problem": problem,
+        "evidence": evidence,
+        "expected": expected,
+        "proposed_fix": proposed_fix,
+    }
+    stamp = _utc_stamp()
+    manual_path = reh_dir / f"manual_feedback_{stamp}.json"
+    latest_manual = reh_dir / "latest_manual_feedback.json"
+    _write_json(manual_path, payload)
+    shutil.copy2(manual_path, latest_manual)
+
+    slug = _slug(repo.name)
+    ecoroot = _resolve_ecoroot(repo)
+    targets: list[Path] = []
+    if ecoroot:
+        targets.append(ecoroot / "collider_research" / "manual" / f"{slug}_manual_feedback_{stamp}.json")
+    targets.append(_INNER_FEEDBACK_ROOT / "manual" / f"{slug}_manual_feedback_{stamp}.json")
+    _copy_to_sinks(manual_path, targets)
+    return {"manual_feedback_json": str(manual_path), "latest_manual_feedback_json": str(latest_manual)}
+
+
+def _run_feedback_pipeline(args: argparse.Namespace, repo: Path, output_dir: Path, run_mode: str) -> int:
+    if args.no_feedback:
+        print("  feedback: skipped (--no-feedback)")
+        return 0
+
+    reh_dir = _resolve_reh_dir(repo, args.reh_dir)
+    result = _generate_feedback_bundle(
+        repo=repo,
+        output_dir=output_dir,
+        reh_dir=reh_dir,
+        run_mode=run_mode,
+        llm_model=args.llm_audit_model,
+        llm_timeout_sec=args.llm_timeout_sec,
+        skip_llm=args.no_llm_audit,
+    )
+    print("  feedback bundle:")
+    print(f"   - auto: {result['latest_auto_feedback_json']}")
+    print(f"   - audit: {result['latest_ai_user_audit_md']}")
+    print(f"   - rehport: {result['latest_rehport_json']}")
+    llm_meta = result.get("llm_meta", {})
+    provider = llm_meta.get("provider", "unknown")
+    reason = llm_meta.get("reason", "")
+    print(f"   - llm: provider={provider} reason={reason}")
+    return 0
 
 
 def cmd_full(args: argparse.Namespace) -> int:
@@ -228,7 +846,11 @@ def cmd_full(args: argparse.Namespace) -> int:
     print("   " + " ".join(cmd))
     if args.dry_run:
         return 0
-    return _run(cmd)
+
+    rc = _run(cmd)
+    if rc != 0:
+        return rc
+    return _run_feedback_pipeline(args, repo=repo, output_dir=output_dir, run_mode="full")
 
 
 def cmd_smoke(args: argparse.Namespace) -> int:
@@ -250,12 +872,12 @@ def cmd_smoke(args: argparse.Namespace) -> int:
     )
 
     print("Collider Hub Smoke")
-    print("  step 1/3: full run")
+    print("  step 1/4: full run")
     rc = _run(full_cmd)
     if rc != 0:
         return rc
 
-    print("  step 2/3: artifact validation")
+    print("  step 2/4: artifact validation")
     ok, missing = _validate_artifacts(output_dir)
     if not ok:
         print("  missing artifacts:")
@@ -263,17 +885,48 @@ def cmd_smoke(args: argparse.Namespace) -> int:
             print(f"   - {m}")
         return 2
 
-    print("  step 3/3: summary")
+    print("  step 3/4: summary")
     insights = _read_insights(output_dir)
     if insights:
         sev = insights.get("findings_by_severity", {})
         print("  findings_by_severity:", sev)
     if args.with_grade:
-        print("  step 4/4: grade")
+        print("  step 4/5: grade")
         grade_cmd = [collider_bin, "grade", str(repo), "--json"]
         rc = _run(grade_cmd)
         if rc != 0:
             return rc
+    else:
+        print("  step 4/4: grade skipped")
+
+    return _run_feedback_pipeline(args, repo=repo, output_dir=output_dir, run_mode="smoke")
+
+
+def cmd_feedback(args: argparse.Namespace) -> int:
+    repo = _repo_root(Path(args.repo))
+    output_dir = _resolve_output_dir(repo, args.output_dir)
+    _ensure_local_ignore(repo, output_dir)
+    print("Collider Hub Feedback")
+    print(f"  repo: {repo}")
+    print(f"  output: {output_dir}")
+    return _run_feedback_pipeline(args, repo=repo, output_dir=output_dir, run_mode="feedback-only")
+
+
+def cmd_manual_feedback(args: argparse.Namespace) -> int:
+    repo = _repo_root(Path(args.repo))
+    reh_dir = _resolve_reh_dir(repo, args.reh_dir)
+    result = _write_manual_feedback(
+        repo=repo,
+        reh_dir=reh_dir,
+        author=args.author,
+        problem=args.problem,
+        evidence=args.evidence,
+        expected=args.expected,
+        proposed_fix=args.proposed_fix,
+    )
+    print("Collider Hub Manual Feedback")
+    print(f"  repo: {repo}")
+    print(f"  manual: {result['latest_manual_feedback_json']}")
     return 0
 
 
@@ -318,6 +971,11 @@ def build_parser() -> argparse.ArgumentParser:
             help="Output directory (default: <repo>/.collider)",
         )
         sp.add_argument(
+            "--reh-dir",
+            default=None,
+            help="Feedback directory (default: <repo>/.reh)",
+        )
+        sp.add_argument(
             "--collider-bin",
             default=None,
             help="Explicit collider CLI path (overrides auto-detection)",
@@ -338,6 +996,27 @@ def build_parser() -> argparse.ArgumentParser:
             action="append",
             default=[],
             help="Extra exclude path (repeatable)",
+        )
+        sp.add_argument(
+            "--no-feedback",
+            action="store_true",
+            help="Disable automatic feedback package generation in .reh",
+        )
+        sp.add_argument(
+            "--no-llm-audit",
+            action="store_true",
+            help="Use deterministic audit report only (skip LLM attempt)",
+        )
+        sp.add_argument(
+            "--llm-audit-model",
+            default=os.environ.get("COLLIDER_AUDIT_MODEL", "qwen2.5:7b-instruct"),
+            help="Model for ai-user-audit via ollama",
+        )
+        sp.add_argument(
+            "--llm-timeout-sec",
+            type=int,
+            default=90,
+            help="Timeout for ai-user-audit model call",
         )
 
     full = sub.add_parser("full", help="Run full Collider analysis with canonical defaults")
@@ -368,6 +1047,26 @@ def build_parser() -> argparse.ArgumentParser:
         help="Extra args passed to collider full (prefix with --)",
     )
     smoke.set_defaults(func=cmd_smoke)
+
+    feedback = sub.add_parser(
+        "feedback",
+        help="Generate .reh feedback package from existing Collider artifacts",
+    )
+    add_common(feedback)
+    feedback.set_defaults(func=cmd_feedback)
+
+    manual = sub.add_parser(
+        "manual-feedback",
+        help="Write manual feedback and ingest into Collider research sinks",
+    )
+    manual.add_argument("--repo", default=".", help="Target repository path")
+    manual.add_argument("--reh-dir", default=None, help="Feedback directory (default: <repo>/.reh)")
+    manual.add_argument("--author", default=os.environ.get("USER", "unknown"), help="Feedback author")
+    manual.add_argument("--problem", required=True, help="Problem statement")
+    manual.add_argument("--evidence", required=True, help="Concrete evidence")
+    manual.add_argument("--expected", default="", help="Expected behavior")
+    manual.add_argument("--proposed-fix", default="", help="Proposed fix")
+    manual.set_defaults(func=cmd_manual_feedback)
 
     mcp = sub.add_parser(
         "mcp-check",

@@ -41,6 +41,10 @@ standard-model-of-code/  Theory package (pip installable)
 # Collider directly
 ./collider full /path/to/repo --output /tmp/analysis
 .venv/bin/python3 -m collider full /path/to/repo --output /tmp/analysis
+./collider-hub full --repo /path/to/repo            # Canonical full run + feedback bundle
+./collider-hub smoke --repo /path/to/repo           # Reliability run + feedback bundle
+./collider-hub feedback --repo /path/to/repo        # Feedback-only from existing artifacts
+./collider-hub manual-feedback --repo /path/to/repo --problem "..." --evidence "..."
 
 # AI Tools (all via doppler for secrets)
 doppler run -- .venv/bin/python3 wave/tools/ai/cerebras_rapid_intel.py sweep
@@ -75,6 +79,10 @@ cd context-management/experiments/refinery-platform && npm run dev  # Refinery :
 
 - Always run `doppler run --` before any AI tool (secrets are in Doppler, not .env)
 - Collider output goes to `.collider/` or explicit `--output` path
+- Collider Hub always writes post-run feedback to `.reh/` (git-ignored):
+  - `latest_auto_feedback.json`
+  - `latest_ai_user_audit.md`
+  - `collider_rehport_latest.json`
 - Use `--set brain` for Wave analysis, `--set body` for Particle analysis
 - Decision Deck: check `./pe deck deal` before improvising
 - MCP server directory is `mcp_servers/` (NOT `mcp/` -- avoids shadowing pip package)
