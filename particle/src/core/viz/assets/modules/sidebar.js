@@ -202,11 +202,11 @@ window.SIDEBAR = (function () {
     function renderSmartSidebar(container) {
         // Search bar
         const searchContainer = document.createElement('div');
-        searchContainer.style.cssText = 'padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--border);';
+        searchContainer.className = 'sidebar-search-container';
         const searchInput = document.createElement('input');
         searchInput.type = 'text';
         searchInput.placeholder = 'Filter Presets...';
-        searchInput.style.cssText = 'width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 4px 8px; color: var(--text); border-radius: 4px; font-size: 10px;';
+        searchInput.className = 'sidebar-search-input';
 
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
@@ -227,12 +227,11 @@ window.SIDEBAR = (function () {
         // Render Categories
         PRESET_CONFIG.forEach(section => {
             const catDiv = document.createElement('div');
-            catDiv.className = 'preset-category';
-            catDiv.style.marginBottom = '12px';
+            catDiv.className = 'preset-category sidebar-category';
 
             const catTitle = document.createElement('div');
             catTitle.textContent = section.category;
-            catTitle.style.cssText = 'font-size: 9px; opacity: 0.5; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px;';
+            catTitle.className = 'sidebar-category-title';
             catDiv.appendChild(catTitle);
 
             const grid = document.createElement('div');
@@ -268,11 +267,11 @@ window.SIDEBAR = (function () {
 
         // Search bar
         const searchContainer = document.createElement('div');
-        searchContainer.style.cssText = 'padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--border);';
+        searchContainer.className = 'sidebar-search-container';
         const searchInput = document.createElement('input');
         searchInput.type = 'text';
         searchInput.placeholder = 'Filter Schemes...';
-        searchInput.style.cssText = 'width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 4px 8px; color: var(--text); border-radius: 4px; font-size: 10px;';
+        searchInput.className = 'sidebar-search-input';
 
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
@@ -292,7 +291,7 @@ window.SIDEBAR = (function () {
         const clearBtn = document.createElement('button');
         clearBtn.textContent = 'Clear';
         clearBtn.title = 'Remove scheme, use default colors';
-        clearBtn.style.cssText = 'margin-left: 8px; padding: 4px 8px; font-size: 9px; background: rgba(255,100,100,0.2); border: 1px solid rgba(255,100,100,0.3); color: var(--text); border-radius: 4px; cursor: pointer;';
+        clearBtn.className = 'sidebar-clear-btn';
         clearBtn.addEventListener('click', clearColorScheme);
 
         searchContainer.appendChild(searchInput);
@@ -302,17 +301,15 @@ window.SIDEBAR = (function () {
         // Render Categories
         SCHEME_CONFIG.forEach(section => {
             const catDiv = document.createElement('div');
-            catDiv.className = 'scheme-category';
-            catDiv.style.marginBottom = '12px';
+            catDiv.className = 'scheme-category sidebar-category';
 
             const catTitle = document.createElement('div');
             catTitle.textContent = section.category;
-            catTitle.style.cssText = 'font-size: 9px; opacity: 0.5; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px;';
+            catTitle.className = 'sidebar-category-title';
             catDiv.appendChild(catTitle);
 
             const grid = document.createElement('div');
-            grid.className = 'scheme-grid';
-            grid.style.cssText = 'display: flex; flex-wrap: wrap; gap: 4px;';
+            grid.className = 'scheme-grid sidebar-scheme-grid';
 
             section.schemes.forEach(schemeName => {
                 const btn = document.createElement('button');
@@ -1488,12 +1485,12 @@ window.SIDEBAR = (function () {
             if (widths.left) {
                 document.documentElement.style.setProperty('--sidebar-width', widths.left);
                 const leftHandle = document.getElementById('left-resize-handle');
-                if (leftHandle) leftHandle.style.left = `calc(${widths.left} - 3px)`;
+                if (leftHandle) leftHandle.style.left = `calc(${widths.left} - var(--size-component-resize-handle-offset, 3px))`;
             }
             if (widths.right) {
                 document.documentElement.style.setProperty('--right-panel-width', widths.right);
                 const rightHandle = document.getElementById('right-resize-handle');
-                if (rightHandle) rightHandle.style.right = `calc(${widths.right} - 3px)`;
+                if (rightHandle) rightHandle.style.right = `calc(${widths.right} - var(--size-component-resize-handle-offset, 3px))`;
             }
         } catch (e) {
             console.warn('[SIDEBAR] Could not restore sidebar widths:', e);

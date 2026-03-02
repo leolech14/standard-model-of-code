@@ -1225,6 +1225,10 @@
       }
     },
     "size": {
+      "3xs": {
+        "$value": "6px",
+        "$description": "Micro counters"
+      },
       "2xs": {
         "$value": "7px",
         "$description": "Micro labels"

@@ -112,6 +112,28 @@
     "scrollbar": {
       "$description": "Scrollbar dimensions",
       "width": { "$value": "4px" }
+    },
+    "component": {
+      "$description": "Component-specific fixed sizes",
+      "toggle-width": { "$value": "44px" },
+      "toggle-height": { "$value": "24px" },
+      "toggle-thumb": { "$value": "20px" },
+      "toggle-inset": { "$value": "2px" },
+      "slider-track": { "$value": "4px" },
+      "slider-track-lg": { "$value": "6px" },
+      "slider-thumb": { "$value": "14px" },
+      "slider-thumb-lg": { "$value": "18px" },
+      "cmd-button": { "$value": "40px" },
+      "swatch": { "$value": "60px" },
+      "swatch-sm": { "$value": "10px" },
+      "tooltip-arrow": { "$value": "6px" },
+      "chip-radius": { "$value": "14px" },
+      "divider-height": { "$value": "28px" },
+      "confidence-bar-width": { "$value": "50px" },
+      "confidence-bar-height": { "$value": "4px" },
+      "resize-handle-offset": { "$value": "3px" },
+      "section-min-height": { "$value": "60px" },
+      "section-max-height": { "$value": "400px" }
     }
   },
 
@@ -124,10 +146,22 @@
     "xl": { "$value": "24px" }
   },
 
+  "letter-spacing": {
+    "$description": "Letter-spacing scale",
+    "tight": { "$value": "0.3px" },
+    "snug": { "$value": "0.5px" },
+    "normal": { "$value": "1px" },
+    "wide": { "$value": "1.2px" },
+    "wider": { "$value": "2px" }
+  },
+
   "offset": {
     "$description": "Fixed position offsets",
     "sidebar-top": { "$value": "130px", "$description": "Below header panel" },
     "sidebar-left": { "$value": "12px" },
-    "panel-margin": { "$value": "20px" }
+    "panel-margin": { "$value": "20px" },
+    "content-top": { "$value": "140px", "$description": "Below header + toolbar" },
+    "bottom-dock": { "$value": "80px", "$description": "Bottom dock position" },
+    "bottom-dock-above": { "$value": "70px", "$description": "Elements above bottom dock" }
   }
 }
