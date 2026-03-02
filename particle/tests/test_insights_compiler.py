@@ -76,6 +76,11 @@ def _base_output(**overrides):
         'orphans_list': [],
         'nodes': [],
         'edges': [],
+        'pipeline_performance': {
+            'stages': [
+                {'stage_name': 'Stage 1 - Base Analysis', 'duration_ms': 100},
+            ],
+        },
     }
     # Apply overrides (supports nested dict merge for kpis)
     for k, v in overrides.items():
@@ -311,7 +316,7 @@ class TestExecutionCapabilityInterpretation:
         result = compile_insights(data)
         findings = [f for f in result['findings'] if f['category'] == 'execution']
         assert len(findings) == 1
-        assert findings[0]['title'] == 'Ecosystem discovery skipped'
+        assert findings[0]['title'] == 'Ecosystem discovery unavailable'
 
 
 # =============================================================================

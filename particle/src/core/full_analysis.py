@@ -295,10 +295,56 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     merkle_root = "UNSET" # Will be calculated after nodes are finalized
 
     # =========================================================================
+    # STAGE -1: SMART IGNORE - Sequential Discovery Protocol (Phase 11)
+    # =========================================================================
+    smartignore_manifest = None
+    smartignore_skip_paths = []
+
+    run_smartignore = options.get("smart_ignore", True)
+    if run_smartignore and not options.get("no_survey", False) and target.is_dir():
+        print("\n🧭 Stage -1: SmartIgnore (Sequential Discovery)...")
+        with StageTimer(perf_manager, "Stage -1: SmartIgnore") as timer:
+            try:
+                from src.core.smart_ignore import SmartIgnore
+                si = SmartIgnore(str(target))
+                smartignore_manifest = si.discover()
+
+                smartignore_skip_paths = list(smartignore_manifest.skip_paths)
+
+                timer.set_output(
+                    dirs_scanned=smartignore_manifest.total_dirs_scanned,
+                    explore=len(smartignore_manifest.explore_paths),
+                    skip=len(smartignore_manifest.skip_paths),
+                    shallow=len(smartignore_manifest.shallow_paths),
+                )
+
+                print(f"   → Scanned {smartignore_manifest.total_dirs_scanned} directories in {smartignore_manifest.discovery_time_ms:.0f}ms")
+                print(f"   → Phase 1 (name): {smartignore_manifest.phase1_dirs} classified")
+                print(f"   → Phase 2 (signal): {smartignore_manifest.phase2_dirs} explored")
+                print(f"   → Decision: EXPLORE {len(smartignore_manifest.explore_paths)}, "
+                      f"SHALLOW {len(smartignore_manifest.shallow_paths)}, "
+                      f"SKIP {len(smartignore_manifest.skip_paths)}")
+                print(f"   → Skip ratio: {smartignore_manifest.skip_ratio:.0%} "
+                      f"(~{smartignore_manifest.estimated_files_skipped} files excluded)")
+
+                # Write .smartignore file for caching/review
+                si.write_smartignore(smartignore_manifest,
+                                     str(resolved_output_dir / ".smartignore"))
+
+            except ImportError as e:
+                print(f"   ⚠️  SmartIgnore module not available: {e}")
+            except Exception as e:
+                print(f"   ⚠️  SmartIgnore failed (continuing without): {e}")
+                import traceback
+                traceback.print_exc()
+
+    # Seed exclude_paths with SmartIgnore decisions (Stage -1 → Stage 0 bridge)
+    exclude_paths = list(smartignore_skip_paths)
+
+    # =========================================================================
     # STAGE 0: SURVEY - Pre-Analysis Intelligence (Phase 10)
     # =========================================================================
     survey_result = None
-    exclude_paths = []
 
     # Check if survey is requested (default: enabled)
     run_survey_enabled = options.get("survey", True)
@@ -311,8 +357,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 from src.core.survey import run_survey, print_survey_report
                 survey_result = run_survey(str(target))
 
-                # Collect exclusion paths
-                exclude_paths = survey_result.recommended_excludes
+                # Merge survey exclusions with SmartIgnore exclusions
+                exclude_paths.extend(survey_result.recommended_excludes)
 
                 timer.set_output(
                     total_files=survey_result.total_files,
@@ -1529,6 +1575,12 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         name = node_id.split(':')[-1] if ':' in node_id else node_id.split('/')[-1]
         full_output['top_hubs'].append({'name': name, 'in_degree': deg})
     full_output['kpis']['top_hub_count'] = len(full_output['top_hubs'])
+
+    # Include SmartIgnore discovery data in output
+    if smartignore_manifest:
+        from src.core.smart_ignore import SmartIgnore as _SI
+        si_helper = _SI(str(target))
+        full_output['smart_ignore'] = si_helper.manifest_to_dict(smartignore_manifest)
 
     # ==========================================================================
     # FILE-CENTRIC VIEW: Hybrid atom/file navigation

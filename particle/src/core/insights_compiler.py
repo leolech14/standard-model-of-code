@@ -26,7 +26,7 @@ import yaml
 class CompiledInsight:
     """A single interpreted finding with context and actionability."""
     id: str
-    category: str          # topology, constraints, purpose, dead_code, entanglement, rpbl, performance, testing
+    category: str          # topology, constraints, purpose, dead_code, entanglement, rpbl, performance, testing, data_flow, execution
     severity: str          # critical, high, medium, low, info
     title: str
     description: str
@@ -221,9 +221,21 @@ class InsightsCompiler:
         self._interpret_execution_capability()
         self._run_insights_engine()
 
+        # --- Extended insight generators (v2.0) ---
+        self._interpret_markov()
+        self._interpret_topology_deep()
+        self._interpret_data_flow()
+        self._interpret_graph_analytics()
+        self._interpret_theory_completeness()
+        self._interpret_igt_stability()
+        self._interpret_semantic_roles()
+
         # Sort by severity
         sev_order = {'critical': 0, 'high': 1, 'medium': 2, 'low': 3, 'info': 4}
         self.findings.sort(key=lambda f: sev_order.get(f.severity, 5))
+
+        # Promote high/critical findings to issues list
+        issues = self._promote_findings_to_issues()
 
         health_components = self._compute_health_components()
         mission_matrix = self._compute_mission_matrix(health_components)
@@ -232,6 +244,9 @@ class InsightsCompiler:
         navigation = self._build_navigation()
         summary = self._build_executive_summary(grade, health_score, health_components)
         glossary = self._build_glossary()
+
+        # Collect capability status (built by _interpret_execution_capability)
+        cap_status = getattr(self, '_capability_status', {})
 
         return InsightsReport(
             grade=grade,
@@ -243,9 +258,12 @@ class InsightsCompiler:
             navigation=navigation,
             theory_glossary=glossary,
             meta={
-                'compiler_version': '1.2.0',
+                'compiler_version': '2.1.0',
                 'nodes_analyzed': self.kpis.get('nodes_total', 0),
                 'edges_analyzed': self.kpis.get('edges_total', 0),
+                'capability_status': cap_status,
+                'issues': issues,
+                'issue_count': len(issues),
             },
         )
 
@@ -487,41 +505,236 @@ class InsightsCompiler:
         )
 
     def _interpret_execution_capability(self):
-        """Report degraded optional capabilities that affect Collider's practical utility."""
-        vector_status = (self.kpis.get('vectorization_status') or '').lower()
-        ecosystem_status = (self.kpis.get('ecosystem_discovery_status') or '').lower()
+        """Report degraded optional capabilities that affect Collider's practical utility.
 
-        if vector_status == 'failed':
+        This is the pipeline health gate.  It checks five dimensions:
+        1. LLM / AI audit status  (ollama or provider failure → warning)
+        2. Vectorization status   (failed → medium, not just low)
+        3. Ecosystem discovery    (skipped → medium)
+        4. Freshness guard        (feedback timestamp >> analysis timestamp → stale)
+        5. Publishability gate    (feedback-only without smoke/full in session)
+
+        It also builds a ``capability_status`` summary block that downstream
+        consumers (reports, dashboards, CI) can read at a glance.
+        """
+
+        cap_status: Dict[str, Any] = {}
+
+        # --- 1. LLM / AI audit --------------------------------------------------
+        llm = self.data.get('llm_enrichment') or {}
+        llm_enabled = llm.get('enabled', False)
+        llm_model = str(llm.get('model', 'none') or 'none').lower()
+        llm_analysis = str(llm.get('analysis_status', 'not_applied') or 'not_applied').lower()
+        llm_enhanced = int(llm.get('particles_enhanced', 0) or 0)
+
+        if llm_enabled and llm_analysis != 'applied':
+            # LLM was expected but didn't deliver
+            cap_status['llm_audit'] = 'degraded'
             self._add(
                 category='execution',
-                severity='low',
+                severity='medium',
+                title='LLM audit did not complete',
+                description=(
+                    f'LLM enrichment was enabled (model={llm_model}) but '
+                    f'analysis_status={llm_analysis}, particles_enhanced={llm_enhanced}.'
+                ),
+                evidence={
+                    'llm_enabled': llm_enabled,
+                    'llm_model': llm_model,
+                    'llm_analysis_status': llm_analysis,
+                    'particles_enhanced': llm_enhanced,
+                },
+                interpretation=(
+                    'The AI-powered audit stage failed or was skipped.  '
+                    'Purpose classifications, code smell detection, and '
+                    'architecture inference rely on this stage.  '
+                    'The deterministic fallback was used, which provides '
+                    'boilerplate rather than genuine analysis.'
+                ),
+                recommendation=(
+                    'Ensure the configured LLM provider is reachable '
+                    '(check ollama/vertex status).  Re-run with --llm to '
+                    'restore AI-powered enrichment.'
+                ),
+                effort='low',
+                drill_down={'key': 'llm_enrichment'},
+            )
+        elif not llm_enabled:
+            cap_status['llm_audit'] = 'off'
+        else:
+            cap_status['llm_audit'] = 'ok'
+
+        # --- 2. Vectorization ----------------------------------------------------
+        vector_status = (self.kpis.get('vectorization_status') or '').lower()
+        if vector_status == 'failed':
+            cap_status['vectorization'] = 'failed'
+            self._add(
+                category='execution',
+                severity='medium',
                 title='Vectorization unavailable',
                 description='Stage 14 vectorization failed; semantic search index was not refreshed.',
                 evidence={
                     'vectorization_status': self.kpis.get('vectorization_status'),
                     'vectorization_error': self.kpis.get('vectorization_error'),
                 },
-                interpretation='Core static analysis completed, but GraphRAG/semantic retrieval is degraded for this run.',
-                recommendation='Install optional vector dependencies and rerun full analysis to restore semantic indexing.',
+                interpretation=(
+                    'GraphRAG/semantic retrieval is degraded.  '
+                    'Code search, similarity queries, and RAG-powered '
+                    'exploration will fall back to keyword matching.'
+                ),
+                recommendation='Install optional vector dependencies (lancedb) and rerun full analysis.',
                 effort='low',
                 drill_down={'key': 'kpis.vectorization_status'},
             )
+        elif vector_status in ('skipped', 'not_run'):
+            cap_status['vectorization'] = 'skipped'
+        else:
+            cap_status['vectorization'] = 'ok'
 
-        if ecosystem_status == 'skipped':
+        # --- 3. Ecosystem discovery ----------------------------------------------
+        ecosystem_status = (self.kpis.get('ecosystem_discovery_status') or '').lower()
+        if ecosystem_status in ('failed', 'skipped'):
+            cap_status['ecosystem_discovery'] = ecosystem_status
             self._add(
                 category='execution',
-                severity='low',
-                title='Ecosystem discovery skipped',
-                description='Stage 2.5 ecosystem discovery did not run.',
+                severity='medium',
+                title='Ecosystem discovery unavailable',
+                description=f'Stage 2.5 ecosystem discovery status: {ecosystem_status}.',
                 evidence={
                     'ecosystem_discovery_status': self.kpis.get('ecosystem_discovery_status'),
                     'ecosystem_discovery_error': self.kpis.get('ecosystem_discovery_error'),
                 },
-                interpretation='The run remains valid, but Tier-2 ecosystem enrichment is incomplete.',
-                recommendation='Install/restore ecosystem discovery dependencies and rerun when unknown framework detection is needed.',
+                interpretation=(
+                    'Tier-2 ecosystem enrichment is incomplete.  '
+                    'Unknown frameworks, runtime libraries, and '
+                    'platform conventions were not auto-detected.'
+                ),
+                recommendation='Install discovery_engine dependencies and rerun when framework detection is needed.',
                 effort='low',
                 drill_down={'key': 'kpis.ecosystem_discovery_status'},
             )
+        else:
+            cap_status['ecosystem_discovery'] = 'ok'
+
+        # --- 4. AI insights stage ------------------------------------------------
+        ai_insights = self.data.get('ai_insights')
+        if ai_insights:
+            cap_status['ai_insights'] = 'ok'
+        else:
+            cap_status['ai_insights'] = 'off'
+
+        # --- 5. HTML report stage ------------------------------------------------
+        brain_download = self.data.get('brain_download')
+        cap_status['html_report'] = 'ok' if brain_download else 'off'
+
+        # --- 6. Freshness guard --------------------------------------------------
+        self._check_freshness(cap_status)
+
+        # --- 7. Publishability gate ----------------------------------------------
+        self._check_publishability(cap_status)
+
+        # --- Store capability status on self for inclusion in report meta ---------
+        self._capability_status = cap_status
+
+    def _check_freshness(self, cap_status: Dict[str, Any]):
+        """Warn if compiled insights are based on stale analysis data.
+
+        Staleness is detected by comparing the manifest timestamp (when
+        full analysis ran) to the current compilation time.  If the gap
+        exceeds the threshold the insights are flagged as potentially stale.
+        """
+        manifest = self.data.get('manifest') or {}
+        generated_at = manifest.get('generated_at_utc', '')
+        if not generated_at:
+            # No manifest → likely feedback-only run; freshness unknown
+            cap_status['freshness'] = 'unknown'
+            return
+
+        try:
+            from datetime import datetime, timezone, timedelta
+            if generated_at.endswith('Z'):
+                generated_at = generated_at[:-1] + '+00:00'
+            analysis_time = datetime.fromisoformat(generated_at)
+            now = datetime.now(timezone.utc)
+            age = now - analysis_time
+
+            # Threshold: 24h for warning, 7d for stale
+            if age > timedelta(days=7):
+                cap_status['freshness'] = 'stale'
+                self._add(
+                    category='execution',
+                    severity='high',
+                    title='Analysis data is stale',
+                    description=f'Analysis was generated {age.days}d ago ({generated_at}).',
+                    evidence={'analysis_timestamp': generated_at, 'age_days': age.days},
+                    interpretation=(
+                        'Insights are based on analysis data older than 7 days.  '
+                        'The codebase may have changed significantly since then.'
+                    ),
+                    recommendation='Re-run `collider full` to refresh analysis before publishing.',
+                    effort='low',
+                    drill_down={'key': 'manifest.generated_at_utc'},
+                )
+            elif age > timedelta(hours=24):
+                cap_status['freshness'] = 'warn'
+                self._add(
+                    category='execution',
+                    severity='low',
+                    title='Analysis data aging',
+                    description=f'Analysis was generated {age.total_seconds()/3600:.0f}h ago.',
+                    evidence={'analysis_timestamp': generated_at, 'age_hours': round(age.total_seconds()/3600, 1)},
+                    interpretation='Insights may not reflect recent changes.',
+                    recommendation='Consider re-running analysis if significant changes were made.',
+                    effort='low',
+                    drill_down={'key': 'manifest.generated_at_utc'},
+                )
+            else:
+                cap_status['freshness'] = 'fresh'
+        except Exception:
+            cap_status['freshness'] = 'unknown'
+
+    def _check_publishability(self, cap_status: Dict[str, Any]):
+        """Gate: a report is only 'publishable' if a smoke or full run occurred
+        in the same session that produced the compiled insights.
+
+        A feedback-only run (no Stage 1 analysis) should never be marked
+        publishable because it reuses cached data without validating it.
+        """
+        perf = self.data.get('pipeline_performance') or {}
+        stages = perf.get('stages', [])
+        if isinstance(stages, list):
+            stage_names = [s.get('stage_name', '') if isinstance(s, dict) else str(s) for s in stages]
+        else:
+            stage_names = []
+
+        has_analysis = any('Stage 1' in s or 'Base Analysis' in s for s in stage_names)
+        has_nodes = int(self.kpis.get('nodes_total', 0) or 0) > 0
+
+        if has_analysis and has_nodes:
+            cap_status['publishable'] = True
+        else:
+            cap_status['publishable'] = False
+            if not has_analysis:
+                self._add(
+                    category='execution',
+                    severity='medium',
+                    title='Not publishable: no fresh analysis in session',
+                    description='Insights were compiled without a smoke or full analysis run in this session.',
+                    evidence={
+                        'stages_executed': stage_names[:10],
+                        'has_analysis_stage': has_analysis,
+                        'nodes_total': self.kpis.get('nodes_total', 0),
+                    },
+                    interpretation=(
+                        'A feedback-only compilation reuses cached data '
+                        'without re-validating the codebase.  '
+                        'This is useful for iteration but should not be '
+                        'treated as a publishable quality gate.'
+                    ),
+                    recommendation='Run `collider full` or `collider smoke` before publishing results.',
+                    effort='low',
+                    drill_down={'key': 'pipeline_performance.stages'},
+                )
 
     def _interpret_rpbl(self):
         rpbl = self.data.get('rpbl_profile', {})
@@ -721,6 +934,549 @@ class InsightsCompiler:
                 )
         except Exception:
             pass  # InsightsEngine is optional; don't fail compilation
+
+    # -------------------------------------------------------------------------
+    # Extended interpretation passes (v2.0)
+    # -------------------------------------------------------------------------
+
+    def _interpret_markov(self):
+        """Interpret Markov transitions -- developer navigation complexity."""
+        markov = self.data.get('markov', {})
+        if not markov:
+            return
+
+        avg_fanout = markov.get('avg_fanout', 0) or 0
+        high_entropy = markov.get('high_entropy_nodes', [])
+        total_trans = markov.get('total_transitions', 0) or 0
+
+        if not high_entropy and avg_fanout < 4:
+            return
+
+        if high_entropy:
+            top_nodes = high_entropy[:5]
+            node_names = [n.get('node', '?') for n in top_nodes]
+            max_fanout = max((n.get('fanout', 0) for n in top_nodes), default=0)
+            sev = 'high' if max_fanout > 15 or len(high_entropy) > 10 else (
+                'medium' if max_fanout > 8 else 'low'
+            )
+
+            self._add(
+                category='topology',
+                severity=sev,
+                title='Navigation complexity hotspots',
+                description=(
+                    f'{len(high_entropy)} high-entropy nodes in the developer navigation model '
+                    f'(avg fanout: {avg_fanout:.1f}, {total_trans} transitions).'
+                ),
+                evidence={
+                    'high_entropy_count': len(high_entropy),
+                    'avg_fanout': round(avg_fanout, 2),
+                    'total_transitions': total_trans,
+                    'top_nodes': [
+                        {'node': n.get('node', '?'), 'fanout': n.get('fanout', 0),
+                         'max_prob': round(n.get('max_prob', 0), 3)}
+                        for n in top_nodes
+                    ],
+                },
+                interpretation=(
+                    'These files are navigation crossroads -- developers touching them face many '
+                    'equally-likely next files to edit. High entropy means changes propagate '
+                    'unpredictably. Consider decomposing into more focused modules.'
+                ),
+                recommendation=(
+                    f'Review top entropy nodes: {", ".join(node_names[:3])}. '
+                    'Break them into smaller, single-purpose modules to reduce change propagation.'
+                ),
+                effort='medium',
+                related_nodes=node_names,
+                theory_refs=['topology_shapes'],
+                drill_down={'key': 'markov.high_entropy_nodes'},
+            )
+
+    def _interpret_topology_deep(self):
+        """Interpret Betti numbers -- algebraic topology beyond shape classification."""
+        topo = self.data.get('topology', {})
+        betti = topo.get('betti_numbers', {})
+        if not betti:
+            return
+
+        b0 = betti.get('b0', 1)
+        b1 = betti.get('b1', 0)
+        euler = betti.get('euler_characteristic', 0)
+        health = betti.get('health_signal', '')
+        vis = topo.get('visual_metrics', {})
+
+        findings_added = False
+
+        if b0 > 3:
+            sev = 'high' if b0 > 10 else 'medium'
+            self._add(
+                category='topology',
+                severity=sev,
+                title=f'Disconnected components (b0={b0})',
+                description=f'{b0} connected components -- the codebase has {b0} independent clusters.',
+                evidence={
+                    'b0': b0, 'b1': b1, 'euler': euler,
+                    'largest_cluster_pct': vis.get('largest_cluster_percent', 0),
+                },
+                interpretation=(
+                    f'Betti number b0={b0} means the dependency graph has {b0} disconnected pieces. '
+                    f'Largest cluster covers {vis.get("largest_cluster_percent", "?")}% of nodes. '
+                    'Remaining fragments may be dead modules or independently deployable services.'
+                ),
+                recommendation='Check if disconnected clusters are intentional (microservices) or accidental (missing imports).',
+                effort='medium',
+                theory_refs=['betti_numbers'],
+                drill_down={'key': 'topology.betti_numbers'},
+            )
+            findings_added = True
+
+        if b1 > 5:
+            sev = 'high' if b1 > 20 else ('medium' if b1 > 10 else 'low')
+            cyclic_count = vis.get('cyclic_nodes', 0)
+            self._add(
+                category='topology',
+                severity=sev,
+                title=f'Cycle complexity (b1={b1})',
+                description=f'{b1} independent cycles in the dependency graph ({cyclic_count} cyclic nodes).',
+                evidence={
+                    'b1': b1, 'cyclic_nodes': cyclic_count,
+                    'directed_cycles': vis.get('directed_cycles', 0),
+                },
+                interpretation=(
+                    f'Betti number b1={b1} measures independent loops. Each cycle means a set of '
+                    'mutual dependencies that must be understood as a unit. High b1 makes the '
+                    'codebase harder to reason about and test in isolation.'
+                ),
+                recommendation='Break the largest cycles first using dependency inversion or interface extraction.',
+                effort='high' if b1 > 20 else 'medium',
+                theory_refs=['betti_numbers'],
+                drill_down={'key': 'topology.visual_metrics'},
+            )
+            findings_added = True
+
+        # Betti health contradicts shape?
+        if health and not findings_added:
+            shape = topo.get('shape', '')
+            if health in ('warning', 'critical') and shape in ('MESH', 'STRICT_LAYERS'):
+                self._add(
+                    category='topology',
+                    severity='low',
+                    title='Betti health contradicts topology shape',
+                    description=f'Shape is {shape} but Betti health signal is "{health}" (b0={b0}, b1={b1}).',
+                    evidence={'shape': shape, 'health_signal': health, 'b0': b0, 'b1': b1, 'euler': euler},
+                    interpretation='Topology shape looks healthy, but algebraic invariants detect hidden structural issues.',
+                    recommendation='Investigate Betti numbers for latent cycle or fragmentation problems.',
+                    effort='low',
+                    theory_refs=['betti_numbers'],
+                    drill_down={'key': 'topology.betti_numbers'},
+                )
+
+    def _interpret_data_flow(self):
+        """Interpret data flow -- sources, sinks, and security surface area."""
+        df = self.data.get('data_flow', {})
+        if not df:
+            return
+
+        sources = df.get('data_sources', [])
+        sinks = df.get('data_sinks', [])
+        total_edges = df.get('total_flow_edges', 0)
+        flow_by_type = df.get('flow_by_type', {})
+
+        if not sources and not sinks:
+            return
+
+        if sources:
+            top_sources = sources[:5]
+            source_types = [s.get('type', '?') for s in top_sources]
+
+            self._add(
+                category='data_flow',
+                severity='info',
+                title=f'Data entry surface ({len(sources)} sources)',
+                description=(
+                    f'{len(sources)} data source components feed the system '
+                    f'across {total_edges} flow edges.'
+                ),
+                evidence={
+                    'source_count': len(sources),
+                    'sink_count': len(sinks),
+                    'total_flow_edges': total_edges,
+                    'top_sources': [
+                        {'type': s.get('type', '?'), 'out': s.get('out', 0),
+                         'ratio': round(s.get('ratio', 0), 3)}
+                        for s in top_sources
+                    ],
+                    'dominant_types': list(flow_by_type.keys())[:8],
+                },
+                interpretation=(
+                    f'The system receives data through {len(sources)} source components '
+                    f'(top types: {", ".join(source_types[:3])}). '
+                    'Each source is a potential validation boundary and security checkpoint.'
+                ),
+                recommendation=(
+                    'Verify all data sources have input validation. '
+                    'Sources with high out-ratio are critical -- a bug there propagates everywhere.'
+                ),
+                effort='medium',
+                theory_refs=['dimensions.D5_space'],
+                drill_down={'key': 'data_flow.data_sources'},
+            )
+
+        # High-concentration sinks
+        if sinks:
+            high_in_sinks = [s for s in sinks if s.get('ratio', 0) > 0.3]
+
+            if high_in_sinks:
+                sev = 'medium' if len(high_in_sinks) > 3 else 'low'
+                self._add(
+                    category='data_flow',
+                    severity=sev,
+                    title=f'Data concentration sinks ({len(high_in_sinks)} high-ratio)',
+                    description=f'{len(high_in_sinks)} sinks receive >30% of incoming data flow.',
+                    evidence={
+                        'high_ratio_sinks': [
+                            {'type': s.get('type', '?'), 'in': s.get('in', 0),
+                             'ratio': round(s.get('ratio', 0), 3)}
+                            for s in high_in_sinks[:5]
+                        ],
+                    },
+                    interpretation=(
+                        'These components are data funnels -- many paths converge here. '
+                        'They are critical for output correctness, logging, and security.'
+                    ),
+                    recommendation='Audit high-ratio sinks for proper error handling and output sanitization.',
+                    effort='low',
+                    theory_refs=['dimensions.D5_space'],
+                    drill_down={'key': 'data_flow.data_sinks'},
+                )
+
+    def _interpret_graph_analytics(self):
+        """Interpret graph analytics -- PageRank keystones, bottlenecks, communities."""
+        ga = self.data.get('graph_analytics', {})
+        if not ga:
+            return
+
+        pagerank_top = ga.get('pagerank_top', [])
+        bottlenecks = ga.get('bottlenecks', [])
+        communities = ga.get('communities_count', 0)
+
+        # PageRank: architectural keystones
+        if pagerank_top:
+            top5 = pagerank_top[:5]
+            names = [n.get('name', '?') for n in top5]
+
+            self._add(
+                category='topology',
+                severity='info',
+                title=f'Architectural keystones (top {len(top5)} by PageRank)',
+                description=f'PageRank identifies {len(pagerank_top)} high-influence nodes. Top: {", ".join(names[:3])}.',
+                evidence={
+                    'keystones': [{
+                        'name': n.get('name', '?'),
+                        'kind': n.get('kind', '?'),
+                        'pagerank': round(n.get('pagerank', 0), 4),
+                        'betweenness': round(n.get('betweenness', 0), 4),
+                        'in_degree': n.get('in_degree', 0),
+                        'out_degree': n.get('out_degree', 0),
+                        'community': n.get('community', None),
+                    } for n in top5],
+                },
+                interpretation=(
+                    'These nodes have the most structural influence. Changes to them '
+                    'ripple through the most paths in the dependency graph. '
+                    'They are the "load-bearing walls" of the architecture.'
+                ),
+                recommendation='Protect keystones with comprehensive tests. Refactoring here needs extra care.',
+                effort='low',
+                related_nodes=names,
+                theory_refs=['graph_theory.pagerank'],
+                drill_down={'key': 'graph_analytics.pagerank_top'},
+            )
+
+        # Bottlenecks: single points of failure
+        if bottlenecks:
+            top_bn = bottlenecks[:5]
+            bn_names = [n.get('name', '?') for n in top_bn]
+            max_betweenness = max((n.get('betweenness', 0) for n in top_bn), default=0)
+
+            sev = 'high' if max_betweenness > 0.3 else ('medium' if max_betweenness > 0.1 else 'low')
+            self._add(
+                category='topology',
+                severity=sev,
+                title=f'Bottleneck nodes ({len(bottlenecks)} detected)',
+                description=(
+                    f'{len(bottlenecks)} nodes with high betweenness centrality. '
+                    f'Top: {", ".join(bn_names[:3])}.'
+                ),
+                evidence={
+                    'bottlenecks': [{
+                        'name': n.get('name', '?'),
+                        'kind': n.get('kind', '?'),
+                        'betweenness': round(n.get('betweenness', 0), 4),
+                        'in_degree': n.get('in_degree', 0),
+                        'out_degree': n.get('out_degree', 0),
+                    } for n in top_bn],
+                },
+                interpretation=(
+                    'Bottleneck nodes sit on many shortest paths between other nodes. '
+                    'If one fails or becomes complex, it blocks multiple workflows. '
+                    'They are single points of failure in the architecture.'
+                ),
+                recommendation=f'Consider decomposing top bottleneck: {bn_names[0]}. Add redundant paths or facades.',
+                effort='medium',
+                related_nodes=bn_names,
+                theory_refs=['graph_theory.betweenness'],
+                drill_down={'key': 'graph_analytics.bottlenecks'},
+            )
+
+        # Community structure
+        if communities > 1:
+            self._add(
+                category='topology',
+                severity='info',
+                title=f'Community structure ({communities} clusters)',
+                description=f'Graph community detection found {communities} natural module clusters.',
+                evidence={'communities_count': communities},
+                interpretation=(
+                    f'The codebase naturally groups into {communities} communities. '
+                    'This suggests either good modular design or emerging domain boundaries.'
+                ),
+                recommendation='Compare detected communities against intended module boundaries. Mismatches reveal implicit coupling.',
+                effort='low',
+                theory_refs=['graph_theory.communities'],
+                drill_down={'key': 'graph_analytics.communities'},
+            )
+
+    def _interpret_theory_completeness(self):
+        """Interpret theory completeness -- SMoC dimension coverage gaps."""
+        tc = self.data.get('theory_completeness', {})
+        if not tc:
+            return
+
+        overall = tc.get('overall_score', 0)
+        if not overall:
+            return
+
+        dims = {}
+        for key, val in tc.items():
+            if key.endswith('_percentage') and isinstance(val, (int, float)):
+                dims[key.replace('_percentage', '')] = val
+
+        if not dims:
+            return
+
+        weak_dims = {k: v for k, v in dims.items() if v < 50}
+        if overall >= 80 and not weak_dims:
+            return  # Healthy
+
+        sev = 'medium' if overall < 50 else ('low' if overall < 80 else 'info')
+
+        self._add(
+            category='purpose',
+            severity=sev,
+            title=f'Theory coverage: {overall:.0f}%',
+            description=(
+                f'SMoC dimension coverage is {overall:.0f}%. '
+                f'{len(weak_dims)} dimensions below 50%.'
+            ),
+            evidence={
+                'overall_score': overall,
+                'dimension_scores': {k: round(v, 1) for k, v in dims.items()},
+                'weak_dimensions': list(weak_dims.keys()),
+            },
+            interpretation=(
+                'Theory completeness measures how much of the Standard Model of Code\'s '
+                'dimensional analysis the codebase supports. Weak dimensions are blind spots '
+                'where the analysis has limited visibility.'
+            ),
+            recommendation=(
+                f'Improve coverage for: {", ".join(weak_dims.keys())}. '
+                'Add metadata, improve naming, or enrich configuration to fill gaps.'
+                if weak_dims else 'Coverage is reasonable. Maintain it as the codebase grows.'
+            ),
+            effort='low',
+            theory_refs=['dimensions'],
+            drill_down={'key': 'theory_completeness'},
+        )
+
+    def _interpret_igt_stability(self):
+        """Interpret IGT -- intergenerational transfer and critical orphans."""
+        igt = self.data.get('igt', {})
+        if not igt:
+            return
+
+        avg_stability = igt.get('avg_stability', 0)
+        critical_count = igt.get('critical_orphans_count', 0)
+        classified = igt.get('classified_orphans', [])
+
+        if critical_count == 0 and avg_stability >= 0.8:
+            return
+
+        if critical_count > 0:
+            problem_orphans = [o for o in classified if o.get('is_problem', False)]
+            top_orphans = problem_orphans[:5] if problem_orphans else classified[:5]
+            labels: Dict[str, int] = {}
+            for o in classified:
+                lbl = o.get('label', 'UNKNOWN')
+                labels[lbl] = labels.get(lbl, 0) + 1
+
+            sev = 'high' if critical_count > 20 else ('medium' if critical_count > 5 else 'low')
+            label_summary = ', '.join(f'{k}={v}' for k, v in sorted(labels.items(), key=lambda x: -x[1])[:5])
+
+            self._add(
+                category='dead_code',
+                severity=sev,
+                title=f'Critical orphans ({critical_count} classified)',
+                description=(
+                    f'{critical_count} orphans classified by IGT. '
+                    f'Labels: {label_summary}.'
+                ),
+                evidence={
+                    'critical_orphans_count': critical_count,
+                    'avg_stability': round(avg_stability, 3),
+                    'label_distribution': labels,
+                    'top_orphans': [{
+                        'path': o.get('path', '?'),
+                        'label': o.get('label', '?'),
+                        'score': round(o.get('score', 0), 3),
+                        'is_problem': o.get('is_problem', False),
+                    } for o in top_orphans],
+                },
+                interpretation=(
+                    'IGT classifies orphans with contextual labels (STANDALONE_DOC, DEAD_CODE, '
+                    'FRAMEWORK_ENTRY, etc). Problem orphans are genuinely disconnected code that '
+                    'adds maintenance cost without contributing to the dependency graph.'
+                ),
+                recommendation=(
+                    'Review problem orphans first. STANDALONE_DOC may be fine; '
+                    'DEAD_CODE should be removed; FRAMEWORK_ENTRY needs import verification.'
+                ),
+                effort='medium',
+                related_nodes=[o.get('path', '?') for o in top_orphans],
+                theory_refs=['igt', 'constraint_tiers.A_antimatter'],
+                drill_down={'key': 'igt.classified_orphans'},
+            )
+
+        if avg_stability < 0.5 and critical_count == 0:
+            self._add(
+                category='dead_code',
+                severity='low',
+                title=f'Low IGT stability ({avg_stability:.2f})',
+                description=f'Average intergenerational stability is {avg_stability:.2f} (below 0.5 threshold).',
+                evidence={'avg_stability': round(avg_stability, 3)},
+                interpretation=(
+                    'Low stability means the codebase\'s directory structure has weak '
+                    'parent-child relationships. Files may be misplaced.'
+                ),
+                recommendation='Review directory organization. Files may not reflect actual dependencies.',
+                effort='low',
+                theory_refs=['igt'],
+                drill_down={'key': 'igt.directory_stability'},
+            )
+
+    def _interpret_semantic_roles(self):
+        """Interpret semantic analysis -- role distribution and critical nodes."""
+        sa = self.data.get('semantic_analysis', {})
+        if not sa:
+            return
+
+        roles = sa.get('role_distribution', {})
+        critical = sa.get('critical_nodes', {})
+        intent = sa.get('intent_summary', {})
+
+        # Role distribution skew
+        if roles:
+            total = sum(roles.values()) or 1
+            dominant_role = max(roles.items(), key=lambda x: x[1], default=(None, 0))
+
+            if dominant_role[0] and dominant_role[1] / total > 0.6:
+                self._add(
+                    category='topology',
+                    severity='low',
+                    title=f'Role skew: {dominant_role[1]/total:.0%} {dominant_role[0]}',
+                    description=(
+                        f'Node role distribution is skewed: {dominant_role[0]} nodes '
+                        f'dominate at {dominant_role[1]/total:.0%}.'
+                    ),
+                    evidence={
+                        'role_distribution': roles,
+                        'dominant_role': dominant_role[0],
+                        'dominant_pct': round(dominant_role[1] / total, 3),
+                    },
+                    interpretation=(
+                        f'Most nodes are "{dominant_role[0]}" type. A healthy codebase '
+                        'typically has a mix of hubs, leaves, orchestrators, and utilities.'
+                    ),
+                    recommendation=(
+                        'If mostly leaves, the architecture may be overly flat. '
+                        'If mostly hubs, it may be too centralized.'
+                    ),
+                    effort='low',
+                    theory_refs=['dimensions.D1_what'],
+                    drill_down={'key': 'semantic_analysis.role_distribution'},
+                )
+
+        # Bridges: single points of failure from semantic analysis
+        bridges = critical.get('bridges', [])
+        if bridges:
+            bridge_names = (
+                bridges[:5] if isinstance(bridges[0], str)
+                else [b.get('name', '?') for b in bridges[:5]]
+            ) if bridges else []
+            sev = 'medium' if len(bridges) > 10 else 'low'
+
+            self._add(
+                category='topology',
+                severity=sev,
+                title=f'Bridge nodes ({len(bridges)} detected)',
+                description=f'{len(bridges)} bridge nodes -- removing any one disconnects part of the graph.',
+                evidence={
+                    'bridge_count': len(bridges),
+                    'top_bridges': bridge_names,
+                },
+                interpretation=(
+                    'Bridge nodes are the only connection between graph regions. '
+                    'If one fails, parts of the codebase become unreachable -- '
+                    'they represent architectural fragility.'
+                ),
+                recommendation='Add redundant paths around critical bridges. Consider extracting shared interfaces.',
+                effort='medium',
+                related_nodes=bridge_names,
+                theory_refs=['graph_theory.bridges'],
+                drill_down={'key': 'semantic_analysis.critical_nodes.bridges'},
+            )
+
+        # Docstring coverage from intent summary
+        if intent:
+            total_processed = intent.get('total_processed', 0)
+            with_docstring = intent.get('with_docstring', 0)
+            if total_processed > 0:
+                doc_ratio = with_docstring / total_processed
+                if doc_ratio < 0.3:
+                    self._add(
+                        category='purpose',
+                        severity='low',
+                        title=f'Low documentation coverage ({doc_ratio:.0%})',
+                        description=(
+                            f'Only {with_docstring}/{total_processed} ({doc_ratio:.0%}) '
+                            'nodes have docstrings.'
+                        ),
+                        evidence={
+                            'total_processed': total_processed,
+                            'with_docstring': with_docstring,
+                            'doc_ratio': round(doc_ratio, 3),
+                            'empty_profiles': intent.get('empty_profiles', 0),
+                        },
+                        interpretation=(
+                            'Low docstring coverage means purpose-field analysis relies more on '
+                            'naming and structure than explicit documentation.'
+                        ),
+                        recommendation='Add docstrings to high-traffic nodes first (keystones, bottlenecks, entry points).',
+                        effort='medium',
+                        theory_refs=['dimensions.D7_intent'],
+                        drill_down={'key': 'semantic_analysis.intent_summary'},
+                    )
 
     # -------------------------------------------------------------------------
     # Health score computation
@@ -1259,6 +2015,26 @@ class InsightsCompiler:
     # -------------------------------------------------------------------------
     # Helpers
     # -------------------------------------------------------------------------
+
+    def _promote_findings_to_issues(self) -> list:
+        """Promote high/critical findings into a structured issues list.
+
+        Issues are the CI/dashboard-consumable signal: they represent
+        findings that warrant immediate attention or should block
+        a "publishable" quality gate.
+        """
+        issues: list = []
+        for f in self.findings:
+            if f.severity in ('critical', 'high'):
+                issues.append({
+                    'id': f.id,
+                    'title': f.title,
+                    'severity': f.severity,
+                    'category': f.category,
+                    'recommendation': f.recommendation,
+                    'effort': f.effort,
+                })
+        return issues
 
     def _add(self, **kwargs):
         fid = f'CI-{self._next_id:03d}'
