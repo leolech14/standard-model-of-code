@@ -5,13 +5,16 @@ Covers:
     - modulate_oklch preserves hue, gamut-maps result
     - ChannelMapping / ViewSpec dataclass construction
     - tag_convergence with both object and dict chemistry results
-    - encode_nodes with VIEW_DEFAULT (backward-compatible, hue-only)
+    - encode_nodes skips encoding for VIEW_DEFAULT (no L/C → appearance_engine handles)
     - encode_nodes with VIEW_ARCHITECTURE (L + C variation)
     - encode_edges maps confidence to hue gradient
     - Per-group normalization produces different colors for same metric in different groups
+    - Normalization edge cases (single-node group, all-same-value)
     - Missing metric falls back to neutral defaults, no crash
     - encode_all orchestrator wires everything together
+    - encode_all idempotency (safe to call twice)
     - EncodingReport tracks what was done
+    - VIEW_DEFAULT preserves appearance_engine color_mode (file/ring/tier)
 """
 
 import re
@@ -45,6 +48,22 @@ from src.core.viz.color_encoding import (
 
 
 HEX_RE = re.compile(r'^#[0-9a-fA-F]{6}$')
+
+# A view with explicit edge_mapping for testing edge encoding via encode_all
+_VIEW_WITH_EDGES = ViewSpec(
+    name='test_edges',
+    hue_source='tier',
+    lightness=ChannelMapping(
+        metric='coherence_score',
+        channel='lightness',
+        output_range=(0.35, 0.85),
+    ),
+    edge_mapping=ChannelMapping(
+        metric='confidence',
+        channel='hue',
+        output_range=(30.0, 145.0),
+    ),
+)
 
 
 # =============================================================================
@@ -193,7 +212,7 @@ class TestTagConvergence:
         assert nodes[0]['convergence_count'] == 4
 
     def test_no_convergence_data(self):
-        """No convergence → 0 tagged, no crash."""
+        """No convergence -> 0 tagged, no crash."""
         nodes = self._make_nodes(['a::X'])
 
         assert tag_convergence(nodes, None) == 0
@@ -201,7 +220,7 @@ class TestTagConvergence:
         assert tag_convergence(nodes, {'convergence': None}) == 0
 
     def test_no_matching_nodes(self):
-        """Convergent nodes that don't match any node → 0 tagged."""
+        """Convergent nodes that don't match any node -> 0 tagged."""
         chemistry = {
             'convergence': {
                 'convergent_nodes': [
@@ -212,6 +231,57 @@ class TestTagConvergence:
         }
         nodes = self._make_nodes(['a::Foo'])
         assert tag_convergence(nodes, chemistry) == 0
+
+    def test_empty_node_id_not_matched(self):
+        """Convergent node with empty node_id should not match nodes with empty id."""
+        chemistry = {
+            'convergence': {
+                'convergent_nodes': [
+                    {'node_id': '', 'severity': 'critical',
+                     'signals': ['a', 'b', 'c', 'd', 'e'], 'signal_count': 5},
+                ]
+            }
+        }
+        nodes = [{'id': '', 'name': 'empty'}]
+        assert tag_convergence(nodes, chemistry) == 0
+
+    def test_missing_node_id_in_dict_skipped(self):
+        """Dict convergent node without node_id key is skipped entirely."""
+        chemistry = {
+            'convergence': {
+                'convergent_nodes': [
+                    {'severity': 'critical', 'signals': ['a'], 'signal_count': 1},
+                ]
+            }
+        }
+        nodes = [{'id': '', 'name': 'x'}]
+        assert tag_convergence(nodes, chemistry) == 0
+
+
+# =============================================================================
+# Tier hue ordering
+# =============================================================================
+
+class TestTierHueOrdering:
+    """Test that EXT.DISCOVERED is distinguished from EXT regardless of iteration order."""
+
+    def test_ext_discovered_gets_different_hue_from_ext(self):
+        """EXT.DISCOVERED atoms must not be confused with plain EXT atoms."""
+        nodes = [
+            {'id': 'a', 'atom': 'EXT.DISCOVERED.001', 'coherence_score': 0.5, 'D6_pure_score': 0.3},
+            {'id': 'b', 'atom': 'EXT.005', 'coherence_score': 0.5, 'D6_pure_score': 0.3},
+        ]
+        # Use ARCHITECTURE view (has L/C mappings) so encoded_color is written
+        encode_nodes(nodes, VIEW_ARCHITECTURE)
+
+        hue_discovered = hex_to_oklch(nodes[0]['encoded_color'])[2]
+        hue_ext = hex_to_oklch(nodes[1]['encoded_color'])[2]
+
+        # They should be meaningfully different (EXT.DISCOVERED=60deg, EXT=145deg)
+        diff = abs(hue_discovered - hue_ext)
+        if diff > 180:
+            diff = 360 - diff
+        assert diff > 30, f"EXT.DISCOVERED and EXT hues too close: {diff:.1f}deg"
 
 
 # =============================================================================
@@ -235,39 +305,25 @@ class TestEncodeNodes:
             })
         return nodes
 
-    def test_view_default_produces_hex_colors(self):
-        """VIEW_DEFAULT should assign encoded_color to every node."""
+    def test_view_default_skips_encoding(self):
+        """VIEW_DEFAULT has no L/C mappings, so encoded_color is NOT written."""
         nodes = self._make_tier_nodes()
         encoded, missing = encode_nodes(nodes, VIEW_DEFAULT)
+
+        assert encoded == 0
+        assert missing == {}
+        for node in nodes:
+            assert 'encoded_color' not in node
+
+    def test_view_architecture_produces_hex_colors(self):
+        """VIEW_ARCHITECTURE should assign encoded_color to every node."""
+        nodes = self._make_tier_nodes()
+        encoded, missing = encode_nodes(nodes, VIEW_ARCHITECTURE)
 
         assert encoded == 5
         for node in nodes:
             assert 'encoded_color' in node
             assert HEX_RE.match(node['encoded_color'])
-
-    def test_view_default_no_lc_variation(self):
-        """VIEW_DEFAULT has no L/C mapping → all nodes get neutral L/C."""
-        nodes = self._make_tier_nodes()
-        encode_nodes(nodes, VIEW_DEFAULT)
-
-        # All nodes should use NEUTRAL_L and NEUTRAL_C (modulo gamut mapping)
-        for node in nodes:
-            L, C, H = hex_to_oklch(node['encoded_color'])
-            assert L == pytest.approx(NEUTRAL_L, abs=0.05)
-            assert C == pytest.approx(NEUTRAL_C, abs=0.03)
-
-    def test_view_default_different_hues_for_different_tiers(self):
-        """Different tiers should get different hues."""
-        nodes = self._make_tier_nodes()
-        encode_nodes(nodes, VIEW_DEFAULT)
-
-        core_hue = hex_to_oklch(nodes[0]['encoded_color'])[2]  # CORE
-        arch_hue = hex_to_oklch(nodes[2]['encoded_color'])[2]  # ARCH
-        ext_hue = hex_to_oklch(nodes[3]['encoded_color'])[2]   # EXT
-
-        # Hues should be meaningfully different (at least 30 degrees apart)
-        assert abs(core_hue - arch_hue) > 30 or abs(core_hue - arch_hue) > 330
-        assert abs(arch_hue - ext_hue) > 30 or abs(arch_hue - ext_hue) > 330
 
     def test_view_architecture_produces_lc_variation(self):
         """VIEW_ARCHITECTURE should produce varying L and C across nodes."""
@@ -281,8 +337,21 @@ class TestEncodeNodes:
         assert max(lightnesses) - min(lightnesses) > 0.05
         assert max(chromas) - min(chromas) > 0.01
 
+    def test_view_architecture_different_hues_for_different_tiers(self):
+        """Different tiers should get different hues in ARCHITECTURE view."""
+        nodes = self._make_tier_nodes()
+        encode_nodes(nodes, VIEW_ARCHITECTURE)
+
+        core_hue = hex_to_oklch(nodes[0]['encoded_color'])[2]  # CORE
+        arch_hue = hex_to_oklch(nodes[2]['encoded_color'])[2]  # ARCH
+        ext_hue = hex_to_oklch(nodes[3]['encoded_color'])[2]   # EXT
+
+        # Hues should be meaningfully different (at least 30 degrees apart)
+        assert abs(core_hue - arch_hue) > 30 or abs(core_hue - arch_hue) > 330
+        assert abs(arch_hue - ext_hue) > 30 or abs(arch_hue - ext_hue) > 330
+
     def test_view_health_inverts_complexity(self):
-        """VIEW_HEALTH inverts complexity: highest complexity → lowest lightness."""
+        """VIEW_HEALTH inverts complexity: highest complexity -> lowest lightness."""
         nodes = self._make_tier_nodes()
         encode_nodes(nodes, VIEW_HEALTH)
 
@@ -290,17 +359,18 @@ class TestEncodeNodes:
         L_low_complex = hex_to_oklch(nodes[0]['encoded_color'])[0]
         L_high_complex = hex_to_oklch(nodes[4]['encoded_color'])[0]
 
-        # Inverted: low complexity → high lightness, high complexity → low lightness
+        # Inverted: low complexity -> high lightness, high complexity -> low lightness
         assert L_low_complex > L_high_complex
 
-    def test_all_encoded_colors_are_valid_hex(self):
-        """Every encoded_color should be a valid 6-digit hex."""
+    def test_data_views_produce_valid_hex(self):
+        """Every data-driven view (non-default) should produce valid hex colors."""
         nodes = self._make_tier_nodes(20)
-        for view in PRESET_VIEWS.values():
+        data_views = {k: v for k, v in PRESET_VIEWS.items() if k != 'default'}
+        for name, view in data_views.items():
             encode_nodes(nodes, view)
             for node in nodes:
                 assert HEX_RE.match(node['encoded_color']), \
-                    f"Invalid hex in {view.name}: {node['encoded_color']}"
+                    f"Invalid hex in {name}: {node['encoded_color']}"
 
     def test_missing_metric_uses_neutral(self):
         """Nodes lacking the mapped metric should get neutral L/C."""
@@ -334,13 +404,13 @@ class TestEncodeNodes:
         encode_nodes(nodes, VIEW_FILES)
 
         hues = [hex_to_oklch(n['encoded_color'])[2] for n in nodes]
-        # Adjacent files should have different hues (golden angle ≈ 137.5°)
+        # Adjacent files should have different hues (golden angle ~ 137.5deg)
         for i in range(len(hues) - 1):
             diff = abs(hues[i + 1] - hues[i])
             if diff > 180:
                 diff = 360 - diff
-            # Should be roughly 137.5° apart (allowing for gamut mapping variation)
-            assert diff > 50, f"Files {i} and {i+1} too close: {diff:.1f}°"
+            # Should be roughly 137.5deg apart (allowing for gamut mapping variation)
+            assert diff > 50, f"Files {i} and {i+1} too close: {diff:.1f}deg"
 
 
 # =============================================================================
@@ -348,10 +418,10 @@ class TestEncodeNodes:
 # =============================================================================
 
 class TestPerGroupNormalization:
-    """Test that per-group normalization produces different colors for same value in different groups."""
+    """Test per-group normalization edge cases and correctness."""
 
     def test_same_metric_different_groups(self):
-        """Same absolute metric in two groups with different ranges → different L values."""
+        """Same absolute metric in two groups with different ranges -> different L values."""
         view = ViewSpec(
             name='test_pergroup',
             hue_source='tier',
@@ -388,6 +458,51 @@ class TestPerGroupNormalization:
         Lb3 = hex_to_oklch(nodes[5]['encoded_color'])[0]
         assert abs(La2 - Lb3) > 0.2
 
+    def test_single_node_group_gets_midpoint(self):
+        """A group with one node should get the midpoint of the output range."""
+        view = ViewSpec(
+            name='test_single',
+            hue_source='tier',
+            lightness=ChannelMapping(
+                metric='score',
+                channel='lightness',
+                output_range=(0.35, 0.85),
+                normalize='per_group',
+                group_by='file_path',
+            ),
+        )
+        nodes = [
+            {'id': 'a', 'atom': 'CORE.001', 'file_path': 'lonely_file', 'score': 42.0},
+        ]
+        encode_nodes(nodes, view)
+
+        L = hex_to_oklch(nodes[0]['encoded_color'])[0]
+        midpoint = (0.35 + 0.85) / 2.0  # 0.60
+        assert L == pytest.approx(midpoint, abs=0.05)
+
+    def test_all_same_value_group_gets_midpoint(self):
+        """A group where all nodes have identical values should get the midpoint."""
+        view = ViewSpec(
+            name='test_uniform',
+            hue_source='tier',
+            lightness=ChannelMapping(
+                metric='score',
+                channel='lightness',
+                output_range=(0.35, 0.85),
+                normalize='global',  # global is fine too
+            ),
+        )
+        nodes = [
+            {'id': f'n{i}', 'atom': 'CORE.001', 'score': 7.0}
+            for i in range(5)
+        ]
+        encode_nodes(nodes, view)
+
+        midpoint = (0.35 + 0.85) / 2.0
+        for node in nodes:
+            L = hex_to_oklch(node['encoded_color'])[0]
+            assert L == pytest.approx(midpoint, abs=0.05)
+
 
 # =============================================================================
 # encode_edges
@@ -403,39 +518,53 @@ class TestEncodeEdges:
             {'source': 'a', 'target': 'c', 'confidence': 0.8},
             {'source': 'a', 'target': 'd', 'confidence': 1.0},
         ]
-        encoded = encode_edges(edges)
+        encoded, missing = encode_edges(edges)
 
         assert encoded == 3
+        assert missing == 0
         for edge in edges:
             assert 'encoded_color' in edge
             assert HEX_RE.match(edge['encoded_color'])
 
-        # Different confidence → different colors
+        # Different confidence -> different colors
         colors = [edge['encoded_color'] for edge in edges]
         assert len(set(colors)) >= 2  # at least 2 distinct colors
 
-    def test_missing_confidence_skipped(self):
-        """Edges without the metric are not encoded."""
+    def test_missing_confidence_reports_count(self):
+        """Edges without the metric are not encoded; missing count is tracked."""
         edges = [
             {'source': 'a', 'target': 'b'},  # no confidence
             {'source': 'a', 'target': 'c', 'confidence': 0.9},
         ]
-        encoded = encode_edges(edges)
-        # Only the one with confidence gets encoded
+        encoded, missing = encode_edges(edges)
         assert encoded <= 1
+        assert missing >= 1
+
+    def test_all_edges_missing_metric(self):
+        """When no edges have the metric, returns (0, total_edges)."""
+        edges = [
+            {'source': 'a', 'target': 'b'},
+            {'source': 'a', 'target': 'c'},
+        ]
+        encoded, missing = encode_edges(edges)
+        assert encoded == 0
+        assert missing == 2
 
     def test_uniform_confidence_still_encodes(self):
-        """All same confidence → all get same color, no crash."""
+        """All same confidence -> all get same color, no crash."""
         edges = [
             {'source': 'a', 'target': 'b', 'confidence': 1.0},
             {'source': 'a', 'target': 'c', 'confidence': 1.0},
         ]
-        encoded = encode_edges(edges)
+        encoded, missing = encode_edges(edges)
         assert encoded == 2
+        assert missing == 0
 
     def test_empty_edges_no_crash(self):
         """Empty edge list should not crash."""
-        assert encode_edges([]) == 0
+        encoded, missing = encode_edges([])
+        assert encoded == 0
+        assert missing == 0
 
     def test_custom_mapping(self):
         """Custom ChannelMapping for edges should work."""
@@ -448,8 +577,24 @@ class TestEncodeEdges:
             {'source': 'a', 'target': 'b', 'weight': 1.0},
             {'source': 'a', 'target': 'c', 'weight': 5.0},
         ]
-        encoded = encode_edges(edges, mapping)
+        encoded, missing = encode_edges(edges, mapping)
         assert encoded == 2
+        assert missing == 0
+
+    def test_default_hue_range_is_warm_to_cool(self):
+        """Default edge encoding should map low confidence to warm, high to cool."""
+        edges = [
+            {'source': 'a', 'target': 'b', 'confidence': 0.0},
+            {'source': 'a', 'target': 'c', 'confidence': 1.0},
+        ]
+        encode_edges(edges)
+
+        hue_low = hex_to_oklch(edges[0]['encoded_color'])[2]
+        hue_high = hex_to_oklch(edges[1]['encoded_color'])[2]
+
+        # Low confidence ~ 30deg (warm orange-red), high ~ 145deg (green)
+        assert hue_low < 90, f"Low confidence hue too high: {hue_low:.1f}"
+        assert hue_high > 90, f"High confidence hue too low: {hue_high:.1f}"
 
 
 # =============================================================================
@@ -471,14 +616,50 @@ class TestEncodeAll:
         ]
         return {'nodes': nodes, 'edges': edges}
 
-    def test_default_view_encodes_nodes(self):
-        """encode_all with VIEW_DEFAULT should encode all nodes."""
+    def test_default_view_skips_node_encoding(self):
+        """encode_all with VIEW_DEFAULT should NOT encode nodes (preserves color_mode)."""
         full = self._make_full_output()
         report = encode_all(full, VIEW_DEFAULT)
 
         assert report.view_name == 'default'
+        assert report.nodes_encoded == 0
+        assert report.edges_encoded == 0  # no edge_mapping on VIEW_DEFAULT
+        assert report.channels_used == []
+        # No encoded_color on any node
+        for node in full['nodes']:
+            assert 'encoded_color' not in node
+
+    def test_default_view_still_tags_convergence(self):
+        """VIEW_DEFAULT should still tag convergence even though it skips encoding."""
+        full = self._make_full_output()
+        chemistry = {
+            'convergence': {
+                'convergent_nodes': [
+                    {'node_id': 'node_0', 'severity': 'critical',
+                     'signals': ['a', 'b', 'c', 'd', 'e'], 'signal_count': 5},
+                ]
+            }
+        }
+        report = encode_all(full, VIEW_DEFAULT, chemistry=chemistry)
+
+        assert report.convergent_tagged == 1
+        assert full['nodes'][0]['convergence_severity'] == 'critical'
+        assert report.nodes_encoded == 0  # encoding skipped
+
+    def test_architecture_view_encodes_nodes(self):
+        """VIEW_ARCHITECTURE should encode all nodes with 3 channels."""
+        full = self._make_full_output()
+        for node in full['nodes']:
+            node['D6_pure_score'] = 0.3
+
+        report = encode_all(full, VIEW_ARCHITECTURE)
+
         assert report.nodes_encoded == 10
         assert 'hue' in report.channels_used
+        assert 'lightness' in report.channels_used
+        assert 'chroma' in report.channels_used
+        for node in full['nodes']:
+            assert 'encoded_color' in node
 
     def test_with_chemistry_tags_convergence(self):
         """encode_all with chemistry should tag convergent nodes."""
@@ -493,7 +674,7 @@ class TestEncodeAll:
                 ]
             }
         }
-        report = encode_all(full, VIEW_DEFAULT, chemistry=chemistry)
+        report = encode_all(full, VIEW_ARCHITECTURE, chemistry=chemistry)
 
         assert report.convergent_tagged == 2
         assert full['nodes'][0]['convergence_severity'] == 'critical'
@@ -505,20 +686,7 @@ class TestEncodeAll:
         report = encode_all(full)
 
         assert report.convergent_tagged == 0
-        assert report.nodes_encoded == 10
-
-    def test_architecture_view_uses_three_channels(self):
-        """VIEW_ARCHITECTURE should use hue + lightness + chroma."""
-        full = self._make_full_output()
-        # Add D6_pure_score to nodes
-        for i, node in enumerate(full['nodes']):
-            node['D6_pure_score'] = 0.1 * (i + 1)
-
-        report = encode_all(full, VIEW_ARCHITECTURE)
-
-        assert 'hue' in report.channels_used
-        assert 'lightness' in report.channels_used
-        assert 'chroma' in report.channels_used
+        assert report.nodes_encoded == 0  # VIEW_DEFAULT
 
     def test_report_tracks_missing_data(self):
         """Nodes missing mapped metrics should be counted in missing_data."""
@@ -544,6 +712,28 @@ class TestEncodeAll:
         report = encode_all(full, view=None)
         assert report.view_name == 'default'
 
+    def test_edge_encoding_with_explicit_mapping(self):
+        """View with edge_mapping should encode edges; missing data surfaced."""
+        nodes = [{'id': 'n0', 'atom': 'CORE.001', 'coherence_score': 0.5}]
+        edges = [
+            {'source': 'n0', 'target': 'n0', 'confidence': 0.8},
+            {'source': 'n0', 'target': 'n0'},  # missing confidence
+        ]
+        full = {'nodes': nodes, 'edges': edges}
+        report = encode_all(full, _VIEW_WITH_EDGES)
+
+        assert report.edges_encoded >= 1
+        assert report.missing_data.get('edge:confidence', 0) >= 1
+
+    def test_view_default_does_not_encode_edges(self):
+        """VIEW_DEFAULT has no edge_mapping, so edges are not encoded."""
+        full = self._make_full_output()
+        report = encode_all(full, VIEW_DEFAULT)
+
+        assert report.edges_encoded == 0
+        for edge in full['edges']:
+            assert 'encoded_color' not in edge
+
     def test_report_dict_conversion(self):
         """EncodingReport.__dict__ should produce a JSON-serializable dict."""
         full = self._make_full_output()
@@ -552,6 +742,34 @@ class TestEncodeAll:
         assert isinstance(d, dict)
         assert 'view_name' in d
         assert 'nodes_encoded' in d
-        # Verify JSON serializable
         import json
         json.dumps(d)  # should not raise
+
+    def test_idempotent_double_call(self):
+        """Calling encode_all twice on the same data should produce identical results."""
+        full = self._make_full_output()
+        for node in full['nodes']:
+            node['D6_pure_score'] = 0.3
+
+        report1 = encode_all(full, VIEW_ARCHITECTURE)
+        colors_after_first = [n.get('encoded_color') for n in full['nodes']]
+
+        report2 = encode_all(full, VIEW_ARCHITECTURE)
+        colors_after_second = [n.get('encoded_color') for n in full['nodes']]
+
+        assert colors_after_first == colors_after_second
+        assert report1.nodes_encoded == report2.nodes_encoded
+
+    def test_color_mode_file_preserved_with_default_view(self):
+        """VIEW_DEFAULT must not write encoded_color, so color_mode=file still works."""
+        nodes = [
+            {'id': f'n{i}', 'atom': 'CORE.001', 'fileIdx': i}
+            for i in range(5)
+        ]
+        full = {'nodes': nodes, 'edges': []}
+        encode_all(full, VIEW_DEFAULT)
+
+        # No encoded_color should exist
+        for node in nodes:
+            assert 'encoded_color' not in node, \
+                "VIEW_DEFAULT wrote encoded_color, which would shadow color_mode=file"

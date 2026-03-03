@@ -2174,7 +2174,10 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
              f"{enc_report.convergent_tagged} convergent", quiet)
     except Exception as e:
         _log(f"   ⚠️ Color encoding skipped: {e}", quiet)
-        # Fallback: the old single-scale method was already applied above
+        import traceback
+        traceback.print_exc()
+        # Note: complexity_color was already written by apply_scale_to_nodes above.
+        # Without encoded_color, appearance_engine falls through to tier/ring/file colors.
 
     # Stage 21: Insights Compilation
     print("\n🔬 Stage 21: Insights Compilation...")

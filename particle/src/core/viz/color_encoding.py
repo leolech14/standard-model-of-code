@@ -156,12 +156,13 @@ PRESET_VIEWS = {
 # =============================================================================
 
 # Tier hues — matching appearance_engine's tier colors, expressed in OKLCH hue degrees.
-_TIER_HUES: Dict[str, float] = {
-    'CORE': 200.0,         # cyan / teal
-    'ARCH': 280.0,         # purple
-    'EXT.DISCOVERED': 60.0,  # warm yellow
-    'EXT': 145.0,          # green
-}
+# Ordered longest-prefix-first so 'EXT.DISCOVERED' matches before 'EXT'.
+_TIER_HUE_RULES: List[Tuple[str, float]] = [
+    ('EXT.DISCOVERED', 60.0),   # warm yellow — must precede 'EXT'
+    ('CORE', 200.0),            # cyan / teal
+    ('ARCH', 280.0),            # purple
+    ('EXT', 145.0),             # green
+]
 
 # Ring hues — Clean Architecture layers
 _RING_HUES: Dict[str, float] = {
@@ -189,7 +190,7 @@ def _resolve_base_hue(node: Dict[str, Any], hue_source: str) -> float:
     """Look up the base hue for a node given the hue source axis."""
     if hue_source == 'tier':
         atom = node.get('atom', '')
-        for prefix, hue in _TIER_HUES.items():
+        for prefix, hue in _TIER_HUE_RULES:
             if atom.startswith(prefix):
                 return hue
         return 0.0  # fallback for unrecognized atoms
@@ -356,25 +357,30 @@ def tag_convergence(
     lookup: Dict[str, Any] = {}
     for cn in conv_nodes:
         if hasattr(cn, 'node_id'):
-            lookup[cn.node_id] = cn
+            nid = cn.node_id
         elif isinstance(cn, dict):
-            lookup[cn.get('node_id', '')] = cn
+            nid = cn.get('node_id', '')
+        else:
+            continue
+        if nid:  # skip empty/missing node_id to avoid false matches
+            lookup[nid] = cn
 
     # Tag matching nodes
     tagged = 0
     for node in nodes:
         node_id = node.get('id', '')
-        if node_id in lookup:
-            cn = lookup[node_id]
-            if hasattr(cn, 'severity'):
-                node['convergence_severity'] = cn.severity
-                node['convergence_signals'] = list(cn.signals)
-                node['convergence_count'] = cn.signal_count
-            else:
-                node['convergence_severity'] = cn.get('severity', 'moderate')
-                node['convergence_signals'] = list(cn.get('signals', []))
-                node['convergence_count'] = cn.get('signal_count', 0)
-            tagged += 1
+        if not node_id or node_id not in lookup:
+            continue
+        cn = lookup[node_id]
+        if hasattr(cn, 'severity'):
+            node['convergence_severity'] = cn.severity
+            node['convergence_signals'] = list(getattr(cn, 'signals', []))
+            node['convergence_count'] = getattr(cn, 'signal_count', 0)
+        else:
+            node['convergence_severity'] = cn.get('severity', 'moderate')
+            node['convergence_signals'] = list(cn.get('signals', []))
+            node['convergence_count'] = cn.get('signal_count', 0)
+        tagged += 1
 
     return tagged
 
@@ -398,6 +404,12 @@ def encode_nodes(
     Returns:
         (nodes_encoded, missing_data) where missing_data maps metric → skip count
     """
+    # If the view has no L or C mappings (e.g. VIEW_DEFAULT), skip encoding.
+    # This preserves appearance_engine's color_mode switch (tier/ring/file).
+    has_data_channels = view.lightness is not None or view.chroma is not None
+    if not has_data_channels:
+        return 0, {}
+
     # Pre-compute normalized channel values
     l_values: Dict[int, float] = {}
     c_values: Dict[int, float] = {}
@@ -417,8 +429,10 @@ def encode_nodes(
         L = l_values.get(i, NEUTRAL_L)
         C = c_values.get(i, NEUTRAL_C)
 
-        # Gamut-map and convert
-        mL, mC, mH = gamut_map_oklch(L, C, H)
+        # Gamut-map and convert via modulate_oklch pattern:
+        # take base hue, overlay data-driven L and C
+        mL, mC, mH = modulate_oklch(NEUTRAL_L, NEUTRAL_C, H,
+                                     l_target=L, c_target=C)
         node['encoded_color'] = oklch_to_hex(mL, mC, mH)
         encoded += 1
 
@@ -428,7 +442,7 @@ def encode_nodes(
 def encode_edges(
     edges: List[Dict[str, Any]],
     mapping: Optional[ChannelMapping] = None,
-) -> int:
+) -> Tuple[int, int]:
     """Apply a ChannelMapping to encode edges with OKLCH colors.
 
     Default maps edge 'confidence' to a hue gradient (red → green).
@@ -438,7 +452,7 @@ def encode_edges(
         mapping: Optional ChannelMapping for the edge metric
 
     Returns:
-        Number of edges encoded
+        (edges_encoded, edges_missing_metric)
     """
     if mapping is None:
         # Default: confidence → hue gradient
@@ -449,8 +463,9 @@ def encode_edges(
         )
 
     values = _normalize_global(edges, mapping)
+    edges_missing = len(edges) - len(values)
     if not values:
-        return 0
+        return 0, edges_missing
 
     encoded = 0
     for i, edge in enumerate(edges):
@@ -474,7 +489,7 @@ def encode_edges(
         edge['encoded_color'] = oklch_to_hex(mL, mC, mH)
         encoded += 1
 
-    return encoded
+    return encoded, edges_missing
 
 
 def encode_all(
@@ -505,18 +520,21 @@ def encode_all(
     if chemistry is not None:
         report.convergent_tagged = tag_convergence(nodes, chemistry)
 
-    # 2. Encode nodes
+    # 2. Encode nodes (skipped for views with no L/C mapping like VIEW_DEFAULT)
     if nodes:
         report.nodes_encoded, report.missing_data = encode_nodes(nodes, view)
-        channels.append('hue')
-        if view.lightness:
-            channels.append('lightness')
-        if view.chroma:
-            channels.append('chroma')
+        if report.nodes_encoded > 0:
+            channels.append('hue')
+            if view.lightness:
+                channels.append('lightness')
+            if view.chroma:
+                channels.append('chroma')
 
-    # 3. Encode edges
-    if edges:
-        report.edges_encoded = encode_edges(edges, view.edge_mapping)
+    # 3. Encode edges (only when the view provides an explicit edge mapping)
+    if edges and view.edge_mapping is not None:
+        report.edges_encoded, edges_missing = encode_edges(edges, view.edge_mapping)
+        if edges_missing > 0:
+            report.missing_data[f'edge:{view.edge_mapping.metric}'] = edges_missing
 
     report.channels_used = channels
     return report

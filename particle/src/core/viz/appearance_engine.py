@@ -40,7 +40,8 @@ class AppearanceEngine:
         self,
         nodes: List[Dict[str, Any]],
         file_boundaries: List[Dict[str, Any]],
-        color_mode: str = "tier"
+        color_mode: str = "tier",
+        wireframe: bool = False
     ) -> List[Dict[str, Any]]:
         """
         Apply appearance tokens to all nodes.
@@ -49,11 +50,23 @@ class AppearanceEngine:
             nodes: Raw node data from analysis
             file_boundaries: File boundary data for file-based coloring
             color_mode: "tier" | "ring" | "file"
+            wireframe: If True, apply wireframe appearance (transparent fill, visible stroke)
 
         Returns:
             Nodes with added visual properties (color, size, etc.)
         """
         total_files = len(file_boundaries)
+
+        # Load wireframe parameters from tokens
+        wf_fill_opacity = self.resolver.appearance(
+            "appearance-mode.wireframe.node-fill-opacity", 0.0
+        ) if wireframe else None
+        wf_stroke_opacity = self.resolver.appearance(
+            "appearance-mode.wireframe.node-stroke-opacity", 1.0
+        ) if wireframe else None
+        wf_stroke_width = self.resolver.appearance(
+            "appearance-mode.wireframe.node-stroke-width", 1.5
+        ) if wireframe else None
 
         for node in nodes:
             # Prefer pre-encoded OKLCH color from color_encoding layer
@@ -68,6 +81,12 @@ class AppearanceEngine:
 
             # Apply size
             node["size"] = self._compute_size(node)
+
+            # Apply wireframe mode: transparent fill, visible stroke
+            if wireframe:
+                node["fillOpacity"] = wf_fill_opacity
+                node["strokeOpacity"] = wf_stroke_opacity
+                node["strokeWidth"] = wf_stroke_width
 
         return nodes
 
@@ -432,6 +451,26 @@ class AppearanceEngine:
                 "UNKNOWN": self.resolver.appearance("color.ring.UNKNOWN", "#666666")
             },
             "unknown": self.resolver.appearance("color.atom.unknown", "#666666")
+        }
+
+    def get_wireframe_config(self) -> Dict[str, Any]:
+        """Get wireframe appearance mode configuration."""
+        return {
+            "defaultMode": self.resolver.appearance("appearance-mode", "filled"),
+            "wireframe": {
+                "nodeFillOpacity": self.resolver.appearance(
+                    "appearance-mode.wireframe.node-fill-opacity", 0.0
+                ),
+                "nodeStrokeOpacity": self.resolver.appearance(
+                    "appearance-mode.wireframe.node-stroke-opacity", 1.0
+                ),
+                "nodeStrokeWidth": self.resolver.appearance(
+                    "appearance-mode.wireframe.node-stroke-width", 1.5
+                ),
+                "edgeOpacity": self.resolver.appearance(
+                    "appearance-mode.wireframe.edge-opacity", 0.15
+                )
+            }
         }
 
     def get_file_color_config(self) -> Dict[str, Any]:
