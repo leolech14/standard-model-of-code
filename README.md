@@ -2,6 +2,34 @@
 
 Foundation repo for the ecosystem: Standard Model of Code (SMC) + Collider engine + Wave AI tooling.
 
+## Getting Started
+
+```bash
+gh repo clone leolech14/standard-model-of-code
+cd standard-model-of-code
+make setup        # Core: Collider venv + hooks + tools venv
+make setup-full   # Above + Wave AI tools (requires Doppler)
+```
+
+### Prerequisites
+
+| Tool | Required | Install |
+|------|----------|---------|
+| Python 3.10+ | Yes | `brew install python3` |
+| uv | Yes | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
+| git | Yes | `xcode-select --install` |
+| pre-commit | Yes | `brew install pre-commit` |
+| node | Optional | `brew install node` (for commitlint) |
+| Doppler | Full only | `brew install dopplerhq/cli/doppler` |
+
+### Verify
+
+```bash
+make test         # 406+ Collider tests
+make lint         # Pre-commit checks
+./pe status       # System health
+```
+
 ## Start Here
 
 - Project map + commands: `CLAUDE.md`

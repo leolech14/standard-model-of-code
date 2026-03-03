@@ -1,0 +1,69 @@
+#!/bin/sh
+# Collider Intelligence Gate: Pre-Push Hook
+# Runs architectural health checks before allowing code to be pushed.
+#
+# Source of truth: .agent/hooks/pre-push  (symlinked into .git/hooks/)
+# Install: make hooks
+#
+# AI AGENTS: This is a thin shell wrapper. The real logic lives in:
+#   particle/src/scripts/collider_pre_push.py
+# Edit THAT file to change thresholds, behavior, or error handling.
+# Edit THIS file only if you need to change the shell-level timeout or uv invocation.
+
+echo "=========================================================="
+echo "Collider Intelligence Gate: Pre-Push Check"
+
+# ── Resolve repo root (works from worktrees too) ──────────────
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+if [ -z "$REPO_ROOT" ]; then
+    echo "WARNING: Not in a git repo. Skipping Collider check."
+    echo "=========================================================="
+    exit 0
+fi
+cd "$REPO_ROOT" || exit 0
+
+# ── Prevent venv mismatch in git worktrees ────────────────────
+unset VIRTUAL_ENV
+
+# ── Check that uv is available ────────────────────────────────
+if ! command -v uv >/dev/null 2>&1; then
+    echo "WARNING: 'uv' not found. Skipping Collider check."
+    echo "Install: curl -LsSf https://astral.sh/uv/install.sh | sh"
+    echo "=========================================================="
+    exit 0
+fi
+
+# ── Check that the gate script exists ─────────────────────────
+GATE_SCRIPT="particle/src/scripts/collider_pre_push.py"
+if [ ! -f "$GATE_SCRIPT" ]; then
+    echo "WARNING: $GATE_SCRIPT not found. Skipping."
+    echo "=========================================================="
+    exit 0
+fi
+
+# ── Run with timeout to prevent hanging ───────────────────────
+# macOS ships without timeout; gtimeout is from coreutils (brew install coreutils)
+if command -v gtimeout >/dev/null 2>&1; then
+    TIMEOUT_CMD="gtimeout 120"
+elif command -v timeout >/dev/null 2>&1; then
+    TIMEOUT_CMD="timeout 120"
+else
+    TIMEOUT_CMD=""
+fi
+
+$TIMEOUT_CMD uv run python "$GATE_SCRIPT"
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -eq 124 ]; then
+    echo "WARNING: Collider check timed out (120s). Allowing push -- CI will validate."
+    echo "=========================================================="
+    exit 0
+fi
+
+if [ $EXIT_CODE -ne 0 ]; then
+    echo "=========================================================="
+    exit 1
+fi
+
+echo "=========================================================="
+exit 0
