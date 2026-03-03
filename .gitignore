@@ -176,3 +176,29 @@ tools/*.csv
 # Large reference files (stored in gs://elements-archive-2026/large-files/)
 swebok-v4.pdf
 SMC_THEORY_COMPLETE*.zip
+
+# =============================================================================
+# GIT HEALTH AUDIT (2026-03-03)
+# =============================================================================
+
+# Claude Code worktrees (ephemeral, not project code)
+.claude/worktrees/
+
+# Generated output directories
+output/
+logs/
+particle/graphrag_out/
+
+# Generated text output files (one-off analysis runs)
+*_output.txt
+enriched_history.txt
+
+# External tool data
+.minimax/
+
+# Scratch notes
+ORGANIZED
+
+# Research sessions (extend existing patterns to nested tool dirs)
+**/research/gemini/sessions/
+**/research/gemini/raw/
