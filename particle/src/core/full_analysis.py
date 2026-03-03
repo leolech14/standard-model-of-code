@@ -67,6 +67,68 @@ def _log(msg: str, quiet: bool = False):
         print(msg)
 
 
+def _write_pipeline_report(
+    perf_manager, out_path, target, total_time, nodes, edges, pipeline_error=None
+):
+    """Write pipeline_report.json -- best-effort, returns path or None."""
+    try:
+        report_path = out_path / "pipeline_report.json"
+        report = perf_manager.to_dict()
+        report["meta"] = {
+            "report_version": "1.0",
+            "target": str(target),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "collider_version": "4.0.0",
+            "total_time_s": round(total_time, 1),
+            "node_count": len(nodes) if nodes else 0,
+            "edge_count": len(edges) if edges else 0,
+        }
+        if pipeline_error:
+            report["meta"]["pipeline_error"] = str(pipeline_error)
+            report["meta"]["status"] = "FAILED"
+        else:
+            report["meta"]["status"] = "OK"
+        report["output_files"] = {
+            "unified_analysis": str(out_path / "unified_analysis.json"),
+            "lod1": str(out_path / "ast_lod1_verbose.json"),
+            "lod2": str(out_path / "ast_lod2_standard.json"),
+            "lod3": str(out_path / "ast_lod3_compact.json"),
+            "database": str(out_path / "collider.db"),
+        }
+        with open(report_path, "w") as f:
+            json.dump(report, f, indent=2)
+        return report_path
+    except Exception:
+        return None
+
+
+class _PipelineCrashGuard:
+    """Accumulates state during pipeline execution for crash-safe report writing."""
+
+    def __init__(self):
+        self.perf_manager = None
+        self.out_path = None
+        self.target = None
+        self.start_time = None
+        self.nodes = []
+        self.edges = []
+
+    def write_crash_report(self, exc):
+        """Best-effort: write pipeline_report.json with error metadata."""
+        if not (self.perf_manager and self.out_path and self.target and self.start_time):
+            return
+        elapsed = time.time() - self.start_time
+        rp = _write_pipeline_report(
+            self.perf_manager, self.out_path, self.target, elapsed,
+            self.nodes, self.edges, pipeline_error=exc,
+        )
+        print(f"\n{'=' * 60}")
+        print(f"COLLIDER PIPELINE FAILED: {exc}")
+        if rp:
+            print(f"   Partial report: {rp}")
+        print(f"{'=' * 60}")
+
+
 @contextlib.contextmanager
 def suppress_fd_stderr():
     """Suppress C-library warnings written directly to fd 2 (e.g. tree-sitter)."""
@@ -256,7 +318,21 @@ def run_pipeline_analysis(target_path: str, options: Dict[str, Any] = None) -> "
 
 
 def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[str, Any] = None) -> Dict:
-    """Run complete analysis with all theoretical frameworks."""
+    """Run complete analysis with all theoretical frameworks.
+
+    Wraps _run_full_analysis to ensure pipeline_report.json is written
+    even if an unhandled exception escapes the stage guards.
+    """
+    guard = _PipelineCrashGuard()
+    try:
+        return _run_full_analysis(target_path, output_dir, options, _guard=guard)
+    except Exception as exc:
+        guard.write_crash_report(exc)
+        raise
+
+
+def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[str, Any] = None, *, _guard: _PipelineCrashGuard = None) -> Dict:
+    """Internal implementation of run_full_analysis."""
 
     if options is None:
         options = {}
@@ -280,6 +356,20 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     from observability import PerformanceManager, StageTimer
     perf_manager = PerformanceManager(verbose=verbose_timing)
     perf_manager.start_pipeline()
+    _guard.perf_manager = perf_manager
+
+    # Update crash guard with resolved state
+    if _guard is None:
+        _guard = _PipelineCrashGuard()
+    _guard.start_time = start_time
+    _guard.out_path = resolved_output_dir
+    _guard.target = target
+
+    # Working vars (overwritten by stages)
+    nodes = []
+    edges = []
+    out_path = resolved_output_dir
+    report_path = None
 
     _log("=" * 60, quiet)
     _log("COLLIDER FULL ANALYSIS", quiet)
@@ -346,14 +436,14 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     shallow=len(smartignore_manifest.shallow_paths),
                 )
 
-                print(f"   → Scanned {smartignore_manifest.total_dirs_scanned} directories in {smartignore_manifest.discovery_time_ms:.0f}ms")
-                print(f"   → Phase 1 (name): {smartignore_manifest.phase1_dirs} classified")
-                print(f"   → Phase 2 (signal): {smartignore_manifest.phase2_dirs} explored")
-                print(f"   → Decision: EXPLORE {len(smartignore_manifest.explore_paths)}, "
+                _log(f"   → Scanned {smartignore_manifest.total_dirs_scanned} directories in {smartignore_manifest.discovery_time_ms:.0f}ms", quiet)
+                _log(f"   → Phase 1 (name): {smartignore_manifest.phase1_dirs} classified", quiet)
+                _log(f"   → Phase 2 (signal): {smartignore_manifest.phase2_dirs} explored", quiet)
+                _log(f"   → Decision: EXPLORE {len(smartignore_manifest.explore_paths)}, "
                       f"SHALLOW {len(smartignore_manifest.shallow_paths)}, "
-                      f"SKIP {len(smartignore_manifest.skip_paths)}")
-                print(f"   → Skip ratio: {smartignore_manifest.skip_ratio:.0%} "
-                      f"(~{smartignore_manifest.estimated_files_skipped} files excluded)")
+                      f"SKIP {len(smartignore_manifest.skip_paths)}", quiet)
+                _log(f"   → Skip ratio: {smartignore_manifest.skip_ratio:.0%} "
+                      f"(~{smartignore_manifest.estimated_files_skipped} files excluded)", quiet)
 
                 # Write .smartignore file for caching/review
                 si.write_smartignore(smartignore_manifest,
@@ -394,11 +484,11 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     estimated_nodes=survey_result.estimated_nodes
                 )
 
-                print(f"   → Scanned {survey_result.total_files:,} files in {survey_result.scan_time_ms:.0f}ms")
-                print(f"   → Found {len(survey_result.directory_exclusions)} vendor directories")
-                print(f"   → Found {len(survey_result.minified_files)} minified files")
-                print(f"   → Excluding {len(exclude_paths)} paths")
-                print(f"   → Estimated {survey_result.estimated_nodes:,} nodes after exclusions")
+                _log(f"   → Scanned {survey_result.total_files:,} files in {survey_result.scan_time_ms:.0f}ms", quiet)
+                _log(f"   → Found {len(survey_result.directory_exclusions)} vendor directories", quiet)
+                _log(f"   → Found {len(survey_result.minified_files)} minified files", quiet)
+                _log(f"   → Excluding {len(exclude_paths)} paths", quiet)
+                _log(f"   → Estimated {survey_result.estimated_nodes:,} nodes after exclusions", quiet)
 
                 # Print warnings
                 for warning in survey_result.warnings:
@@ -418,7 +508,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     extra_excludes = options.get("extra_excludes", [])
     if extra_excludes:
         exclude_paths.extend(extra_excludes)
-        print(f"   → Added {len(extra_excludes)} extra exclusions from --exclude flag")
+        _log(f"   → Added {len(extra_excludes)} extra exclusions from --exclude flag", quiet)
 
     # =========================================================================
     # STAGE 0.8: CONTEXTOME INTELLIGENCE (Phase 10)
@@ -439,12 +529,12 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     deterministic_signals=contextome_result.deterministic_signals,
                     enriched_signals=contextome_result.enriched_signals,
                 )
-                print(f"   → Discovered {contextome_result.doc_count} docs")
-                print(f"   → Extracted {contextome_result.deterministic_signals} deterministic signals")
-                print(f"   → Purpose coverage: {contextome_result.purpose_coverage:.0%}")
-                print(f"   → Symmetry seeds: {len(contextome_result.symmetry_seeds)}")
+                _log(f"   → Discovered {contextome_result.doc_count} docs", quiet)
+                _log(f"   → Extracted {contextome_result.deterministic_signals} deterministic signals", quiet)
+                _log(f"   → Purpose coverage: {contextome_result.purpose_coverage:.0%}", quiet)
+                _log(f"   → Symmetry seeds: {len(contextome_result.symmetry_seeds)}", quiet)
                 if contextome_result.llm_used:
-                    print(f"   → LLM enrichment: +{contextome_result.enriched_signals} signals")
+                    _log(f"   → LLM enrichment: +{contextome_result.enriched_signals} signals", quiet)
             except Exception as e:
                 print(f"   ⚠️  Contextome intelligence failed: {e}")
                 import traceback
@@ -472,10 +562,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 total = len(delta_result.changed_files) + len(delta_result.new_files) + len(delta_result.unchanged_files)
                 skip_pct = (len(skip_files) / total * 100) if total > 0 else 0
 
-                print(f"   → Changed: {len(delta_result.changed_files)}, New: {len(delta_result.new_files)}")
-                print(f"   → Unchanged: {len(delta_result.unchanged_files)} ({skip_pct:.0f}% skipped)")
+                _log(f"   → Changed: {len(delta_result.changed_files)}, New: {len(delta_result.new_files)}", quiet)
+                _log(f"   → Unchanged: {len(delta_result.unchanged_files)} ({skip_pct:.0f}% skipped)", quiet)
                 if delta_result.deleted_files:
-                    print(f"   → Deleted: {len(delta_result.deleted_files)}")
+                    _log(f"   → Deleted: {len(delta_result.deleted_files)}", quiet)
             except Exception as e:
                 timer.set_status("WARN", str(e))
                 print(f"   ⚠️ Incremental detection failed: {e}")
@@ -512,7 +602,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         unified_warnings = getattr(result, 'warnings', []) if hasattr(result, 'warnings') else result.get('warnings', [])
         unified_recommendations = getattr(result, 'recommendations', []) if hasattr(result, 'recommendations') else result.get('recommendations', [])
         timer.set_output(nodes=len(nodes), edges=len(edges))
-    print(f"   → {len(nodes)} nodes, {len(edges)} edges")
+    _guard.nodes = nodes
+    _guard.edges = edges
+    _log(f"   → {len(nodes)} nodes, {len(edges)} edges", quiet)
 
     # Stage 2: Standard Model enrichment
     print("\n🧬 Stage 2: Standard Model Enrichment...")
@@ -529,7 +621,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             node['rpbl_lifecycle'] = rpbl.get('lifecycle', 0)
 
         timer.set_output(nodes=len(nodes), rpbl_enriched=rpbl_count)
-    print(f"   → {rpbl_count} nodes with RPBL scores")
+    _log(f"   → {rpbl_count} nodes with RPBL scores", quiet)
 
     # Pipeline Assertion: Validate canonical roles
     try:
@@ -556,7 +648,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             ecosystem_discovery = discover_ecosystem_unknowns(nodes)
             ecosystem_discovery_status = "ok"
             timer.set_output(unknowns=ecosystem_discovery.get('total_unknowns', 0))
-            print(f"   → {ecosystem_discovery.get('total_unknowns', 0)} unknown ecosystem patterns")
+            _log(f"   → {ecosystem_discovery.get('total_unknowns', 0)} unknown ecosystem patterns", quiet)
         except Exception as e:
             ecosystem_discovery_status = "skipped"
             ecosystem_discovery_error = str(e)
@@ -574,9 +666,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_output(nodes_classified=level_count, packages_detected=pkg_count, distribution=level_stats)
             # Show distribution summary
             dist_str = ", ".join(f"{k}:{v}" for k, v in level_stats.items() if v > 0)
-            print(f"   → {level_count} nodes assigned holarchy levels ({dist_str})")
+            _log(f"   → {level_count} nodes assigned holarchy levels ({dist_str})", quiet)
             if pkg_count > 0:
-                print(f"   → {pkg_count} implicit L6 packages detected")
+                _log(f"   → {pkg_count} implicit L6 packages detected", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Level classification skipped: {e}")
@@ -588,7 +680,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             from dimension_classifier import classify_all_dimensions
             dim_count = classify_all_dimensions(nodes)
             timer.set_output(nodes_classified=dim_count)
-            print(f"   → {dim_count} nodes with full 8-dimension coordinates")
+            _log(f"   → {dim_count} nodes with full 8-dimension coordinates", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Dimension classification skipped: {e}")
@@ -654,9 +746,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             if _stage_warns:
                 print(f"   ⚠️  {_stage_warns} items skipped due to parse errors")
             timer.set_output(**scope_stats)
-            print(f"   → {scope_stats['files_analyzed']} files analyzed")
-            print(f"   → {scope_stats['unused']} unused definitions detected")
-            print(f"   → {scope_stats['shadowed']} shadowing pairs found")
+            _log(f"   → {scope_stats['files_analyzed']} files analyzed", quiet)
+            _log(f"   → {scope_stats['unused']} unused definitions detected", quiet)
+            _log(f"   → {scope_stats['shadowed']} shadowing pairs found", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Scope analysis skipped: {e}")
@@ -728,9 +820,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 cf_stats['avg_depth'] = round(depth_sum / cf_stats['nodes_analyzed'], 2)
 
             timer.set_output(**cf_stats)
-            print(f"   → {cf_stats['nodes_analyzed']} nodes analyzed")
-            print(f"   → Avg CC: {cf_stats['avg_cc']}, Max CC: {cf_stats['max_cc']}")
-            print(f"   → Avg Depth: {cf_stats['avg_depth']}, Max Depth: {cf_stats['max_depth']}")
+            _log(f"   → {cf_stats['nodes_analyzed']} nodes analyzed", quiet)
+            _log(f"   → Avg CC: {cf_stats['avg_cc']}, Max CC: {cf_stats['max_cc']}", quiet)
+            _log(f"   → Avg Depth: {cf_stats['avg_depth']}, Max Depth: {cf_stats['max_depth']}", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Control flow analysis skipped: {e}")
@@ -797,11 +889,11 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             if _stage_warns:
                 print(f"   ⚠️  {_stage_warns} items skipped due to parse errors")
             timer.set_output(**{k: v for k, v in pattern_stats.items() if k != 'by_type'})
-            print(f"   → {pattern_stats['nodes_enriched']} nodes enriched with atom patterns")
-            print(f"   → {pattern_stats['atoms_detected']} total atoms detected")
+            _log(f"   → {pattern_stats['nodes_enriched']} nodes enriched with atom patterns", quiet)
+            _log(f"   → {pattern_stats['atoms_detected']} total atoms detected", quiet)
             if pattern_stats['by_type']:
                 top_types = sorted(pattern_stats['by_type'].items(), key=lambda x: -x[1])[:5]
-                print(f"   → Top types: {', '.join(f'{t}:{c}' for t, c in top_types)}")
+                _log(f"   → Top types: {', '.join(f'{t}:{c}' for t, c in top_types)}", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Pattern detection skipped: {e}")
@@ -872,10 +964,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 mutations=flow_stats['total_mutations'],
                 side_effects=flow_stats['total_side_effects']
             )
-            print(f"   → {flow_stats['nodes_analyzed']} nodes analyzed for purity")
-            print(f"   → {flow_stats['total_mutations']} mutations, {flow_stats['total_side_effects']} side effects")
+            _log(f"   → {flow_stats['nodes_analyzed']} nodes analyzed for purity", quiet)
+            _log(f"   → {flow_stats['total_mutations']} mutations, {flow_stats['total_side_effects']} side effects", quiet)
             purity_dist = flow_stats['purity_distribution']
-            print(f"   → Purity: pure={purity_dist['pure']}, mostly_pure={purity_dist['mostly_pure']}, mixed={purity_dist['mixed']}, impure={purity_dist['impure']}")
+            _log(f"   → Purity: pure={purity_dist['pure']}, mostly_pure={purity_dist['mostly_pure']}, mixed={purity_dist['mixed']}, impure={purity_dist['impure']}", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Data flow analysis skipped: {e}")
@@ -885,8 +977,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     with StageTimer(perf_manager, "Stage 3: Purpose Field") as timer:
         purpose_field = detect_purpose_field(nodes, edges)
         timer.set_output(nodes=len(purpose_field.nodes), violations=len(purpose_field.violations))
-    print(f"   → {len(purpose_field.nodes)} purpose nodes")
-    print(f"   → {len(purpose_field.violations)} violations")
+    _log(f"   → {len(purpose_field.nodes)} purpose nodes", quiet)
+    _log(f"   → {len(purpose_field.violations)} violations", quiet)
 
     # Stage 3.5: π₃ (Organelle Purpose) for containers
     print("\n🧬 Stage 3.5: Organelle Purpose (π₃)...")
@@ -912,7 +1004,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             node['pi3_confidence'] = round(pi3.confidence, 2)
             node['pi3_child_count'] = len(children)
             pi3_count += 1
-    print(f"   → {pi3_count} containers with π₃ purpose")
+    _log(f"   → {pi3_count} containers with π₃ purpose", quiet)
 
     # Stage 3.6: π₄ (System Purpose) for files
     print("\n📦 Stage 3.6: System Purpose (π₄)...")
@@ -939,7 +1031,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             node['pi4_purpose'] = pi4.purpose
             node['pi4_confidence'] = round(pi4.confidence, 2)
 
-    print(f"   → {len(file_purposes)} files with π₄ purpose")
+    _log(f"   → {len(file_purposes)} files with π₄ purpose", quiet)
 
     # Stage 3.7: Purpose Coherence (from PurposeField)
     print("\n🎯 Stage 3.7: Purpose Coherence Metrics...")
@@ -967,7 +1059,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             if pf_node.is_god_class:
                 node['is_god_class'] = True
             coherence_enriched += 1
-    print(f"   → {coherence_enriched} nodes enriched with coherence metrics")
+    _log(f"   → {coherence_enriched} nodes enriched with coherence metrics", quiet)
     # Count god classes
     god_class_count = sum(1 for n in nodes if n.get('is_god_class', False))
     if god_class_count > 0:
@@ -978,8 +1070,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     with StageTimer(perf_manager, "Stage 4: Execution Flow") as timer:
         exec_flow = detect_execution_flow(nodes, edges, purpose_field)
         timer.set_output(entry_points=len(exec_flow.entry_points), orphans=len(exec_flow.orphans))
-    print(f"   → {len(exec_flow.entry_points)} entry points")
-    print(f"   → {len(exec_flow.orphans)} orphans ({exec_flow.dead_code_percent}% dead code)")
+    _log(f"   → {len(exec_flow.entry_points)} entry points", quiet)
+    _log(f"   → {len(exec_flow.orphans)} orphans ({exec_flow.dead_code_percent}% dead code)", quiet)
 
     # Stage 4.5: Orphan Integration Analysis (REMOVED - Module Deleted)
     # orphan_integration was removed in remediation pass.
@@ -990,18 +1082,18 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     with StageTimer(perf_manager, "Stage 5: Markov Transition Matrix") as timer:
         markov = compute_markov_matrix(nodes, edges)
         timer.set_output(transitions=markov['total_transitions'], edges_weighted=markov['edges_with_weight'])
-    print(f"   → {markov['total_transitions']} nodes with transitions")
-    print(f"   → {markov['edges_with_weight']} edges with markov_weight")
-    print(f"   → {markov['avg_fanout']:.1f} avg fanout")
+    _log(f"   → {markov['total_transitions']} nodes with transitions", quiet)
+    _log(f"   → {markov['edges_with_weight']} edges with markov_weight", quiet)
+    _log(f"   → {markov['avg_fanout']:.1f} avg fanout", quiet)
 
     # Stage 6: Knot Detection
     print("\n🔗 Stage 6: Knot/Cycle Detection...")
     with StageTimer(perf_manager, "Stage 6: Knot/Cycle Detection") as timer:
         knots = detect_knots(nodes, edges)
         timer.set_output(cycles=knots['cycles_detected'], bidirectional=knots['bidirectional_edges'])
-    print(f"   → {knots['cycles_detected']} cycles detected")
-    print(f"   → {knots['bidirectional_edges']} bidirectional edges")
-    print(f"   → Knot score: {knots['knot_score']}/10")
+    _log(f"   → {knots['cycles_detected']} cycles detected", quiet)
+    _log(f"   → {knots['bidirectional_edges']} bidirectional edges", quiet)
+    _log(f"   → Knot score: {knots['knot_score']}/10", quiet)
 
     # Stage 6.5: Graph Analytics (Nerd Layer)
     # _G_full carries ALL edge types for Stage 6.7 (entry points, context propagation,
@@ -1098,19 +1190,19 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 if 'disconnection' in node:
                     source = node['disconnection'].get('reachability_source', 'unknown')
                     disconnection_counts[source] = disconnection_counts.get(source, 0) + 1
-            print(f"   → {degree_enriched} nodes enriched with degree metrics")
-            print(f"   → Topology roles: {role_counts}")
+            _log(f"   → {degree_enriched} nodes enriched with degree metrics", quiet)
+            _log(f"   → Topology roles: {role_counts}", quiet)
             if disconnection_counts:
-                print(f"   → Disconnection taxonomy: {disconnection_counts}")
+                _log(f"   → Disconnection taxonomy: {disconnection_counts}", quiet)
             # Report top centrality nodes
             if betweenness:
                 top_betweenness = sorted(betweenness.items(), key=lambda x: x[1], reverse=True)[:3]
                 if top_betweenness:
-                    print(f"   → Top betweenness: {[(n.split('::')[-1], round(v, 4)) for n, v in top_betweenness]}")
+                    _log(f"   → Top betweenness: {[(n.split('::')[-1], round(v, 4)) for n, v in top_betweenness]}", quiet)
             if pagerank:
                 top_pagerank = sorted(pagerank.items(), key=lambda x: x[1], reverse=True)[:3]
                 if top_pagerank:
-                    print(f"   → Top PageRank: {[(n.split('::')[-1], round(v, 4)) for n, v in top_pagerank]}")
+                    _log(f"   → Top PageRank: {[(n.split('::')[-1], round(v, 4)) for n, v in top_pagerank]}", quiet)
         except Exception as e:
             # Fallback: compute degrees without networkx
             print(f"   ⚠️ Graph analytics fallback: {type(e).__name__}: {e}")
@@ -1175,10 +1267,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 if 'disconnection' in node:
                     source = node['disconnection'].get('reachability_source', 'unknown')
                     disconnection_counts[source] = disconnection_counts.get(source, 0) + 1
-            print(f"   → {degree_enriched} nodes enriched with degree metrics (fallback)")
-            print(f"   → Topology roles: {role_counts}")
+            _log(f"   → {degree_enriched} nodes enriched with degree metrics (fallback)", quiet)
+            _log(f"   → Topology roles: {role_counts}", quiet)
             if disconnection_counts:
-                print(f"   → Disconnection taxonomy: {disconnection_counts}")
+                _log(f"   → Disconnection taxonomy: {disconnection_counts}", quiet)
             G = None  # No graph for analytics
 
         # Advanced analytics (optional - requires graph_analyzer)
@@ -1202,9 +1294,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     'communities': {str(k): len(v) for k, v in list(communities.items())[:10]} if communities else {},
                 }
                 timer.set_output(bottlenecks=len(bottlenecks), pagerank=len(pagerank_top), communities=len(communities))
-                print(f"   → {len(bottlenecks)} bottlenecks identified")
-                print(f"   → {len(pagerank_top)} PageRank leaders")
-                print(f"   → {len(communities)} communities detected")
+                _log(f"   → {len(bottlenecks)} bottlenecks identified", quiet)
+                _log(f"   → {len(pagerank_top)} PageRank leaders", quiet)
+                _log(f"   → {len(communities)} communities detected", quiet)
             else:
                 graph_analytics = {}
         except Exception as e:
@@ -1223,9 +1315,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 total_volume=statistical_metrics['halstead']['total_volume'],
                 estimated_bugs=statistical_metrics['halstead']['estimated_bugs']
             )
-            print(f"   → Avg cyclomatic: {statistical_metrics['complexity']['avg']}")
-            print(f"   → High complexity nodes: {statistical_metrics['complexity']['high_complexity_count']}")
-            print(f"   → Est. bugs: {statistical_metrics['halstead']['estimated_bugs']}")
+            _log(f"   → Avg cyclomatic: {statistical_metrics['complexity']['avg']}", quiet)
+            _log(f"   → High complexity nodes: {statistical_metrics['complexity']['high_complexity_count']}", quiet)
+            _log(f"   → Est. bugs: {statistical_metrics['halstead']['estimated_bugs']}", quiet)
         except Exception as e:
             statistical_metrics = {}
             timer.set_status("WARN", str(e))
@@ -1386,10 +1478,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 roles=sum(role_counts.values()),
                 intents=intent_stats['with_docstring'] + intent_stats['with_commits']
             )
-            print(f"   → {len(entry_points)} entry points detected")
-            print(f"   → {len(node_context)} nodes reachable from entry")
-            print(f"   → Roles: {role_counts['utility']} utility, {role_counts['orchestrator']} orchestrator, {role_counts['hub']} hub, {role_counts['leaf']} leaf")
-            print(f"   → Intent: {intent_stats['with_docstring']} with docstring, {intent_stats['with_commits']} with commits")
+            _log(f"   → {len(entry_points)} entry points detected", quiet)
+            _log(f"   → {len(node_context)} nodes reachable from entry", quiet)
+            _log(f"   → Roles: {role_counts['utility']} utility, {role_counts['orchestrator']} orchestrator, {role_counts['hub']} hub, {role_counts['leaf']} leaf", quiet)
+            _log(f"   → Intent: {intent_stats['with_docstring']} with docstring, {intent_stats['with_commits']} with commits", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Semantic purpose analysis skipped: {e}")
@@ -1405,9 +1497,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 inferred_edges=codome_result['total_inferred_edges']
             )
             if codome_result['boundary_nodes']:
-                print(f"   → {codome_result['total_boundaries']} codome boundary nodes created")
-                print(f"   → {codome_result['total_inferred_edges']} inferred edges generated")
-                print(f"   → Sources: {codome_result['summary']}")
+                _log(f"   → {codome_result['total_boundaries']} codome boundary nodes created", quiet)
+                _log(f"   → {codome_result['total_inferred_edges']} inferred edges generated", quiet)
+                _log(f"   → Sources: {codome_result['summary']}", quiet)
                 # Add boundary nodes and inferred edges to main lists for visualization
                 # Mark with _fromCodome flag for UI filtering
                 for bn in codome_result['boundary_nodes']:
@@ -1427,8 +1519,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     with StageTimer(perf_manager, "Stage 7: Data Flow Analysis") as timer:
         data_flow = compute_data_flow(nodes, edges)
         timer.set_output(sources=len(data_flow['data_sources']), sinks=len(data_flow['data_sinks']))
-    print(f"   → {len(data_flow['data_sources'])} data sources")
-    print(f"   → {len(data_flow['data_sinks'])} data sinks")
+    _log(f"   → {len(data_flow['data_sources'])} data sources", quiet)
+    _log(f"   → {len(data_flow['data_sinks'])} data sinks", quiet)
 
     # Stage 8: Performance Prediction
     print("\n⏱️  Stage 8: Performance Prediction...")
@@ -1459,13 +1551,13 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             if arch_detect:
                 is_layered = arch_detect.get('is_layered', False)
                 arch_type = "Layered" if is_layered else "Non-layered"
-                print(f"   → Architecture: {arch_type} (confidence: {arch_detect.get('confidence', 0):.0%})")
+                _log(f"   → Architecture: {arch_type} (confidence: {arch_detect.get('confidence', 0):.0%})", quiet)
                 if constraint_report.get('layer_validation_skipped'):
-                    print(f"   → Layer constraints: SKIPPED (non-layered codebase)")
-            print(f"   → Antimatter (Tier A): {constraint_report['antimatter']['count']}")
-            print(f"   → Policy (Tier B): {constraint_report['policy_violations']['count']}")
-            print(f"   → Signals (Tier C): {constraint_report['signals']['count']}")
-            print(f"   → Valid: {constraint_report['valid']}")
+                    _log(f"   → Layer constraints: SKIPPED (non-layered codebase)", quiet)
+            _log(f"   → Antimatter (Tier A): {constraint_report['antimatter']['count']}", quiet)
+            _log(f"   → Policy (Tier B): {constraint_report['policy_violations']['count']}", quiet)
+            _log(f"   → Signals (Tier C): {constraint_report['signals']['count']}", quiet)
+            _log(f"   → Valid: {constraint_report['valid']}", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Constraint validation skipped: {e}")
@@ -1481,10 +1573,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 codebase_q=codebase_intelligence.get('codebase_intelligence', 0),
                 interpretation=codebase_intelligence.get('interpretation', 'Unknown'),
             )
-            print(f"   → Codebase Intelligence: {codebase_intelligence.get('codebase_intelligence', 0):.3f}")
-            print(f"   → Interpretation: {codebase_intelligence.get('interpretation', 'Unknown')}")
+            _log(f"   → Codebase Intelligence: {codebase_intelligence.get('codebase_intelligence', 0):.3f}", quiet)
+            _log(f"   → Interpretation: {codebase_intelligence.get('interpretation', 'Unknown')}", quiet)
             dist = codebase_intelligence.get('distribution', {})
-            print(f"   → Distribution: {dist.get('excellent', 0)} excellent, {dist.get('good', 0)} good, {dist.get('moderate', 0)} moderate, {dist.get('poor', 0)} poor")
+            _log(f"   → Distribution: {dist.get('excellent', 0)} excellent, {dist.get('good', 0)} good, {dist.get('moderate', 0)} moderate, {dist.get('poor', 0)} poor", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Purpose Intelligence skipped: {e}")
@@ -1659,7 +1751,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         try:
             enricher = FileEnricher(root_path=str(target), enable_git=False)
             file_boundaries = enricher.enrich_boundaries(file_boundaries)
-            print(f"   → File metadata enriched for {len(file_boundaries)} files")
+            _log(f"   → File metadata enriched for {len(file_boundaries)} files", quiet)
         except Exception as e:
             print(f"   ⚠️ File enrichment failed: {e}")
 
@@ -1668,8 +1760,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         full_output['counts']['files_with_atoms'] = len(files_index)
         timer.set_output(files=len(files_index), atoms_mapped=sum(f['atom_count'] for f in file_boundaries))
 
-    print(f"   → {len(files_index)} files indexed")
-    print(f"   → {sum(f['atom_count'] for f in file_boundaries)} atoms mapped to files")
+    _log(f"   → {len(files_index)} files indexed", quiet)
+    _log(f"   → {sum(f['atom_count'] for f in file_boundaries)} atoms mapped to files", quiet)
 
     # Save output
     out_path = resolved_output_dir
@@ -1692,7 +1784,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     roadmap_result = evaluator.evaluate(all_files)
                     full_output['roadmap'] = roadmap_result
                     timer.set_output(readiness=roadmap_result.get('readiness_score', 0))
-                    print(f"   → Roadmap '{roadmap_name}' analyzed: {roadmap_result['readiness_score']:.0f}% ready")
+                    _log(f"   → Roadmap '{roadmap_name}' analyzed: {roadmap_result['readiness_score']:.0f}% ready", quiet)
                 else:
                     timer.set_status("WARN", f"Roadmap '{roadmap_name}' not found")
                     print(f"   ⚠️ Roadmap '{roadmap_name}' not found in roadmaps directory")
@@ -1714,8 +1806,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             full_output['topology'] = topology_result
             full_output['kpis']['topology_shape'] = topology_result.get('shape', 'UNKNOWN')
             timer.set_output(shape=topology_result.get('shape', 'UNKNOWN'))
-            print(f"   → Visual Shape: {topology_result['shape']}")
-            print(f"   → Description: {topology_result['description']}")
+            _log(f"   → Visual Shape: {topology_result['shape']}", quiet)
+            _log(f"   → Description: {topology_result['description']}", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Topology analysis failed: {e}")
@@ -1728,8 +1820,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             semantics = cortex.extract_concepts(nodes)
             full_output['semantics'] = semantics
             timer.set_output(concepts=len(semantics.get('top_concepts', [])))
-            print(f"   → Domain Inference: {semantics['domain_inference']}")
-            print(f"   → Top Concepts: {', '.join([t['term'] for t in semantics['top_concepts'][:5]])}")
+            _log(f"   → Domain Inference: {semantics['domain_inference']}", quiet)
+            _log(f"   → Top Concepts: {', '.join([t['term'] for t in semantics['top_concepts'][:5]])}", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Semantic analysis failed: {e}")
@@ -1812,8 +1904,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 }
             }
             full_output['manifest'] = manifest
-            print(f"   → Manifest generated: {len(nodes)} nodes, {len(edges)} edges recorded")
-            print(f"   → Status: SIGNED (Integrity verified)")
+            _log(f"   → Manifest generated: {len(nodes)} nodes, {len(edges)} edges recorded", quiet)
+            _log(f"   → Status: SIGNED (Integrity verified)", quiet)
             timer.set_output(nodes=len(nodes), edges=len(edges))
         except Exception as e:
             timer.set_status("WARN", str(e))
@@ -1862,8 +1954,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 avg_stability=igt_results['avg_stability'],
                 critical_orphans=igt_results['critical_orphans_count']
             )
-            print(f"   → Average Directory Stability: {igt_results['avg_stability']:.3f}")
-            print(f"   → Critical Orphans: {igt_results['critical_orphans_count']}")
+            _log(f"   → Average Directory Stability: {igt_results['avg_stability']:.3f}", quiet)
+            _log(f"   → Critical Orphans: {igt_results['critical_orphans_count']}", quiet)
 
         except Exception as e:
             timer.set_status("WARN", str(e))
@@ -1907,9 +1999,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 )
 
                 timer.set_output(run_id=db_run_id, nodes=node_count, edges=edge_count)
-                print(f"   → Run ID: {db_run_id}")
-                print(f"   → Persisted {node_count} nodes, {edge_count} edges")
-                print(f"   → DB: {db_config.get_sqlite_path()}")
+                _log(f"   → Run ID: {db_run_id}", quiet)
+                _log(f"   → Persisted {node_count} nodes, {edge_count} edges", quiet)
+                _log(f"   → DB: {db_config.get_sqlite_path()}", quiet)
 
                 # Update file tracking if delta tracker is available
                 if delta_tracker and delta_result:
@@ -1917,13 +2009,13 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     hasher = FileHasher()
                     file_hashes = hasher.hash_directory(target)
                     delta_tracker.update_tracking(str(target), db_run_id, file_hashes)
-                    print(f"   → Updated file tracking for {len(file_hashes)} files")
+                    _log(f"   → Updated file tracking for {len(file_hashes)} files", quiet)
 
                 # Retention: purge old runs after successful persistence
                 if db_config and db_config.history_enabled:
                     purged = db_manager.purge_old_runs(project_path=str(target))
                     if purged > 0:
-                        print(f"   → Retention: purged {purged} old run(s)")
+                        _log(f"   → Retention: purged {purged} old run(s)", quiet)
 
             except Exception as e:
                 timer.set_status("WARN", str(e))
@@ -1970,11 +2062,11 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         gap_report = detect_gaps(full_output, decomposition_results)
         full_output['gap_report'] = gap_report.to_dict()
 
-        print(f"   → Incoherence: I={incoherence_result.i_total:.3f}  Health={incoherence_result.health_10:.1f}/10")
-        print(f"   → Purpose Decomposition: {len(decomposition_results)} containers analyzed")
+        _log(f"   → Incoherence: I={incoherence_result.i_total:.3f}  Health={incoherence_result.health_10:.1f}/10", quiet)
+        _log(f"   → Purpose Decomposition: {len(decomposition_results)} containers analyzed", quiet)
         gap_count = len(gap_report.gaps)
         crit_count = sum(1 for g in gap_report.gaps if g.severity == 'critical')
-        print(f"   → Gap Detection: {gap_count} gaps ({crit_count} critical), coverage={gap_report.coverage:.1%}")
+        _log(f"   → Gap Detection: {gap_count} gaps ({crit_count} critical), coverage={gap_report.coverage:.1%}", quiet)
     except Exception as e:
         print(f"   ⚠️ Trinity computation failed: {e}")
         import traceback
@@ -1987,11 +2079,11 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         temporal_result = compute_temporal_analysis(full_output, repo_path=str(target))
         full_output['temporal_analysis'] = temporal_result.to_dict()
         if temporal_result.available:
-            print(f"   → {temporal_result.total_commits} commits, {temporal_result.active_days} active days")
-            print(f"   → {len(temporal_result.hotspots)} hotspots, {len(temporal_result.change_coupling)} coupling pairs")
-            print(f"   → Bus factor: {temporal_result.bus_factor}, median file age: {temporal_result.median_age_days:.0f} days")
+            _log(f"   → {temporal_result.total_commits} commits, {temporal_result.active_days} active days", quiet)
+            _log(f"   → {len(temporal_result.hotspots)} hotspots, {len(temporal_result.change_coupling)} coupling pairs", quiet)
+            _log(f"   → Bus factor: {temporal_result.bus_factor}, median file age: {temporal_result.median_age_days:.0f} days", quiet)
         else:
-            print(f"   → Skipped: {temporal_result.error}")
+            _log(f"   → Skipped: {temporal_result.error}", quiet)
     except Exception as e:
         print(f"   ⚠️ Temporal analysis failed: {e}")
         import traceback
@@ -2003,9 +2095,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         from src.core.ideome_synthesis import synthesize_ideome
         ideome_result = synthesize_ideome(full_output)
         full_output['ideome'] = ideome_result.to_dict()
-        print(f"   → Coherence: {ideome_result.global_coherence:.3f}")
-        print(f"   → Drift: code={ideome_result.global_drift_C:.3f} docs={ideome_result.global_drift_X:.3f}")
-        print(f"   → Coverage: {ideome_result.coverage:.1%} ({ideome_result.node_count} nodes)")
+        _log(f"   → Coherence: {ideome_result.global_coherence:.3f}", quiet)
+        _log(f"   → Drift: code={ideome_result.global_drift_C:.3f} docs={ideome_result.global_drift_X:.3f}", quiet)
+        _log(f"   → Coverage: {ideome_result.coverage:.1%} ({ideome_result.node_count} nodes)", quiet)
     except Exception as e:
         print(f"   ⚠️ Ideome synthesis failed: {e}")
         import traceback
@@ -2051,8 +2143,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             grade = compiled_dict.get('grade', '?')
             finding_count = compiled_dict.get('findings_count', 0)
             timer.set_output(grade=grade, findings=finding_count)
-            print(f"   → Grade: {grade} ({compiled_dict.get('health_score', 0)}/10)")
-            print(f"   → {finding_count} findings compiled")
+            _log(f"   → Grade: {grade} ({compiled_dict.get('health_score', 0)}/10)", quiet)
+            _log(f"   → {finding_count} findings compiled", quiet)
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Insights compilation failed: {e}")
@@ -2104,7 +2196,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             unified_json = outputs["llm"]
             viz_file = outputs.get("html")
             timer.set_output(json=1, html=1 if viz_file else 0)
-            print(f"   → Data: {unified_json}")
+            _log(f"   → Data: {unified_json}", quiet)
             if "tokens" in outputs:
                 for k, v in outputs["tokens"].items():
                     if isinstance(v, dict):
@@ -2114,9 +2206,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     else:
                         print(f"      - {k}: {v:,} tokens")
             if viz_file:
-                print(f"   → Visual: {viz_file}")
+                _log(f"   → Visual: {viz_file}", quiet)
             else:
-                print(f"   → Visual: SKIPPED (AI-First Mode)")
+                _log(f"   → Visual: SKIPPED (AI-First Mode)", quiet)
         except Exception as e:
             timer.set_status("FAIL", str(e))
             print(f"   ⚠️ Output generation failed: {e}")
@@ -2126,30 +2218,11 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
 
     # =========================================================================
     # PIPELINE REPORT: Always write standalone JSON (cheap, enables automation)
+    # Report is also written in the except block below for crash resilience.
     # =========================================================================
-    try:
-        report_path = out_path / "pipeline_report.json"
-        report = perf_manager.to_dict()
-        report["meta"] = {
-            "report_version": "1.0",
-            "target": str(target),
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "collider_version": "4.0.0",
-            "total_time_s": round(total_time, 1),
-            "node_count": len(nodes),
-            "edge_count": len(edges),
-        }
-        report["output_files"] = {
-            "unified_analysis": str(out_path / "unified_analysis.json"),
-            "lod1": str(out_path / "ast_lod1_verbose.json"),
-            "lod2": str(out_path / "ast_lod2_standard.json"),
-            "lod3": str(out_path / "ast_lod3_compact.json"),
-            "database": str(out_path / "collider.db"),
-        }
-        with open(report_path, "w") as f:
-            json.dump(report, f, indent=2)
-    except Exception:
-        report_path = None
+    report_path = _write_pipeline_report(
+        perf_manager, out_path, target, total_time, nodes, edges
+    )
 
     # =========================================================================
     # ENHANCED FINAL SUMMARY (always shown, even in quiet mode)
