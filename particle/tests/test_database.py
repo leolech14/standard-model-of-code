@@ -513,3 +513,172 @@ class TestEdgeCases:
         # The behavior depends on implementation
         run_id = db.create_run(run2)
         assert run_id == "dup_run"
+
+
+class TestRetentionPolicy:
+    """Tests for retention-based purging of old runs."""
+
+    @pytest.fixture
+    def db(self):
+        """Create a temp SQLite database with retention enabled."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            config = DatabaseConfig(
+                retention_max_runs=3,
+                retention_max_days=0,  # Disable age-based for count tests
+            )
+            config.sqlite_path = str(Path(tmpdir) / "test.db")
+            backend = SQLiteBackend(config)
+            backend.connect()
+            backend.initialize_schema()
+            yield backend
+            backend.disconnect()
+
+    def _create_run(self, db, run_id, project_path="/tmp/test", age_seconds=0):
+        """Helper to create a run with a specific age."""
+        from datetime import timedelta
+        started = datetime.now() - timedelta(seconds=age_seconds)
+        run = AnalysisRun(
+            id=run_id,
+            project_name="test",
+            project_path=project_path,
+            started_at=started,
+            status="completed",
+        )
+        db.create_run(run)
+        return run_id
+
+    def test_purge_excess_runs_by_count(self, db):
+        """Should purge runs beyond retention_max_runs per project."""
+        # Create 5 runs (max is 3)
+        for i in range(5):
+            self._create_run(db, f"run_{i}", age_seconds=(4 - i) * 100)
+
+        purged = db.purge_old_runs(project_path="/tmp/test")
+        assert purged == 2  # 5 - 3 = 2 purged
+
+        remaining = db.get_runs(project_path="/tmp/test", limit=100)
+        assert len(remaining) == 3
+
+    def test_purge_respects_project_scope(self, db):
+        """Purge should scope retention per-project."""
+        # Project A: 4 runs
+        for i in range(4):
+            self._create_run(db, f"a_{i}", project_path="/tmp/projA", age_seconds=(3 - i) * 100)
+        # Project B: 2 runs
+        for i in range(2):
+            self._create_run(db, f"b_{i}", project_path="/tmp/projB", age_seconds=(1 - i) * 100)
+
+        # Purge only project A
+        purged = db.purge_old_runs(project_path="/tmp/projA")
+        assert purged == 1  # 4 - 3 = 1
+
+        # Project B untouched
+        remaining_b = db.get_runs(project_path="/tmp/projB", limit=100)
+        assert len(remaining_b) == 2
+
+    def test_purge_all_projects(self, db):
+        """Purge without project_path should purge across all projects."""
+        for i in range(5):
+            self._create_run(db, f"a_{i}", project_path="/tmp/projA", age_seconds=(4 - i) * 100)
+        for i in range(4):
+            self._create_run(db, f"b_{i}", project_path="/tmp/projB", age_seconds=(3 - i) * 100)
+
+        purged = db.purge_old_runs()  # No project_path
+        assert purged == 3  # A: 5-3=2, B: 4-3=1
+
+    def test_purge_cascades_nodes_and_edges(self, db):
+        """Purged runs should cascade-delete their nodes and edges."""
+        # Create 4 runs with nodes
+        for i in range(4):
+            rid = self._create_run(db, f"run_{i}", age_seconds=(3 - i) * 100)
+            db.insert_nodes(rid, [{"id": f"n_{i}", "name": f"Class{i}", "kind": "class"}])
+            db.insert_edges(rid, [{"source": f"n_{i}", "target": f"n_{i}", "type": "self"}])
+
+        # Before purge: 4 runs worth of nodes
+        all_before = sum(len(db.get_nodes(f"run_{i}")) for i in range(4))
+        assert all_before == 4
+
+        purged = db.purge_old_runs(project_path="/tmp/test")
+        assert purged == 1  # 4 - 3 = 1
+
+        # Oldest run's nodes should be gone (cascaded)
+        assert db.get_nodes("run_0") == []
+        # Newest runs' nodes should remain
+        assert len(db.get_nodes("run_3")) == 1
+
+    def test_purge_by_age(self):
+        """Should purge runs older than retention_max_days."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            config = DatabaseConfig(
+                retention_max_runs=0,  # Disable count-based
+                retention_max_days=7,  # 7-day retention
+            )
+            config.sqlite_path = str(Path(tmpdir) / "test.db")
+            db = SQLiteBackend(config)
+            db.connect()
+            db.initialize_schema()
+
+            # Create runs at various ages
+            self._create_run(db, "recent", age_seconds=3600)           # 1 hour ago
+            self._create_run(db, "week_old", age_seconds=8 * 86400)    # 8 days ago
+            self._create_run(db, "month_old", age_seconds=30 * 86400)  # 30 days ago
+
+            purged = db.purge_old_runs()
+            assert purged == 2  # week_old + month_old
+
+            remaining = db.get_runs(limit=100)
+            assert len(remaining) == 1
+            assert remaining[0].id == "recent"
+
+            db.disconnect()
+
+    def test_purge_both_axes(self):
+        """Both count and age should apply together."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            config = DatabaseConfig(
+                retention_max_runs=5,
+                retention_max_days=3,
+            )
+            config.sqlite_path = str(Path(tmpdir) / "test.db")
+            db = SQLiteBackend(config)
+            db.connect()
+            db.initialize_schema()
+
+            # 2 old runs (>3 days) + 3 recent runs
+            self._create_run(db, "old_1", age_seconds=5 * 86400)
+            self._create_run(db, "old_2", age_seconds=4 * 86400)
+            self._create_run(db, "new_1", age_seconds=7200)
+            self._create_run(db, "new_2", age_seconds=3600)
+            self._create_run(db, "new_3", age_seconds=1800)
+
+            purged = db.purge_old_runs()
+            # Age removes old_1, old_2 (>3 days)
+            # Count: 3 remaining <= 5, so no further purge
+            assert purged == 2
+
+            remaining = db.get_runs(limit=100)
+            assert len(remaining) == 3
+
+            db.disconnect()
+
+    def test_purge_disabled(self, db):
+        """Should be a no-op when both retention values are 0."""
+        db.config.retention_max_runs = 0
+        db.config.retention_max_days = 0
+
+        for i in range(10):
+            self._create_run(db, f"run_{i}")
+
+        purged = db.purge_old_runs()
+        assert purged == 0
+
+        remaining = db.get_runs(limit=100)
+        assert len(remaining) == 10
+
+    def test_purge_no_excess(self, db):
+        """Should purge nothing when under the limit."""
+        self._create_run(db, "run_1")
+        self._create_run(db, "run_2")
+
+        purged = db.purge_old_runs(project_path="/tmp/test")
+        assert purged == 0

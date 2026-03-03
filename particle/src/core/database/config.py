@@ -25,6 +25,10 @@ class DatabaseConfig:
     incremental_enabled: bool = True   # --incremental/--no-incremental
     history_enabled: bool = True       # --keep-history
 
+    # Retention policy
+    retention_max_runs: int = 10       # --retention-max-runs (0 = unlimited)
+    retention_max_days: int = 90       # --retention-max-days (0 = unlimited)
+
     # Performance tuning
     batch_size: int = 500
     hash_algorithm: str = "blake3"
@@ -74,6 +78,12 @@ class DatabaseConfig:
         if options.get("no_history"):
             config.history_enabled = False
 
+        # Retention
+        if "retention_max_runs" in options:
+            config.retention_max_runs = options["retention_max_runs"]
+        if "retention_max_days" in options:
+            config.retention_max_days = options["retention_max_days"]
+
         # Performance
         if options.get("batch_size"):
             config.batch_size = options["batch_size"]
@@ -113,6 +123,8 @@ class DatabaseConfig:
             "sqlite_path": self.sqlite_path,
             "incremental_enabled": self.incremental_enabled,
             "history_enabled": self.history_enabled,
+            "retention_max_runs": self.retention_max_runs,
+            "retention_max_days": self.retention_max_days,
             "batch_size": self.batch_size,
             "hash_algorithm": self.hash_algorithm,
         }

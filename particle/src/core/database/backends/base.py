@@ -414,6 +414,26 @@ class DatabaseBackend(ABC):
                     self.rollback_transaction()
             raise e
 
+    def purge_old_runs(self, project_path: Optional[str] = None) -> int:
+        """
+        Purge old analysis runs based on retention policy.
+
+        Applies two axes (both configurable, 0 = disabled):
+        1. Count-based: keep only the N most recent runs per project
+        2. Age-based: delete runs older than X days
+
+        Relies on ON DELETE CASCADE for nodes/edges cleanup.
+
+        Args:
+            project_path: If given, only purge runs for this project.
+                          If None, purge across all projects.
+
+        Returns:
+            Number of runs purged.
+        """
+        # Subclasses implement the actual SQL; default is no-op
+        return 0
+
     def detect_changes(self, project_path: str, current_files: Dict[str, Tuple[str, int]]) -> DeltaResult:
         """
         Detect which files have changed since last analysis.

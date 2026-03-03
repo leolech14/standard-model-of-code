@@ -1918,6 +1918,12 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     delta_tracker.update_tracking(str(target), db_run_id, file_hashes)
                     print(f"   → Updated file tracking for {len(file_hashes)} files")
 
+                # Retention: purge old runs after successful persistence
+                if db_config and db_config.history_enabled:
+                    purged = db_manager.purge_old_runs(project_path=str(target))
+                    if purged > 0:
+                        print(f"   → Retention: purged {purged} old run(s)")
+
             except Exception as e:
                 timer.set_status("WARN", str(e))
                 print(f"   ⚠️ Database persistence failed: {e}")

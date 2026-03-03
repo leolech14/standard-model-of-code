@@ -637,6 +637,91 @@ class SQLiteBackend(DatabaseBackend):
         except sqlite3.Error:
             return []
 
+    # =========================================================================
+    # Retention / Purge
+    # =========================================================================
+
+    def purge_old_runs(self, project_path: Optional[str] = None) -> int:
+        """
+        Purge old runs per retention policy in config.
+
+        Two axes (0 = disabled):
+        1. retention_max_runs  -- keep N most recent per project
+        2. retention_max_days  -- delete runs older than X days
+
+        ON DELETE CASCADE handles nodes/edges cleanup automatically.
+        Orphaned tracked_files.last_analyzed_run refs are left as-is
+        (they are informational; the hash is what matters for incremental).
+        """
+        if not self.is_connected():
+            return 0
+
+        max_runs = self.config.retention_max_runs
+        max_days = self.config.retention_max_days
+
+        if max_runs <= 0 and max_days <= 0:
+            return 0  # Both disabled
+
+        purged = 0
+
+        try:
+            # --- Age-based purge ---
+            if max_days > 0:
+                cutoff = datetime.now()
+                from datetime import timedelta
+                cutoff = (cutoff - timedelta(days=max_days)).isoformat()
+
+                if project_path:
+                    cursor = self._conn.execute(
+                        """DELETE FROM analysis_runs
+                           WHERE project_path = ? AND started_at < ?""",
+                        (project_path, cutoff)
+                    )
+                else:
+                    cursor = self._conn.execute(
+                        """DELETE FROM analysis_runs
+                           WHERE started_at < ?""",
+                        (cutoff,)
+                    )
+                purged += cursor.rowcount
+
+            # --- Count-based purge (per project) ---
+            if max_runs > 0:
+                # Get distinct projects to scope the purge
+                if project_path:
+                    projects = [project_path]
+                else:
+                    cursor = self._conn.execute(
+                        "SELECT DISTINCT project_path FROM analysis_runs"
+                    )
+                    projects = [row[0] for row in cursor.fetchall()]
+
+                for proj in projects:
+                    # Find run IDs beyond the keep limit (oldest first)
+                    cursor = self._conn.execute(
+                        """SELECT id FROM analysis_runs
+                           WHERE project_path = ?
+                           ORDER BY started_at DESC
+                           LIMIT -1 OFFSET ?""",
+                        (proj, max_runs)
+                    )
+                    excess_ids = [row[0] for row in cursor.fetchall()]
+
+                    if excess_ids:
+                        placeholders = ",".join("?" * len(excess_ids))
+                        cursor = self._conn.execute(
+                            f"DELETE FROM analysis_runs WHERE id IN ({placeholders})",
+                            excess_ids
+                        )
+                        purged += cursor.rowcount
+
+            self._maybe_commit()
+            return purged
+
+        except sqlite3.Error as e:
+            print(f"Error purging old runs: {e}")
+            return purged
+
     def compare_runs(self, run_id_1: str, run_id_2: str) -> Dict[str, Any]:
         """
         Compare two analysis runs.

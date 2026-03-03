@@ -66,6 +66,13 @@ class FeatureRegistry:
             default=True,
             cli="--keep-history/--no-history",
         ),
+        Feature(
+            id="retention",
+            description="Auto-purge old runs (max-runs per project + max-days age)",
+            default=True,
+            cli="--retention-max-runs N / --retention-max-days N",
+            requires=["history"],
+        ),
 
         # Search features (default OFF)
         Feature(
