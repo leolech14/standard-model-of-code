@@ -1201,11 +1201,11 @@ def main():
             sys.exit(1)
 
         normalized = normalize_output(result)
-        errors, warnings = validate_contract(normalized)
+        errors, validation_warnings = validate_contract(normalized)
 
-        if warnings:
+        if validation_warnings:
             print("⚠️  Warnings:")
-            for msg in warnings:
+            for msg in validation_warnings:
                 print(f"   - {msg}")
 
         if errors:

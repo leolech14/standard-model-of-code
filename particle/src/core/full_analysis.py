@@ -649,7 +649,6 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
         _registry = get_role_registry()
         _invalid = {n.get('role') for n in nodes if n.get('role') and not _registry.validate(n['role'])}
         if _invalid:
-            import os
             if os.environ.get('COLLIDER_STRICT_ROLES', '').lower() == 'true':
                 raise ValueError(f"Non-canonical roles detected: {_invalid}")
             else:
