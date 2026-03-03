@@ -697,23 +697,50 @@ def find_unused_definitions(graph: ScopeGraph) -> List[Definition]:
 
 
 def find_shadowed_definitions(graph: ScopeGraph) -> List[Tuple[Definition, Definition]]:
-    """Find definitions that shadow outer scope definitions."""
+    """Find definitions that shadow outer scope definitions.
+
+    Filters out false positives:
+    - Same-name definitions within a single scope (reassignment, not shadowing):
+      only the earliest definition per name per scope is checked.
+    - Outer definitions that appear after the inner definition in source order
+      cannot logically be shadowed.
+    """
     shadowed_pairs = []
 
     for scope_id, scope in graph.scopes.items():
         if scope.parent_id is None:
             continue
 
-        for inner_def in scope.definitions:
-            outer_def = _find_in_ancestors(inner_def.name, scope.parent_id, graph)
+        # Deduplicate: multiple defs with same name in one scope = reassignment
+        earliest_by_name: Dict[str, Definition] = {}
+        for defn in scope.definitions:
+            existing = earliest_by_name.get(defn.name)
+            if existing is None or defn.start_line < existing.start_line:
+                earliest_by_name[defn.name] = defn
+
+        for inner_def in earliest_by_name.values():
+            outer_def = _find_in_ancestors(
+                inner_def.name, scope.parent_id, graph,
+                inner_start_line=inner_def.start_line
+            )
             if outer_def:
                 shadowed_pairs.append((inner_def, outer_def))
 
     return shadowed_pairs
 
 
-def _find_in_ancestors(name: str, scope_id: Optional[int], graph: ScopeGraph) -> Optional[Definition]:
-    """Find a definition with given name in ancestor scopes."""
+def _find_in_ancestors(
+    name: str,
+    scope_id: Optional[int],
+    graph: ScopeGraph,
+    inner_start_line: Optional[int] = None,
+) -> Optional[Definition]:
+    """Find a definition with given name in ancestor scopes.
+
+    When inner_start_line is provided, only outer definitions whose
+    start_line is strictly less than inner_start_line are considered
+    (a name defined AFTER the inner scope cannot be shadowed by it).
+    """
     while scope_id is not None:
         scope = graph.get_scope(scope_id)
         if not scope:
@@ -721,6 +748,12 @@ def _find_in_ancestors(name: str, scope_id: Optional[int], graph: ScopeGraph) ->
 
         for definition in scope.definitions:
             if definition.name == name:
+                # Temporal ordering: outer must precede inner
+                if (inner_start_line is not None
+                        and definition.start_line > 0
+                        and inner_start_line > 0
+                        and definition.start_line >= inner_start_line):
+                    continue
                 return definition
 
         if not scope.inherits:

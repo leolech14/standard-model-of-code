@@ -311,8 +311,8 @@ class GodClassDetectorLite:
 
         # Calculate antimatter risk score
         risk_factors = {
-            'size_overload': min(30, (lines_of_code / 200) * 10),  # 30 points max
-            'method_overload': min(25, (method_count / 20) * 10),  # 25 points max
+            'size_overload': min(30, (lines_of_code / 300) * 10),  # 30 points max
+            'method_overload': min(25, (method_count / 15) * 10),  # 25 points max
             'responsibility_overload': min(25, responsibility_count * 5),  # 25 points max
             'touchpoint_overload': min(20, touchpoint_overload)  # 20 points max
         }
@@ -321,9 +321,9 @@ class GodClassDetectorLite:
 
         # Determine if it's a God Class
         is_god_class = (
-            lines_of_code > 200 and
-            method_count > 10 and
-            responsibility_count >= 3 and
+            lines_of_code > 300 and
+            method_count > 15 and
+            responsibility_count >= 4 and
             antimatter_risk_score > 70
         )
 

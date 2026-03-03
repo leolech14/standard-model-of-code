@@ -3315,6 +3315,7 @@ class InsightsCompiler:
                 'correlated failures that amplify each other.'
             ),
             recommendation='Review active syndromes for compounding quality issues.' if syndromes else None,
+            effort='high' if compound > 0.6 else ('medium' if compound > 0.3 else 'low'),
         )
 
         # --- Per-syndrome findings ---
@@ -3337,6 +3338,7 @@ class InsightsCompiler:
                 evidence=evidence,
                 interpretation=f'This syndrome emerges from correlated signals that together indicate a systemic pattern.',
                 recommendation=f'Address contributing signals to resolve {name} syndrome.',
+                effort='high' if severity > 0.7 else ('medium' if severity > 0.4 else 'low'),
             )
 
         # --- Per-contradiction findings ---
@@ -3361,6 +3363,7 @@ class InsightsCompiler:
                     'tension, or a codebase in active transition.'
                 ),
                 recommendation=rec,
+                effort='medium',
             )
 
         # --- Significant modulations (|1 - coeff| > 0.05) ---
@@ -3377,6 +3380,7 @@ class InsightsCompiler:
                     'Chemistry modulations adjust health, incoherence, and mission matrix scores '
                     'based on cross-signal correlations detected by the lab.'
                 ),
+                effort='low',
             )
 
         # --- Convergence finding (nodes with 3+ negative signals) ---
@@ -3415,6 +3419,7 @@ class InsightsCompiler:
                     'Prioritize critical-convergence nodes for docstrings, type annotations, '
                     'and architectural clarification. Each fix removes multiple signals at once.'
                 ),
+                effort='high' if n_crit > 10 else ('medium' if n_crit > 0 else 'low'),
             )
 
     def _add(self, **kwargs):

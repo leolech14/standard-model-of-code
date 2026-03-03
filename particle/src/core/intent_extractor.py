@@ -256,6 +256,72 @@ def build_node_intent_profile(
     return profile
 
 
+def batch_extract_commit_intents(
+    repo_path: Path,
+    file_paths: List[str],
+    num_commits: int = 10
+) -> Dict[str, List[Dict[str, str]]]:
+    """Batch version: one git subprocess per unique file path.
+
+    Reduces O(nodes) subprocesses to O(unique_files).
+    """
+    unique_paths = list(dict.fromkeys(p for p in file_paths if p))
+    result: Dict[str, List[Dict[str, str]]] = {}
+    for fp in unique_paths:
+        result[fp] = extract_commit_intents(repo_path, fp, num_commits=num_commits)
+    return result
+
+
+def build_node_intent_profiles_batch(
+    nodes: List[Dict],
+    repo_path: Path,
+    num_commits: int = 5
+) -> Dict[str, Any]:
+    """Build all intent profiles using one git call per unique file.
+
+    Returns dict: node_id -> profile dict (same schema as build_node_intent_profile).
+    """
+    unique_file_paths = list(dict.fromkeys(
+        node.get('file_path', '') for node in nodes if node.get('file_path')
+    ))
+    git_cache = batch_extract_commit_intents(repo_path, unique_file_paths, num_commits=num_commits)
+
+    profiles: Dict[str, Any] = {}
+    for node in nodes:
+        node_id = node.get('id')
+        if not node_id:
+            continue
+        file_path = node.get('file_path', '')
+        source_code = node.get('body_source', '')
+
+        profile: Dict[str, Any] = {
+            'node_id': node_id, 'file_path': file_path,
+            'has_docstring': False, 'has_commits': False, 'has_issues': False,
+        }
+        if source_code:
+            docstring = extract_docstring_intent(source_code)
+            if docstring:
+                profile['docstring'] = docstring[:500]
+                profile['has_docstring'] = True
+
+        commits = git_cache.get(file_path, []) if file_path else []
+        if commits:
+            profile['recent_commits'] = commits
+            profile['commit_intents'] = [c['intent_type'] for c in commits]
+            profile['has_commits'] = True
+            all_issues: List[str] = []
+            for commit in commits:
+                all_issues.extend(extract_issue_references(commit['message']))
+            if all_issues:
+                profile['issue_references'] = list(set(all_issues))
+                profile['has_issues'] = True
+
+        richness = sum([profile['has_docstring'], profile['has_commits'], profile['has_issues']])
+        profile['intent_richness'] = richness / 3.0
+        profiles[node_id] = profile
+    return profiles
+
+
 def analyze_intent_coverage(
     nodes: List[Dict],
     repo_path: Path
@@ -269,16 +335,18 @@ def analyze_intent_coverage(
     with_docstring = 0
     with_commits = 0
 
+    # Batch all git calls before the loop
+    unique_file_paths = [node.get('file_path', '') for node in nodes if node.get('file_path')]
+    git_cache = batch_extract_commit_intents(repo_path, unique_file_paths, num_commits=1)
+
     for node in nodes:
         source = node.get('body_source', '')
         if source and extract_docstring_intent(source):
             with_docstring += 1
 
         file_path = node.get('file_path', '')
-        if file_path:
-            commits = extract_commit_intents(repo_path, file_path, num_commits=1)
-            if commits:
-                with_commits += 1
+        if file_path and git_cache.get(file_path):
+            with_commits += 1
 
     return {
         'total_nodes': total,

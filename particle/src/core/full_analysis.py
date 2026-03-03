@@ -28,7 +28,7 @@ from src.core.graph_framework import (
     build_nx_graph, find_entry_points, propagate_context, classify_node_role
 )
 from src.core.graph_metrics import compute_centrality_metrics, identify_critical_nodes
-from src.core.intent_extractor import build_node_intent_profile
+from src.core.intent_extractor import build_node_intent_profiles_batch
 from src.core.igt_metrics import StabilityCalculator, OrphanClassifier
 
 # Extracted modules (audit refactoring 2026-02-24)
@@ -1426,6 +1426,12 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
             role_counts = {'utility': 0, 'orchestrator': 0, 'hub': 0, 'leaf': 0}
             intent_stats = {'with_docstring': 0, 'with_commits': 0, 'empty': 0}
 
+            # Pre-fetch all git history in one pass: one subprocess per unique
+            # file path instead of one per node (~300s savings)
+            intent_profiles = build_node_intent_profiles_batch(
+                nodes, repo_path=target, num_commits=5
+            )
+
             for node in nodes:
                 node_id = node.get('id')
                 if not node_id:
@@ -1456,17 +1462,9 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
                     node['reachable_from_entry'] = False
                     node['depth_from_entry'] = -1
 
-                # Extract intent profile (docstring + commit history)
-                file_path = node.get('file_path', '')
-                source_code = node.get('body_source', '')
-                if file_path and (source_code or node.get('kind') in ('function', 'method', 'class')):
-                    intent_profile = build_node_intent_profile(
-                        node_id=node_id,
-                        file_path=file_path,
-                        source_code=source_code or '',
-                        repo_path=target
-                    )
-                    # Only store if we extracted something meaningful
+                # Apply pre-fetched intent profile (no subprocess here)
+                intent_profile = intent_profiles.get(node_id)
+                if intent_profile:
                     has_docstring = bool(intent_profile.get('docstring'))
                     has_commits = bool(intent_profile.get('recent_commits'))
                     if has_docstring or has_commits:
@@ -1599,6 +1597,16 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Purpose Intelligence skipped: {e}")
+
+    # Apply data-driven color scales to nodes (metric_color field)
+    try:
+        from src.core.viz.color_science import (
+            SCALE_HEALTH, SCALE_COMPLEXITY, apply_scale_to_nodes,
+        )
+        apply_scale_to_nodes(nodes, 'cyclomatic_complexity', SCALE_COMPLEXITY, 'complexity_color')
+        _log("   → Color scales applied to nodes", quiet)
+    except Exception as e:
+        _log(f"   ⚠️ Color scale application skipped: {e}", quiet)
 
     # Compute aggregate metrics
     total_time = time.time() - start_time

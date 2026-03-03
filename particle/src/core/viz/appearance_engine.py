@@ -8,11 +8,16 @@ DUAL SYSTEM:
     TOKENS (appearance.tokens.json)  →  ENGINE (this)  →  RENDERED OUTPUT
 """
 
-import colorsys
 import math
 import re
 from typing import Any, Dict, List, Optional, Tuple
 
+from .color_science import (
+    oklch_to_srgb as _cs_oklch_to_srgb,
+    linear_to_srgb as _cs_linear_to_srgb,
+    oklch_to_hex,
+    gamut_map_oklch,
+)
 from .token_resolver import get_resolver
 
 
@@ -167,7 +172,7 @@ class AppearanceEngine:
         return self._atom_family_color(node.get("atom_family"), node.get("atom", ""))
 
     def _file_color(self, file_idx: int, total_files: int) -> str:
-        """Get color based on file index using golden angle."""
+        """Get color based on file index using golden angle in OKLCH."""
         if file_idx < 0:
             return "#666666"
 
@@ -175,11 +180,14 @@ class AppearanceEngine:
             return self._file_color_cache[file_idx]
 
         angle = self.resolver.appearance("file-color.angle", 137.5)
-        saturation = self.resolver.appearance("file-color.saturation", 70)
+        chroma = self.resolver.appearance("file-color.chroma", 0.12)
         lightness = self.resolver.appearance("file-color.lightness", 50)
+        # Normalize lightness: token may be 0-100 (HSL legacy) or 0-1 (OKLCH)
+        if lightness > 1.0:
+            lightness = lightness / 100.0
 
         hue = (file_idx * angle) % 360
-        color = f"hsl({hue}, {saturation}%, {lightness}%)"
+        color = oklch_to_hex(lightness, chroma, hue)
 
         self._file_color_cache[file_idx] = color
         return color
@@ -431,7 +439,10 @@ class AppearanceEngine:
         }
 
     def _normalize_color(self, value: Any) -> Any:
-        """Convert okLCH colors to sRGB CSS strings for renderer compatibility."""
+        """Convert okLCH colors to sRGB CSS strings for renderer compatibility.
+
+        Delegates OKLCH parsing and gamut mapping to color_science module.
+        """
         if not isinstance(value, str):
             return value
 
@@ -529,35 +540,11 @@ class AppearanceEngine:
 
     @staticmethod
     def _oklch_to_srgb(L: float, C: float, H: float) -> Tuple[float, float, float]:
-        """Convert okLCH values to sRGB (0-1)."""
-        h_rad = math.radians(H)
-        a = C * math.cos(h_rad)
-        b = C * math.sin(h_rad)
-
-        l_ = L + 0.3963377774 * a + 0.2158037573 * b
-        m_ = L - 0.1055613458 * a - 0.0638541728 * b
-        s_ = L - 0.0894841775 * a - 1.2914855480 * b
-
-        l = l_ ** 3
-        m = m_ ** 3
-        s = s_ ** 3
-
-        r_lin = 4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s
-        g_lin = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s
-        b_lin = -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s
-
-        r = AppearanceEngine._linear_to_srgb(r_lin)
-        g = AppearanceEngine._linear_to_srgb(g_lin)
-        b = AppearanceEngine._linear_to_srgb(b_lin)
-
-        return (
-            max(0.0, min(1.0, r)),
-            max(0.0, min(1.0, g)),
-            max(0.0, min(1.0, b))
-        )
+        """Convert okLCH values to sRGB (0-1). Delegates to color_science."""
+        r, g, b = _cs_oklch_to_srgb(L, C, H)
+        return (max(0.0, min(1.0, r)), max(0.0, min(1.0, g)), max(0.0, min(1.0, b)))
 
     @staticmethod
     def _linear_to_srgb(channel: float) -> float:
-        if channel <= 0.0031308:
-            return 12.92 * channel
-        return 1.055 * (channel ** (1 / 2.4)) - 0.055
+        """Linear to sRGB gamma encoding. Delegates to color_science."""
+        return _cs_linear_to_srgb(channel)

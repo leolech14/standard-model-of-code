@@ -19,6 +19,7 @@ Theme Support:
 """
 
 import json
+import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -47,6 +48,15 @@ class TokenResolver:
         self._controls_tokens = self._load_tokens("controls.tokens.json")
         self._theme_tokens = self._load_tokens("theme.tokens.json")
         self._layout_tokens = self._load_tokens("layout.tokens.json")
+
+        # Validate OKLCH gamut on appearance tokens
+        try:
+            from .color_science import validate_gamut_tokens
+            gamut_warnings = validate_gamut_tokens(self._appearance_tokens)
+            for w in gamut_warnings:
+                warnings.warn(f"TokenResolver: {w}", stacklevel=2)
+        except Exception:
+            pass  # color_science not available or validation failed silently
 
         # Extract theme variants
         self._theme_variants = self._theme_tokens.get("themes", {})

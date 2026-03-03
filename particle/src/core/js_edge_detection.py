@@ -90,29 +90,40 @@ def detect_class_instantiation(nodes: List[Dict], edges: List[Dict]) -> int:
     classes_by_name = defaultdict(list)
     for n in nodes:
         if n.get('kind') == 'class' or n.get('type') == 'class':
-            classes_by_name[n.get('name', '')].append(n.get('id'))
+            name = n.get('name', '')
+            if len(name) >= 4:
+                classes_by_name[name].append(n.get('id'))
+
+    if not classes_by_name:
+        return new_edges
+
+    # Single compiled regex: \b(Class1|Class2|...)\s*(
+    # Sorted longest-first so longer names match before shorter prefixes
+    sorted_names = sorted(classes_by_name.keys(), key=len, reverse=True)
+    combined_pattern = re.compile(
+        r'\b(' + '|'.join(re.escape(name) for name in sorted_names) + r')\s*\('
+    )
 
     for src_node in nodes:
         body = src_node.get('body_source', '')
         if not body:
             continue
 
-        for class_name, targets in classes_by_name.items():
-            if len(class_name) < 4:
-                continue
-            if re.search(r'\b' + re.escape(class_name) + r'\s*\(', body):
-                for target_id in targets:
-                    if target_id == src_node.get('id'):
-                        continue
-                    edges.append({
-                        'source': src_node.get('id'),
-                        'target': target_id,
-                        'edge_type': 'instantiates',
-                        'family': 'Dependency',
-                        'inferred': True,
-                        'confidence': 0.6,
-                        'description': f"Class instantiation {class_name}() detected"
-                    })
-                    new_edges += 1
+        src_id = src_node.get('id')
+        for match in combined_pattern.finditer(body):
+            class_name = match.group(1)
+            for target_id in classes_by_name[class_name]:
+                if target_id == src_id:
+                    continue
+                edges.append({
+                    'source': src_id,
+                    'target': target_id,
+                    'edge_type': 'instantiates',
+                    'family': 'Dependency',
+                    'inferred': True,
+                    'confidence': 0.6,
+                    'description': f"Class instantiation {class_name}() detected"
+                })
+                new_edges += 1
 
     return new_edges

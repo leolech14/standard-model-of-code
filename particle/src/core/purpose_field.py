@@ -370,8 +370,8 @@ class PurposeFieldDetector:
         node.coherence_score = round(1 - (entropy / max_entropy) if max_entropy > 0 else 1, 3)
 
         # God Class detection: low coherence + many children
-        # Threshold: coherence < 0.5 AND children >= 5 AND unique purposes >= 3
-        if node.coherence_score < 0.5 and total >= 5 and unique >= 3:
+        # Threshold: coherence < 0.4 AND children >= 8 AND unique purposes >= 4
+        if node.coherence_score < 0.4 and total >= 8 and unique >= 4:
             node.is_god_class = True
 
     def _assign_layers(self):
