@@ -202,3 +202,9 @@ ORGANIZED
 # Research sessions (extend existing patterns to nested tool dirs)
 **/research/gemini/sessions/
 **/research/gemini/raw/
+
+# Vendored JS libs (use CDN or local dev only)
+particle/src/core/viz/assets/vendor/
+
+# Large generated reports (exceed 500KB pre-commit threshold)
+wave/library/large_outputs/

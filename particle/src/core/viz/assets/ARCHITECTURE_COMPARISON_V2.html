@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collider Architecture: v1.0 vs v2.0</title>
+    <style>
+        :root {
+            --bg: #0a0e14;
+            --surface: #131920;
+            --surface-2: #1a2028;
+            --border: #2a3444;
+            --text: #c5cdd9;
+            --text-muted: #6b7a8f;
+            --accent: #39bae6;
+            --green: #7fd962;
+            --yellow: #e6b450;
+            --orange: #ff8f40;
+            --red: #f07178;
+            --purple: #d4bfff;
+            --v1: #ff8f40;
+            --v2: #7fd962;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            padding: 48px 20px 32px;
+            background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--v1), var(--v2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p { color: var(--text-muted); }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            color: var(--text);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { background: var(--border); }
+        .btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Score Section */
+        .score-section {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .score-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .score-card.v1 { border-color: var(--v1); }
+        .score-card.v2 { border-color: var(--v2); }
+
+        .score-card h2 { font-size: 1.3rem; margin-bottom: 8px; }
+        .score-card.v1 h2 { color: var(--v1); }
+        .score-card.v2 h2 { color: var(--v2); }
+
+        .score-card .grade {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1;
+            margin: 16px 0;
+        }
+
+        .score-card.v1 .grade { color: var(--v1); }
+        .score-card.v2 .grade { color: var(--v2); }
+
+        .score-card .points { color: var(--text-muted); font-size: 1.1rem; }
+
+        .arrow-box {
+            text-align: center;
+        }
+
+        .arrow-box .arrow {
+            font-size: 3rem;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        .arrow-box .delta {
+            background: var(--v2);
+            color: var(--bg);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(8px); }
+        }
+
+        /* Section Headers */
+        .section-title {
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 32px;
+            color: var(--accent);
+        }
+
+        /* Bar Chart */
+        .chart-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 60px;
+        }
+
+        .bar-row {
+            display: grid;
+            grid-template-columns: 140px 1fr 80px;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .bar-label { font-size: 0.85rem; text-align: right; }
+
+        .bar-track {
+            height: 28px;
+            background: var(--surface-2);
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            height: 24px;
+            border-radius: 4px;
+            transition: width 1.5s ease;
+        }
+
+        .bar-fill.v1 { background: var(--v1); opacity: 0.6; }
+        .bar-fill.v2 { background: var(--v2); top: 2px; }
+
+        .bar-values {
+            font-size: 0.85rem;
+            display: flex;
+            gap: 8px;
+        }
+
+        .bar-values .v1-val { color: var(--v1); }
+        .bar-values .v2-val { color: var(--v2); }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+        }
+
+        .legend-dot.v1 { background: var(--v1); }
+        .legend-dot.v2 { background: var(--v2); }
+
+        /* Architecture Diagrams - Pure CSS */
+        .diagrams-section {
+            margin-bottom: 60px;
+        }
+
+        .diagram-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .diagram-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .diagram-card.v1 { border-color: var(--v1); }
+        .diagram-card.v2 { border-color: var(--v2); }
+
+        .diagram-header {
+            padding: 16px 20px;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .diagram-header h3 { font-size: 1rem; }
+        .diagram-card.v1 .diagram-header h3 { color: var(--v1); }
+        .diagram-card.v2 .diagram-header h3 { color: var(--v2); }
+
+        .diagram-header .badge {
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .diagram-card.v1 .badge { background: rgba(255,143,64,0.2); color: var(--v1); }
+        .diagram-card.v2 .badge { background: rgba(127,217,98,0.2); color: var(--v2); }
+
+        .diagram-body {
+            padding: 24px;
+            min-height: 400px;
+        }
+
+        /* CSS Architecture Diagram */
+        .arch-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .arch-layer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .arch-node {
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-align: center;
+            min-width: 80px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .arch-node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .arch-node.module {
+            background: rgba(127,217,98,0.15);
+            border: 1px solid var(--v2);
+            color: var(--v2);
+        }
+
+        .arch-node.global {
+            background: rgba(240,113,120,0.15);
+            border: 1px solid var(--red);
+            color: var(--red);
+        }
+
+        .arch-node.config {
+            background: rgba(57,186,230,0.15);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .arch-node.injected {
+            background: rgba(127,217,98,0.25);
+            border: 2px solid var(--v2);
+            color: var(--v2);
+        }
+
+        .arch-arrow {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .arch-arrow.bad { color: var(--red); }
+        .arch-arrow.good { color: var(--v2); }
+
+        .arch-label {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: -8px;
+            margin-bottom: 8px;
+        }
+
+        .arch-group {
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+        }
+
+        .arch-group-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+        }
+
+        .flow-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .flow-box {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .flow-box.highlight {
+            border-color: var(--accent);
+            background: rgba(57,186,230,0.1);
+        }
+
+        .flow-arrow-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding-top: 40px;
+        }
+
+        .flow-arrow-h {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .flow-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        /* Comparison Cards */
+        .comparison-section {
+            margin-bottom: 60px;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .comparison-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-card.v1 { border-top: 3px solid var(--v1); }
+        .comparison-card.v2 { border-top: 3px solid var(--v2); }
+
+        .comparison-card .card-header {
+            padding: 16px 20px;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-card .card-header h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .comparison-card.v1 .card-header h4 { color: var(--v1); }
+        .comparison-card.v2 .card-header h4 { color: var(--v2); }
+
+        .comparison-card .card-header .subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .comparison-card .card-body {
+            padding: 20px;
+        }
+
+        .comparison-card pre {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 14px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .comparison-card .problem {
+            color: var(--red);
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+        }
+
+        .comparison-card .solution {
+            color: var(--v2);
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+        }
+
+        /* Improvements Grid */
+        .improvements-section {
+            margin-bottom: 60px;
+        }
+
+        .improvements-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .improvement-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .improvement-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .improvement-card .icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .improvement-card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .improvement-card .points {
+            display: inline-block;
+            background: var(--v2);
+            color: var(--bg);
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .improvement-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Summary */
+        .summary-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .summary-section h2 {
+            font-size: 1.5rem;
+            color: var(--v2);
+            margin-bottom: 24px;
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-bottom: 24px;
+        }
+
+        .summary-stat .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .summary-stat .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        .animate-in {
+            animation: fadeSlideIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bar-fill.animate {
+            animation: growBar 1.5s ease forwards;
+        }
+
+        @keyframes growBar {
+            from { width: 0 !important; }
+        }
+
+        /* Toggle visibility */
+        .hidden { display: none !important; }
+
+        .footer {
+            text-align: center;
+            padding: 32px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Architecture Comparison</h1>
+        <p>Collider Visualization: v1.0 vs v2.0</p>
+    </header>
+
+    <div class="controls">
+        <button class="btn active" id="btnAnimate" onclick="toggleAnimations()">Animations ON</button>
+        <button class="btn" onclick="replayAnimations()">Replay</button>
+        <button class="btn" onclick="showOnly('all')">Show Both</button>
+        <button class="btn" onclick="showOnly('v1')">v1.0 Only</button>
+        <button class="btn" onclick="showOnly('v2')">v2.0 Only</button>
+    </div>
+
+    <main class="container">
+
+        <!-- Score Overview -->
+        <section class="score-section animate-in">
+            <div class="score-card v1">
+                <h2>Version 1.0</h2>
+                <div class="grade">B+</div>
+                <div class="points">79 / 100</div>
+            </div>
+            <div class="arrow-box">
+                <div class="arrow">→</div>
+                <div class="delta">+13 pts</div>
+            </div>
+            <div class="score-card v2">
+                <h2>Version 2.0</h2>
+                <div class="grade">A-</div>
+                <div class="points">92 / 100</div>
+            </div>
+        </section>
+
+        <!-- Bar Chart -->
+        <section class="chart-container animate-in">
+            <h2 class="section-title">Category Scores</h2>
+
+            <div class="bar-row">
+                <div class="bar-label">Modularity</div>
+                <div class="bar-track">
+                    <div class="bar-fill v1 animate" data-width="90" style="width: 90%"></div>
+                    <div class="bar-fill v2 animate" data-width="90" style="width: 90%"></div>
+                </div>
+                <div class="bar-values"><span class="v1-val">9</span> → <span class="v2-val">9</span></div>
+            </div>
+
+            <div class="bar-row">
+                <div class="bar-label">Dependencies</div>
+                <div class="bar-track">
+                    <div class="bar-fill v1 animate" data-width="70" style="width: 70%"></div>
+                    <div class="bar-fill v2 animate" data-width="90" style="width: 90%"></div>
+                </div>
+                <div class="bar-values"><span class="v1-val">7</span> → <span class="v2-val">9</span></div>
+            </div>
+
+            <div class="bar-row">
+                <div class="bar-label">Separation</div>
+                <div class="bar-track">
+                    <div class="bar-fill v1 animate" data-width="80" style="width: 80%"></div>
+                    <div class="bar-fill v2 animate" data-width="90" style="width: 90%"></div>
+                </div>
+                <div class="bar-values"><span class="v1-val">8</span> → <span class="v2-val">9</span></div>
+            </div>
+
+            <div class="bar-row">
+                <div class="bar-label">Testability</div>
+                <div class="bar-track">
+                    <div class="bar-fill v1 animate" data-width="60" style="width: 60%"></div>
+                    <div class="bar-fill v2 animate" data-width="90" style="width: 90%"></div>
+                </div>
+                <div class="bar-values"><span class="v1-val">6</span> → <span class="v2-val">9</span></div>
+            </div>
+
+            <div class="bar-row">
+                <div class="bar-label">Performance</div>
+                <div class="bar-track">
+                    <div class="bar-fill v1 animate" data-width="90" style="width: 90%"></div>
+                    <div class="bar-fill v2 animate" data-width="90" style="width: 90%"></div>
+                </div>
+                <div class="bar-values"><span class="v1-val">9</span> → <span class="v2-val">9</span></div>
+            </div>
+
+            <div class="bar-row">
+                <div class="bar-label">Error Handling</div>
+                <div class="bar-track">
+                    <div class="bar-fill v1 animate" data-width="50" style="width: 50%"></div>
+                    <div class="bar-fill v2 animate" data-width="90" style="width: 90%"></div>
+                </div>
+                <div class="bar-values"><span class="v1-val">5</span> → <span class="v2-val">9</span></div>
+            </div>
+
+            <div class="bar-row">
+                <div class="bar-label">Maintainability</div>
+                <div class="bar-track">
+                    <div class="bar-fill v1 animate" data-width="80" style="width: 80%"></div>
+                    <div class="bar-fill v2 animate" data-width="90" style="width: 90%"></div>
+                </div>
+                <div class="bar-values"><span class="v1-val">8</span> → <span class="v2-val">9</span></div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot v1"></div> v1.0 Current</div>
+                <div class="legend-item"><div class="legend-dot v2"></div> v2.0 Proposed</div>
+            </div>
+        </section>
+
+        <!-- Architecture Diagrams -->
+        <section class="diagrams-section">
+            <h2 class="section-title">Architecture Comparison</h2>
+
+            <div class="diagram-grid">
+                <!-- v1.0 Architecture -->
+                <div class="diagram-card v1 v1-content">
+                    <div class="diagram-header">
+                        <h3>v1.0 Architecture</h3>
+                        <span class="badge">Implicit Globals</span>
+                    </div>
+                    <div class="diagram-body">
+                        <div class="arch-diagram">
+                            <div class="arch-group">
+                                <div class="arch-group-label">Modules</div>
+                                <div class="arch-layer">
+                                    <div class="arch-node module">CORE</div>
+                                    <div class="arch-node module">NODE</div>
+                                    <div class="arch-node module">COLOR</div>
+                                    <div class="arch-node module">DATA</div>
+                                    <div class="arch-node module">GRAPH</div>
+                                    <div class="arch-node module">REFRESH</div>
+                                </div>
+                            </div>
+
+                            <div class="arch-arrow bad">↓ ↓ ↓ runtime checks ↓ ↓ ↓</div>
+                            <div class="arch-label">typeof X !== 'undefined'</div>
+
+                            <div class="arch-group">
+                                <div class="arch-group-label">Implicit Globals (Danger Zone)</div>
+                                <div class="arch-layer">
+                                    <div class="arch-node global">APPEARANCE_STATE</div>
+                                    <div class="arch-node global">Graph</div>
+                                    <div class="arch-node global">FULL_GRAPH</div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 16px; padding: 12px; background: rgba(240,113,120,0.1); border-radius: 6px; font-size: 0.8rem;">
+                                <strong style="color: var(--red);">Problems:</strong>
+                                <ul style="margin: 8px 0 0 16px; color: var(--text-muted);">
+                                    <li>Hidden dependencies</li>
+                                    <li>Can't test in isolation</li>
+                                    <li>Load order fragile</li>
+                                    <li>Refactoring dangerous</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- v2.0 Architecture -->
+                <div class="diagram-card v2 v2-content">
+                    <div class="diagram-header">
+                        <h3>v2.0 Architecture</h3>
+                        <span class="badge">Dependency Injection</span>
+                    </div>
+                    <div class="diagram-body">
+                        <div class="arch-diagram">
+                            <div class="arch-layer">
+                                <div class="arch-node config">COLLIDER_CONFIG</div>
+                            </div>
+
+                            <div class="arch-arrow good">↓ injected at build time ↓</div>
+
+                            <div class="arch-group">
+                                <div class="arch-group-label">Explicit Initialization Chain</div>
+                                <div class="arch-layer">
+                                    <div class="arch-node injected">CORE.init()</div>
+                                    <div class="arch-node injected">NODE.init()</div>
+                                    <div class="arch-node injected">COLOR.init(palette)</div>
+                                </div>
+                                <div class="arch-arrow good" style="font-size: 1rem; margin: 8px 0;">↓ pass dependencies ↓</div>
+                                <div class="arch-layer">
+                                    <div class="arch-node injected">DATA.init(node)</div>
+                                    <div class="arch-node injected">GRAPH.init(data, color)</div>
+                                </div>
+                                <div class="arch-arrow good" style="font-size: 1rem; margin: 8px 0;">↓ late binding ↓</div>
+                                <div class="arch-layer">
+                                    <div class="arch-node injected">REFRESH.init(graph)</div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 16px; padding: 12px; background: rgba(127,217,98,0.1); border-radius: 6px; font-size: 0.8rem;">
+                                <strong style="color: var(--v2);">Benefits:</strong>
+                                <ul style="margin: 8px 0 0 16px; color: var(--text-muted);">
+                                    <li>Explicit dependencies</li>
+                                    <li>Testable in isolation</li>
+                                    <li>Self-documenting</li>
+                                    <li>Safe refactoring</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Flow Comparison -->
+        <section class="diagrams-section">
+            <h2 class="section-title">Data Flow Comparison</h2>
+
+            <div class="diagram-grid">
+                <!-- v1.0 Flow -->
+                <div class="diagram-card v1 v1-content">
+                    <div class="diagram-header">
+                        <h3>v1.0 Data Flow</h3>
+                        <span class="badge">Dual Sources</span>
+                    </div>
+                    <div class="diagram-body">
+                        <div class="flow-diagram">
+                            <div class="flow-column">
+                                <div class="flow-box">appearance.tokens.json</div>
+                                <div style="text-align: center; color: var(--text-muted);">↓</div>
+                                <div class="flow-box">Python: CSS Variables</div>
+                                <div style="text-align: center; color: var(--text-muted);">↓</div>
+                                <div class="flow-box">:root { --color-tier-t0 }</div>
+                            </div>
+                            <div class="flow-arrow-col">
+                                <div style="color: var(--red); font-size: 2rem;">≠</div>
+                                <div style="color: var(--red); font-size: 0.7rem;">CAN DRIFT!</div>
+                            </div>
+                            <div class="flow-column">
+                                <div class="flow-box">color-engine.js</div>
+                                <div style="text-align: center; color: var(--text-muted);">↓</div>
+                                <div class="flow-box">Hardcoded Palette</div>
+                                <div style="text-align: center; color: var(--text-muted);">↓</div>
+                                <div class="flow-box">{ tier: { T0: {...} } }</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: center; color: var(--red); font-size: 0.8rem;">
+                            Two sources of truth can disagree
+                        </div>
+                    </div>
+                </div>
+
+                <!-- v2.0 Flow -->
+                <div class="diagram-card v2 v2-content">
+                    <div class="diagram-header">
+                        <h3>v2.0 Data Flow</h3>
+                        <span class="badge">Single Source</span>
+                    </div>
+                    <div class="diagram-body">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                            <div class="flow-box highlight" style="width: 80%;">appearance.tokens.json</div>
+                            <div style="color: var(--v2); font-size: 1.5rem;">↓</div>
+                            <div class="flow-box" style="width: 80%;">Python: Extract + Inject</div>
+                            <div style="color: var(--v2); font-size: 1.5rem;">↓</div>
+                            <div class="flow-box highlight" style="width: 80%;">window.COLLIDER_CONFIG.palette</div>
+                            <div style="color: var(--v2); font-size: 1.5rem;">↓</div>
+                            <div class="flow-box" style="width: 80%;">COLOR.init(config.palette)</div>
+                            <div style="color: var(--v2); font-size: 1.5rem;">↓</div>
+                            <div class="flow-box highlight" style="width: 80%;">Single Source of Truth</div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: center; color: var(--v2); font-size: 0.8rem;">
+                            Change tokens once → changes everywhere
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Improvements -->
+        <section class="improvements-section">
+            <h2 class="section-title">Key Improvements</h2>
+            <div class="improvements-grid">
+                <div class="improvement-card">
+                    <div class="icon">💉</div>
+                    <h4>Dependency Injection</h4>
+                    <span class="points">+2 pts</span>
+                    <p>Explicit init() methods replace implicit global references</p>
+                </div>
+                <div class="improvement-card">
+                    <div class="icon">🎨</div>
+                    <h4>Single Source</h4>
+                    <span class="points">+3 pts</span>
+                    <p>Python injects config, no hardcoded JS palettes</p>
+                </div>
+                <div class="improvement-card">
+                    <div class="icon">🧪</div>
+                    <h4>Test Suite</h4>
+                    <span class="points">+3 pts</span>
+                    <p>Jest tests for all pure logic modules</p>
+                </div>
+                <div class="improvement-card">
+                    <div class="icon">🛡️</div>
+                    <h4>Error Boundaries</h4>
+                    <span class="points">+4 pts</span>
+                    <p>Graceful fallback instead of white screen</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Comparison -->
+        <section class="comparison-section">
+            <h2 class="section-title">Code Comparison</h2>
+
+            <div class="comparison-row">
+                <div class="comparison-card v1 v1-content">
+                    <div class="card-header">
+                        <h4>v1.0 - Implicit Globals</h4>
+                        <div class="subtitle">Fragile runtime checks</div>
+                    </div>
+                    <div class="card-body">
+                        <p class="problem">⚠️ Globals may not exist at runtime</p>
+                        <pre>// core.js
+function amplify(value, gamma) {
+  // APPEARANCE_STATE might not exist!
+  const g = gamma !== undefined
+    ? gamma
+    : (typeof APPEARANCE_STATE !== 'undefined'
+        ? APPEARANCE_STATE.amplifier
+        : 1);
+  return Math.pow(value, 1 / g);
+}
+
+// refresh-throttle.js
+function _doRefresh() {
+  // Graph might not exist!
+  if (typeof Graph !== 'undefined') {
+    Graph.refresh();
+  }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="comparison-card v2 v2-content">
+                    <div class="card-header">
+                        <h4>v2.0 - Explicit Dependencies</h4>
+                        <div class="subtitle">Testable, documented</div>
+                    </div>
+                    <div class="card-body">
+                        <p class="solution">✓ Dependencies passed explicitly</p>
+                        <pre>// core.js
+const CORE = (function() {
+  let _config = { amplifier: 1 };
+
+  function init(config) {
+    Object.assign(_config, config);
+    return CORE;
+  }
+
+  function amplify(value, gamma) {
+    const g = gamma ?? _config.amplifier;
+    return Math.pow(value, 1 / g);
+  }
+
+  return { init, amplify };
+})();
+
+// main.js - explicit wiring
+CORE.init({ amplifier: 1.5 });
+REFRESH.init(graph);</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="summary-section">
+            <h2>Investment vs Payoff</h2>
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <div class="value">~800</div>
+                    <div class="label">Lines of Code</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="value">+13</div>
+                    <div class="label">Points Gained</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="value">4</div>
+                    <div class="label">Debt Items Fixed</div>
+                </div>
+            </div>
+            <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">
+                v2.0 improvements layer on top of existing modularization.
+                Error boundaries first, then config injection, then tests.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        Collider Visualization Architecture Comparison | PROJECT_elements
+    </footer>
+
+    <script>
+        let animationsEnabled = true;
+
+        function toggleAnimations() {
+            animationsEnabled = !animationsEnabled;
+            const btn = document.getElementById('btnAnimate');
+            btn.textContent = animationsEnabled ? 'Animations ON' : 'Animations OFF';
+            btn.classList.toggle('active', animationsEnabled);
+
+            document.querySelectorAll('.bar-fill').forEach(bar => {
+                if (animationsEnabled) {
+                    bar.classList.add('animate');
+                } else {
+                    bar.classList.remove('animate');
+                }
+            });
+        }
+
+        function replayAnimations() {
+            document.querySelectorAll('.bar-fill').forEach(bar => {
+                bar.classList.remove('animate');
+                bar.style.width = '0';
+                void bar.offsetWidth;
+                bar.classList.add('animate');
+                bar.style.width = bar.dataset.width + '%';
+            });
+
+            document.querySelectorAll('.animate-in').forEach(el => {
+                el.style.animation = 'none';
+                void el.offsetWidth;
+                el.style.animation = '';
+            });
+        }
+
+        function showOnly(version) {
+            const v1Els = document.querySelectorAll('.v1-content');
+            const v2Els = document.querySelectorAll('.v2-content');
+
+            if (version === 'all') {
+                v1Els.forEach(el => el.classList.remove('hidden'));
+                v2Els.forEach(el => el.classList.remove('hidden'));
+            } else if (version === 'v1') {
+                v1Els.forEach(el => el.classList.remove('hidden'));
+                v2Els.forEach(el => el.classList.add('hidden'));
+            } else {
+                v1Els.forEach(el => el.classList.add('hidden'));
+                v2Els.forEach(el => el.classList.remove('hidden'));
+            }
+        }
+
+        // Trigger animations on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && animationsEnabled) {
+                    entry.target.querySelectorAll('.bar-fill').forEach(bar => {
+                        bar.classList.add('animate');
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.chart-container').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

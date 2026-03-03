@@ -1,0 +1,192 @@
+id: MACRO-003
+name: Rainmaker Tool Registry Sync
+version: 1.0.0
+status: DRAFT
+created: '2026-02-27T23:00:00Z'
+author: claude-opus-4-6 + leonardo.lech
+description: |
+  Deploys the unified tool registry from the local codebase
+  (wave/rainmaker/) to the rainmaker VPS (/opt/rainmaker-dash/).
+
+  Steps: validate locally, scp files, verify remote import,
+  restart dashboard, run smoke test.
+
+  This macro replaces manual deployment of voice_tools.py,
+  voice_tools_elevenlabs.py, and voice_tool_exec.py.
+tags:
+  - deployment
+  - rainmaker
+  - tools
+  - sync
+
+trigger:
+  type: manual
+  # Future: post_commit for changes to wave/rainmaker/tools/
+  commit_pattern: null
+
+preconditions:
+  - condition: "SSH access to rainmaker VPS is available"
+    required: true
+    reason: "Need SSH to deploy files"
+  - condition: "wave/rainmaker/tool_registry.py exists locally"
+    required: true
+    reason: "Source files must exist before deploy"
+  - condition: "Local Python import of tool_registry succeeds"
+    required: true
+    reason: "Don't deploy broken code"
+
+input:
+  source_dir:
+    description: "Local directory containing tool registry source"
+    default: "wave/rainmaker/"
+  target_dir:
+    description: "Remote directory on VPS"
+    default: "/opt/rainmaker-dash/"
+  vps_host:
+    description: "SSH host alias for rainmaker VPS"
+    default: "rainmaker"
+
+steps:
+  - id: validate_local
+    description: "Verify tool_registry.py imports cleanly and all tools register"
+    tool: Bash
+    params:
+      command: >
+        cd wave/rainmaker &&
+        python3 -c "
+        from tool_registry import registry
+        import tools
+        count = len(registry.all())
+        print(f'OK: {count} tools registered')
+        assert count >= 90, f'Expected 90+ tools, got {count}'
+        "
+    expect: "output contains 'OK:'"
+    on_failure: stop
+    output_var: local_tool_count
+
+  - id: backup_remote
+    description: "Backup current voice_tools*.py and voice_tool_exec.py on VPS"
+    tool: Bash
+    params:
+      command: >
+        ssh rainmaker '
+        cd /opt/rainmaker-dash &&
+        mkdir -p .backup/$(date +%Y%m%d) &&
+        cp voice_tools.py voice_tools_elevenlabs.py voice_tool_exec.py
+           .backup/$(date +%Y%m%d)/
+        '
+    on_failure: stop
+    output_var: backup_result
+
+  - id: deploy_registry
+    description: "SCP tool_registry.py and tools/ directory to VPS"
+    tool: Bash
+    params:
+      command: >
+        scp wave/rainmaker/tool_registry.py rainmaker:/opt/rainmaker-dash/ &&
+        ssh rainmaker 'mkdir -p /opt/rainmaker-dash/tools' &&
+        scp -r wave/rainmaker/tools/* rainmaker:/opt/rainmaker-dash/tools/
+    on_failure: stop
+    output_var: deploy_result
+
+  - id: deploy_shims
+    description: "Deploy updated shim files (voice_tools.py, voice_tool_exec.py, etc.)"
+    tool: Bash
+    params:
+      command: >
+        scp wave/rainmaker/shims/voice_tools.py rainmaker:/opt/rainmaker-dash/ &&
+        scp wave/rainmaker/shims/voice_tool_exec.py rainmaker:/opt/rainmaker-dash/ &&
+        scp wave/rainmaker/shims/voice_tools_elevenlabs.py rainmaker:/opt/rainmaker-dash/
+    condition: "shim files exist in wave/rainmaker/shims/"
+    on_failure: continue
+    output_var: shim_result
+
+  - id: verify_remote
+    description: "Verify remote import works"
+    tool: Bash
+    params:
+      command: >
+        ssh rainmaker '
+        cd /opt/rainmaker-dash &&
+        python3 -c "
+        from tool_registry import registry
+        import tools
+        count = len(registry.all())
+        print(f\"OK: {count} tools registered\")
+        "
+        '
+    expect: "output contains 'OK:'"
+    on_failure: stop
+    output_var: remote_verify
+
+  - id: restart_dashboard
+    description: "Restart rainmaker-dash systemd service"
+    tool: Bash
+    params:
+      command: >
+        ssh rainmaker 'systemctl restart rainmaker-dash && sleep 3 &&
+        systemctl is-active rainmaker-dash'
+    expect: "active"
+    on_failure: stop
+    output_var: restart_result
+
+  - id: smoke_test
+    description: "Verify /api/tools endpoint returns tool list"
+    tool: Bash
+    params:
+      command: >
+        ssh rainmaker '
+        curl -s http://127.0.0.1:8100/api/tools |
+        python3 -c "
+        import sys, json
+        data = json.load(sys.stdin)
+        tools = data.get(\"tools\", [])
+        print(f\"OK: {len(tools)} tools via API\")
+        "
+        '
+    expect: "output contains 'OK:'"
+    on_failure: continue
+    output_var: smoke_result
+
+success_criteria:
+  - "Local import passes with 80+ tools"
+  - "Remote import passes"
+  - "Dashboard service is active after restart"
+  - "/api/tools returns tool list"
+
+output:
+  type: file
+  path: ".agent/macros/logs/MACRO-003/{date}.log"
+  format: text
+  side_effects:
+    - "Updates /opt/rainmaker-dash/tool_registry.py on VPS"
+    - "Updates /opt/rainmaker-dash/tools/ on VPS"
+    - "May update voice_tools.py, voice_tool_exec.py shims"
+    - "Restarts rainmaker-dash service"
+
+rollback:
+  description: "Restore from backup if deployment fails"
+  steps:
+    - "ssh rainmaker 'cd /opt/rainmaker-dash && cp .backup/$(date +%Y%m%d)/* .'"
+    - "ssh rainmaker 'systemctl restart rainmaker-dash'"
+
+executions: []
+
+automation_path:
+  current: DRAFT
+  next_steps:
+    - step: "Write tool_registry.py + tools/ implementation"
+      effort: "4h"
+      blocks: "None"
+    - step: "Test locally with mock server"
+      effort: "1h"
+      blocks: "Need implementation"
+    - step: "First manual deploy via this macro"
+      effort: "30m"
+      blocks: "Need tested implementation"
+    - step: "Add post-commit trigger for wave/rainmaker/ changes"
+      effort: "1h"
+      blocks: "Need trigger engine"
+  target_state: PRODUCTION
+  target_trigger: post_commit
+  target_schedule: "After changes to wave/rainmaker/"
