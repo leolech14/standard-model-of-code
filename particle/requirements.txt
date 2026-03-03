@@ -39,6 +39,3 @@ blake3>=0.3.0  # Fast hashing for incremental analysis
 
 # pip install collider[analytics] for DuckDB analytics
 # duckdb>=0.9
-
-# pip install collider[search] for Tantivy search
-# tantivy>=0.20

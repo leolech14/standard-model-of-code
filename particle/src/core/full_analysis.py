@@ -11,6 +11,7 @@ Outputs:
     - output_human-readable_<project>_<timestamp>.html (human report + graph)
 """
 import hashlib
+import importlib.util
 import json
 import os
 import subprocess
@@ -1922,19 +1923,21 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 print(f"   ⚠️ Database persistence failed: {e}")
 
     # Stage 14: Semantic Vector Indexing (GraphRAG)
-    vectorization_status = "not_run"
+    # Only runs when optional deps (lancedb, sentence-transformers) are installed.
+    vectorization_status = "skipped"
     vectorization_error = ""
-    try:
-        from src.core.rag.embedder import GraphRAGEmbedder
-        # We explicitly bind vectors to the root .collider dir, not the dynamic runs dir
-        persistent_db = target / ".collider" / "collider.db"
-        embedder = GraphRAGEmbedder(db_path=persistent_db)
-        embedder.embed_graph()
-        vectorization_status = "ok"
-    except Exception as e:
-        vectorization_status = "failed"
-        vectorization_error = str(e)
-        print(f"\n   [red]⚠️ Stage 14 Vectorization Failed:[/red] {e}")
+    _has_graphrag_deps = importlib.util.find_spec("lancedb") and importlib.util.find_spec("sentence_transformers")
+    if _has_graphrag_deps:
+        try:
+            from src.core.rag.embedder import GraphRAGEmbedder
+            persistent_db = target / ".collider" / "collider.db"
+            embedder = GraphRAGEmbedder(db_path=persistent_db)
+            embedder.embed_graph()
+            vectorization_status = "ok"
+        except Exception as e:
+            vectorization_status = "failed"
+            vectorization_error = str(e)
+            print(f"\n   ⚠️ Stage 14 Vectorization Failed: {e}")
 
     # Persist optional stage status for downstream scoring and diagnostics.
     full_output.setdefault('kpis', {})['vectorization_status'] = vectorization_status

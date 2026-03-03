@@ -35,7 +35,6 @@ class TestDatabaseConfig:
         assert config.backend == "sqlite"
         assert config.incremental_enabled is True
         assert config.history_enabled is True
-        assert config.search_enabled is False
 
     def test_from_options_no_db(self):
         """--no-db should disable database."""

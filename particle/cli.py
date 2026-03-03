@@ -317,56 +317,6 @@ def main():
         help="Disable incremental analysis - re-analyze all files"
     )
     full_parser.add_argument(
-        "--search",
-        action="store_true",
-        help="Enable Tantivy full-text search indexing (beta)"
-    )
-
-    # ==========================================
-    # GraphRAG Commands
-    # ==========================================
-    search_parser = subparsers.add_parser(
-        "search",
-        help="Search the codebase using natural language (Semantic Vector RAG)",
-        description="Executes a vector search against the LanceDB semantic index to find relevant Code Nodes."
-    )
-    search_parser.add_argument(
-        "query",
-        help="The search query or instruction"
-    )
-    search_parser.add_argument(
-        "--limit", "-l",
-        type=int,
-        default=5,
-        help="Maximum number of node results (default: 5)"
-    )
-    search_parser.add_argument(
-        "--dir", "-d",
-        default=".collider",
-        help="Path to the collider database directory (default: .collider)"
-    )
-
-    neighborhood_parser = subparsers.add_parser(
-        "neighborhood",
-        help="Explore the relational context (callers/dependencies) of a focal node",
-        description="Fetches adjacent structural entities connected to a specific node using SQLite GraphRAG."
-    )
-    neighborhood_parser.add_argument(
-        "node_id",
-        help="The exact Node ID to focal point (e.g. 'file_path.py::function_name')"
-    )
-    neighborhood_parser.add_argument(
-        "--depth",
-        type=int,
-        default=1,
-        help="Relational depth traversal (default: 1)"
-    )
-    neighborhood_parser.add_argument(
-        "--dir", "-d",
-        default=".collider",
-        help="Path to the collider database directory (default: .collider)"
-    )
-    full_parser.add_argument(
         "--analytics",
         action="store_true",
         help="Enable DuckDB analytics export (beta)"
@@ -1587,80 +1537,6 @@ def main():
             print(f"Successfully mutated and overwrote {target_path}")
         else:
             print(modified_code)
-
-        sys.exit(0)
-
-    elif args.command == "search":
-        from src.core.rag.retriever import GraphRAGRetriever
-        from rich.console import Console
-        from rich.syntax import Syntax
-        from rich.panel import Panel
-        c = Console()
-
-        db_dir = Path(args.dir)
-        retriever = GraphRAGRetriever(db_dir)
-
-        c.print(f"\n[cyan]🔍 Searching codebase vectors for:[/cyan] '{args.query}'")
-        results = retriever.search(args.query, limit=args.limit)
-
-        if not results:
-            c.print("   [yellow]No results found or embedding failed.[/yellow]")
-            sys.exit(0)
-
-        for i, res in enumerate(results, 1):
-            node_type = res.get('type', res.get('kind', ''))
-            c.print(f"\n[bold green]{i}. {res['name']}[/bold green] ({node_type})")
-            c.print(f"   [dim]Location:[/dim] {res['file_path']}")
-
-            start = res.get('start_line')
-            end = res.get('end_line')
-            if start and end:
-                c.print(f"   [dim]Lines:[/dim] {start}–{end}")
-
-            dist = res.get('_distance', 'N/A')
-            c.print(f"   [dim]Distance:[/dim] {dist}")
-
-            # Show source code snippet if available
-            snippet = res.get('code_snippet', '')
-            if snippet:
-                # Detect language from file extension
-                fp = res.get('file_path', '')
-                lang = 'python' if fp.endswith('.py') else 'javascript' if fp.endswith(('.js', '.ts')) else 'text'
-                syntax = Syntax(snippet, lang, theme="monokai", line_numbers=True, start_line=start or 1)
-                c.print(Panel(syntax, title=f"[dim]{res['name']}[/dim]", border_style="green", width=100))
-
-        sys.exit(0)
-
-    elif args.command == "neighborhood":
-        from src.core.rag.retriever import GraphRAGRetriever
-        from rich.console import Console
-        c = Console()
-
-        db_dir = Path(args.dir)
-        retriever = GraphRAGRetriever(db_dir)
-
-        c.print(f"\n[cyan]🕸️  Exploring neighborhood for:[/cyan] '{args.node_id}'")
-        data = retriever.neighborhood(args.node_id, depth=args.depth)
-
-        if "message" in data:
-            c.print(f"   [yellow]{data['message']}[/yellow]")
-            sys.exit(0)
-
-        nodes = {n['id']: n for n in data.get('nodes', [])}
-
-        c.print(f"\n[bold magenta]↓ Callers ({len(data.get('callers', []))} dependents)[/bold magenta]")
-        seen_callers = set()
-        for caller in data.get('callers', []):
-            if caller in nodes and caller not in seen_callers:
-                seen_callers.add(caller)
-                c.print(f"   - {nodes[caller]['name']} [dim]({nodes[caller]['file_path']})[/dim]")
-
-        c.print(f"\n[bold blue]↑ Dependencies ({len(data.get('dependencies', []))} outgoing)[/bold blue]")
-        seen_deps = set()
-        for dep in data.get('dependencies', []):
-            if dep in nodes and dep not in seen_deps:
-                seen_deps.add(dep)
-                c.print(f"   - {nodes[dep]['name']} [dim]({nodes[dep]['file_path']})[/dim]")
 
         sys.exit(0)
 

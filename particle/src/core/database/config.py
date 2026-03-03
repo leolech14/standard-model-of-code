@@ -20,11 +20,9 @@ class DatabaseConfig:
 
     # Paths (env var overrides)
     sqlite_path: str = ".collider/collider.db"  # COLLIDER_SQLITE_PATH
-    tantivy_path: str = ".collider/search"       # COLLIDER_TANTIVY_PATH
 
     # Feature toggles
     incremental_enabled: bool = True   # --incremental/--no-incremental
-    search_enabled: bool = False       # --search
     history_enabled: bool = True       # --keep-history
 
     # Performance tuning
@@ -38,8 +36,6 @@ class DatabaseConfig:
         """Apply environment variable overrides."""
         if os.environ.get("COLLIDER_SQLITE_PATH"):
             self.sqlite_path = os.environ["COLLIDER_SQLITE_PATH"]
-        if os.environ.get("COLLIDER_TANTIVY_PATH"):
-            self.tantivy_path = os.environ["COLLIDER_TANTIVY_PATH"]
         if os.environ.get("COLLIDER_DB_DISABLED", "").lower() in ("1", "true", "yes"):
             self.enabled = False
 
@@ -75,8 +71,6 @@ class DatabaseConfig:
             config.incremental_enabled = options["incremental"]
         if options.get("no_incremental"):
             config.incremental_enabled = False
-        if options.get("search"):
-            config.search_enabled = True
         if options.get("no_history"):
             config.history_enabled = False
 
@@ -100,10 +94,6 @@ class DatabaseConfig:
         """Get resolved SQLite database path."""
         return self.resolve_path(self.sqlite_path)
 
-    def get_tantivy_path(self) -> Path:
-        """Get resolved Tantivy index path."""
-        return self.resolve_path(self.tantivy_path)
-
     @staticmethod
     def list_features() -> List[Dict[str, Any]]:
         """
@@ -121,9 +111,7 @@ class DatabaseConfig:
             "enabled": self.enabled,
             "backend": self.backend,
             "sqlite_path": self.sqlite_path,
-            "tantivy_path": self.tantivy_path,
             "incremental_enabled": self.incremental_enabled,
-            "search_enabled": self.search_enabled,
             "history_enabled": self.history_enabled,
             "batch_size": self.batch_size,
             "hash_algorithm": self.hash_algorithm,
