@@ -276,6 +276,11 @@ def main():
         help="Additional paths to exclude from analysis (can be repeated)"
     )
     full_parser.add_argument(
+        "--verbose-output",
+        action="store_true",
+        help="Emit LOD1 (verbose) as default output instead of LOD2 (standard)"
+    )
+    full_parser.add_argument(
         "--quiet", "-q",
         action="store_true",
         help="Suppress progress output (only errors)"
@@ -1100,6 +1105,7 @@ def main():
                     options["analytics"] = True
 
             options["skip_html"] = not getattr(args, 'html', False)
+            options["verbose_output"] = getattr(args, 'verbose_output', False)
 
             run_full_analysis(args.path, args.output, options=options)
 

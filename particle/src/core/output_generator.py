@@ -223,6 +223,7 @@ def generate_outputs(
     target_name: Optional[str] = None,
     timestamp: Optional[str] = None,
     skip_html: bool = True,
+    verbose_output: bool = False,
 ) -> Dict[str, Path]:
     if isinstance(data, dict):
         data = normalize_output(data)
@@ -256,6 +257,10 @@ def generate_outputs(
     }
 
     for level, data_lod in lods.items():
+        # Skip LOD1 unless --verbose-output (saves ~60% disk + tokens)
+        if level == "lod1" and not verbose_output:
+            continue
+
         fname = _LOD_FILENAMES[level]
         out_path = output_dir / fname
         json_str = json.dumps(data_lod, indent=2, default=str, sort_keys=True)
@@ -279,16 +284,19 @@ def generate_outputs(
     if tokens_info:
         ans["tokens"] = tokens_info
 
-    # Maintain legacy aliases as symlinks (not copies -- saves ~245MB per run)
+    # Default output = LOD2 (standard); LOD1 only when --verbose-output
+    default_lod = "lod1" if verbose_output else "lod2"
+    default_path = ans[default_lod]
+
+    # Maintain legacy aliases as symlinks (not copies)
     legacy_path = output_dir / json_filename
     stable_json = output_dir / "unified_analysis.json"
-    lod1_path = ans["lod1"]
     for alias in [legacy_path, stable_json]:
         if alias.exists() or alias.is_symlink():
             alias.unlink()
-        alias.symlink_to(lod1_path.name)  # relative symlink
+        alias.symlink_to(default_path.name)  # relative symlink
 
-    ans["llm"] = ans["lod1"]
+    ans["llm"] = ans[default_lod]
     ans["stable_json"] = stable_json
 
     if not skip_html:

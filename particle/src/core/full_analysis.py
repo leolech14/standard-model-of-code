@@ -1909,6 +1909,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 timer.set_output(run_id=db_run_id, nodes=node_count, edges=edge_count)
                 print(f"   → Run ID: {db_run_id}")
                 print(f"   → Persisted {node_count} nodes, {edge_count} edges")
+                print(f"   → DB: {db_config.get_sqlite_path()}")
 
                 # Update file tracking if delta tracker is available
                 if delta_tracker and delta_result:
@@ -2095,7 +2096,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
 
                 node['waybill'] = waybill
 
-            outputs = generate_outputs(full_output, out_path, target_name=target.name, skip_html=skip_html)
+            verbose_output = options.get("verbose_output", False)
+            outputs = generate_outputs(full_output, out_path, target_name=target.name, skip_html=skip_html, verbose_output=verbose_output)
             unified_json = outputs["llm"]
             viz_file = outputs.get("html")
             timer.set_output(json=1, html=1 if viz_file else 0)
