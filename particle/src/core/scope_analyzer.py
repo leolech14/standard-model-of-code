@@ -128,11 +128,14 @@ class QueryBasedScopeAnalyzer:
     def __init__(self):
         self._queries: Dict[str, Any] = {}
         self._parsers: Dict[str, Any] = {}
+        self._failed_languages: Set[str] = set()
 
     def _ensure_query(self, language: str) -> bool:
-        """Load the locals.scm query for a language."""
+        """Load the locals.scm query for a language (caches failures)."""
         if language in self._queries:
             return True
+        if language in self._failed_languages:
+            return False
 
         try:
             import tree_sitter
@@ -177,7 +180,8 @@ class QueryBasedScopeAnalyzer:
             return True
 
         except Exception as e:
-            logger.warning(f"Failed to load locals query for {language}: {e}")
+            self._failed_languages.add(language)
+            logger.debug(f"Failed to load locals query for {language}: {e}")
             return False
 
     def analyze(self, tree, source: bytes, language: str, file_path: str = '') -> ScopeGraph:

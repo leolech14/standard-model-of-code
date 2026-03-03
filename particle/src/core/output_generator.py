@@ -10,7 +10,6 @@ from __future__ import annotations
 import json
 import importlib.util
 import re
-import shutil
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple, Union
@@ -160,6 +159,30 @@ def create_lod_payloads(payload: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
 
     return {"lod1": lod1, "lod2": lod2, "lod3": lod3}
 
+def _strip_dead_output(data: Dict[str, Any]) -> Dict[str, Any]:
+    """Remove empty/stub sections and always-empty node fields from output."""
+    # Strip ephemeral Python object reference
+    data.pop("_chemistry_lab", None)
+    # Strip internal markdown (already written to file separately)
+    data.pop("_insights_markdown", None)
+
+    # Strip sections that are always empty (never populated by any stage)
+    for key in ("ecosystem_discovery", "orphan_integration", "recommendations"):
+        val = data.get(key)
+        if not val or val == {} or val == []:
+            data.pop(key, None)
+
+    # Strip always-empty node fields (ring: always None, metadata: always {})
+    for node in data.get("nodes", []):
+        if isinstance(node, dict):
+            if node.get("ring") is None:
+                node.pop("ring", None)
+            if node.get("metadata") == {}:
+                node.pop("metadata", None)
+
+    return data
+
+
 def generate_outputs(
     data: Dict[str, Any],
     output_dir: Union[str, Path],
@@ -171,6 +194,7 @@ def generate_outputs(
 ) -> Dict[str, Path]:
     if isinstance(data, dict):
         data = normalize_output(data)
+        data = _strip_dead_output(data)
 
     if not json_filename or not html_filename:
         resolved_target = target_name or _resolve_target_name(data)
@@ -223,11 +247,14 @@ def generate_outputs(
     if tokens_info:
         ans["tokens"] = tokens_info
 
-    # Maintain legacy aliases for UI
+    # Maintain legacy aliases as symlinks (not copies -- saves ~245MB per run)
     legacy_path = output_dir / json_filename
     stable_json = output_dir / "unified_analysis.json"
-    shutil.copy2(ans["lod1"], legacy_path)
-    shutil.copy2(ans["lod1"], stable_json)
+    lod1_path = ans["lod1"]
+    for alias in [legacy_path, stable_json]:
+        if alias.exists() or alias.is_symlink():
+            alias.unlink()
+        alias.symlink_to(lod1_path.name)  # relative symlink
 
     ans["llm"] = ans["lod1"]
     ans["stable_json"] = stable_json
@@ -235,7 +262,9 @@ def generate_outputs(
     if not skip_html:
         html_path = write_html_report(data, output_dir, filename=html_filename, normalize=False)
         stable_html = output_dir / "collider_report.html"
-        shutil.copy2(html_path, stable_html)
+        if stable_html.exists() or stable_html.is_symlink():
+            stable_html.unlink()
+        stable_html.symlink_to(html_path.name)
         ans["html"] = html_path
         ans["stable_html"] = stable_html
 

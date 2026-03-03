@@ -2,11 +2,13 @@
 🚀 COLLIDER UNIFIED CLI
 Refactored entry point for all standard model tools.
 """
+import logging
 import sys
 import os
 import argparse
 import re
 import tempfile
+import warnings
 from datetime import datetime
 from pathlib import Path
 
@@ -16,6 +18,15 @@ sys.path.append(str(root_dir))
 
 
 def main():
+    # Suppress tree-sitter query compatibility warnings (C library noise)
+    warnings.filterwarnings("ignore", message=".*query.*", category=UserWarning)
+
+    # Default: WARNING level, clean format, stderr
+    logging.basicConfig(
+        level=logging.WARNING,
+        format="%(levelname)s %(name)s: %(message)s",
+        stream=sys.stderr,
+    )
     parser = argparse.ArgumentParser(
         prog="collider",
         description="🔬 Collider - Standard Model of Code - Analyze any codebase structure"
@@ -263,6 +274,17 @@ def main():
         action="append",
         default=[],
         help="Additional paths to exclude from analysis (can be repeated)"
+    )
+    full_parser.add_argument(
+        "--quiet", "-q",
+        action="store_true",
+        help="Suppress progress output (only errors)"
+    )
+    full_parser.add_argument(
+        "--log-level",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR"],
+        default=None,
+        help="Set Python logging level (default: WARNING)"
     )
 
     # Database options (Phase 30)
@@ -1107,6 +1129,12 @@ def main():
             exclude_list = getattr(args, 'exclude', [])
             if exclude_list:
                 options["extra_excludes"] = exclude_list
+
+            # Logging options
+            if getattr(args, 'log_level', None):
+                logging.getLogger().setLevel(getattr(logging, args.log_level))
+            if getattr(args, 'quiet', False):
+                options["quiet"] = True
 
             # Database options (Phase 30)
             if getattr(args, 'no_db', False):

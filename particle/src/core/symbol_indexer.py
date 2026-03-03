@@ -96,11 +96,14 @@ class SymbolIndexer:
         self._queries: Dict[str, Any] = {}
         self._parsers: Dict[str, Any] = {}
         self._initialized = False
+        self._failed_languages: set = set()
 
     def _ensure_initialized(self, language: str) -> bool:
-        """Initialize parser and query for a language."""
+        """Initialize parser and query for a language (caches failures)."""
         if language in self._queries:
             return True
+        if language in self._failed_languages:
+            return False
 
         try:
             import tree_sitter
@@ -145,7 +148,8 @@ class SymbolIndexer:
             return True
 
         except Exception as e:
-            logger.warning(f"Failed to initialize symbol indexer for {language}: {e}")
+            self._failed_languages.add(language)
+            logger.debug(f"Failed to initialize symbol indexer for {language}: {e}")
             return False
 
     def index_file(self, file_path: str, content: str, language: str) -> None:
@@ -169,7 +173,7 @@ class SymbolIndexer:
         try:
             tree = parser.parse(source_bytes)
         except Exception as e:
-            logger.warning(f"Failed to parse {file_path}: {e}")
+            logger.debug(f"Failed to parse {file_path}: {e}")
             return
 
         import tree_sitter

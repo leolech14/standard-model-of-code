@@ -114,11 +114,15 @@ class TreeSitterDimensionClassifier:
         self._queries: Dict[str, Any] = {}
         self._query_text: Dict[str, str] = {}
         self._initialized = False
+        self._failed_languages: set = set()
+        self._warned_queries: set = set()
 
     def _ensure_initialized(self, language: str = 'python') -> bool:
         """Lazy initialization of tree-sitter parser and queries."""
         if self._initialized and self._current_language == language:
             return True
+        if language in self._failed_languages:
+            return False
 
         try:
             import tree_sitter
@@ -153,7 +157,8 @@ class TreeSitterDimensionClassifier:
             logger.debug(f"Tree-sitter not available: {e}")
             return False
         except Exception as e:
-            logger.warning(f"Failed to initialize tree-sitter: {e}")
+            self._failed_languages.add(language)
+            logger.debug(f"Failed to initialize tree-sitter for {language}: {e}")
             return False
 
     def _load_queries(self, language: str):
@@ -178,7 +183,10 @@ class TreeSitterDimensionClassifier:
                     self._query_text[query_type] = query_text
                     logger.debug(f"Loaded {query_type}.scm for {language}")
                 except Exception as e:
-                    logger.warning(f"Failed to compile {query_type} query: {e}")
+                    warn_key = f"{language}:{query_type}"
+                    if warn_key not in self._warned_queries:
+                        self._warned_queries.add(warn_key)
+                        logger.debug(f"Failed to compile {query_type} query for {language}: {e}")
 
     def classify_boundary(self, source: str, language: str = 'python') -> BoundaryType:
         """Classify boundary type using tree-sitter queries."""

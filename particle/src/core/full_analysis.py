@@ -55,6 +55,32 @@ __all__ = [
 
 
 # =============================================================================
+# LOGGING HELPERS
+# =============================================================================
+
+import contextlib
+
+def _log(msg: str, quiet: bool = False):
+    """Print progress message unless quiet mode is active."""
+    if not quiet:
+        print(msg)
+
+
+@contextlib.contextmanager
+def suppress_fd_stderr():
+    """Suppress C-library warnings written directly to fd 2 (e.g. tree-sitter)."""
+    devnull = os.open(os.devnull, os.O_WRONLY)
+    old_stderr = os.dup(2)
+    os.dup2(devnull, 2)
+    try:
+        yield
+    finally:
+        os.dup2(old_stderr, 2)
+        os.close(devnull)
+        os.close(old_stderr)
+
+
+# =============================================================================
 # FILE-CENTRIC VIEW: Thin wrappers for backwards compatibility
 # =============================================================================
 
@@ -238,6 +264,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         open_latest = False
     if options.get("no_open", False):
         open_latest = False
+    quiet = options.get("quiet", False)
 
     start_time = time.time()
     target = Path(target_path).resolve()
@@ -253,12 +280,12 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     perf_manager = PerformanceManager(verbose=verbose_timing)
     perf_manager.start_pipeline()
 
-    print("=" * 60)
-    print("COLLIDER FULL ANALYSIS")
-    print(f"Target: {target}")
+    _log("=" * 60, quiet)
+    _log("COLLIDER FULL ANALYSIS", quiet)
+    _log(f"Target: {target}", quiet)
     if timing_enabled or verbose_timing:
-        print("Performance Tracking: ENABLED")
-    print("=" * 60)
+        _log("Performance Tracking: ENABLED", quiet)
+    _log("=" * 60, quiet)
 
     # =========================================================================
     # DATABASE INITIALIZATION (Phase 30)
@@ -603,8 +630,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     continue
 
                 try:
-                    tree = _ts_cache.parse(body, lang)
-                    graph = analyze_scopes(tree, bytes(body, 'utf8'), lang, file_path)
+                    with suppress_fd_stderr():
+                        tree = _ts_cache.parse(body, lang)
+                        graph = analyze_scopes(tree, bytes(body, 'utf8'), lang, file_path)
                     unused = find_unused_definitions(graph)
                     shadowed = find_shadowed_definitions(graph)
 
@@ -1711,9 +1739,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     # 2. output_human-readable_<project>_<timestamp>.html - Visual report (embeds Brain Download)
     # ==========================================================================
 
-    # Add performance data BEFORE generating brain_download (so it's included in markdown)
-    if timing_enabled or verbose_timing:
-        full_output['pipeline_performance'] = perf_manager.to_dict()
+    # Always include pipeline performance data (feeds pipeline_report.json and brain_download)
+    full_output['pipeline_performance'] = perf_manager.to_dict()
 
     skip_html = options.get("skip_html", True)
     if not skip_html:
@@ -2025,9 +2052,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     viz_file = None
     with StageTimer(perf_manager, "Stage 12: Output Generation") as timer:
         try:
-            # Add performance data INSIDE timer but BEFORE write (includes stages 1-11)
-            if timing_enabled or verbose_timing:
-                full_output['pipeline_performance'] = perf_manager.to_dict()
+            # Update performance data INSIDE timer (captures stages 1-11 timing)
+            full_output['pipeline_performance'] = perf_manager.to_dict()
 
             from src.core.output_generator import generate_outputs
             skip_html = options.get("skip_html", True)
@@ -2084,23 +2110,76 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     # Final timing summary
     total_time = time.time() - start_time
 
+    # =========================================================================
+    # PIPELINE REPORT: Always write standalone JSON (cheap, enables automation)
+    # =========================================================================
+    try:
+        report_path = out_path / "pipeline_report.json"
+        report = perf_manager.to_dict()
+        report["meta"] = {
+            "target": str(target),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "collider_version": "4.0.0",
+            "total_time_s": round(total_time, 1),
+            "node_count": len(nodes),
+            "edge_count": len(edges),
+        }
+        report["output_files"] = {
+            "unified_analysis": str(out_path / "unified_analysis.json"),
+            "lod1": str(out_path / "ast_lod1_verbose.json"),
+            "lod2": str(out_path / "ast_lod2_standard.json"),
+            "lod3": str(out_path / "ast_lod3_compact.json"),
+            "database": str(out_path / "collider.db"),
+        }
+        with open(report_path, "w") as f:
+            json.dump(report, f, indent=2)
+    except Exception:
+        report_path = None
+
+    # =========================================================================
+    # ENHANCED FINAL SUMMARY (always shown, even in quiet mode)
+    # =========================================================================
+    peak_mb = perf_manager._peak_memory_kb / 1024 if perf_manager._peak_memory_kb else 0
+
     print("\n" + "=" * 60)
-    print("✅ FULL ANALYSIS COMPLETE")
-    print(f"   Time: {total_time:.1f}s")
+    print("COLLIDER FULL ANALYSIS COMPLETE")
+    print(f"   Target: {target.name}")
+    print(f"   Time:   {total_time:.1f}s | Memory: {peak_mb:,.0f} MB peak")
+    print(f"   Graph:  {len(nodes):,} nodes, {len(edges):,} edges")
+
+    # Compact stage timing table
+    if perf_manager.stages:
+        print()
+        print("   Stage Timing:")
+        for stage in perf_manager.stages:
+            # Clean stage name (remove "Stage X.Y: " prefix for display)
+            name = stage.stage_name
+            if ": " in name:
+                name = name.split(": ", 1)[1]
+            # Format timing
+            if stage.latency_ms >= 1000:
+                time_str = f"{stage.latency_ms / 1000:.1f}s"
+            else:
+                time_str = f"{stage.latency_ms:.0f}ms"
+            # Dot-pad alignment
+            pad = "." * max(1, 28 - len(name))
+            print(f"   {name} {pad} {time_str:>8}   {stage.status}")
+
+        # Identify bottleneck
+        slowest = perf_manager.get_slowest_stage()
+        if slowest and total_time > 0:
+            pct = (slowest['latency_ms'] / 1000 / total_time * 100)
+            print(f"\n   Bottleneck: {slowest['name']} ({slowest['latency_ms'] / 1000:.1f}s, {pct:.0f}%)")
+
+    print()
+    if report_path:
+        print(f"   Report: {report_path}")
     if unified_json:
         print(f"   Data:   {unified_json}")
-        if "outputs" in locals() and "tokens" in outputs:
-            for k, v in outputs["tokens"].items():
-                if isinstance(v, dict):
-                    print(f"           - {k}:")
-                    for sub_k, sub_v in sorted(v.items(), key=lambda x: str(x[0])):
-                        print(f"               * {sub_k}: {sub_v:,} tokens")
-                else:
-                    print(f"           - {k}: {v:,} tokens")
     if viz_file:
         print(f"   Visual: {viz_file}")
 
-    # Print timing summary if enabled
+    # Detailed timing if requested
     if timing_enabled and not verbose_timing:
         perf_manager.print_summary()
 
@@ -2110,9 +2189,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             print(f"   Open:   {latest_html}")
             print(f"   Manual: {_manual_open_command(latest_html)}")
             if not _open_file(latest_html):
-                print("   ⚠️  Open failed (see system logs for details).")
+                print("   Open failed (see system logs for details).")
         else:
-            print("   ⚠️  No HTML outputs found to open.")
+            print("   No HTML outputs found to open.")
 
     # Close database connection
     if db_manager:
