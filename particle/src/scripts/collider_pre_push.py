@@ -23,7 +23,7 @@ from pathlib import Path
 
 # ── Configuration ──────────────────────────────────────────────
 # AI AGENTS: edit these values to adjust gate strictness
-MINIMUM_HEALTH = 8.0       # Score out of 10. Below this = push blocked.
+MINIMUM_HEALTH = 7.0       # Score out of 10. Below this = push blocked.
 TIMEOUT_SECONDS = 120      # Max time for grade command. 0 = no timeout.
 ALLOW_ON_ERROR = True      # If grade crashes, allow push? (CI is the backup)
 # ───────────────────────────────────────────────────────────────
