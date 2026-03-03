@@ -132,9 +132,20 @@ def create_lod_payloads(payload: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     # LOD 1: Verbose (Raw stripped payload)
     lod1 = payload
 
-    # LOD 2: Standard (Remove raw string bodies, keep signatures/docstrings)
+    # LOD 2: Standard -- structural analyst view
+    # Keep: node identity, graph metrics, classifications, edges, summaries
+    # Drop: raw source text, heavy per-node analytics, heavy root sections
     lod2 = copy.deepcopy(payload)
-    lod2 = _aggressively_strip_keys(lod2, {"code", "body_source", "body_preview"})
+    lod2 = _aggressively_strip_keys(lod2, {
+        # Raw text (~9 MB)
+        "code", "body_source", "body_preview",
+        # Heavy per-node analytics (~18 MB combined)
+        "waybill", "purpose_intelligence", "purpose_coherence",
+        "control_flow", "data_flow", "intent_profile", "disconnection",
+        "scope_analysis", "detected_atoms",
+        # Heavy root sections (~12 MB combined)
+        "markov", "ideome", "codome_boundaries",
+    })
 
     # LOD 3: Compact (Remove fine-grained particles, keep files/classes/edges)
     lod3 = copy.deepcopy(payload)
@@ -160,25 +171,46 @@ def create_lod_payloads(payload: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     return {"lod1": lod1, "lod2": lod2, "lod3": lod3}
 
 def _strip_dead_output(data: Dict[str, Any]) -> Dict[str, Any]:
-    """Remove empty/stub sections and always-empty node fields from output."""
-    # Strip ephemeral Python object reference
+    """Remove empty/stub sections and redundant node fields from output.
+
+    Targets three categories:
+    1. Root sections that are always empty (dead features)
+    2. Per-node fields that are always None/empty
+    3. Per-node fields that duplicate other fields (verified 99.95%+ identical)
+    """
+    # --- Ephemeral / internal keys ---
     data.pop("_chemistry_lab", None)
-    # Strip internal markdown (already written to file separately)
     data.pop("_insights_markdown", None)
 
-    # Strip sections that are always empty (never populated by any stage)
+    # --- Dead root sections (#8-10) ---
     for key in ("ecosystem_discovery", "orphan_integration", "recommendations"):
         val = data.get(key)
         if not val or val == {} or val == []:
             data.pop(key, None)
 
-    # Strip always-empty node fields (ring: always None, metadata: always {})
+    # --- Per-node cleanup (#14-15) ---
     for node in data.get("nodes", []):
-        if isinstance(node, dict):
-            if node.get("ring") is None:
-                node.pop("ring", None)
-            if node.get("metadata") == {}:
-                node.pop("metadata", None)
+        if not isinstance(node, dict):
+            continue
+
+        # Always-empty fields
+        if node.get("ring") is None:
+            node.pop("ring", None)
+        if node.get("metadata") == {}:
+            node.pop("metadata", None)
+
+        # Redundant confidence aliases:
+        #   confidence == role_confidence (99.95%), confidence_raw == role_confidence_raw (100%)
+        # Keep: role_confidence (canonical, used by DB mapper + scripts).
+        # Drop: confidence, confidence_raw (aliases added by unified_analysis.py)
+        node.pop("confidence", None)
+        node.pop("confidence_raw", None)
+
+        # Redundant RPBL scalars: rpbl_boundary/purity/lifecycle/responsibility
+        # duplicate rpbl dict values (99.95%)
+        # Keep: rpbl dict. Drop: rpbl_* scalars
+        for dim in ("rpbl_responsibility", "rpbl_purity", "rpbl_boundary", "rpbl_lifecycle"):
+            node.pop(dim, None)
 
     return data
 
