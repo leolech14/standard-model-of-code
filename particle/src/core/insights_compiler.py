@@ -26,7 +26,7 @@ import yaml
 class CompiledInsight:
     """A single interpreted finding with context and actionability."""
     id: str
-    category: str          # topology, constraints, purpose, dead_code, entanglement, rpbl, performance, testing, data_flow, execution
+    category: str          # topology, constraints, purpose, dead_code, entanglement, rpbl, performance, data_flow, execution, incoherence, purpose_decomposition, gap_detection, temporal, contextome, ideome
     severity: str          # critical, high, medium, low, info
     title: str
     description: str
@@ -206,6 +206,7 @@ class InsightsCompiler:
         self.kpis = full_output.get('kpis', {})
         self.findings: List[CompiledInsight] = []
         self._next_id = 1
+        self._lab = full_output.get('_chemistry_lab')  # ChemistryLab or None
 
     def compile(self) -> InsightsReport:
         """Run all interpretation passes and produce the report."""
@@ -229,6 +230,35 @@ class InsightsCompiler:
         self._interpret_theory_completeness()
         self._interpret_igt_stability()
         self._interpret_semantic_roles()
+
+        # --- Collider Trinity (v2.1) ---
+        self._interpret_incoherence()
+        self._interpret_purpose_decomposition()
+        self._interpret_gaps()
+
+        # --- Temporal Analysis (REH integration) ---
+        self._interpret_temporal()
+
+        # --- Contextome Intelligence (Stage 0.8) ---
+        self._interpret_contextome()
+
+        # --- Ideome Synthesis (Rosetta Stone) ---
+        self._interpret_ideome()
+
+        # --- Dark-matter feature interpreters (Collider Potential expansion) ---
+        self._interpret_smart_ignore()
+        self._interpret_roadmap_eval()
+        self._interpret_semantics_cortex()
+        self._interpret_ecosystem()
+        self._interpret_dependencies_graph()
+        self._interpret_advisories()
+        self._interpret_file_landscape()
+        self._interpret_classification_coverage()
+        self._interpret_edge_diversity()
+        self._interpret_codome_boundary()
+
+        # --- Data Chemistry (cross-signal correlation) ---
+        self._interpret_chemistry()
 
         # Sort by severity
         sev_order = {'critical': 0, 'high': 1, 'medium': 2, 'low': 3, 'info': 4}
@@ -1484,7 +1514,7 @@ class InsightsCompiler:
 
     def _compute_health_components(self) -> Dict[str, float]:
         """Compute individual health component scores (each 0-10)."""
-        return {
+        components = {
             'topology': self._score_topology(),
             'constraints': self._score_constraints(),
             'purpose': self._score_purpose(),
@@ -1493,6 +1523,13 @@ class InsightsCompiler:
             'entanglement': self._score_entanglement(),
             'rpbl_balance': self._score_rpbl_balance(),
         }
+        # Apply chemistry modulations (coefficients < 1.0 penalise overconfident scores)
+        if self._lab is not None:
+            for key in components:
+                mod = self._lab.get_modulation(key)
+                if mod != 1.0:
+                    components[key] = round(max(0.0, min(10.0, components[key] * mod)), 2)
+        return components
 
     def _score_topology(self) -> float:
         shape = self.kpis.get('topology_shape', 'UNKNOWN')
@@ -1673,6 +1710,13 @@ class InsightsCompiler:
         performance_score, performance_notes = self._score_performance_matrix()
         logic_score, logic_notes = self._score_logic_matrix(health_components)
         purpose_score, purpose_notes = self._score_purpose_fulfillment_matrix()
+
+        # Apply chemistry modulations to mission dimensions
+        if self._lab is not None:
+            execution_score = round(max(0.0, min(100.0, execution_score * self._lab.get_modulation('execution'))), 1)
+            performance_score = round(max(0.0, min(100.0, performance_score * self._lab.get_modulation('performance'))), 1)
+            logic_score = round(max(0.0, min(100.0, logic_score * self._lab.get_modulation('logic'))), 1)
+            purpose_score = round(max(0.0, min(100.0, purpose_score * self._lab.get_modulation('purpose_fulfillment'))), 1)
 
         target = 95.0
         matrix = {
@@ -2013,6 +2057,597 @@ class InsightsCompiler:
         return glossary
 
     # -------------------------------------------------------------------------
+    # Collider Trinity interpreters (v2.1)
+    # -------------------------------------------------------------------------
+
+    def _interpret_incoherence(self):
+        """Interpret incoherence functional results (Module 1 of Trinity)."""
+        inc = self.data.get('incoherence', {})
+        if not inc:
+            return
+
+        i_total = inc.get('i_total', 0.5)
+        health_10 = inc.get('health_10', 5.0)
+
+        # Summary finding -- always emit
+        if i_total > 0.6:
+            sev = 'critical'
+        elif i_total > 0.4:
+            sev = 'high'
+        elif i_total > 0.25:
+            sev = 'medium'
+        else:
+            sev = 'low'
+
+        self._add(
+            category='incoherence',
+            severity=sev,
+            title='Incoherence Functional',
+            description=(
+                f'Aggregate incoherence I(C) = {i_total:.3f} '
+                f'(health {health_10:.1f}/10). '
+                f'Measures structural, teleological, symmetry, boundary, '
+                f'and flow coherence.'
+            ),
+            evidence={
+                'i_total': i_total,
+                'health_10': health_10,
+                'i_struct': inc.get('i_struct'),
+                'i_telic': inc.get('i_telic'),
+                'i_sym': inc.get('i_sym'),
+                'i_bound': inc.get('i_bound'),
+                'i_flow': inc.get('i_flow'),
+            },
+            interpretation=(
+                'The Incoherence Functional quantifies how far the codebase '
+                'deviates from architectural coherence across five dimensions. '
+                'Lower is better (0 = perfectly coherent).'
+            ),
+            recommendation=(
+                'Focus on the highest I-term first. '
+                'I_struct: reduce cycles/antimatter. '
+                'I_telic: clarify node purposes. '
+                'I_bound: fix layer violations.'
+            ) if sev in ('critical', 'high') else '',
+            effort='high' if sev == 'critical' else 'medium',
+            theory_refs=['LAGRANGIAN.md'],
+            drill_down={'key': 'incoherence', 'kpi': 'i_total'},
+        )
+
+        # Per-term findings for terms above threshold
+        terms = inc.get('details', {}).get('terms', {})
+        term_labels = {
+            'struct': ('Structural', 'Cycles, antimatter density, entanglement'),
+            'telic': ('Teleological', 'Purpose clarity, orphans, god classes'),
+            'sym': ('Symmetry', 'Dead code, unknown nodes, coverage gaps'),
+            'bound': ('Boundary', 'Layer violations, RPBL coupling'),
+            'flow': ('Flow', 'Fan-out, topology shape, centralization'),
+        }
+        for key, (label, desc) in term_labels.items():
+            term_val = inc.get(f'i_{key}')
+            if term_val is not None and term_val > 0.4:
+                self._add(
+                    category='incoherence',
+                    severity='high' if term_val > 0.6 else 'medium',
+                    title=f'High {label} Incoherence (I_{key}={term_val:.2f})',
+                    description=f'{label} incoherence is elevated. Measures: {desc}.',
+                    evidence={'term': key, 'value': term_val, 'details': terms.get(key, {})},
+                    interpretation=f'I_{key} > 0.4 indicates significant {label.lower()} degradation.',
+                    recommendation=f'Investigate {label.lower()} drivers in the details breakdown.',
+                    effort='medium',
+                    theory_refs=['LAGRANGIAN.md'],
+                    drill_down={'key': f'incoherence.i_{key}'},
+                )
+
+    def _interpret_purpose_decomposition(self):
+        """Interpret purpose decomposition results (Module 2 of Trinity)."""
+        decomp = self.data.get('purpose_decomposition', [])
+        if not decomp:
+            return
+
+        # Find containers with missing required sub-purposes (critical gaps)
+        for dr in decomp:
+            missing = dr.get('missing', [])
+            violations = dr.get('violations', [])
+            completeness = dr.get('completeness', 1.0)
+            node_id = dr.get('node_id', '?')
+            purpose = dr.get('purpose', '?')
+
+            if missing:
+                self._add(
+                    category='purpose_decomposition',
+                    severity='high' if len(missing) > 1 else 'medium',
+                    title=f'{purpose} missing required sub-purposes',
+                    description=(
+                        f"Container '{node_id}' ({purpose}) is missing "
+                        f"required sub-purposes: {', '.join(missing)}. "
+                        f"Completeness: {completeness:.0%}."
+                    ),
+                    evidence={
+                        'node_id': node_id,
+                        'purpose': purpose,
+                        'missing': missing,
+                        'completeness': completeness,
+                    },
+                    interpretation=(
+                        f'CONSTRAINT_RULES require a {purpose} to have '
+                        f'{", ".join(missing)} children. Their absence '
+                        f'indicates incomplete architectural implementation.'
+                    ),
+                    recommendation=(
+                        f'Add {", ".join(missing)} sub-components to '
+                        f'{node_id}, or verify they exist under different names.'
+                    ),
+                    effort='high',
+                    related_nodes=[node_id],
+                    theory_refs=['PURPOSE_FIELD_INTEGRATION_SPEC.md'],
+                    drill_down={'key': 'purpose_decomposition', 'node': node_id},
+                )
+
+            if violations:
+                self._add(
+                    category='purpose_decomposition',
+                    severity='high',
+                    title=f'{purpose} contains forbidden sub-purposes',
+                    description=(
+                        f"Container '{node_id}' ({purpose}) contains "
+                        f"forbidden sub-purposes: {', '.join(violations)}. "
+                        f"This violates architectural constraints."
+                    ),
+                    evidence={
+                        'node_id': node_id,
+                        'purpose': purpose,
+                        'violations': violations,
+                    },
+                    interpretation=(
+                        f'A {purpose} should not contain '
+                        f'{", ".join(violations)} children. This indicates '
+                        f'responsibility leakage or misclassification.'
+                    ),
+                    recommendation=(
+                        f'Extract {", ".join(violations)} logic from '
+                        f'{node_id} into appropriate containers.'
+                    ),
+                    effort='medium',
+                    related_nodes=[node_id],
+                    theory_refs=['PURPOSE_FIELD_INTEGRATION_SPEC.md'],
+                    drill_down={'key': 'purpose_decomposition', 'node': node_id},
+                )
+
+    def _interpret_gaps(self):
+        """Interpret gap detection results (Module 3 of Trinity)."""
+        report = self.data.get('gap_report', {})
+        if not report:
+            return
+
+        gaps = report.get('gaps', [])
+        coverage = report.get('coverage', 1.0)
+        query_targets = report.get('query_targets', [])
+
+        if not gaps:
+            return
+
+        # Summary finding
+        critical_count = sum(1 for g in gaps if g.get('severity') == 'critical')
+        high_count = sum(1 for g in gaps if g.get('severity') == 'high')
+
+        if critical_count > 0:
+            sev = 'critical'
+        elif high_count > 0:
+            sev = 'high'
+        elif len(gaps) > 10:
+            sev = 'medium'
+        else:
+            sev = 'low'
+
+        by_type = {}
+        for g in gaps:
+            gt = g.get('gap_type', 'unknown')
+            by_type[gt] = by_type.get(gt, 0) + 1
+
+        type_summary = ', '.join(f'{t}({c})' for t, c in sorted(by_type.items(), key=lambda x: -x[1]))
+
+        self._add(
+            category='gap_detection',
+            severity=sev,
+            title=f'{len(gaps)} architectural gaps detected',
+            description=(
+                f'Gap analysis found {len(gaps)} gaps across the codebase. '
+                f'Coverage: {coverage:.0%}. Types: {type_summary}. '
+                f'{len(query_targets)} gaps are well-circumscribed for LLM analysis.'
+            ),
+            evidence={
+                'total_gaps': len(gaps),
+                'coverage': coverage,
+                'by_type': by_type,
+                'critical_count': critical_count,
+                'high_count': high_count,
+                'query_targets_count': len(query_targets),
+            },
+            interpretation=(
+                'Gaps represent missing, forbidden, or disconnected '
+                'architectural elements. Critical gaps (missing required '
+                'sub-purposes) indicate incomplete implementations.'
+            ),
+            recommendation=(
+                'Address critical gaps first (missing required sub-purposes). '
+                'Use LLM query targets for deeper semantic analysis.'
+            ) if sev in ('critical', 'high') else '',
+            effort='high' if critical_count > 5 else 'medium',
+            theory_refs=['THEORY_EXPANSION_2026.md'],
+            drill_down={'key': 'gap_report'},
+        )
+
+        # Individual critical gaps as separate findings
+        for g in gaps:
+            if g.get('severity') != 'critical':
+                continue
+            self._add(
+                category='gap_detection',
+                severity='critical',
+                title=f"Critical gap: {g.get('gap_type', '?')} at {g.get('location', '?')}",
+                description=g.get('description', ''),
+                evidence={
+                    'location': g.get('location'),
+                    'gap_type': g.get('gap_type'),
+                    'context': g.get('context', {}),
+                    'llm_query_hint': g.get('llm_query_hint', ''),
+                },
+                interpretation=(
+                    'This is a critical architectural gap -- a required '
+                    'sub-purpose is absent from its container.'
+                ),
+                recommendation=g.get('llm_query_hint', 'Investigate this gap.'),
+                effort='medium',
+                related_nodes=[g.get('location', '')],
+                theory_refs=['THEORY_EXPANSION_2026.md'],
+                drill_down={'key': 'gap_report.gaps', 'location': g.get('location')},
+            )
+
+    def _interpret_temporal(self):
+        """Interpret temporal analysis results (REH integration)."""
+        ta = self.data.get('temporal_analysis', {})
+        if not ta or not ta.get('available'):
+            return
+
+        # --- Hotspot concentration ---
+        hotspots = ta.get('hotspots', [])
+        if hotspots:
+            top = hotspots[0]
+            top_count = top.get('change_count', 0)
+            sev = 'high' if top_count > 50 else ('medium' if top_count > 20 else 'low')
+            self._add(
+                category='temporal',
+                severity=sev,
+                title='Change Hotspots',
+                description=(
+                    f'Top hotspot: {top.get("path", "?")} changed {top_count} times. '
+                    f'{len(hotspots)} hotspots identified.'
+                ),
+                evidence={
+                    'top_hotspot': top.get('path'),
+                    'top_change_count': top_count,
+                    'hotspot_count': len(hotspots),
+                },
+                interpretation=(
+                    'Files with high change frequency are maintenance magnets. '
+                    'They either concentrate too much responsibility (God class) '
+                    'or sit at an unstable architectural boundary.'
+                ),
+                recommendation=(
+                    f'Consider decomposing {top.get("path", "?")} if it '
+                    f'mixes multiple concerns.'
+                ) if sev in ('high', 'medium') else '',
+                effort='medium' if sev == 'high' else 'low',
+                related_nodes=[h.get('path', '') for h in hotspots[:5]],
+                theory_refs=['FLOW.md'],
+                drill_down={'key': 'temporal_analysis.hotspots'},
+            )
+
+        # --- Change coupling ---
+        coupling = ta.get('change_coupling', [])
+        if coupling:
+            top_pair = coupling[0]
+            co_count = top_pair.get('co_change_count', 0)
+            sev = 'medium' if co_count > 10 else 'low'
+            self._add(
+                category='temporal',
+                severity=sev,
+                title='Temporal Coupling',
+                description=(
+                    f'{len(coupling)} file pairs change together frequently. '
+                    f'Strongest: {top_pair.get("file_a", "?")} ↔ '
+                    f'{top_pair.get("file_b", "?")} ({co_count} co-changes).'
+                ),
+                evidence={
+                    'coupling_pairs': len(coupling),
+                    'strongest_pair': [
+                        top_pair.get('file_a'),
+                        top_pair.get('file_b'),
+                    ],
+                    'strongest_co_changes': co_count,
+                },
+                interpretation=(
+                    'Files that always change together may be tightly coupled. '
+                    'If they are in different modules, the module boundary may '
+                    'be misdrawn. If same module, consider merging or extracting '
+                    'a shared abstraction.'
+                ),
+                recommendation='Review coupling pairs for hidden dependencies.',
+                effort='low',
+                theory_refs=['FLOW.md'],
+                drill_down={'key': 'temporal_analysis.change_coupling'},
+            )
+
+        # --- Capability drift ---
+        removed = ta.get('capabilities_removed', [])
+        if removed:
+            self._add(
+                category='temporal',
+                severity='high' if len(removed) > 5 else 'medium',
+                title='Capability Regression Risk',
+                description=(
+                    f'{len(removed)} functions/classes removed in recent commits. '
+                    f'{ta.get("capabilities_modified", 0)} modified.'
+                ),
+                evidence={
+                    'removed_count': len(removed),
+                    'modified_count': ta.get('capabilities_modified', 0),
+                    'added_count': len(ta.get('capabilities_added', [])),
+                    'removed_names': [r.get('name', '') for r in removed[:10]],
+                },
+                interpretation=(
+                    'Recently removed capabilities may indicate intentional '
+                    'cleanup or accidental regression. Cross-reference with '
+                    'test results to verify no capability loss.'
+                ),
+                recommendation='Verify removed capabilities are covered by tests.',
+                effort='medium',
+                theory_refs=['THEORY_EXPANSION_2026.md'],
+                drill_down={'key': 'temporal_analysis.capabilities_removed'},
+            )
+
+        # --- Bus factor ---
+        bus_factor = ta.get('bus_factor', 0)
+        if bus_factor == 1:
+            self._add(
+                category='temporal',
+                severity='high',
+                title='Single Contributor (Bus Factor = 1)',
+                description='Only one author has contributed to this repository.',
+                evidence={'bus_factor': 1},
+                interpretation=(
+                    'All institutional knowledge resides with a single person. '
+                    'If they become unavailable, the project has no fallback.'
+                ),
+                recommendation='Document critical decisions and onboard a second contributor.',
+                effort='high',
+                theory_refs=[],
+            )
+
+        # --- Growth summary (always emit as info) ---
+        self._add(
+            category='temporal',
+            severity='info',
+            title='Repository Timeline',
+            description=(
+                f'{ta.get("total_commits", 0)} commits over '
+                f'{ta.get("active_days", 0)} active days '
+                f'({ta.get("first_commit_date", "?")} → '
+                f'{ta.get("last_commit_date", "?")}). '
+                f'Median file age: {ta.get("median_age_days", 0):.0f} days.'
+            ),
+            evidence={
+                'total_commits': ta.get('total_commits'),
+                'active_days': ta.get('active_days'),
+                'commits_per_day': ta.get('commits_per_day'),
+                'median_age_days': ta.get('median_age_days'),
+                'bus_factor': bus_factor,
+            },
+            interpretation='Temporal fingerprint of the repository.',
+            recommendation='',
+            effort='low',
+            drill_down={'key': 'temporal_analysis'},
+        )
+
+    # -------------------------------------------------------------------------
+    # Contextome Intelligence (Stage 0.8)
+    # -------------------------------------------------------------------------
+
+    def _interpret_contextome(self):
+        """Interpret Contextome Intelligence results (Stage 0.8)."""
+        ctx = self.data.get('contextome', {})
+        if not ctx:
+            return
+
+        doc_count = ctx.get('doc_count', 0)
+        purpose_coverage = ctx.get('purpose_coverage', 0.0)
+        deterministic_signals = ctx.get('deterministic_signals', 0)
+        enriched_signals = ctx.get('enriched_signals', 0)
+        llm_used = ctx.get('llm_used', False)
+        declared_purposes = ctx.get('declared_purposes', [])
+        symmetry_seeds = ctx.get('symmetry_seeds', [])
+        purpose_priors = ctx.get('purpose_priors', {})
+
+        # --- Purpose coverage ---
+        if doc_count > 0:
+            sev = 'info'
+            if purpose_coverage < 0.3:
+                sev = 'high'
+            elif purpose_coverage < 0.6:
+                sev = 'medium'
+            elif purpose_coverage < 0.8:
+                sev = 'low'
+
+            self._add(
+                category='contextome',
+                severity=sev,
+                title='Documentation Purpose Coverage',
+                description=(
+                    f'{doc_count} documentation files found. '
+                    f'{purpose_coverage:.0%} have extractable purpose signals. '
+                    f'{deterministic_signals} deterministic signals extracted'
+                    + (f', {enriched_signals} LLM-enriched.' if llm_used else '.')
+                ),
+                evidence={
+                    'doc_count': doc_count,
+                    'purpose_coverage': purpose_coverage,
+                    'deterministic_signals': deterministic_signals,
+                    'enriched_signals': enriched_signals,
+                    'llm_used': llm_used,
+                },
+                interpretation=(
+                    'Purpose coverage measures how many docs contain '
+                    'extractable purpose signals (headings, keywords, code refs). '
+                    'Low coverage means the Contextome is opaque -- '
+                    'documentation exists but does not communicate intent.'
+                ) if sev in ('high', 'medium') else (
+                    'Contextome fingerprint of the repository.'
+                ),
+                recommendation=(
+                    'Add purpose-oriented headings (H1) to documentation files. '
+                    'Reference code paths explicitly to improve symmetry detection.'
+                ) if sev in ('high', 'medium') else '',
+                effort='low',
+                theory_refs=['FRONTIER_REFRAMING_2026-03-02.md'],
+                drill_down={'key': 'contextome'},
+            )
+        else:
+            # No docs at all
+            self._add(
+                category='contextome',
+                severity='medium',
+                title='No Documentation Found',
+                description='No documentation files (.md, .rst, .txt, .adoc, .org) detected.',
+                evidence={'doc_count': 0},
+                interpretation=(
+                    'A repository without documentation has zero Contextome. '
+                    'Purpose can only be inferred from code structure.'
+                ),
+                recommendation='Create a README.md with project purpose and architecture.',
+                effort='low',
+                theory_refs=['FRONTIER_REFRAMING_2026-03-02.md'],
+            )
+            return  # No more contextome findings possible
+
+        # --- Symmetry seeds ---
+        if symmetry_seeds:
+            high_conf = [s for s in symmetry_seeds if s.get('confidence', 0) >= 0.7]
+            low_conf = [s for s in symmetry_seeds if s.get('confidence', 0) < 0.4]
+            self._add(
+                category='contextome',
+                severity='info',
+                title='Doc-Code Symmetry Seeds',
+                description=(
+                    f'{len(symmetry_seeds)} doc-code relationships detected. '
+                    f'{len(high_conf)} high-confidence, {len(low_conf)} low-confidence.'
+                ),
+                evidence={
+                    'total_seeds': len(symmetry_seeds),
+                    'high_confidence': len(high_conf),
+                    'low_confidence': len(low_conf),
+                    'top_seeds': symmetry_seeds[:5],
+                },
+                interpretation=(
+                    'Symmetry seeds map documentation to the code it describes. '
+                    'High confidence means clear name matching or explicit code refs. '
+                    'Low confidence means only indirect signals (sibling directory).'
+                ),
+                recommendation='',
+                effort='low',
+                theory_refs=['LAGRANGIAN.md'],
+                drill_down={'key': 'contextome.symmetry_seeds'},
+            )
+
+        # --- Constraint declarations ---
+        docs_with_constraints = [
+            dp for dp in declared_purposes
+            if dp.get('constraints') and len(dp.get('constraints', [])) > 0
+        ]
+        if docs_with_constraints:
+            total_constraints = sum(
+                len(dp.get('constraints', [])) for dp in docs_with_constraints
+            )
+            sev = 'info' if total_constraints < 20 else 'low'
+            self._add(
+                category='contextome',
+                severity=sev,
+                title='Documented Constraints',
+                description=(
+                    f'{total_constraints} MUST/SHALL constraint statements found '
+                    f'across {len(docs_with_constraints)} documents.'
+                ),
+                evidence={
+                    'total_constraints': total_constraints,
+                    'docs_with_constraints': len(docs_with_constraints),
+                    'sample_files': [dp.get('file', '') for dp in docs_with_constraints[:5]],
+                },
+                interpretation=(
+                    'RFC 2119 constraint language (MUST, SHALL, REQUIRED) in documentation '
+                    'represents testable requirements. These can seed gap detection and '
+                    'inform purpose decomposition.'
+                ),
+                recommendation='',
+                effort='low',
+                theory_refs=['FRONTIER_REFRAMING_2026-03-02.md'],
+                drill_down={'key': 'contextome.declared_purposes'},
+            )
+
+        # --- Framework signals ---
+        all_frameworks = set()
+        for dp in declared_purposes:
+            all_frameworks.update(dp.get('framework_signals', []))
+        if all_frameworks:
+            self._add(
+                category='contextome',
+                severity='info',
+                title='Framework Signals from Documentation',
+                description=(
+                    f'{len(all_frameworks)} framework/technology signals extracted: '
+                    f'{", ".join(sorted(all_frameworks)[:10])}'
+                    + (f' (+{len(all_frameworks) - 10} more)' if len(all_frameworks) > 10 else '')
+                    + '.'
+                ),
+                evidence={
+                    'frameworks': sorted(all_frameworks),
+                    'framework_count': len(all_frameworks),
+                },
+                interpretation=(
+                    'Framework signals from documentation provide purpose priors -- '
+                    'if docs mention React, code should contain React patterns.'
+                ),
+                recommendation='',
+                effort='low',
+                drill_down={'key': 'contextome.declared_purposes'},
+            )
+
+        # --- Purpose priors ---
+        if purpose_priors:
+            self._add(
+                category='contextome',
+                severity='info',
+                title='Purpose Priors',
+                description=(
+                    f'{len(purpose_priors)} purpose priors generated from documentation. '
+                    f'These seed the purpose field with top-down expectations.'
+                ),
+                evidence={
+                    'prior_count': len(purpose_priors),
+                    'sample_priors': dict(list(purpose_priors.items())[:5]),
+                },
+                interpretation=(
+                    'Purpose priors are glob-pattern-to-purpose mappings derived '
+                    'from documentation headings and keywords. They guide the '
+                    'purpose field computation by setting expectations before '
+                    'bottom-up emergence runs.'
+                ),
+                recommendation='',
+                effort='low',
+                theory_refs=['PURPOSE_FIELD_INTEGRATION_SPEC.md'],
+                drill_down={'key': 'contextome.purpose_priors'},
+            )
+
+    # -------------------------------------------------------------------------
     # Helpers
     # -------------------------------------------------------------------------
 
@@ -2035,6 +2670,682 @@ class InsightsCompiler:
                     'effort': f.effort,
                 })
         return issues
+
+    # -----------------------------------------------------------------
+    # Ideome Synthesis (Rosetta Stone)
+    # -----------------------------------------------------------------
+    def _interpret_ideome(self):
+        """Interpret Ideome synthesis results: triangulated drift attribution."""
+        ideome = self.data.get('ideome', {})
+        if not ideome:
+            return
+
+        # --- Global summary (always emitted) ---
+        coherence = ideome.get('global_coherence', 0.0)
+        drift_C = ideome.get('global_drift_C', 0.0)
+        drift_X = ideome.get('global_drift_X', 0.0)
+        delta_CX = ideome.get('global_delta_CX', 0.0)
+        coverage = ideome.get('coverage', 0.0)
+        node_count = ideome.get('node_count', 0)
+
+        if coherence >= 0.8:
+            sev = 'info'
+        elif coherence >= 0.6:
+            sev = 'low'
+        elif coherence >= 0.4:
+            sev = 'medium'
+        else:
+            sev = 'high'
+
+        # Determine dominant drift direction
+        if delta_CX < 0.15:
+            drift_summary = 'Code and documentation are well-aligned.'
+        elif drift_C > drift_X:
+            drift_summary = 'Code has drifted further from the ideal than documentation.'
+        else:
+            drift_summary = 'Documentation has drifted further from the ideal than code.'
+
+        self._add(
+            category='ideome',
+            severity=sev,
+            title='Ideome Coherence (Rosetta Stone)',
+            description=(
+                f'Global coherence: {coherence:.3f} '
+                f'(code drift={drift_C:.3f}, docs drift={drift_X:.3f}, '
+                f'delta={delta_CX:.3f}). '
+                f'Coverage: {coverage:.1%} of {node_count} nodes.'
+            ),
+            evidence={
+                'global_coherence': coherence,
+                'global_drift_C': drift_C,
+                'global_drift_X': drift_X,
+                'global_delta_CX': delta_CX,
+                'coverage': coverage,
+                'node_count': node_count,
+            },
+            interpretation=(
+                f'{drift_summary} '
+                f'The Ideome triangulates between code reality (Codome), '
+                f'documentation claims (Contextome), and the ideal reference frame '
+                f'to attribute drift direction.'
+            ),
+            recommendation=(
+                'Focus on the side with higher drift score. '
+                'Code drift means implementation deviated from architectural intent. '
+                'Docs drift means documentation no longer describes the actual system.'
+                if delta_CX >= 0.15 else ''
+            ),
+            effort='medium' if delta_CX >= 0.3 else 'low',
+            theory_refs=['FRONTIER_REFRAMING_2026-03-02.md'],
+            drill_down={'key': 'ideome'},
+        )
+
+        # --- Per-domain findings (only for significant drift) ---
+        domains = ideome.get('domains', [])
+        for dom in domains:
+            dom_delta = dom.get('avg_delta_CX', 0.0)
+            if dom_delta < 0.3:
+                continue
+
+            dom_name = dom.get('domain', '?')
+            dom_direction = dom.get('drift_direction', 'unknown')
+            dom_drift_C = dom.get('avg_alignment_C', 0.0)
+            dom_drift_X = dom.get('avg_alignment_X', 0.0)
+            dom_count = dom.get('node_count', 0)
+            worst = dom.get('worst_nodes', [])
+
+            if dom_delta >= 0.5:
+                dom_sev = 'high'
+            elif dom_delta >= 0.3:
+                dom_sev = 'medium'
+            else:
+                dom_sev = 'low'
+
+            direction_label = {
+                'code_drifted': 'Code has drifted from documentation',
+                'docs_drifted': 'Documentation has drifted from code',
+                'both_drifted': 'Both code and docs have drifted from the ideal',
+                'aligned': 'Aligned',
+            }.get(dom_direction, 'Drift direction unclear')
+
+            self._add(
+                category='ideome',
+                severity=dom_sev,
+                title=f'Domain Drift: {dom_name}',
+                description=(
+                    f'{direction_label} in {dom_name} '
+                    f'({dom_count} nodes, delta={dom_delta:.3f}). '
+                    f'Code alignment={dom_drift_C:.3f}, '
+                    f'docs alignment={dom_drift_X:.3f}.'
+                ),
+                evidence={
+                    'domain': dom_name,
+                    'drift_direction': dom_direction,
+                    'avg_alignment_C': dom_drift_C,
+                    'avg_alignment_X': dom_drift_X,
+                    'avg_delta_CX': dom_delta,
+                    'node_count': dom_count,
+                    'worst_nodes': worst,
+                },
+                interpretation=(
+                    f'The domain {dom_name} shows significant divergence between '
+                    f'code and documentation. {direction_label}.'
+                ),
+                recommendation=(
+                    f'Review the {len(worst)} most drifted nodes in {dom_name}: '
+                    f'{", ".join(worst[:3])}'
+                    + (f' (+{len(worst) - 3} more)' if len(worst) > 3 else '')
+                    + '.'
+                    if worst else f'Investigate drift in {dom_name}.'
+                ),
+                effort='medium',
+                related_nodes=worst[:5],
+                drill_down={'key': 'ideome.domains', 'domain': dom_name},
+            )
+
+    # ------------------------------------------------------------------
+    # Dark-matter feature interpreters (Collider Potential expansion)
+    # ------------------------------------------------------------------
+
+    def _interpret_smart_ignore(self):
+        """Interpret SmartIgnore manifest -- noise ratio and filtering impact."""
+        si = self.data.get('smart_ignore', {})
+        if not si:
+            return
+
+        ignored_count = si.get('ignored_count', 0) or len(si.get('ignored_paths', []))
+        total_files = si.get('total_files', 0)
+        noise_ratio = si.get('noise_ratio', 0.0)
+        patterns = si.get('patterns', [])
+
+        if total_files and not noise_ratio:
+            noise_ratio = ignored_count / total_files if total_files else 0
+
+        if ignored_count == 0:
+            return
+
+        sev = 'info'
+        if noise_ratio > 0.5:
+            sev = 'medium'
+        elif noise_ratio > 0.3:
+            sev = 'low'
+
+        self._add(
+            category='noise',
+            severity=sev,
+            title=f'SmartIgnore filtered {ignored_count} paths ({noise_ratio:.0%} noise ratio)',
+            description=(
+                f'{ignored_count} files/directories ignored out of {total_files or "?"} total. '
+                f'Noise ratio: {noise_ratio:.1%}.'
+                + (f' Top patterns: {", ".join(str(p) for p in patterns[:3])}.' if patterns else '')
+            ),
+            evidence={
+                'ignored_count': ignored_count,
+                'total_files': total_files,
+                'noise_ratio': round(noise_ratio, 4),
+                'patterns': patterns[:5] if patterns else [],
+            },
+            interpretation=(
+                'High noise ratios (>50%) indicate heavy dependency or build artifacts. '
+                'SmartIgnore keeps the analysis focused on production code.'
+            ),
+            recommendation='Review ignored patterns if key source files are missing from analysis.',
+            effort='low',
+            drill_down={'key': 'smart_ignore'},
+        )
+
+    def _interpret_roadmap_eval(self):
+        """Interpret roadmap evaluation -- readiness and milestone coverage."""
+        rm = self.data.get('roadmap', {})
+        if not rm:
+            return
+
+        readiness = rm.get('readiness_score', 0)
+        milestones = rm.get('milestones', [])
+        missing = rm.get('missing', [])
+        covered = rm.get('covered', [])
+        total_ms = len(milestones) or (len(covered) + len(missing)) or 1
+
+        sev = 'info'
+        if readiness < 30:
+            sev = 'high'
+        elif readiness < 60:
+            sev = 'medium'
+        elif readiness < 80:
+            sev = 'low'
+
+        self._add(
+            category='roadmap',
+            severity=sev,
+            title=f'Roadmap readiness: {readiness:.0f}%',
+            description=(
+                f'{len(covered)} of {total_ms} milestones covered. '
+                + (f'Missing: {", ".join(str(m) for m in missing[:3])}.' if missing else 'All milestones met.')
+            ),
+            evidence={
+                'readiness_score': readiness,
+                'milestones_total': total_ms,
+                'covered_count': len(covered),
+                'missing_count': len(missing),
+                'missing_sample': missing[:5],
+            },
+            interpretation='Roadmap readiness measures how much of a planned architecture is actually implemented.',
+            recommendation='Focus on missing milestones to close readiness gaps.' if missing else 'Roadmap fully covered.',
+            effort='high' if len(missing) > 3 else 'medium',
+            drill_down={'key': 'roadmap'},
+        )
+
+    def _interpret_semantics_cortex(self):
+        """Interpret semantic cortex -- domain inference and concept clusters."""
+        sem = self.data.get('semantics', {})
+        if not sem:
+            return
+
+        domain = sem.get('domain_inference', 'Unknown')
+        top_concepts = sem.get('top_concepts', [])
+        concept_clusters = sem.get('concept_clusters', [])
+        naming_patterns = sem.get('naming_patterns', {})
+
+        if domain == 'Unknown' and not top_concepts:
+            return
+
+        concept_names = [c.get('term', c) if isinstance(c, dict) else str(c) for c in top_concepts[:5]]
+
+        self._add(
+            category='purpose',
+            severity='info',
+            title=f'Semantic domain: {domain}',
+            description=(
+                f'Inferred domain: {domain}. '
+                f'Top concepts: {", ".join(concept_names)}.'
+                + (f' {len(concept_clusters)} concept clusters detected.' if concept_clusters else '')
+            ),
+            evidence={
+                'domain_inference': domain,
+                'top_concepts': top_concepts[:5],
+                'cluster_count': len(concept_clusters),
+                'naming_patterns': naming_patterns,
+            },
+            interpretation=(
+                'Semantic cortex extracts domain vocabulary from identifiers and structure. '
+                'Strong domain coherence indicates clear naming conventions.'
+            ),
+            recommendation='Review naming conventions if domain inference seems wrong.',
+            effort='low',
+            drill_down={'key': 'semantics'},
+        )
+
+    def _interpret_ecosystem(self):
+        """Interpret ecosystem discovery -- unknown patterns and library detection."""
+        eco = self.data.get('ecosystem_discovery', {})
+        if not eco:
+            return
+
+        total_unknowns = eco.get('total_unknowns', 0)
+        categories = eco.get('categories', {})
+        discoveries = eco.get('discoveries', [])
+
+        if total_unknowns == 0 and not categories:
+            return
+
+        sev = 'info'
+        if total_unknowns > 50:
+            sev = 'medium'
+        elif total_unknowns > 20:
+            sev = 'low'
+
+        cat_summary = ', '.join(f'{k}={v}' for k, v in sorted(
+            categories.items(), key=lambda x: -x[1] if isinstance(x[1], (int, float)) else 0
+        )[:5]) if categories else 'none'
+
+        self._add(
+            category='ecosystem',
+            severity=sev,
+            title=f'Ecosystem: {total_unknowns} unknown patterns',
+            description=(
+                f'{total_unknowns} ecosystem patterns not in the Standard Model taxonomy. '
+                f'Categories: {cat_summary}.'
+            ),
+            evidence={
+                'total_unknowns': total_unknowns,
+                'categories': categories,
+                'sample_discoveries': discoveries[:5] if discoveries else [],
+            },
+            interpretation=(
+                'Unknown ecosystem patterns are libraries, frameworks, or conventions '
+                'not yet mapped to Standard Model atoms. High counts may indicate '
+                'a specialized tech stack.'
+            ),
+            recommendation='Consider extending atom taxonomy if unknowns represent recurring patterns.',
+            effort='medium',
+            drill_down={'key': 'ecosystem_discovery'},
+        )
+
+    def _interpret_dependencies_graph(self):
+        """Interpret project dependencies -- complexity and depth."""
+        deps = self.data.get('dependencies', {})
+        if not deps:
+            return
+
+        dep_list = deps if isinstance(deps, list) else deps.get('dependencies', deps.get('items', []))
+        if isinstance(dep_list, dict):
+            dep_count = len(dep_list)
+            dep_types = dep_list
+        elif isinstance(dep_list, list):
+            dep_count = len(dep_list)
+            dep_types = {}
+        else:
+            return
+
+        if dep_count == 0:
+            return
+
+        sev = 'info'
+        if dep_count > 100:
+            sev = 'medium'
+        elif dep_count > 50:
+            sev = 'low'
+
+        self._add(
+            category='topology',
+            severity=sev,
+            title=f'Dependency landscape: {dep_count} dependencies',
+            description=f'{dep_count} project dependencies detected.',
+            evidence={
+                'dependency_count': dep_count,
+                'dependency_types': dep_types if isinstance(dep_types, dict) else {},
+            },
+            interpretation=(
+                'Large dependency counts increase supply-chain risk and build complexity. '
+                'Transitive dependencies can introduce unexpected vulnerabilities.'
+            ),
+            recommendation='Audit dependencies periodically. Remove unused packages.' if dep_count > 50 else 'Dependency count is manageable.',
+            effort='medium' if dep_count > 50 else 'low',
+            drill_down={'key': 'dependencies'},
+        )
+
+    def _interpret_advisories(self):
+        """Interpret warnings and recommendations -- advisory landscape."""
+        warnings = self.data.get('warnings', [])
+        recommendations = self.data.get('recommendations', [])
+
+        if not warnings and not recommendations:
+            return
+
+        warn_count = len(warnings) if isinstance(warnings, list) else 0
+        rec_count = len(recommendations) if isinstance(recommendations, list) else 0
+        total = warn_count + rec_count
+
+        if total == 0:
+            return
+
+        sev = 'info'
+        if warn_count > 20:
+            sev = 'medium'
+        elif warn_count > 10:
+            sev = 'low'
+
+        sample_warnings = []
+        if isinstance(warnings, list):
+            sample_warnings = [str(w)[:80] for w in warnings[:3]]
+
+        self._add(
+            category='advisories',
+            severity=sev,
+            title=f'{warn_count} warnings, {rec_count} recommendations',
+            description=(
+                f'Pipeline generated {warn_count} warnings and {rec_count} recommendations. '
+                + (f'Sample: {"; ".join(sample_warnings)}.' if sample_warnings else '')
+            ),
+            evidence={
+                'warning_count': warn_count,
+                'recommendation_count': rec_count,
+                'total_advisories': total,
+                'sample_warnings': sample_warnings,
+            },
+            interpretation='Advisories surface issues found during structural analysis that may need attention.',
+            recommendation='Review warnings first -- they indicate potential problems.',
+            effort='low',
+            drill_down={'key': 'warnings'},
+        )
+
+    def _interpret_file_landscape(self):
+        """Interpret file index and boundaries -- file distribution health."""
+        files = self.data.get('files', {})
+        boundaries = self.data.get('file_boundaries', {})
+
+        if not files and not boundaries:
+            return
+
+        file_count = len(files) if isinstance(files, dict) else 0
+        boundary_count = len(boundaries) if isinstance(boundaries, (dict, list)) else 0
+
+        if file_count == 0 and boundary_count == 0:
+            return
+
+        # Compute atoms per file distribution if available
+        atoms_per_file = {}
+        if isinstance(files, dict):
+            for fpath, fdata in files.items():
+                count = len(fdata) if isinstance(fdata, list) else (fdata.get('atom_count', 0) if isinstance(fdata, dict) else 0)
+                atoms_per_file[fpath] = count
+
+        large_files = {f: c for f, c in atoms_per_file.items() if c > 50}
+        avg_atoms = sum(atoms_per_file.values()) / max(len(atoms_per_file), 1) if atoms_per_file else 0
+
+        sev = 'info'
+        if len(large_files) > 10:
+            sev = 'medium'
+        elif len(large_files) > 3:
+            sev = 'low'
+
+        self._add(
+            category='files',
+            severity=sev,
+            title=f'File landscape: {file_count} files, {boundary_count} boundaries',
+            description=(
+                f'{file_count} files indexed with {boundary_count} boundaries. '
+                f'Avg atoms/file: {avg_atoms:.1f}.'
+                + (f' {len(large_files)} large files (>50 atoms).' if large_files else '')
+            ),
+            evidence={
+                'file_count': file_count,
+                'boundary_count': boundary_count,
+                'avg_atoms_per_file': round(avg_atoms, 1),
+                'large_file_count': len(large_files),
+                'large_files_sample': list(large_files.keys())[:5],
+            },
+            interpretation='File landscape shows how atoms distribute across files. Large files may need decomposition.',
+            recommendation='Consider splitting files with >50 atoms into focused modules.' if large_files else 'File sizes are healthy.',
+            effort='medium' if large_files else 'low',
+            drill_down={'key': 'files'},
+        )
+
+    def _interpret_classification_coverage(self):
+        """Interpret classification and auto-discovery -- type system coverage."""
+        cls = self.data.get('classification', {})
+        auto = self.data.get('auto_discovery', {})
+
+        if not cls and not auto:
+            return
+
+        classified_count = cls.get('classified', 0) if isinstance(cls, dict) else 0
+        unclassified_count = cls.get('unclassified', 0) if isinstance(cls, dict) else 0
+        total = classified_count + unclassified_count
+
+        auto_discoveries = auto.get('discoveries', []) if isinstance(auto, dict) else (auto if isinstance(auto, list) else [])
+        auto_count = len(auto_discoveries)
+
+        if total == 0 and auto_count == 0:
+            return
+
+        coverage_pct = (classified_count / total * 100) if total else 0
+
+        sev = 'info'
+        if coverage_pct < 50 and total > 0:
+            sev = 'medium'
+        elif coverage_pct < 80 and total > 0:
+            sev = 'low'
+
+        self._add(
+            category='purpose',
+            severity=sev,
+            title=f'Classification: {coverage_pct:.0f}% coverage' + (f' (+{auto_count} auto-discovered)' if auto_count else ''),
+            description=(
+                f'{classified_count} of {total} nodes classified.'
+                + (f' {auto_count} patterns auto-discovered.' if auto_count else '')
+            ),
+            evidence={
+                'classified': classified_count,
+                'unclassified': unclassified_count,
+                'total': total,
+                'coverage_percent': round(coverage_pct, 1),
+                'auto_discovery_count': auto_count,
+            },
+            interpretation='Classification coverage measures how well the Standard Model taxonomy maps to the codebase.',
+            recommendation='Review unclassified nodes -- they may represent new atom types.' if unclassified_count > 0 else 'Full classification coverage.',
+            effort='medium' if unclassified_count > 10 else 'low',
+            drill_down={'key': 'classification'},
+        )
+
+    def _interpret_edge_diversity(self):
+        """Interpret edge type distribution -- connectivity diversity."""
+        et = self.data.get('edge_types', {})
+        if not et or not isinstance(et, dict):
+            return
+
+        total_typed = sum(et.values())
+        if total_typed == 0:
+            return
+
+        type_count = len(et)
+        dominant_type = max(et.items(), key=lambda x: x[1]) if et else ('?', 0)
+        dominant_pct = dominant_type[1] / total_typed * 100 if total_typed else 0
+
+        sev = 'info'
+        if type_count == 1 and total_typed > 10:
+            sev = 'low'  # Monomorphic connectivity
+        elif dominant_pct > 90:
+            sev = 'low'
+
+        self._add(
+            category='topology',
+            severity=sev,
+            title=f'Edge diversity: {type_count} types across {total_typed} edges',
+            description=(
+                f'{type_count} edge types detected. '
+                f'Dominant: {dominant_type[0]} ({dominant_pct:.0f}%). '
+                f'Distribution: {", ".join(f"{k}={v}" for k, v in sorted(et.items(), key=lambda x: -x[1])[:5])}.'
+            ),
+            evidence={
+                'type_count': type_count,
+                'total_typed_edges': total_typed,
+                'dominant_type': dominant_type[0],
+                'dominant_percent': round(dominant_pct, 1),
+                'distribution': dict(sorted(et.items(), key=lambda x: -x[1])[:10]),
+            },
+            interpretation=(
+                'Edge diversity reflects how nodes connect. Healthy codebases have '
+                'import and call edges in balance. Monomorphic graphs (>90% one type) '
+                'may indicate shallow analysis resolution.'
+            ),
+            recommendation='Investigate if import-only graphs lack call resolution.' if dominant_pct > 90 else 'Edge diversity is healthy.',
+            effort='low',
+            drill_down={'key': 'edge_types'},
+        )
+
+    def _interpret_codome_boundary(self):
+        """Interpret codome boundaries -- boundary layer health."""
+        cb = self.data.get('codome_boundaries', {})
+        if not cb:
+            return
+
+        boundary_nodes = cb.get('boundary_nodes', [])
+        inferred_edges = cb.get('inferred_edges', [])
+        total_boundaries = cb.get('total_boundaries', 0) or len(boundary_nodes)
+        total_inferred = cb.get('total_inferred_edges', 0) or len(inferred_edges)
+
+        if total_boundaries == 0 and total_inferred == 0:
+            return
+
+        nodes_total = self.kpis.get('nodes_total', 1) or 1
+        boundary_ratio = total_boundaries / nodes_total
+
+        sev = 'info'
+        if boundary_ratio > 0.3:
+            sev = 'low'  # Many boundary nodes = high surface area
+
+        self._add(
+            category='constraints',
+            severity=sev,
+            title=f'Codome boundaries: {total_boundaries} boundary nodes, {total_inferred} inferred edges',
+            description=(
+                f'{total_boundaries} codome boundary nodes ({boundary_ratio:.0%} of all nodes). '
+                f'{total_inferred} cross-boundary edges inferred.'
+            ),
+            evidence={
+                'total_boundaries': total_boundaries,
+                'total_inferred_edges': total_inferred,
+                'boundary_ratio': round(boundary_ratio, 4),
+                'nodes_total': nodes_total,
+            },
+            interpretation=(
+                'Codome boundaries mark where code modules interface with each other. '
+                'High boundary ratios (>30%) suggest a highly interconnected or fragmented architecture.'
+            ),
+            recommendation='Review boundary nodes to identify tightly-coupled modules.' if boundary_ratio > 0.3 else 'Boundary surface area is reasonable.',
+            effort='medium' if boundary_ratio > 0.3 else 'low',
+            drill_down={'key': 'codome_boundaries'},
+        )
+
+    def _interpret_chemistry(self):
+        """Interpret cross-signal chemistry: syndromes, contradictions, modulations."""
+        chem = self.data.get('chemistry', {})
+        if not chem:
+            return
+
+        syndromes = chem.get('syndromes', [])
+        contradictions = chem.get('contradictions', [])
+        modulations = chem.get('modulations', [])
+        compound = chem.get('compound_severity', 0.0)
+        coverage = chem.get('signal_coverage', 0.0)
+
+        # --- Summary finding (always emitted when chemistry data exists) ---
+        syn_names = [s['name'] for s in syndromes] if syndromes else []
+        if compound > 0.6:
+            sev = 'critical'
+        elif compound > 0.3:
+            sev = 'high'
+        elif syndromes:
+            sev = 'medium'
+        else:
+            sev = 'info'
+
+        self._add(
+            category='chemistry',
+            severity=sev,
+            title='Cross-Signal Chemistry Summary',
+            description=(
+                f'Compound severity {compound:.2f}, {len(syndromes)} syndromes active, '
+                f'{len(contradictions)} contradictions, signal coverage {coverage:.0%}.'
+            ),
+            evidence={'syndromes': syn_names, 'compound_severity': compound, 'coverage': coverage},
+            interpretation=(
+                'Data chemistry detects compound syndromes and contradictions across '
+                'otherwise-independent quality signals. High compound severity indicates '
+                'correlated failures that amplify each other.'
+            ),
+            recommendation='Review active syndromes for compounding quality issues.' if syndromes else None,
+        )
+
+        # --- Per-syndrome findings ---
+        for syn in syndromes:
+            name = syn.get('name', 'unknown')
+            severity = syn.get('severity', 0.0)
+            sev = 'critical' if severity > 0.7 else ('high' if severity > 0.4 else 'medium')
+            self._add(
+                category='chemistry',
+                severity=sev,
+                title=f'Syndrome: {name}',
+                description=syn.get('description', f'Compound syndrome {name} detected (severity={severity:.2f}).'),
+                evidence=syn.get('signals', {}),
+                interpretation=f'This syndrome emerges from correlated signals that together indicate a systemic pattern.',
+                recommendation=f'Address contributing signals to resolve {name} syndrome.',
+            )
+
+        # --- Per-contradiction findings ---
+        for contra in contradictions:
+            self._add(
+                category='chemistry',
+                severity='medium',
+                title=f'Signal Contradiction: {contra.get("name", "?")}',
+                description=contra.get('description', 'Contradictory signals detected.'),
+                evidence=contra.get('signals', {}),
+                interpretation=(
+                    'Contradictory signals may indicate measurement error, genuine architectural '
+                    'tension, or a codebase in active transition.'
+                ),
+                recommendation=(
+                    'Investigate data quality -- contradictory signals may indicate '
+                    'measurement error or genuine architectural tension.'
+                ),
+            )
+
+        # --- Significant modulations (|1 - coeff| > 0.05) ---
+        sig_mods = [m for m in modulations if abs(1.0 - m.get('coefficient', 1.0)) > 0.05]
+        if sig_mods:
+            targets = sorted({m['target'] for m in sig_mods})
+            self._add(
+                category='chemistry',
+                severity='info',
+                title='Score Modulations Applied',
+                description=f'{len(sig_mods)} modulations affecting: {", ".join(targets)}.',
+                evidence={'modulation_count': len(sig_mods), 'targets': targets},
+                interpretation=(
+                    'Chemistry modulations adjust health, incoherence, and mission matrix scores '
+                    'based on cross-signal correlations detected by the lab.'
+                ),
+            )
 
     def _add(self, **kwargs):
         fid = f'CI-{self._next_id:03d}'

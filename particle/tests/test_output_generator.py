@@ -30,6 +30,11 @@ class TestStableOutputFilenames:
 
     def test_stable_html_created(self, tmp_path):
         """Verify collider_report.html is created alongside timestamped file."""
+        # app.js is a Vite build artifact, not git-tracked -- skip if absent (e.g. worktrees)
+        assets_dir = Path(__file__).resolve().parent.parent / "src" / "core" / "viz" / "assets"
+        if not (assets_dir / "app.js").exists():
+            pytest.skip("viz/assets/app.js not built (run Vite build first)")
+
         data = {
             "nodes": [{"id": "test", "kind": "function"}],
             "edges": [],

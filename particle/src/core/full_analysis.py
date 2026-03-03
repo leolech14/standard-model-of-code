@@ -393,6 +393,38 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         print(f"   → Added {len(extra_excludes)} extra exclusions from --exclude flag")
 
     # =========================================================================
+    # STAGE 0.8: CONTEXTOME INTELLIGENCE (Phase 10)
+    # =========================================================================
+    contextome_result = None
+
+    if target.is_dir():
+        print("\n📚 Stage 0.8: Contextome Intelligence...")
+        with StageTimer(perf_manager, "Stage 0.8: Contextome Intelligence") as timer:
+            try:
+                from src.core.contextome_intel import run_contextome_intelligence
+                contextome_result = run_contextome_intelligence(
+                    root_path=str(target),
+                    exclude_paths=exclude_paths,
+                )
+                timer.set_output(
+                    docs=contextome_result.doc_count,
+                    deterministic_signals=contextome_result.deterministic_signals,
+                    enriched_signals=contextome_result.enriched_signals,
+                )
+                print(f"   → Discovered {contextome_result.doc_count} docs")
+                print(f"   → Extracted {contextome_result.deterministic_signals} deterministic signals")
+                print(f"   → Purpose coverage: {contextome_result.purpose_coverage:.0%}")
+                print(f"   → Symmetry seeds: {len(contextome_result.symmetry_seeds)}")
+                if contextome_result.llm_used:
+                    print(f"   → LLM enrichment: +{contextome_result.enriched_signals} signals")
+            except Exception as e:
+                print(f"   ⚠️  Contextome intelligence failed: {e}")
+                import traceback
+                traceback.print_exc()
+    else:
+        print("\n📚 Stage 0.8: Contextome Intelligence... SKIPPED (single file)")
+
+    # =========================================================================
     # STAGE 0.5: INCREMENTAL DETECTION (Phase 30)
     # =========================================================================
     if delta_tracker and target.is_dir():
@@ -1582,6 +1614,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         si_helper = _SI(str(target))
         full_output['smart_ignore'] = si_helper.manifest_to_dict(smartignore_manifest)
 
+    # Include Contextome Intelligence in output (Stage 0.8)
+    if contextome_result is not None:
+        full_output['contextome'] = contextome_result.to_dict()
+
     # ==========================================================================
     # FILE-CENTRIC VIEW: Hybrid atom/file navigation
     # ==========================================================================
@@ -1880,6 +1916,82 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         warnings_list = full_output.setdefault('warnings', [])
         if isinstance(warnings_list, list):
             warnings_list.append(f"stage14_vectorization_failed: {vectorization_error}")
+
+    # Stage 11.96: Collider Trinity (Incoherence, Purpose Decomposition, Gap Detection)
+    print("\n🔬 Stage 11.96: Collider Trinity...")
+    try:
+        from src.core.incoherence import compute_incoherence
+        from src.core.purpose_decomposition import decompose_purposes
+        from src.core.gap_detector import detect_gaps
+
+        incoherence_result = compute_incoherence(full_output)
+        full_output['incoherence'] = incoherence_result.to_dict()
+
+        decomposition_results = decompose_purposes(full_output)
+        full_output['purpose_decomposition'] = [r.to_dict() for r in decomposition_results]
+
+        gap_report = detect_gaps(full_output, decomposition_results)
+        full_output['gap_report'] = gap_report.to_dict()
+
+        print(f"   → Incoherence: I={incoherence_result.i_total:.3f}  Health={incoherence_result.health_10:.1f}/10")
+        print(f"   → Purpose Decomposition: {len(decomposition_results)} containers analyzed")
+        gap_count = len(gap_report.gaps)
+        crit_count = sum(1 for g in gap_report.gaps if g.severity == 'critical')
+        print(f"   → Gap Detection: {gap_count} gaps ({crit_count} critical), coverage={gap_report.coverage:.1%}")
+    except Exception as e:
+        print(f"   ⚠️ Trinity computation failed: {e}")
+        import traceback
+        traceback.print_exc()
+
+    # Stage 11.97: Temporal Analysis (REH integration)
+    print("\n🔬 Stage 11.97: Temporal Analysis...")
+    try:
+        from src.core.temporal_analysis import compute_temporal_analysis
+        temporal_result = compute_temporal_analysis(full_output, repo_path=str(target))
+        full_output['temporal_analysis'] = temporal_result.to_dict()
+        if temporal_result.available:
+            print(f"   → {temporal_result.total_commits} commits, {temporal_result.active_days} active days")
+            print(f"   → {len(temporal_result.hotspots)} hotspots, {len(temporal_result.change_coupling)} coupling pairs")
+            print(f"   → Bus factor: {temporal_result.bus_factor}, median file age: {temporal_result.median_age_days:.0f} days")
+        else:
+            print(f"   → Skipped: {temporal_result.error}")
+    except Exception as e:
+        print(f"   ⚠️ Temporal analysis failed: {e}")
+        import traceback
+        traceback.print_exc()
+
+    # Stage 11.98: Ideome Synthesis (Rosetta Stone)
+    print("\n🔬 Stage 11.98: Ideome Synthesis...")
+    try:
+        from src.core.ideome_synthesis import synthesize_ideome
+        ideome_result = synthesize_ideome(full_output)
+        full_output['ideome'] = ideome_result.to_dict()
+        print(f"   → Coherence: {ideome_result.global_coherence:.3f}")
+        print(f"   → Drift: code={ideome_result.global_drift_C:.3f} docs={ideome_result.global_drift_X:.3f}")
+        print(f"   → Coverage: {ideome_result.coverage:.1%} ({ideome_result.node_count} nodes)")
+    except Exception as e:
+        print(f"   ⚠️ Ideome synthesis failed: {e}")
+        import traceback
+        traceback.print_exc()
+
+    # Stage 11.99: Data Chemistry (Cross-Signal Correlation)
+    print("\n🧪 Stage 11.99: Data Chemistry...")
+    try:
+        from src.core.data_chemistry import ChemistryLab
+        chem_lab = ChemistryLab()
+        chem_lab.ingest(full_output)
+        chem_result = chem_lab.get_result()
+        full_output['chemistry'] = chem_result.to_dict()
+        full_output['_chemistry_lab'] = chem_lab  # ephemeral live ref
+        syn_names = [s.name for s in chem_result.syndromes]
+        print(f"   → Syndromes: {syn_names or 'none'}")
+        print(f"   → Contradictions: {len(chem_result.contradictions)}")
+        print(f"   → Compound severity: {chem_result.compound_severity:.3f}")
+        print(f"   → Signal coverage: {chem_result.signal_coverage:.0%}")
+    except Exception as e:
+        print(f"   ⚠️ Data Chemistry failed: {e}")
+        import traceback
+        traceback.print_exc()
 
     # Stage 11.95: Insights Compilation
     print("\n🔬 Stage 11.95: Insights Compilation...")
