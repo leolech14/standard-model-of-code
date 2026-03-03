@@ -1,5 +1,5 @@
 """
-Stage 11.5: Manifest Writer
+Stage 13: Manifest Writer
 
 Records provenance and integrity information before output generation.
 This is the foundation for "MEASURED CODOME" - treating analysis output
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 
 class ManifestWriterStage(BaseStage):
     """
-    Stage 11.5: Manifest Writer.
+    Stage 13: Manifest Writer.
 
     Input: CodebaseState with complete analysis
     Output: CodebaseState with manifest in metadata

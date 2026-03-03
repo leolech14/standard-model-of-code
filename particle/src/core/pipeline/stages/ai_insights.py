@@ -1,5 +1,5 @@
 """
-Stage 11b: AI Insights (Optional)
+Stage 12: AI Insights (Optional)
 
 Generates LLM-powered insights about the codebase.
 """
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 class AIInsightsStage(BaseStage):
     """
-    Stage 11b: AI Insights.
+    Stage 12: AI Insights.
 
     Input: CodebaseState with full analysis
     Output: CodebaseState with AI-generated insights

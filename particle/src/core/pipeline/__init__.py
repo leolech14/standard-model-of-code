@@ -92,9 +92,9 @@ def create_full_pipeline(
         options: Analysis options passed to stages
         stages: Optional list of stage names to include (default: all 27)
         skip_survey: Skip Stage 0 survey
-        skip_ai: Skip Stage 11b AI insights (default: True)
+        skip_ai: Skip Stage 12 AI insights (default: True)
         roadmap: Roadmap name for Stage 9 (optional)
-        output_dir: Output directory for Stage 12
+        output_dir: Output directory for Stage 22
         hub: Optional Hub reference for EventBus integration
 
     Returns:

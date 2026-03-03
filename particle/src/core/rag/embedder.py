@@ -8,7 +8,7 @@ from rich.console import Console
 console = Console()
 
 class GraphRAGEmbedder:
-    """Stage 14: Semantic Vector Indexing for the Standard Model of Code."""
+    """Stage 16: Semantic Vector Indexing for the Standard Model of Code."""
 
     def __init__(self, db_path: Path):
         self.sql_db_path = db_path
@@ -46,7 +46,7 @@ class GraphRAGEmbedder:
             console.print(f"      [red]⚠️ No SQLite DB found at {self.sql_db_path}[/red]")
             return
 
-        console.print(f"\n[cyan]🧠 Stage 14: Semantic Vectorization (GraphRAG)[/cyan]...")
+        console.print(f"\n[cyan]🧠 Stage 16: Semantic Vectorization (GraphRAG)[/cyan]...")
 
         try:
             conn = sqlite3.connect(self.sql_db_path)

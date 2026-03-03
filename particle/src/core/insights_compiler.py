@@ -602,7 +602,7 @@ class InsightsCompiler:
                 category='execution',
                 severity='medium',
                 title='Vectorization unavailable',
-                description='Stage 14 vectorization failed; semantic search index was not refreshed.',
+                description='Stage 16 vectorization failed; semantic search index was not refreshed.',
                 evidence={
                     'vectorization_status': self.kpis.get('vectorization_status'),
                     'vectorization_error': self.kpis.get('vectorization_error'),

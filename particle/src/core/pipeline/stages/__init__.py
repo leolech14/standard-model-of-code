@@ -158,7 +158,7 @@ STAGE_ORDER = [
     "topology_reasoning",
     "semantic_cortex",
     "ai_insights",
-    "igt_metrics",  # Stage 13: IGT metrics
-    "manifest_writer",  # Stage 11.5: Provenance before output
+    "igt_metrics",  # Stage 14: IGT metrics
+    "manifest_writer",  # Stage 13: Provenance before output
     "output_generation",
 ]

@@ -1750,10 +1750,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         brain_content = generate_brain_download(full_output)
         full_output['brain_download'] = brain_content  # Embed in JSON for HTML access
 
-    # Stage 11b: AI Insights (optional - requires Vertex AI)
+    # Stage 12: AI Insights (optional - requires Vertex AI)
     if options.get('ai_insights'):
-        print("\n✨ Stage 11b: AI Insights Generation (Vertex AI)...")
-        with StageTimer(perf_manager, "Stage 11b: AI Insights") as timer:
+        print("\n✨ Stage 12: AI Insights Generation (Vertex AI)...")
+        with StageTimer(perf_manager, "Stage 12: AI Insights") as timer:
             try:
                 ai_insights = _generate_ai_insights(full_output, out_path, options)
                 if ai_insights:
@@ -1768,9 +1768,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 print(f"   ⚠️ AI insights generation failed: {e}")
 
 
-    # Stage 11.5: Manifest Writer (Provenance & Integrity)
-    print("\n📦 Stage 11.5: Manifest Writer...")
-    with StageTimer(perf_manager, "Stage 11.5: Manifest Writer") as timer:
+    # Stage 13: Manifest Writer (Provenance & Integrity)
+    print("\n📦 Stage 13: Manifest Writer...")
+    with StageTimer(perf_manager, "Stage 13: Manifest Writer") as timer:
         try:
             # Capturing provenance and integrity data for "Measured Codome"
             # Calculate Merkle Root once all nodes are finalized
@@ -1791,7 +1791,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                             "event": "manifest_signed",
                             "timestamp": time.time(),
                             "agent": "full_analysis.py",
-                            "context": {"stage": "11.5"}
+                            "context": {"stage": "13"}
                         }
                     ]
                 },
@@ -1803,7 +1803,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 },
                 "pipeline": {
                     "stages_executed": [s.stage_name for s in perf_manager.stages] if (perf_manager and hasattr(perf_manager, 'stages')) else [],
-                    "total_stages": 32,
+                    "total_stages": 22,
                     "version": "1.0.0-smoc"
                 },
                 "environment": {
@@ -1819,10 +1819,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Manifest generation failed: {e}")
 
-    # Stage 13: Information Graph Theory (IGT) Metrics
-    print("\n📈 Stage 13: IGT Metrics...")
+    # Stage 14: Information Graph Theory (IGT) Metrics
+    print("\n📈 Stage 14: IGT Metrics...")
     igt_results = {}
-    with StageTimer(perf_manager, "Stage 13: IGT Metrics") as timer:
+    with StageTimer(perf_manager, "Stage 14: IGT Metrics") as timer:
         try:
             # 1. Directory Stability
             dir_structure = defaultdict(list)
@@ -1870,12 +1870,12 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             print(f"   ⚠️ IGT analysis failed: {e}")
 
     # =========================================================================
-    # STAGE 11.9: DATABASE PERSISTENCE (Phase 30)
+    # STAGE 15: DATABASE PERSISTENCE (Phase 30)
     # =========================================================================
     db_run_id = None
     if db_manager:
-        print("\n💾 Stage 11.9: Database Persistence...")
-        with StageTimer(perf_manager, "Stage 11.9: Database Persistence") as timer:
+        print("\n💾 Stage 15: Database Persistence...")
+        with StageTimer(perf_manager, "Stage 15: Database Persistence") as timer:
             try:
                 from src.core.database.backends.base import AnalysisRun
                 from datetime import datetime as dt_datetime
@@ -1922,7 +1922,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 timer.set_status("WARN", str(e))
                 print(f"   ⚠️ Database persistence failed: {e}")
 
-    # Stage 14: Semantic Vector Indexing (GraphRAG)
+    # Stage 16: Semantic Vector Indexing (GraphRAG)
     # Only runs when optional deps (lancedb, sentence-transformers) are installed.
     vectorization_status = "skipped"
     vectorization_error = ""
@@ -1937,7 +1937,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         except Exception as e:
             vectorization_status = "failed"
             vectorization_error = str(e)
-            print(f"\n   ⚠️ Stage 14 Vectorization Failed: {e}")
+            print(f"\n   ⚠️ Stage 16 Vectorization Failed: {e}")
 
     # Persist optional stage status for downstream scoring and diagnostics.
     full_output.setdefault('kpis', {})['vectorization_status'] = vectorization_status
@@ -1945,10 +1945,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     if vectorization_status == "failed":
         warnings_list = full_output.setdefault('warnings', [])
         if isinstance(warnings_list, list):
-            warnings_list.append(f"stage14_vectorization_failed: {vectorization_error}")
+            warnings_list.append(f"stage16_vectorization_failed: {vectorization_error}")
 
-    # Stage 11.96: Collider Trinity (Incoherence, Purpose Decomposition, Gap Detection)
-    print("\n🔬 Stage 11.96: Collider Trinity...")
+    # Stage 17: Collider Trinity (Incoherence, Purpose Decomposition, Gap Detection)
+    print("\n🔬 Stage 17: Collider Trinity...")
     try:
         from src.core.incoherence import compute_incoherence
         from src.core.purpose_decomposition import decompose_purposes
@@ -1973,8 +1973,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         import traceback
         traceback.print_exc()
 
-    # Stage 11.97: Temporal Analysis (REH integration)
-    print("\n🔬 Stage 11.97: Temporal Analysis...")
+    # Stage 18: Temporal Analysis (REH integration)
+    print("\n🔬 Stage 18: Temporal Analysis...")
     try:
         from src.core.temporal_analysis import compute_temporal_analysis
         temporal_result = compute_temporal_analysis(full_output, repo_path=str(target))
@@ -1990,8 +1990,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         import traceback
         traceback.print_exc()
 
-    # Stage 11.98: Ideome Synthesis (Rosetta Stone)
-    print("\n🔬 Stage 11.98: Ideome Synthesis...")
+    # Stage 19: Ideome Synthesis (Rosetta Stone)
+    print("\n🔬 Stage 19: Ideome Synthesis...")
     try:
         from src.core.ideome_synthesis import synthesize_ideome
         ideome_result = synthesize_ideome(full_output)
@@ -2004,8 +2004,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         import traceback
         traceback.print_exc()
 
-    # Stage 11.99: Data Chemistry (Cross-Signal Correlation)
-    print("\n🧪 Stage 11.99: Data Chemistry...")
+    # Stage 20: Data Chemistry (Cross-Signal Correlation)
+    print("\n🧪 Stage 20: Data Chemistry...")
     try:
         from src.core.data_chemistry import ChemistryLab
         chem_lab = ChemistryLab()
@@ -2029,9 +2029,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         import traceback
         traceback.print_exc()
 
-    # Stage 11.95: Insights Compilation
-    print("\n🔬 Stage 11.95: Insights Compilation...")
-    with StageTimer(perf_manager, "Stage 11.95: Insights Compilation") as timer:
+    # Stage 21: Insights Compilation
+    print("\n🔬 Stage 21: Insights Compilation...")
+    with StageTimer(perf_manager, "Stage 21: Insights Compilation") as timer:
         try:
             from src.core.insights_compiler import compile_insights, compile_insights_report
             compiled_dict = compile_insights(full_output)
@@ -2048,12 +2048,12 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Insights compilation failed: {e}")
 
-    # Stage 12: Write consolidated outputs
-    print("\n📦 Stage 12: Generating Consolidated Outputs...")
+    # Stage 22: Write consolidated outputs
+    print("\n📦 Stage 22: Generating Consolidated Outputs...")
 
     unified_json = None
     viz_file = None
-    with StageTimer(perf_manager, "Stage 12: Output Generation") as timer:
+    with StageTimer(perf_manager, "Stage 22: Output Generation") as timer:
         try:
             # Update performance data INSIDE timer (captures stages 1-11 timing)
             full_output['pipeline_performance'] = perf_manager.to_dict()

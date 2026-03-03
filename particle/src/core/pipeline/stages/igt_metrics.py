@@ -1,5 +1,5 @@
 """
-Stage 13: IGT Metrics (Information Graph Theory)
+Stage 14: IGT Metrics (Information Graph Theory)
 
 Computes Information Graph Theory metrics for codebase health:
 - Stability calculations based on branching factors
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 class IGTMetricsStage(BaseStage):
     """
-    Stage 13: IGT Metrics.
+    Stage 14: IGT Metrics.
 
     Input: CodebaseState with complete analysis
     Output: CodebaseState with IGT metrics

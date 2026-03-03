@@ -1,5 +1,5 @@
 """
-Stage 12: Output Generation
+Stage 22: Output Generation
 
 Generates final artifacts (JSON, HTML, Markdown).
 """
@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 class OutputGenerationStage(BaseStage):
     """
-    Stage 12: Output Generation.
+    Stage 22: Output Generation.
 
     Input: CodebaseState with all analysis results
     Output: CodebaseState (unchanged) + generated files
