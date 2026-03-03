@@ -51,9 +51,10 @@ class PerformanceManager:
     the 12-stage pipeline.
     """
 
-    def __init__(self, verbose: bool = False):
+    def __init__(self, verbose: bool = False, json_log: bool = False):
         self.stages: List[PipelineStageResult] = []
         self.verbose = verbose
+        self._json_log = json_log
         self._start_memory_kb: int = 0
         self._peak_memory_kb: int = 0
         self._pipeline_start: float = 0.0
@@ -76,6 +77,10 @@ class PerformanceManager:
         # Verbose output
         if self.verbose:
             self._print_stage_result(result)
+
+        if self._json_log:
+            import json
+            print(f"STAGE_LOG: {json.dumps(result.to_dict())}")
 
     def _get_memory_kb(self) -> int:
         """Get current memory usage in KB (platform-aware)."""

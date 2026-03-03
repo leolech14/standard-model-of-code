@@ -14,6 +14,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import socket
 import subprocess
 import sys
 import time
@@ -246,7 +247,7 @@ def _generate_ai_insights(full_output: Dict, output_dir: Path, options: Dict) ->
             insights_file = output_dir / "ai_insights.json"
 
         if insights_file.exists():
-            with open(insights_file, 'r') as f:
+            with open(insights_file, 'r', encoding='utf-8') as f:
                 return json.load(f)
 
         # Try to parse from stdout if script printed JSON
@@ -292,6 +293,25 @@ def run_pipeline_analysis(target_path: str, options: Dict[str, Any] = None) -> "
     """
     from .pipeline import create_default_pipeline
     from .data_management import CodebaseState
+
+    options = options or {}
+    KNOWN_OPTIONS = {
+        "roadmap", "open_latest", "ai_insights", "quiet", "output_dir",
+        "output_format", "skip_ai", "max_files", "include_tests", "verbose",
+        "db_backend", "db_path", "json_log", "dry_run", "no_color",
+        "parallel", "cache", "skip_survey", "summary_format",
+    }
+    unknown = set(options.keys()) - KNOWN_OPTIONS
+    if unknown:
+        print(f"[WARN] Unknown options ignored: {unknown}")
+
+    if options.get("dry_run"):
+        stages = ["Discovery", "SmartIgnore", "Survey", "Analysis", "Data Chemistry", "AI Insights", "Report"]
+        print("[DRY RUN] Pipeline stages that would execute:")
+        for i, s in enumerate(stages, 1):
+            print(f"  {i}. {s}")
+        print(f"[DRY RUN] Target: {target_path}")
+        return None
 
     print("\n" + "=" * 60)
     print("🚀 COLLIDER PIPELINE ANALYSIS")
@@ -354,7 +374,7 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
     timing_enabled = options.get("timing", False)
     verbose_timing = options.get("verbose_timing", False)
     from observability import PerformanceManager, StageTimer
-    perf_manager = PerformanceManager(verbose=verbose_timing)
+    perf_manager = PerformanceManager(verbose=verbose_timing, json_log=options.get("json_log", False))
     perf_manager.start_pipeline()
     _guard.perf_manager = perf_manager
 
@@ -1621,7 +1641,9 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
             'timestamp': time.strftime('%Y-%m-%dT%H:%M:%S'),
             'analysis_time_ms': int(total_time * 1000),
             'version': '4.0.0',
-            'deterministic': True
+            'deterministic': True,
+            'hostname': socket.gethostname(),
+            'cwd': os.getcwd()
         },
         'counts': {
             'nodes': len(nodes),
@@ -2289,6 +2311,14 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
             pass
 
     print("=" * 60)
+    summary = {
+        "status": "complete",
+        "nodes": full_output.get("counts", {}).get("nodes", 0),
+        "edges": full_output.get("counts", {}).get("edges", 0),
+        "stages": len(perf_manager.stages) if perf_manager and hasattr(perf_manager, "stages") else 0,
+        "elapsed_s": round(total_time, 3),
+    }
+    print(f"PIPELINE_SUMMARY: {json.dumps(summary)}")
 
     return full_output
 

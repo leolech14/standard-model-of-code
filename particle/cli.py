@@ -331,6 +331,11 @@ def main():
         action="store_true",
         help="List all database features and exit"
     )
+    full_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show pipeline stages without executing"
+    )
 
     # ==========================================
     # QUERY Command - Database Search
@@ -1106,6 +1111,8 @@ def main():
 
             options["skip_html"] = not getattr(args, 'html', False)
             options["verbose_output"] = getattr(args, 'verbose_output', False)
+            if getattr(args, 'dry_run', False):
+                options["dry_run"] = True
 
             run_full_analysis(args.path, args.output, options=options)
 
@@ -1300,7 +1307,7 @@ def main():
         if template:
             if args.output:
                 out_path = Path(args.output)
-                with open(out_path, 'w') as f:
+                with open(out_path, 'w', encoding='utf-8') as f:
                     f.write(template.code)
                 print(f"✅ Generated {args.schema} implementation at {out_path}")
             else:
@@ -1513,7 +1520,7 @@ def main():
         # Load mutations from file or string
         mutations_str = args.mutations
         if mutations_str.endswith(".json") and Path(mutations_str).exists():
-            with open(mutations_str, "r") as f:
+            with open(mutations_str, "r", encoding='utf-8') as f:
                 mutations_data = json_module.load(f)
         else:
             try:
@@ -1528,7 +1535,7 @@ def main():
             "mutations": mutations_data if isinstance(mutations_data, list) else mutations_data.get("mutations", [])
         }
 
-        with open(target_path, "r") as f:
+        with open(target_path, "r", encoding='utf-8') as f:
             source_code = f.read()
 
         try:
@@ -1538,7 +1545,7 @@ def main():
             sys.exit(1)
 
         if getattr(args, "inplace", False):
-            with open(target_path, "w") as f:
+            with open(target_path, "w", encoding='utf-8') as f:
                 f.write(modified_code)
             print(f"Successfully mutated and overwrote {target_path}")
         else:
