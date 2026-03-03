@@ -223,6 +223,28 @@ def gamut_report(L: float, C: float, H: float) -> GamutReport:
     )
 
 
+def modulate_oklch(
+    L: float, C: float, H: float,
+    l_target: Optional[float] = None,
+    c_target: Optional[float] = None,
+) -> Tuple[float, float, float]:
+    """Shift lightness and/or chroma while preserving hue. Gamut-mapped.
+
+    Args:
+        L, C, H: base OKLCH color
+        l_target: if set, replace L with this value (None = keep original)
+        c_target: if set, replace C with this value (None = keep original)
+
+    Returns:
+        (L, C, H) gamut-mapped tuple
+    """
+    return gamut_map_oklch(
+        l_target if l_target is not None else L,
+        c_target if c_target is not None else C,
+        H,
+    )
+
+
 # =============================================================================
 # CONTINUOUS SCALES
 # =============================================================================

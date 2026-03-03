@@ -56,8 +56,10 @@ class AppearanceEngine:
         total_files = len(file_boundaries)
 
         for node in nodes:
-            # Apply color
-            if color_mode == "file":
+            # Prefer pre-encoded OKLCH color from color_encoding layer
+            if 'encoded_color' in node:
+                node["color"] = node["encoded_color"]
+            elif color_mode == "file":
                 node["color"] = self._file_color(node.get("fileIdx", -1), total_files)
             elif color_mode == "ring":
                 node["color"] = self._ring_color(node)
@@ -80,10 +82,14 @@ class AppearanceEngine:
         )
 
         for edge in edges:
-            edge_type = edge.get("edge_type", "default")
-            edge["color"] = self._normalize_color(
-                self.resolver.appearance(f"color.edge.{edge_type}", default_color)
-            )
+            # Prefer pre-encoded OKLCH color from color_encoding layer
+            if 'encoded_color' in edge:
+                edge["color"] = edge["encoded_color"]
+            else:
+                edge_type = edge.get("edge_type", "default")
+                edge["color"] = self._normalize_color(
+                    self.resolver.appearance(f"color.edge.{edge_type}", default_color)
+                )
             edge["opacity"] = default_opacity
 
         return edges

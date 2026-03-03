@@ -1608,6 +1608,9 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
     except Exception as e:
         _log(f"   ⚠️ Color scale application skipped: {e}", quiet)
 
+    # NOTE: Multi-channel OKLCH encoding is applied after Stage 20 (Data Chemistry)
+    # so that convergence data is available for tagging. See below.
+
     # Compute aggregate metrics
     total_time = time.time() - start_time
 
@@ -2158,6 +2161,20 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
         print(f"   ⚠️ Data Chemistry failed: {e}")
         import traceback
         traceback.print_exc()
+
+    # Apply multi-channel OKLCH color encoding (after chemistry for convergence data)
+    try:
+        from src.core.viz.color_encoding import encode_all, VIEW_DEFAULT
+        chem_result_obj = full_output.get('_chemistry_lab', None)
+        chemistry = chem_result_obj.get_result() if chem_result_obj else None
+        enc_report = encode_all(full_output, view=VIEW_DEFAULT, chemistry=chemistry)
+        full_output['encoding_report'] = enc_report.__dict__
+        _log(f"   → Encoded {enc_report.nodes_encoded} nodes, "
+             f"{enc_report.edges_encoded} edges, "
+             f"{enc_report.convergent_tagged} convergent", quiet)
+    except Exception as e:
+        _log(f"   ⚠️ Color encoding skipped: {e}", quiet)
+        # Fallback: the old single-scale method was already applied above
 
     # Stage 21: Insights Compilation
     print("\n🔬 Stage 21: Insights Compilation...")
