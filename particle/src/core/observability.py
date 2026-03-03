@@ -28,6 +28,7 @@ class PipelineStageResult:
     status: str  # OK, FAIL, WARN, SKIP
     latency_ms: float
     memory_delta_kb: int = 0  # Memory change during stage
+    peak_memory_kb: int = 0   # Process peak RSS at stage exit (high-water mark)
     output_summary: Dict[str, Any] = field(default_factory=dict)
     error: Optional[str] = None
 
@@ -37,6 +38,7 @@ class PipelineStageResult:
             "status": self.status,
             "latency_ms": round(self.latency_ms, 1),
             "memory_delta_kb": self.memory_delta_kb,
+            "peak_memory_kb": self.peak_memory_kb,
             "output_summary": self.output_summary,
             "error": self.error
         }
@@ -227,6 +229,7 @@ class StageTimer:
             status=self._status,
             latency_ms=latency_ms,
             memory_delta_kb=memory_delta,
+            peak_memory_kb=end_memory,
             output_summary=self._output_summary,
             error=self._error
         )
@@ -303,6 +306,7 @@ def observe_stage(manager: PerformanceManager, stage_name: str):
                     status=status,
                     latency_ms=latency_ms,
                     memory_delta_kb=memory_delta,
+                    peak_memory_kb=end_memory,
                     output_summary=output_summary,
                     error=error_str
                 )

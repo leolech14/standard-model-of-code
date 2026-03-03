@@ -2021,16 +2021,18 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         full_output['chemistry'] = chem_result.to_dict()
         full_output['_chemistry_lab'] = chem_lab  # ephemeral live ref
         syn_names = [s.name for s in chem_result.syndromes]
-        print(f"   → Syndromes: {syn_names or 'none'}")
-        print(f"   → Contradictions: {len(chem_result.contradictions)}")
-        print(f"   → Compound severity: {chem_result.compound_severity:.3f}")
-        print(f"   → Signal coverage: {chem_result.signal_coverage:.0%}")
-        if chem_result.convergence:
-            print(f"   → Convergent nodes: {chem_result.convergence.convergent_count} "
-                  f"({chem_result.convergence.critical_count} critical)")
+        if not quiet:
+            print(f"   → Syndromes: {syn_names or 'none'}")
+            print(f"   → Contradictions: {len(chem_result.contradictions)}")
+            print(f"   → Compound severity: {chem_result.compound_severity:.3f}")
+            print(f"   → Signal coverage: {chem_result.signal_coverage:.0%}")
+            if chem_result.convergence:
+                print(f"   → Convergent nodes: {chem_result.convergence.convergent_count} "
+                      f"({chem_result.convergence.critical_count} critical)")
         # AI Consumer Summary -- structured block for downstream AI consumers
         full_output['ai_consumer_summary'] = chem_lab.build_ai_consumer_summary()
-        print(f"   → AI Consumer Summary: grade={full_output['ai_consumer_summary']['data_utility_grade']}")
+        if not quiet:
+            print(f"   → AI Consumer Summary: grade={full_output['ai_consumer_summary']['data_utility_grade']}")
     except Exception as e:
         print(f"   ⚠️ Data Chemistry failed: {e}")
         import traceback
@@ -2069,7 +2071,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             skip_html = options.get("skip_html", True)
 
             # Attach Waybills to individual nodes (Phase 28)
-            print(f"   → Attaching waybills to {len(nodes)} particles...")
+            if not quiet:
+                print(f"   → Attaching waybills to {len(nodes)} particles...")
             for node in nodes:
                 node_id = node.get('id', node.get('name', 'unknown'))
 
@@ -2128,6 +2131,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         report_path = out_path / "pipeline_report.json"
         report = perf_manager.to_dict()
         report["meta"] = {
+            "report_version": "1.0",
             "target": str(target),
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "collider_version": "4.0.0",
