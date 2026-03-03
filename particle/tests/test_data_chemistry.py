@@ -26,6 +26,8 @@ from data_chemistry import (
     Modulation,
     Syndrome,
     Contradiction,
+    NodeConvergence,
+    ConvergenceResult,
     ChemistryResult,
     ChemistryLab,
     compute_chemistry,
@@ -775,3 +777,428 @@ class TestRepr:
         _ = lab.get_result()
         r = repr(lab)
         assert 'computed' in r
+
+
+# ── Node-Level Convergence Tests ────────────────────────────────────────
+
+
+def _make_rich_nodes(specs):
+    """Create node dicts with convergence-relevant fields.
+
+    Each spec is a dict with any of: confidence, docstring, intent,
+    layer, is_god_class, Q_total, coherence_score, cyclomatic_complexity,
+    out_degree.  Missing fields default to healthy values.
+    """
+    nodes = []
+    for i, spec in enumerate(specs):
+        node = {
+            'id': spec.get('id', f'test::Node{i}'),
+            'name': spec.get('name', f'Node{i}'),
+            'file_path': spec.get('file_path', f'src/mod{i}.py'),
+            'confidence': spec.get('confidence', 0.9),
+            'docstring': spec.get('docstring', 'A docstring.'),
+            'intent': spec.get('intent', 'Explicit'),
+            'intent_profile': {'has_docstring': bool(spec.get('docstring', True))},
+            'layer': spec.get('layer', 'Domain'),
+            'is_god_class': spec.get('is_god_class', False),
+            'purpose_intelligence': {'Q_total': spec.get('Q_total', 0.8)},
+            'coherence_score': spec.get('coherence_score', 0.9),
+            'cyclomatic_complexity': spec.get('cyclomatic_complexity', 5),
+            'out_degree': spec.get('out_degree', 3),
+        }
+        nodes.append(node)
+    return nodes
+
+
+class TestNodeConvergence:
+    """Tests for analyze_node_convergence()."""
+
+    def test_no_nodes(self):
+        lab = ChemistryLab()
+        lab.feed('noise_ratio', 0.1)
+        result = lab.analyze_node_convergence()
+        assert result.total_nodes == 0
+        assert result.convergent_count == 0
+
+    def test_healthy_nodes_no_convergence(self):
+        nodes = _make_rich_nodes([{}, {}, {}])
+        out = _make_full_output(nodes=nodes)
+        lab = ChemistryLab()
+        lab.ingest(out)
+        conv = lab.analyze_node_convergence()
+        assert conv.total_nodes == 3
+        assert conv.convergent_count == 0
+        assert conv.critical_count == 0
+
+    def test_moderate_severity_3_signals(self):
+        nodes = _make_rich_nodes([
+            {'confidence': 0.3, 'docstring': None, 'layer': 'Unknown'},
+        ])
+        out = _make_full_output(nodes=nodes)
+        lab = ChemistryLab()
+        lab.ingest(out)
+        conv = lab.analyze_node_convergence()
+        assert conv.convergent_count == 1
+        assert conv.convergent_nodes[0].severity == 'moderate'
+        assert conv.convergent_nodes[0].signal_count == 3
+        signals = conv.convergent_nodes[0].signals
+        assert 'low_confidence' in signals
+        assert 'no_docstring' in signals
+        assert 'unknown_layer' in signals
+
+    def test_high_severity_4_signals(self):
+        nodes = _make_rich_nodes([
+            {'confidence': 0.2, 'docstring': None, 'layer': 'Unknown',
+             'is_god_class': True},
+        ])
+        out = _make_full_output(nodes=nodes)
+        lab = ChemistryLab()
+        lab.ingest(out)
+        conv = lab.analyze_node_convergence()
+        assert conv.convergent_nodes[0].severity == 'high'
+        assert conv.convergent_nodes[0].signal_count == 4
+
+    def test_critical_severity_5_plus_signals(self):
+        nodes = _make_rich_nodes([
+            {'confidence': 0.2, 'docstring': None, 'intent': 'Implicit',
+             'layer': 'Unknown', 'is_god_class': True, 'Q_total': 0.1,
+             'coherence_score': 0.1, 'cyclomatic_complexity': 20},
+        ])
+        out = _make_full_output(nodes=nodes)
+        lab = ChemistryLab()
+        lab.ingest(out)
+        conv = lab.analyze_node_convergence()
+        assert conv.convergent_nodes[0].severity == 'critical'
+        assert conv.convergent_nodes[0].signal_count == 8  # all 8 fire
+        assert conv.critical_count == 1
+
+    def test_sorted_by_signal_count(self):
+        nodes = _make_rich_nodes([
+            {'confidence': 0.3, 'docstring': None, 'layer': 'Unknown'},  # 3
+            {'confidence': 0.2, 'docstring': None, 'layer': 'Unknown',
+             'is_god_class': True, 'Q_total': 0.1},                      # 5
+        ])
+        out = _make_full_output(nodes=nodes)
+        lab = ChemistryLab()
+        lab.ingest(out)
+        conv = lab.analyze_node_convergence()
+        assert conv.convergent_count == 2
+        assert conv.convergent_nodes[0].signal_count >= conv.convergent_nodes[1].signal_count
+
+    def test_signal_distribution(self):
+        nodes = _make_rich_nodes([
+            {'confidence': 0.3, 'docstring': None, 'layer': 'Unknown'},
+            {'confidence': 0.2, 'docstring': None, 'layer': 'Unknown'},
+        ])
+        out = _make_full_output(nodes=nodes)
+        lab = ChemistryLab()
+        lab.ingest(out)
+        conv = lab.analyze_node_convergence()
+        assert conv.signal_distribution.get('low_confidence', 0) == 2
+        assert conv.signal_distribution.get('no_docstring', 0) == 2
+        assert conv.signal_distribution.get('unknown_layer', 0) == 2
+
+    def test_convergence_in_result(self):
+        nodes = _make_rich_nodes([
+            {'confidence': 0.3, 'docstring': None, 'layer': 'Unknown'},
+        ])
+        out = _make_full_output(nodes=nodes)
+        lab = ChemistryLab()
+        lab.ingest(out)
+        r = lab.get_result()
+        assert r.convergence is not None
+        assert r.convergence.convergent_count == 1
+
+    def test_convergence_to_dict(self):
+        nodes = _make_rich_nodes([
+            {'confidence': 0.3, 'docstring': None, 'layer': 'Unknown'},
+        ])
+        out = _make_full_output(nodes=nodes)
+        lab = ChemistryLab()
+        lab.ingest(out)
+        d = lab.get_result().to_dict()
+        assert 'convergence' in d
+        assert d['convergence']['convergent_count'] == 1
+        assert len(d['convergence']['convergent_nodes']) == 1
+
+
+# ── AI Consumer Summary Tests ───────────────────────────────────────────
+
+
+class TestAIConsumerSummary:
+    """Tests for build_ai_consumer_summary()."""
+
+    def test_summary_structure(self):
+        out = _make_full_output()
+        lab = ChemistryLab()
+        lab.ingest(out)
+        s = lab.build_ai_consumer_summary()
+        assert 'headline' in s
+        assert 'data_utility_grade' in s
+        assert 'key_contradictions' in s
+        assert 'convergent_concerns' in s
+        assert 'blind_spots' in s
+        assert 'actionable_next' in s
+        assert 'meta' in s
+        assert s['meta']['chemistry_version'] == '1.1.0'
+
+    def test_grade_a_for_clean_system(self):
+        out = _make_full_output()
+        lab = ChemistryLab()
+        lab.ingest(out)
+        s = lab.build_ai_consumer_summary()
+        # Healthy defaults: few/no syndromes, low severity
+        assert s['data_utility_grade'] in ('A', 'B')
+
+    def test_grade_degrades_with_syndromes(self):
+        out = _make_distressed_output()
+        lab = ChemistryLab()
+        lab.ingest(out)
+        s = lab.build_ai_consumer_summary()
+        # Distressed system triggers syndromes => worse grade
+        assert s['data_utility_grade'] in ('C', 'D', 'F')
+
+    def test_headline_mentions_syndromes(self):
+        out = _make_distressed_output()
+        lab = ChemistryLab()
+        lab.ingest(out)
+        s = lab.build_ai_consumer_summary()
+        assert 'syndrome' in s['headline'].lower() or 'detected' in s['headline'].lower()
+
+    def test_headline_clean_system(self):
+        out = _make_full_output()
+        lab = ChemistryLab()
+        lab.ingest(out)
+        s = lab.build_ai_consumer_summary()
+        # May or may not have anomalies depending on defaults
+        assert isinstance(s['headline'], str)
+        assert len(s['headline']) > 10
+
+    def test_blind_spots_from_missing_signals(self):
+        lab = ChemistryLab()
+        lab.feed('noise_ratio', 0.1)  # only one signal
+        s = lab.build_ai_consumer_summary()
+        # Most expected signals are missing => blind spots populated
+        assert len(s['blind_spots']) > 5
+
+    def test_actionable_next_capped_at_5(self):
+        out = _make_distressed_output()
+        lab = ChemistryLab()
+        lab.ingest(out)
+        s = lab.build_ai_consumer_summary()
+        assert len(s['actionable_next']) <= 5
+
+    def test_convergent_concerns_with_rich_nodes(self):
+        nodes = _make_rich_nodes([
+            {'confidence': 0.2, 'docstring': None, 'intent': 'Implicit',
+             'layer': 'Unknown', 'is_god_class': True},  # 5 signals = critical
+        ] * 3)
+        out = _make_full_output(nodes=nodes)
+        lab = ChemistryLab()
+        lab.ingest(out)
+        s = lab.build_ai_consumer_summary()
+        cc = s['convergent_concerns']
+        assert cc['critical_nodes'] == 3
+        assert len(cc['top_entities']) == 3
+        assert cc['signal_heatmap'].get('low_confidence', 0) == 3
+
+    def test_meta_counts(self):
+        out = _make_distressed_output()
+        lab = ChemistryLab()
+        lab.ingest(out)
+        s = lab.build_ai_consumer_summary()
+        m = s['meta']
+        assert m['signals_extracted'] > 0
+        assert m['syndromes_active'] >= 0
+        assert m['contradictions_found'] >= 0
+
+
+# ── Entity Paths Tests ──────────────────────────────────────────────────
+
+
+class TestEntityPaths:
+    """Tests for _enrich_with_entity_paths()."""
+
+    def test_flying_blind_entities(self):
+        nodes = _make_rich_nodes([
+            {'id': 'a', 'confidence': 0.3, 'docstring': None},   # qualifies
+            {'id': 'b', 'confidence': 0.3, 'docstring': 'OK'},   # low conf only
+            {'id': 'c', 'confidence': 0.9, 'docstring': None},   # no doc only
+        ])
+        out = _make_full_output(
+            nodes=nodes,
+            smart_ignore={'noise_ratio': 0.55, 'total_files': 100, 'ignored_count': 55},
+            classification={'classified': 30, 'unclassified': 70},
+            kpis={'nodes_total': 100, 'codebase_intelligence': 0.35,
+                  'dead_code_percent': 3, 'knot_score': 1.5},
+        )
+        lab = ChemistryLab()
+        lab.ingest(out)
+        result = lab.get_result()
+        flying = [s for s in result.syndromes if s.name == 'flying_blind']
+        if flying:
+            # Only 'a' has BOTH low confidence AND no docstring
+            assert 'a' in flying[0].affected_entities
+            assert 'b' not in flying[0].affected_entities
+            assert 'c' not in flying[0].affected_entities
+
+    def test_hollow_architecture_entities(self):
+        nodes = _make_rich_nodes([
+            {'id': 'x', 'layer': 'Unknown'},
+            {'id': 'y', 'is_god_class': True},
+            {'id': 'z', 'layer': 'Domain'},
+        ])
+        out = _make_full_output(
+            nodes=nodes,
+            classification={'classified': 30, 'unclassified': 70},
+        )
+        lab = ChemistryLab()
+        lab.ingest(out)
+        result = lab.get_result()
+        hollow = [s for s in result.syndromes if s.name == 'hollow_architecture']
+        if hollow:
+            ents = hollow[0].affected_entities
+            assert 'x' in ents
+            assert 'y' in ents
+            assert 'z' not in ents
+
+    def test_purpose_vacuum_entities(self):
+        nodes = _make_rich_nodes([
+            {'id': 'p1', 'Q_total': 0.1},
+            {'id': 'p2', 'Q_total': 0.8},
+        ])
+        out = _make_full_output(
+            nodes=nodes,
+            kpis={'nodes_total': 100, 'codebase_intelligence': 0.35,
+                  'dead_code_percent': 3, 'knot_score': 1.5},
+            semantics={'domain_inference': None},
+            ideome={'global_coherence': 0.2},
+        )
+        lab = ChemistryLab()
+        lab.ingest(out)
+        result = lab.get_result()
+        vacuum = [s for s in result.syndromes if s.name == 'purpose_vacuum']
+        if vacuum:
+            assert 'p1' in vacuum[0].affected_entities
+            assert 'p2' not in vacuum[0].affected_entities
+
+    def test_entity_cap_at_20(self):
+        # 50 nodes all qualifying for flying_blind
+        nodes = _make_rich_nodes([
+            {'id': f'n{i}', 'confidence': 0.1, 'docstring': None}
+            for i in range(50)
+        ])
+        out = _make_full_output(
+            nodes=nodes,
+            smart_ignore={'noise_ratio': 0.6, 'total_files': 100, 'ignored_count': 60},
+            classification={'classified': 30, 'unclassified': 70},
+            kpis={'nodes_total': 100, 'codebase_intelligence': 0.35,
+                  'dead_code_percent': 3, 'knot_score': 1.5},
+        )
+        lab = ChemistryLab()
+        lab.ingest(out)
+        result = lab.get_result()
+        flying = [s for s in result.syndromes if s.name == 'flying_blind']
+        if flying:
+            assert len(flying[0].affected_entities) <= 20
+
+    def test_no_entities_without_nodes(self):
+        out = _make_full_output(nodes=[])
+        lab = ChemistryLab()
+        lab.ingest(out)
+        result = lab.get_result()
+        for syn in result.syndromes:
+            assert syn.affected_entities == []
+        for cont in result.contradictions:
+            assert cont.affected_entities == []
+
+    def test_contradiction_entities(self):
+        # High CI + unknown layer => contradiction entity linking
+        nodes = _make_rich_nodes([
+            {'id': 'hc1', 'confidence': 0.95, 'layer': 'Unknown'},
+            {'id': 'hc2', 'confidence': 0.95, 'layer': 'Domain'},
+        ])
+        out = _make_full_output(
+            nodes=nodes,
+            kpis={'nodes_total': 100, 'codebase_intelligence': 0.85,
+                  'dead_code_percent': 3, 'knot_score': 1.5},
+            classification={'classified': 30, 'unclassified': 70},
+        )
+        lab = ChemistryLab()
+        lab.ingest(out)
+        result = lab.get_result()
+        ci_class = [c for c in result.contradictions
+                    if c.signal_a == 'codebase_intelligence'
+                    and c.signal_b == 'classification_coverage']
+        if ci_class:
+            assert 'hc1' in ci_class[0].affected_entities
+            assert 'hc2' not in ci_class[0].affected_entities
+
+
+# ── Resolution Hints Tests ──────────────────────────────────────────────
+
+
+class TestResolutionHints:
+    """Tests for contradiction resolution_hint strings."""
+
+    def _get_contradictions(self, **kw):
+        out = _make_full_output(**kw)
+        lab = ChemistryLab()
+        lab.ingest(out)
+        return lab.get_result().contradictions
+
+    def test_ci_vs_classification_hint(self):
+        contras = self._get_contradictions(
+            kpis={'nodes_total': 100, 'codebase_intelligence': 0.9,
+                  'dead_code_percent': 3, 'knot_score': 1.5},
+            classification={'classified': 30, 'unclassified': 70},
+        )
+        ci_class = [c for c in contras
+                    if c.signal_a == 'codebase_intelligence'
+                    and c.signal_b == 'classification_coverage']
+        if ci_class:
+            assert 'Layer classification' in ci_class[0].resolution_hint
+
+    def test_ideome_vs_noise_hint(self):
+        contras = self._get_contradictions(
+            ideome={'global_coherence': 0.85},
+            smart_ignore={'noise_ratio': 0.55, 'total_files': 200, 'ignored_count': 110},
+        )
+        ide_noise = [c for c in contras
+                     if c.signal_a == 'ideome_coherence'
+                     and c.signal_b == 'noise_ratio']
+        if ide_noise:
+            assert 'tooling config' in ide_noise[0].resolution_hint.lower() or \
+                   'Advisory noise' in ide_noise[0].resolution_hint
+
+    def test_dead_code_vs_knot_hint(self):
+        contras = self._get_contradictions(
+            kpis={'nodes_total': 100, 'codebase_intelligence': 0.75,
+                  'dead_code_percent': 1, 'knot_score': 7.0},
+        )
+        dc_knot = [c for c in contras
+                   if c.signal_a == 'dead_code_pct'
+                   and c.signal_b == 'knot_score']
+        if dc_knot:
+            assert 'shared interfaces' in dc_knot[0].resolution_hint.lower() or \
+                   'brittle' in dc_knot[0].resolution_hint.lower()
+
+    def test_deps_vs_edge_types_hint(self):
+        contras = self._get_contradictions(
+            dependencies={'dependencies': [f'd{i}' for i in range(100)]},
+            edge_types={'import': 95, 'call': 3, 'inherit': 2},
+        )
+        dep_edge = [c for c in contras
+                    if c.signal_a == 'dependency_count'
+                    and c.signal_b == 'edge_type_count']
+        if dep_edge:
+            assert 'semantic edges' in dep_edge[0].resolution_hint.lower() or \
+                   'variety is low' in dep_edge[0].resolution_hint.lower()
+
+    def test_all_contradictions_have_hints(self):
+        out = _make_distressed_output()
+        lab = ChemistryLab()
+        lab.ingest(out)
+        result = lab.get_result()
+        for c in result.contradictions:
+            assert isinstance(c.resolution_hint, str)

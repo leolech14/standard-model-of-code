@@ -73,6 +73,7 @@ class Syndrome:
     severity: float
     signals: Dict[str, Any] = field(default_factory=dict)
     description: str = ''
+    affected_entities: List[str] = field(default_factory=list)
 
 
 @dataclass
@@ -86,6 +87,38 @@ class Contradiction:
     signal_b: str
     tension: float
     description: str = ''
+    affected_entities: List[str] = field(default_factory=list)
+    resolution_hint: str = ''
+
+
+@dataclass
+class NodeConvergence:
+    """Per-node record of converging negative signals."""
+    node_id: str          # e.g. "particle/src/core/foo.py::BarClass"
+    name: str
+    file_path: str
+    signal_count: int     # how many negative signals converge
+    signals: List[str]    # which signal names fired
+    severity: str         # "critical" (5+), "high" (4), "moderate" (3)
+
+
+@dataclass
+class ConvergenceResult:
+    """Aggregate result of per-node convergence analysis."""
+    convergent_nodes: List[NodeConvergence] = field(default_factory=list)
+    total_nodes: int = 0
+    convergent_count: int = 0       # nodes with 3+ signals
+    critical_count: int = 0         # nodes with 5+ signals
+    signal_distribution: Dict[str, int] = field(default_factory=dict)
+
+    def to_dict(self) -> dict:
+        return {
+            'convergent_nodes': [asdict(n) for n in self.convergent_nodes],
+            'total_nodes': self.total_nodes,
+            'convergent_count': self.convergent_count,
+            'critical_count': self.critical_count,
+            'signal_distribution': self.signal_distribution,
+        }
 
 
 @dataclass
@@ -96,6 +129,7 @@ class ChemistryResult:
     contradictions: List[Contradiction] = field(default_factory=list)
     compound_severity: float = 0.0   # aggregate syndrome severity [0,1]
     signal_coverage: float = 0.0     # fraction of expected signals present
+    convergence: Optional[ConvergenceResult] = None
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -108,6 +142,11 @@ class ChemistryResult:
             else:
                 # Multiply if multiple modulations hit same target
                 d['modulations_by_target'][t] *= m.coefficient
+        # Serialize convergence with its own to_dict
+        if self.convergence is not None:
+            d['convergence'] = self.convergence.to_dict()
+        else:
+            d['convergence'] = None
         return d
 
     def get_modulation(self, target: str) -> float:
@@ -499,6 +538,10 @@ def _detect_contradictions(signals: dict) -> List[Contradiction]:
                 'High codebase intelligence but low classification coverage. '
                 'Either CI is inflated or classification is overly strict.'
             ),
+            resolution_hint=(
+                'Layer classification depends on convention files. Add __init__.py '
+                'markers or review naming patterns to improve coverage.'
+            ),
         ))
 
     # 2. Good ideome coherence but high noise
@@ -513,6 +556,10 @@ def _detect_contradictions(signals: dict) -> List[Contradiction]:
                 'Ideome shows good code-doc alignment but analysis filtered >40% of files. '
                 'Coherence may be based on incomplete picture.'
             ),
+            resolution_hint=(
+                'Advisory noise suggests style/linting gaps. The code\'s conceptual '
+                'model is sound -- focus on tooling config to reduce filtered files.'
+            ),
         ))
 
     # 3. Low dead code but high entanglement
@@ -526,6 +573,10 @@ def _detect_contradictions(signals: dict) -> List[Contradiction]:
             description=(
                 'Almost no dead code but high entanglement. Code is tightly coupled '
                 'but fully used -- refactoring will be high-impact.'
+            ),
+            resolution_hint=(
+                'Tight coupling without dead code suggests active but brittle '
+                'dependencies. Extract shared interfaces to reduce knot score.'
             ),
         ))
 
@@ -542,6 +593,10 @@ def _detect_contradictions(signals: dict) -> List[Contradiction]:
                 description=(
                     f'{dep_count} dependencies but only {type_count} edge types. '
                     'Dependency graph lacks resolution -- most relationships are invisible.'
+                ),
+                resolution_hint=(
+                    'Dependency variety is low -- most relationships are simple imports. '
+                    'Consider whether semantic edges (inheritance, composition) are detected.'
                 ),
             ))
 
@@ -920,6 +975,7 @@ class ChemistryLab:
         self._signals: Dict[str, Any] = {}
         self._dirty: bool = True
         self._result: Optional[ChemistryResult] = None
+        self._nodes: List[dict] = []  # per-node data for convergence analysis
 
     # --- Feeding interface -------------------------------------------------
 
@@ -953,6 +1009,9 @@ class ChemistryLab:
 
         w, r = _extract_advisory_counts(full_output)
         self._signals['advisory_counts'] = (w, r)
+
+        # Store nodes for per-node convergence analysis
+        self._nodes = full_output.get('nodes', [])
 
         self._dirty = True
 
@@ -1008,6 +1067,245 @@ class ChemistryLab:
         """Read-only view of current signal state (for debugging)."""
         return dict(self._signals)
 
+    # --- Node-level convergence --------------------------------------------
+
+    def analyze_node_convergence(self) -> ConvergenceResult:
+        """Count converging negative signals per node.
+
+        Iterates full_output['nodes'] and checks each node against 8
+        negative-signal thresholds.  Nodes with 3+ converging signals
+        are flagged with severity grading:
+            5+ signals = "critical"
+            4  signals = "high"
+            3  signals = "moderate"
+        """
+        if not self._nodes:
+            return ConvergenceResult()
+
+        signal_dist: Dict[str, int] = {}
+        convergent: List[NodeConvergence] = []
+
+        for node in self._nodes:
+            fired: List[str] = []
+
+            # 1. Low confidence
+            conf = node.get('confidence', 1.0)
+            if isinstance(conf, (int, float)) and conf < 0.5:
+                fired.append('low_confidence')
+
+            # 2. No docstring
+            ds = node.get('docstring')
+            ip = node.get('intent_profile') or {}
+            if not ds and not ip.get('has_docstring', True):
+                fired.append('no_docstring')
+
+            # 3. Implicit / Ambiguous intent
+            intent = node.get('intent', '')
+            if intent in ('Implicit', 'Ambiguous'):
+                fired.append('implicit_intent')
+
+            # 4. Unknown layer
+            if node.get('layer') == 'Unknown':
+                fired.append('unknown_layer')
+
+            # 5. God class
+            if node.get('is_god_class'):
+                fired.append('god_class')
+
+            # 6. Low Q_total
+            pi = node.get('purpose_intelligence') or {}
+            q = pi.get('Q_total')
+            if isinstance(q, (int, float)) and q < 0.4:
+                fired.append('low_q_total')
+
+            # 7. Low coherence
+            coh = node.get('coherence_score')
+            if isinstance(coh, (int, float)) and coh < 0.4:
+                fired.append('low_coherence')
+
+            # 8. High complexity
+            cc = node.get('cyclomatic_complexity')
+            if isinstance(cc, (int, float)) and cc > 15:
+                fired.append('high_complexity')
+
+            # Track distribution
+            for s in fired:
+                signal_dist[s] = signal_dist.get(s, 0) + 1
+
+            if len(fired) >= 3:
+                if len(fired) >= 5:
+                    sev = 'critical'
+                elif len(fired) >= 4:
+                    sev = 'high'
+                else:
+                    sev = 'moderate'
+
+                nid = node.get('id', node.get('name', '?'))
+                convergent.append(NodeConvergence(
+                    node_id=nid,
+                    name=node.get('name', ''),
+                    file_path=node.get('file_path', ''),
+                    signal_count=len(fired),
+                    signals=fired,
+                    severity=sev,
+                ))
+
+        convergent.sort(key=lambda n: n.signal_count, reverse=True)
+
+        return ConvergenceResult(
+            convergent_nodes=convergent,
+            total_nodes=len(self._nodes),
+            convergent_count=len(convergent),
+            critical_count=sum(1 for n in convergent if n.severity == 'critical'),
+            signal_distribution=signal_dist,
+        )
+
+    # --- AI Consumer Summary -----------------------------------------------
+
+    def build_ai_consumer_summary(self) -> dict:
+        """Build a structured summary block optimized for AI consumers.
+
+        Returns a JSON-serializable dict with headline, grade,
+        contradictions, convergent concerns, blind spots, and
+        prioritized next actions.  Designed to be the single entry
+        point an AI agent reads to understand system health.
+        """
+        self._ensure_computed()
+        assert self._result is not None
+        r = self._result
+
+        # --- Headline ---
+        n_syn = len(r.syndromes)
+        n_cont = len(r.contradictions)
+        conv = r.convergence
+        n_crit = conv.critical_count if conv else 0
+
+        parts = []
+        if n_syn:
+            parts.append(f'{n_syn} syndrome{"s" if n_syn != 1 else ""}')
+        if n_cont:
+            parts.append(f'{n_cont} contradiction{"s" if n_cont != 1 else ""}')
+        if n_crit:
+            parts.append(f'{n_crit} critical convergence node{"s" if n_crit != 1 else ""}')
+
+        if not parts:
+            headline = 'System shows no cross-signal anomalies.'
+        else:
+            headline = f'Cross-signal analysis detected {", ".join(parts)}.'
+
+        # --- Grade ---
+        score = 10.0
+        score -= n_syn * 1.5
+        score -= n_cont * 1.0
+        score -= min(3.0, n_crit * 0.5)
+        score -= r.compound_severity * 2.0
+        score = max(0.0, min(10.0, score))
+
+        if score >= 8.5:
+            grade = 'A'
+        elif score >= 7.0:
+            grade = 'B'
+        elif score >= 5.0:
+            grade = 'C'
+        elif score >= 3.0:
+            grade = 'D'
+        else:
+            grade = 'F'
+
+        # --- Key contradictions ---
+        key_contradictions = []
+        for c in r.contradictions:
+            entry = {
+                'signal_a': c.signal_a,
+                'signal_b': c.signal_b,
+                'tension': c.tension,
+                'description': c.description,
+            }
+            # P1-B: resolution_hint (populated by Step 4)
+            if hasattr(c, 'resolution_hint'):
+                entry['resolution_hint'] = c.resolution_hint
+            # P1-A: affected_entities (populated by Step 3)
+            if hasattr(c, 'affected_entities'):
+                entry['affected_entities'] = c.affected_entities
+            key_contradictions.append(entry)
+
+        # --- Convergent concerns ---
+        convergent_concerns = {'critical_nodes': 0, 'top_entities': [], 'signal_heatmap': {}}
+        if conv and conv.convergent_count > 0:
+            top = conv.convergent_nodes[:10]
+            convergent_concerns = {
+                'critical_nodes': conv.critical_count,
+                'top_entities': [
+                    {
+                        'id': n.node_id,
+                        'name': n.name,
+                        'file': n.file_path,
+                        'signals': n.signals,
+                        'count': n.signal_count,
+                    }
+                    for n in top
+                ],
+                'signal_heatmap': conv.signal_distribution,
+            }
+
+        # --- Blind spots ---
+        expected = {
+            'codebase_intelligence', 'classification_coverage',
+            'noise_ratio', 'purpose_entropy', 'knot_score',
+            'dead_code_pct', 'dependency_count', 'ideome_coherence',
+            'domain_clarity', 'roadmap_readiness', 'advisory_counts',
+            'boundary_coverage', 'edge_diversity', 'node_metrics',
+        }
+        present = set(self._signals.keys())
+        blind_spots = sorted(expected - present)
+
+        # --- Actionable next ---
+        actions = []
+        # Prioritize by syndrome severity
+        for syn in sorted(r.syndromes, key=lambda s: s.severity, reverse=True):
+            a: Dict[str, Any] = {
+                'action': f'Address "{syn.name}" syndrome',
+                'impact': 'high' if syn.severity > 0.6 else 'medium',
+                'effort': 'medium',
+            }
+            if hasattr(syn, 'affected_entities') and syn.affected_entities:
+                a['targets'] = syn.affected_entities[:5]
+            actions.append(a)
+        # Add convergence action
+        if n_crit > 0 and conv:
+            actions.insert(0, {
+                'action': f'Remediate {n_crit} critically convergent modules',
+                'impact': 'high',
+                'effort': 'high',
+                'targets': [n.node_id for n in conv.convergent_nodes[:5]
+                            if n.severity == 'critical'],
+            })
+        # Add blind spot action
+        if blind_spots:
+            actions.append({
+                'action': f'Investigate {len(blind_spots)} missing signal(s): {", ".join(blind_spots[:3])}',
+                'impact': 'medium',
+                'effort': 'low',
+            })
+        actions = actions[:5]  # cap at 5
+
+        return {
+            'headline': headline,
+            'data_utility_grade': grade,
+            'key_contradictions': key_contradictions,
+            'convergent_concerns': convergent_concerns,
+            'blind_spots': blind_spots,
+            'actionable_next': actions,
+            'meta': {
+                'chemistry_version': '1.1.0',
+                'signals_extracted': len(self._signals),
+                'syndromes_active': n_syn,
+                'contradictions_found': n_cont,
+                'convergent_nodes': conv.convergent_count if conv else 0,
+                'critical_nodes': n_crit,
+            },
+        }
+
     # --- Internal ----------------------------------------------------------
 
     def _ensure_computed(self) -> None:
@@ -1015,6 +1313,101 @@ class ChemistryLab:
         if self._dirty or self._result is None:
             self._recompute()
             self._dirty = False
+
+    def _enrich_with_entity_paths(
+        self,
+        syndromes: List[Syndrome],
+        contradictions: List[Contradiction],
+    ) -> None:
+        """Attach affected_entities to syndromes and contradictions.
+
+        Scans self._nodes to find entities that match each syndrome's or
+        contradiction's criteria. Mutates the objects in-place.
+        """
+        if not self._nodes:
+            return
+
+        # Build quick-lookup sets from nodes
+        low_conf_nodes = []         # confidence < 0.5
+        no_doc_nodes = []           # missing docstring
+        unknown_layer_nodes = []    # layer == 'Unknown'
+        god_class_nodes = []        # is_god_class
+        low_q_nodes = []            # Q_total < 0.3
+        high_outdegree_nodes = []   # out_degree > median*2
+
+        out_degrees = [n.get('out_degree', 0) for n in self._nodes if isinstance(n, dict)]
+        median_od = sorted(out_degrees)[len(out_degrees) // 2] if out_degrees else 0
+
+        for node in self._nodes:
+            if not isinstance(node, dict):
+                continue
+            nid = node.get('id', node.get('name', ''))
+
+            conf = node.get('confidence')
+            if conf is not None and conf < 0.5:
+                low_conf_nodes.append(nid)
+
+            doc = node.get('docstring')
+            ip = node.get('intent_profile', {}) or {}
+            has_doc = bool(doc) or ip.get('has_docstring', False)
+            if not has_doc:
+                no_doc_nodes.append(nid)
+
+            layer = node.get('layer', '')
+            if layer == 'Unknown':
+                unknown_layer_nodes.append(nid)
+
+            if node.get('is_god_class', False):
+                god_class_nodes.append(nid)
+
+            pi = node.get('purpose_intelligence', {}) or {}
+            qt = pi.get('Q_total')
+            if qt is not None and qt < 0.3:
+                low_q_nodes.append(nid)
+
+            od = node.get('out_degree', 0)
+            if median_od > 0 and od > median_od * 2:
+                high_outdegree_nodes.append(nid)
+
+        # --- Enrich syndromes ---
+        for syn in syndromes:
+            if syn.name == 'flying_blind':
+                # low confidence AND no docstring
+                syn.affected_entities = sorted(
+                    set(low_conf_nodes) & set(no_doc_nodes)
+                )[:20]
+            elif syn.name == 'hollow_architecture':
+                # unknown layer AND/OR god class
+                syn.affected_entities = sorted(
+                    set(unknown_layer_nodes) | set(god_class_nodes)
+                )[:20]
+            elif syn.name == 'dependency_sprawl':
+                # high out-degree
+                syn.affected_entities = sorted(high_outdegree_nodes)[:20]
+            elif syn.name == 'purpose_vacuum':
+                # low Q_total
+                syn.affected_entities = sorted(low_q_nodes)[:20]
+            # advisory_storm has no direct node mapping (system-wide)
+
+        # --- Enrich contradictions ---
+        for cont in contradictions:
+            if cont.signal_a == 'codebase_intelligence' and \
+               cont.signal_b == 'classification_coverage':
+                # Nodes with high confidence but unknown layer
+                high_conf = {n.get('id', n.get('name', ''))
+                             for n in self._nodes if isinstance(n, dict)
+                             and (n.get('confidence') or 0) > 0.8}
+                cont.affected_entities = sorted(
+                    high_conf & set(unknown_layer_nodes)
+                )[:20]
+            elif cont.signal_a == 'dead_code_pct' and \
+                 cont.signal_b == 'knot_score':
+                # High out-degree nodes (the knots)
+                cont.affected_entities = sorted(high_outdegree_nodes)[:20]
+            elif cont.signal_a == 'dependency_count' and \
+                 cont.signal_b == 'edge_type_count':
+                # Nodes with many outgoing edges
+                cont.affected_entities = sorted(high_outdegree_nodes)[:20]
 
     def _recompute(self) -> None:
         """Run syndrome detection, contradiction detection, and modulation
@@ -1042,6 +1435,9 @@ class ChemistryLab:
         # Detect contradictions
         contradictions = _detect_contradictions(signals)
 
+        # Enrich with entity paths (P1-A: attach affected nodes)
+        self._enrich_with_entity_paths(syndromes, contradictions)
+
         # Generate modulations
         modulations = _generate_modulations(signals, syndromes)
 
@@ -1053,12 +1449,16 @@ class ChemistryLab:
         else:
             compound = 0.0
 
+        # Node-level convergence (runs after system-wide analysis)
+        convergence = self.analyze_node_convergence()
+
         self._result = ChemistryResult(
             modulations=modulations,
             syndromes=syndromes,
             contradictions=contradictions,
             compound_severity=round(compound, 4),
             signal_coverage=round(coverage, 4),
+            convergence=convergence,
         )
 
     def __repr__(self) -> str:

@@ -2021,6 +2021,25 @@ class InsightsCompiler:
             if weakest[1] < 6.0:
                 parts.append(f'The weakest area is **{weakest[0]}** (score: {weakest[1]:.1f}/10).')
 
+        # Reference AI consumer summary if available
+        ai_summary = self.data.get('ai_consumer_summary', {})
+        if ai_summary:
+            headline = ai_summary.get('headline', '')
+            if headline:
+                parts.append(f'AI assessment: {headline}')
+            du_grade = ai_summary.get('data_utility_grade', '')
+            if du_grade:
+                parts.append(f'Data utility grade: **{du_grade}**.')
+
+        # Reference convergence if significant
+        chem = self.data.get('chemistry', {})
+        conv = chem.get('convergence', {}) if chem else {}
+        n_crit = conv.get('critical_count', 0)
+        if n_crit > 0:
+            parts.append(
+                f'**{n_crit}** nodes have 5+ converging negative signals (critical convergence).'
+            )
+
         return ' '.join(parts)
 
     # -------------------------------------------------------------------------
@@ -3303,32 +3322,45 @@ class InsightsCompiler:
             name = syn.get('name', 'unknown')
             severity = syn.get('severity', 0.0)
             sev = 'critical' if severity > 0.7 else ('high' if severity > 0.4 else 'medium')
+            entities = syn.get('affected_entities', [])
+            desc = syn.get('description', f'Compound syndrome {name} detected (severity={severity:.2f}).')
+            if entities:
+                desc += f' Affects {len(entities)} entities.'
+            evidence = dict(syn.get('signals', {}))
+            if entities:
+                evidence['affected_entities'] = entities[:10]
             self._add(
                 category='chemistry',
                 severity=sev,
                 title=f'Syndrome: {name}',
-                description=syn.get('description', f'Compound syndrome {name} detected (severity={severity:.2f}).'),
-                evidence=syn.get('signals', {}),
+                description=desc,
+                evidence=evidence,
                 interpretation=f'This syndrome emerges from correlated signals that together indicate a systemic pattern.',
                 recommendation=f'Address contributing signals to resolve {name} syndrome.',
             )
 
         # --- Per-contradiction findings ---
         for contra in contradictions:
+            hint = contra.get('resolution_hint', '')
+            entities = contra.get('affected_entities', [])
+            evidence = dict(contra.get('signals', {}))
+            if entities:
+                evidence['affected_entities'] = entities[:10]
+            rec = hint if hint else (
+                'Investigate data quality -- contradictory signals may indicate '
+                'measurement error or genuine architectural tension.'
+            )
             self._add(
                 category='chemistry',
                 severity='medium',
-                title=f'Signal Contradiction: {contra.get("name", "?")}',
+                title=f'Signal Contradiction: {contra.get("signal_a", "?")} vs {contra.get("signal_b", "?")}',
                 description=contra.get('description', 'Contradictory signals detected.'),
-                evidence=contra.get('signals', {}),
+                evidence=evidence,
                 interpretation=(
                     'Contradictory signals may indicate measurement error, genuine architectural '
                     'tension, or a codebase in active transition.'
                 ),
-                recommendation=(
-                    'Investigate data quality -- contradictory signals may indicate '
-                    'measurement error or genuine architectural tension.'
-                ),
+                recommendation=rec,
             )
 
         # --- Significant modulations (|1 - coeff| > 0.05) ---
@@ -3344,6 +3376,44 @@ class InsightsCompiler:
                 interpretation=(
                     'Chemistry modulations adjust health, incoherence, and mission matrix scores '
                     'based on cross-signal correlations detected by the lab.'
+                ),
+            )
+
+        # --- Convergence finding (nodes with 3+ negative signals) ---
+        conv = chem.get('convergence', {})
+        if conv and conv.get('convergent_count', 0) > 0:
+            n_conv = conv['convergent_count']
+            n_crit = conv.get('critical_count', 0)
+            total = conv.get('total_nodes', 0)
+            top_nodes = conv.get('convergent_nodes', [])[:5]
+            top_names = [
+                f"{n.get('name', '?')} ({n.get('signal_count', 0)} signals)"
+                for n in top_nodes
+            ]
+            sev = 'critical' if n_crit > 10 else ('high' if n_crit > 0 else 'medium')
+            self._add(
+                category='chemistry',
+                severity=sev,
+                title='Node-Level Signal Convergence',
+                description=(
+                    f'{n_conv} of {total} nodes have 3+ converging negative signals '
+                    f'({n_crit} critical with 5+).'
+                ),
+                evidence={
+                    'convergent_count': n_conv,
+                    'critical_count': n_crit,
+                    'total_nodes': total,
+                    'top_entities': top_names,
+                    'signal_distribution': conv.get('signal_distribution', {}),
+                },
+                interpretation=(
+                    'Nodes where multiple negative signals converge are high-priority '
+                    'improvement targets. Critical nodes (5+ signals) represent the '
+                    'most structurally deficient parts of the codebase.'
+                ),
+                recommendation=(
+                    'Prioritize critical-convergence nodes for docstrings, type annotations, '
+                    'and architectural clarification. Each fix removes multiple signals at once.'
                 ),
             )
 

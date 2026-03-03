@@ -1988,6 +1988,12 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         print(f"   → Contradictions: {len(chem_result.contradictions)}")
         print(f"   → Compound severity: {chem_result.compound_severity:.3f}")
         print(f"   → Signal coverage: {chem_result.signal_coverage:.0%}")
+        if chem_result.convergence:
+            print(f"   → Convergent nodes: {chem_result.convergence.convergent_count} "
+                  f"({chem_result.convergence.critical_count} critical)")
+        # AI Consumer Summary -- structured block for downstream AI consumers
+        full_output['ai_consumer_summary'] = chem_lab.build_ai_consumer_summary()
+        print(f"   → AI Consumer Summary: grade={full_output['ai_consumer_summary']['data_utility_grade']}")
     except Exception as e:
         print(f"   ⚠️ Data Chemistry failed: {e}")
         import traceback
