@@ -49,13 +49,19 @@ def _run_smartignore(ctx: PipelineContext) -> None:
                 # Write .smartignore file for caching/review
                 si.write_smartignore(ctx.smartignore_manifest,
                                      str(ctx.output_dir / ".smartignore"))
+                ctx.data_ledger.publish("smartignore", "Stage -1: SmartIgnore",
+                    summary=f"skip={len(ctx.smartignore_manifest.skip_paths)}, ratio={ctx.smartignore_manifest.skip_ratio:.0%}")
 
             except ImportError as e:
                 print(f"   ⚠️  SmartIgnore module not available: {e}")
+                ctx.data_ledger.publish("smartignore", "Stage -1: SmartIgnore", status="failed", summary=str(e))
             except Exception as e:
                 print(f"   ⚠️  SmartIgnore failed (continuing without): {e}")
                 import traceback
                 traceback.print_exc()
+                ctx.data_ledger.publish("smartignore", "Stage -1: SmartIgnore", status="failed", summary=str(e))
+    else:
+        ctx.data_ledger.publish("smartignore", "Stage -1: SmartIgnore", status="skipped")
 
     # Seed exclude_paths with SmartIgnore decisions (Stage -1 → Stage 0 bridge)
     ctx.exclude_paths = list(smartignore_skip_paths)
@@ -96,12 +102,17 @@ def _run_survey(ctx: PipelineContext) -> None:
                 # Print warnings
                 for warning in ctx.survey_result.warnings:
                     print(f"   ⚠️  {warning}")
+                ctx.data_ledger.publish("survey", "Stage 0: Survey",
+                    summary=f"{ctx.survey_result.total_files} files, {len(ctx.exclude_paths)} exclusions")
 
             except ImportError as e:
                 print(f"   ⚠️  Survey module not available: {e}")
+                ctx.data_ledger.publish("survey", "Stage 0: Survey", status="failed", summary=str(e))
             except Exception as e:
                 print(f"   ⚠️  Survey failed (continuing without exclusions): {e}")
+                ctx.data_ledger.publish("survey", "Stage 0: Survey", status="failed", summary=str(e))
     else:
+        ctx.data_ledger.publish("survey", "Stage 0: Survey", status="skipped")
         if skip_survey:
             print("\n🔍 Stage 0: Survey... SKIPPED (--no-survey)")
         elif not ctx.target.is_dir():
@@ -140,12 +151,16 @@ def _run_contextome(ctx: PipelineContext) -> None:
                 _log(f"   → Symmetry seeds: {len(ctx.contextome_result.symmetry_seeds)}", ctx.quiet)
                 if ctx.contextome_result.llm_used:
                     _log(f"   → LLM enrichment: +{ctx.contextome_result.enriched_signals} signals", ctx.quiet)
+                ctx.data_ledger.publish("contextome", "Stage 0.8: Contextome Intelligence",
+                    summary=f"{ctx.contextome_result.doc_count} docs")
             except Exception as e:
                 print(f"   ⚠️  Contextome intelligence failed: {e}")
                 import traceback
                 traceback.print_exc()
+                ctx.data_ledger.publish("contextome", "Stage 0.8: Contextome Intelligence", status="failed", summary=str(e))
     else:
         print("\n📚 Stage 0.8: Contextome Intelligence... SKIPPED (single file)")
+        ctx.data_ledger.publish("contextome", "Stage 0.8: Contextome Intelligence", status="skipped")
 
 
 def _run_incremental(ctx: PipelineContext) -> None:
@@ -176,9 +191,14 @@ def _run_incremental(ctx: PipelineContext) -> None:
                 _log(f"   → Unchanged: {len(ctx.delta_result.unchanged_files)} ({skip_pct:.0f}% skipped)", ctx.quiet)
                 if ctx.delta_result.deleted_files:
                     _log(f"   → Deleted: {len(ctx.delta_result.deleted_files)}", ctx.quiet)
+                ctx.data_ledger.publish("incremental", "Stage 0.5: Incremental Detection",
+                    summary=f"{len(ctx.delta_result.changed_files)} changed, {len(ctx.delta_result.new_files)} new")
             except Exception as e:
                 timer.set_status("WARN", str(e))
                 print(f"   ⚠️ Incremental detection failed: {e}")
+                ctx.data_ledger.publish("incremental", "Stage 0.5: Incremental Detection", status="failed", summary=str(e))
+    else:
+        ctx.data_ledger.publish("incremental", "Stage 0.5: Incremental Detection", status="skipped")
 
 
 def run_discovery(ctx: PipelineContext) -> None:

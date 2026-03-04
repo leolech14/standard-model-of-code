@@ -49,6 +49,8 @@ def run_extraction(ctx: PipelineContext) -> None:
     ctx.guard.nodes = ctx.nodes
     ctx.guard.edges = ctx.edges
     _log(f"   → {len(ctx.nodes)} nodes, {len(ctx.edges)} edges", ctx.quiet)
+    ctx.data_ledger.publish("nodes", "Stage 1: Base Analysis", summary=f"{len(ctx.nodes)} nodes")
+    ctx.data_ledger.publish("edges", "Stage 1: Base Analysis", summary=f"{len(ctx.edges)} edges")
 
     # Stage 2: Standard Model enrichment
     print("\n🧬 Stage 2: Standard Model Enrichment...")
@@ -66,6 +68,8 @@ def run_extraction(ctx: PipelineContext) -> None:
 
         timer.set_output(nodes=len(ctx.nodes), rpbl_enriched=rpbl_count)
     _log(f"   → {rpbl_count} nodes with RPBL scores", ctx.quiet)
+    ctx.data_ledger.publish("standard_model", "Stage 2: Standard Model Enrichment",
+        summary=f"{rpbl_count} RPBL-enriched")
 
     # Pipeline Assertion: Validate canonical roles
     try:
@@ -92,11 +96,14 @@ def run_extraction(ctx: PipelineContext) -> None:
             ctx.ecosystem_discovery_status = "ok"
             timer.set_output(unknowns=ctx.ecosystem_discovery.get('total_unknowns', 0))
             _log(f"   → {ctx.ecosystem_discovery.get('total_unknowns', 0)} unknown ecosystem patterns", ctx.quiet)
+            ctx.data_ledger.publish("ecosystem", "Stage 2.5: Ecosystem Discovery",
+                summary=f"{ctx.ecosystem_discovery.get('total_unknowns', 0)} unknowns")
         except Exception as e:
             ctx.ecosystem_discovery_status = "skipped"
             ctx.ecosystem_discovery_error = str(e)
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Ecosystem discovery skipped: {e}")
+            ctx.data_ledger.publish("ecosystem", "Stage 2.5: Ecosystem Discovery", status="skipped", summary=str(e))
 
     # Stage 2.6: Holarchy Level Classification (L-3..L12)
     print("\n📊 Stage 2.6: Holarchy Level Classification...")
@@ -112,9 +119,12 @@ def run_extraction(ctx: PipelineContext) -> None:
             _log(f"   → {level_count} nodes assigned holarchy levels ({dist_str})", ctx.quiet)
             if pkg_count > 0:
                 _log(f"   → {pkg_count} implicit L6 packages detected", ctx.quiet)
+            ctx.data_ledger.publish("levels", "Stage 2.6: Level Classification",
+                summary=f"{level_count} classified")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Level classification skipped: {e}")
+            ctx.data_ledger.publish("levels", "Stage 2.6: Level Classification", status="skipped", summary=str(e))
 
     # Stage 2.7: Octahedral Dimension Classification (D4, D5, D7)
     print("\n📐 Stage 2.7: Octahedral Dimension Classification...")
@@ -124,6 +134,9 @@ def run_extraction(ctx: PipelineContext) -> None:
             dim_count = classify_all_dimensions(ctx.nodes)
             timer.set_output(nodes_classified=dim_count)
             _log(f"   → {dim_count} nodes with full 8-dimension coordinates", ctx.quiet)
+            ctx.data_ledger.publish("dimensions", "Stage 2.7: Dimension Classification",
+                summary=f"{dim_count} classified")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Dimension classification skipped: {e}")
+            ctx.data_ledger.publish("dimensions", "Stage 2.7: Dimension Classification", status="skipped", summary=str(e))

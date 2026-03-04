@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
+from src.core.data_ledger import DataLedger
+
 
 @dataclass
 class PipelineContext:
@@ -25,6 +27,7 @@ class PipelineContext:
     # ── Observability ────────────────────────────────────────────────
     perf_manager: Any          # PerformanceManager
     guard: Any                 # _PipelineCrashGuard
+    data_ledger: DataLedger = field(default_factory=DataLedger)
 
     # ── Mutable graph state ──────────────────────────────────────────
     nodes: List[Dict[str, Any]] = field(default_factory=list)

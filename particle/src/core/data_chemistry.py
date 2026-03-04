@@ -986,6 +986,11 @@ class ChemistryLab:
         self._dirty: bool = True
         self._result: Optional[ChemistryResult] = None
         self._nodes: List[dict] = []  # per-node data for convergence analysis
+        self._ledger = None           # DataLedger for signal availability reporting
+
+    def set_ledger(self, ledger) -> None:
+        """Attach a DataLedger for signal availability reporting."""
+        self._ledger = ledger
 
     # --- Feeding interface -------------------------------------------------
 
@@ -1299,7 +1304,36 @@ class ChemistryLab:
             })
         actions = actions[:5]  # cap at 5
 
-        return {
+        # --- Signal availability from DataLedger ---
+        signal_availability = None
+        if self._ledger is not None:
+            # Map chemistry signal keys to ledger data keys for availability check
+            _SIGNAL_TO_LEDGER = {
+                'noise_ratio': 'smartignore',
+                'classification_coverage': 'nodes',
+                'edge_diversity': 'edges',
+                'boundary_ratio': 'codome',
+                'dependency_count': 'nodes',
+                'ecosystem_unknowns': 'ecosystem',
+                'roadmap_readiness': 'roadmap',
+                'file_concentration': 'full_output',
+                'domain_clarity': 'semantics',
+                'ideome_coherence': 'ideome',
+                'drift_score': 'api_drift',
+                'dead_code_pct': 'execution_flow',
+                'knot_score': 'knots',
+                'codebase_intelligence': 'purpose_intelligence',
+            }
+            signal_availability = {}
+            for sig_key, ledger_key in _SIGNAL_TO_LEDGER.items():
+                extracted = sig_key in self._signals
+                ledger_status = self._ledger.get_status(ledger_key)
+                signal_availability[sig_key] = {
+                    'extracted': extracted,
+                    'ledger_status': ledger_status,
+                }
+
+        result = {
             'headline': headline,
             'data_utility_grade': grade,
             'key_contradictions': key_contradictions,
@@ -1315,6 +1349,9 @@ class ChemistryLab:
                 'critical_nodes': n_crit,
             },
         }
+        if signal_availability is not None:
+            result['signal_availability'] = signal_availability
+        return result
 
     # --- Internal ----------------------------------------------------------
 

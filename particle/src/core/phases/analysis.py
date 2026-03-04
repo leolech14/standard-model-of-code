@@ -55,6 +55,8 @@ def _run_purpose_field(ctx: PipelineContext) -> None:
         timer.set_output(nodes=len(ctx.purpose_field.nodes), violations=len(ctx.purpose_field.violations))
     _log(f"   → {len(ctx.purpose_field.nodes)} purpose nodes", ctx.quiet)
     _log(f"   → {len(ctx.purpose_field.violations)} violations", ctx.quiet)
+    ctx.data_ledger.publish("purpose_field", "Stage 3: Purpose Field",
+        summary=f"{len(ctx.purpose_field.nodes)} nodes, {len(ctx.purpose_field.violations)} violations")
 
 
 def _run_organelle_purpose(ctx: PipelineContext) -> None:
@@ -85,6 +87,8 @@ def _run_organelle_purpose(ctx: PipelineContext) -> None:
             node['pi3_child_count'] = len(children)
             pi3_count += 1
     _log(f"   → {pi3_count} containers with π₃ purpose", ctx.quiet)
+    ctx.data_ledger.publish("organelle_purpose", "Stage 3.5: Organelle Purpose",
+        summary=f"{pi3_count} containers")
 
 
 def _run_system_purpose(ctx: PipelineContext) -> None:
@@ -117,6 +121,8 @@ def _run_system_purpose(ctx: PipelineContext) -> None:
 
     ctx.file_purposes = file_purposes
     _log(f"   → {len(file_purposes)} files with π₄ purpose", ctx.quiet)
+    ctx.data_ledger.publish("system_purpose", "Stage 3.6: System Purpose",
+        summary=f"{len(file_purposes)} files")
 
 
 def _run_coherence(ctx: PipelineContext) -> None:
@@ -151,6 +157,8 @@ def _run_coherence(ctx: PipelineContext) -> None:
     god_class_count = sum(1 for n in ctx.nodes if n.get('is_god_class', False))
     if god_class_count > 0:
         print(f"   ⚠️  {god_class_count} god classes detected")
+    ctx.data_ledger.publish("coherence", "Stage 3.7: Purpose Coherence",
+        summary=f"{coherence_enriched} enriched, {god_class_count} god classes")
 
 
 def _run_execution_flow(ctx: PipelineContext) -> None:
@@ -164,6 +172,9 @@ def _run_execution_flow(ctx: PipelineContext) -> None:
         timer.set_output(entry_points=len(ctx.exec_flow.entry_points), orphans=len(ctx.exec_flow.orphans))
     _log(f"   → {len(ctx.exec_flow.entry_points)} entry points", ctx.quiet)
     _log(f"   → {len(ctx.exec_flow.orphans)} orphans ({ctx.exec_flow.dead_code_percent}% dead code)", ctx.quiet)
+
+    ctx.data_ledger.publish("execution_flow", "Stage 4: Execution Flow",
+        summary=f"{len(ctx.exec_flow.entry_points)} entries, {len(ctx.exec_flow.orphans)} orphans")
 
     # Stage 4.5: Orphan Integration Analysis (REMOVED - Module Deleted)
     # orphan_integration was removed in remediation pass.
@@ -182,6 +193,8 @@ def _run_markov(ctx: PipelineContext) -> None:
     _log(f"   → {ctx.markov['total_transitions']} nodes with transitions", ctx.quiet)
     _log(f"   → {ctx.markov['edges_with_weight']} edges with markov_weight", ctx.quiet)
     _log(f"   → {ctx.markov['avg_fanout']:.1f} avg fanout", ctx.quiet)
+    ctx.data_ledger.publish("markov", "Stage 5: Markov Transition Matrix",
+        summary=f"{ctx.markov['total_transitions']} transitions")
 
 
 def _run_knots(ctx: PipelineContext) -> None:
@@ -196,6 +209,8 @@ def _run_knots(ctx: PipelineContext) -> None:
     _log(f"   → {ctx.knots['cycles_detected']} cycles detected", ctx.quiet)
     _log(f"   → {ctx.knots['bidirectional_edges']} bidirectional edges", ctx.quiet)
     _log(f"   → Knot score: {ctx.knots['knot_score']}/10", ctx.quiet)
+    ctx.data_ledger.publish("knots", "Stage 6: Knot/Cycle Detection",
+        summary=f"{ctx.knots['cycles_detected']} cycles, score={ctx.knots['knot_score']}")
 
 
 def _run_graph_analytics(ctx: PipelineContext) -> None:
@@ -413,6 +428,8 @@ def _run_graph_analytics(ctx: PipelineContext) -> None:
             ctx.graph_analytics = {}
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Advanced graph analytics skipped: {e}")
+    ctx.data_ledger.publish("graph_analytics", "Stage 6.5: Graph Analytics",
+        summary=f"{len(ctx.nodes)} nodes enriched")
 
 
 def _run_statistical(ctx: PipelineContext) -> None:
@@ -432,10 +449,13 @@ def _run_statistical(ctx: PipelineContext) -> None:
             _log(f"   → Avg cyclomatic: {ctx.statistical_metrics['complexity']['avg']}", ctx.quiet)
             _log(f"   → High complexity nodes: {ctx.statistical_metrics['complexity']['high_complexity_count']}", ctx.quiet)
             _log(f"   → Est. bugs: {ctx.statistical_metrics['halstead']['estimated_bugs']}", ctx.quiet)
+            ctx.data_ledger.publish("statistical_metrics", "Stage 6.6: Statistical Metrics",
+                summary=f"avg_cc={ctx.statistical_metrics['complexity']['avg']}")
         except Exception as e:
             ctx.statistical_metrics = {}
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Statistical metrics skipped: {e}")
+            ctx.data_ledger.publish("statistical_metrics", "Stage 6.6: Statistical Metrics", status="skipped", summary=str(e))
 
 
 def _run_semantic(ctx: PipelineContext) -> None:
@@ -606,9 +626,12 @@ def _run_semantic(ctx: PipelineContext) -> None:
             _log(f"   → {len(node_context)} nodes reachable from entry", ctx.quiet)
             _log(f"   → Roles: {role_counts['utility']} utility, {role_counts['orchestrator']} orchestrator, {role_counts['hub']} hub, {role_counts['leaf']} leaf", ctx.quiet)
             _log(f"   → Intent: {intent_stats['with_docstring']} with docstring, {intent_stats['with_commits']} with commits", ctx.quiet)
+            ctx.data_ledger.publish("semantic_analysis", "Stage 6.7: Semantic Purpose Analysis",
+                summary=f"{len(entry_points)} entries, {len(node_context)} reachable")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Semantic purpose analysis skipped: {e}")
+            ctx.data_ledger.publish("semantic_analysis", "Stage 6.7: Semantic Purpose Analysis", status="skipped", summary=str(e))
 
 
 def _run_codome(ctx: PipelineContext) -> None:
@@ -639,9 +662,12 @@ def _run_codome(ctx: PipelineContext) -> None:
                 ctx.edges.extend(ctx.codome_result['inferred_edges'])
             else:
                 print("   → No disconnected nodes to link")
+            ctx.data_ledger.publish("codome", "Stage 6.8: Codome Boundaries",
+                summary=f"{ctx.codome_result.get('total_boundaries', 0)} boundaries")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Codome boundary generation skipped: {e}")
+            ctx.data_ledger.publish("codome", "Stage 6.8: Codome Boundaries", status="skipped", summary=str(e))
 
 
 def _run_api_drift(ctx: PipelineContext) -> None:
@@ -694,7 +720,10 @@ def _run_api_drift(ctx: PipelineContext) -> None:
             if any(v > 0 for v in by_sev.values()):
                 parts = [f"{k}={v}" for k, v in by_sev.items() if v > 0]
                 _log(f"   → Severity: {', '.join(parts)}", ctx.quiet)
+            ctx.data_ledger.publish("api_drift", "Stage 6.9: API Drift Detection",
+                summary=f"{len(ctx.api_drift_report.drift_items)} items, score={ctx.api_drift_report.drift_score:.2%}")
 
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ API drift detection skipped: {e}")
+            ctx.data_ledger.publish("api_drift", "Stage 6.9: API Drift Detection", status="skipped", summary=str(e))

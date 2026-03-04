@@ -58,9 +58,12 @@ def _run_insights(ctx: PipelineContext) -> None:
                 _log("   → PDS baseline saved", ctx.quiet)
             except Exception as bl_err:
                 _log(f"   ⚠️ PDS baseline save skipped: {bl_err}", ctx.quiet)
+            ctx.data_ledger.publish("insights", "Stage 21: Insights Compilation",
+                summary=f"grade={compiled_dict.get('grade', '?')}, {finding_count} findings")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Insights compilation failed: {e}")
+            ctx.data_ledger.publish("insights", "Stage 21: Insights Compilation", status="failed", summary=str(e))
 
 
 def _run_output_gen(ctx: PipelineContext) -> None:
@@ -130,9 +133,11 @@ def _run_output_gen(ctx: PipelineContext) -> None:
                 _log(f"   → Visual: {ctx.viz_file}", ctx.quiet)
             else:
                 _log(f"   → Visual: SKIPPED (AI-First Mode)", ctx.quiet)
+            ctx.data_ledger.publish("output_gen", "Stage 22: Output Generation")
         except Exception as e:
             timer.set_status("FAIL", str(e))
             print(f"   ⚠️ Output generation failed: {e}")
+            ctx.data_ledger.publish("output_gen", "Stage 22: Output Generation", status="failed", summary=str(e))
 
 
 def _write_report(ctx: PipelineContext) -> None:
@@ -146,7 +151,8 @@ def _write_report(ctx: PipelineContext) -> None:
     # Report is also written in the except block below for crash resilience.
     # =========================================================================
     ctx.report_path = _write_pipeline_report(
-        ctx.perf_manager, ctx.output_dir, ctx.target, total_time, ctx.nodes, ctx.edges
+        ctx.perf_manager, ctx.output_dir, ctx.target, total_time, ctx.nodes, ctx.edges,
+        data_ledger=ctx.data_ledger,
     )
 
 
@@ -168,6 +174,7 @@ def _print_summary(ctx: PipelineContext) -> None:
     print(f"   Target: {ctx.target.name}")
     print(f"   Time:   {total_time:.1f}s | Memory: {peak_mb:,.0f} MB peak")
     print(f"   Graph:  {len(ctx.nodes):,} nodes, {len(ctx.edges):,} edges")
+    print(f"   {ctx.data_ledger.summary_line()}")
 
     # Compact stage timing table
     if ctx.perf_manager.stages:
