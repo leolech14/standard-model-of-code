@@ -1051,7 +1051,12 @@ def encode_all(
 
 
 def get_view_registry() -> Dict[str, Any]:
-    """Export view metadata for JS consumption. Grouped by domain."""
+    """Export view metadata for JS consumption.
+
+    Returns a dict of {name: entry} where each entry has metadata fields
+    (domain, question, reading, hue_source, metrics) plus optional ranking
+    fields (rank, score) that are None until rank_views() annotates them.
+    """
     registry = {}
     for name, view in PRESET_VIEWS.items():
         sig = view.signature
@@ -1063,6 +1068,8 @@ def get_view_registry() -> Dict[str, Any]:
             'hue_source': view.hue_source,
             'lightness_metric': view.lightness.metric if view.lightness else None,
             'chroma_metric': view.chroma.metric if view.chroma else None,
+            'rank': None,
+            'score': None,
         }
     return registry
 
@@ -1115,39 +1122,42 @@ def _score_view(nodes: List[Dict[str, Any]], view_name: str) -> float:
 
 
 def rank_views(
+    registry: Dict[str, Any],
     nodes: List[Dict[str, Any]],
     top_k: int = 4,
     min_domains: int = 3,
-) -> List[Dict[str, Any]]:
-    """Rank encoding views by informativeness for this dataset.
+) -> None:
+    """Rank encoding views by informativeness and annotate the registry in place.
 
-    Scores each view's encoded OKLCH values, then returns the top_k most
-    informative views plus 'default' at rank 0.
+    Scores each view's encoded OKLCH values, selects the top_k most informative
+    views (with domain diversity enforcement), then writes 'rank' and 'score'
+    fields onto the corresponding registry entries.
 
-    After scoring, enforces domain diversity: ensures at least min_domains
-    distinct domains appear in the top_k results.
+    After this call, registry entries have:
+        rank=0 for 'default' (always shown, not scored)
+        rank=1..top_k for the top data-driven views (descending score)
+        rank=None, score=None for all other views (not shown in dock)
 
     Args:
+        registry: View registry dict from get_view_registry() — mutated in place.
         nodes: List of node dicts with 'encoded_colors' already populated.
-        top_k: Number of data-driven views to return (default always included).
-        min_domains: Minimum distinct domains in result.
-
-    Returns:
-        List of dicts: [{'name', 'rank', 'score', 'domain'}, ...] with
-        default at rank 0 followed by top_k scored views in descending order.
+        top_k: Number of data-driven views to select.
+        min_domains: Minimum distinct domains in the top_k results.
     """
+    # Default always gets rank 0
+    if 'default' in registry:
+        registry['default']['rank'] = 0
+
     if not nodes:
-        return [{'name': 'default', 'rank': 0, 'score': None, 'domain': 'general'}]
+        return
 
     # Score all non-default views
     scored = []
-    for view_name, view_spec in PRESET_VIEWS.items():
+    for view_name, entry in registry.items():
         if view_name == 'default':
             continue
-        sig = view_spec.signature
-        domain = sig.domain if sig else 'general'
         score = _score_view(nodes, view_name)
-        scored.append({'name': view_name, 'score': score, 'domain': domain})
+        scored.append({'name': view_name, 'score': score, 'domain': entry['domain']})
 
     # Sort by score descending
     scored.sort(key=lambda x: x['score'], reverse=True)
@@ -1159,15 +1169,12 @@ def rank_views(
     if len(top) >= 2 and min_domains > 1:
         top_domains = set(v['domain'] for v in top)
         if len(top_domains) < min_domains:
-            # Find domains missing from top
             remaining = scored[top_k:]
             for candidate in remaining:
                 if candidate['domain'] not in top_domains:
-                    # Swap with the lowest-scored view from a duplicate domain
                     domain_counts = {}
                     for v in top:
                         domain_counts[v['domain']] = domain_counts.get(v['domain'], 0) + 1
-                    # Find a duplicate domain (count > 1), pick lowest-scored in it
                     for i in range(len(top) - 1, -1, -1):
                         if domain_counts.get(top[i]['domain'], 0) > 1:
                             domain_counts[top[i]['domain']] -= 1
@@ -1176,17 +1183,10 @@ def rank_views(
                             break
                     if len(top_domains) >= min_domains:
                         break
-            # Re-sort after swaps
             top.sort(key=lambda x: x['score'], reverse=True)
 
-    # Build result: default at rank 0, then scored views
-    result = [{'name': 'default', 'rank': 0, 'score': None, 'domain': 'general'}]
+    # Annotate registry entries with rank and score
     for i, entry in enumerate(top):
-        result.append({
-            'name': entry['name'],
-            'rank': i + 1,
-            'score': round(entry['score'], 4),
-            'domain': entry['domain'],
-        })
-
-    return result
+        name = entry['name']
+        registry[name]['rank'] = i + 1
+        registry[name]['score'] = round(entry['score'], 4)

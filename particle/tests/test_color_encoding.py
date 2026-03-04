@@ -1109,13 +1109,18 @@ class TestGetViewRegistry:
         assert domains == expected
 
     def test_registry_entries_have_required_fields(self):
-        """Every registry entry should have name, domain, hue_source."""
+        """Every registry entry should have name, domain, hue_source, rank, score."""
         registry = get_view_registry()
         for name, entry in registry.items():
             assert 'name' in entry
             assert 'domain' in entry
             assert 'hue_source' in entry
+            assert 'rank' in entry
+            assert 'score' in entry
             assert entry['name'] == name
+            # Before rank_views() is called, rank and score are None
+            assert entry['rank'] is None
+            assert entry['score'] is None
 
 
 
@@ -1222,7 +1227,6 @@ class TestRankViews:
         """
         if not view_colors:
             return []
-        # All views should have the same number of color entries
         n = len(next(iter(view_colors.values())))
         nodes = []
         for i in range(n):
@@ -1232,20 +1236,25 @@ class TestRankViews:
             nodes.append({'id': f'n{i}', 'encoded_colors': ec})
         return nodes
 
-    def test_default_always_first(self):
+    def _get_ranked(self, registry):
+        """Extract ranked entries sorted by rank."""
+        return sorted(
+            [e for e in registry.values() if e['rank'] is not None],
+            key=lambda e: e['rank'],
+        )
+
+    def test_default_always_rank_zero(self):
         """Default view should always be rank 0 regardless of data."""
-        # Create nodes with some encoded colors for architecture view
         nodes = self._make_encoded_nodes({
             'architecture': [(0.5, 0.10, 200.0)] * 10,
         })
-        result = rank_views(nodes, top_k=4, min_domains=3)
-        assert result[0]['name'] == 'default'
-        assert result[0]['rank'] == 0
-        assert result[0]['score'] is None
+        registry = get_view_registry()
+        rank_views(registry, nodes, top_k=4, min_domains=3)
+        assert registry['default']['rank'] == 0
+        assert registry['default']['score'] is None
 
-    def test_returns_top_k_plus_default(self):
-        """Should return exactly top_k + 1 results (default + top_k data views)."""
-        # Create nodes with encoded colors for several views
+    def test_ranks_top_k_plus_default(self):
+        """Should rank exactly top_k + 1 entries (default + top_k data views)."""
         import random
         random.seed(42)
         view_names = [n for n in PRESET_VIEWS if n != 'default']
@@ -1257,32 +1266,32 @@ class TestRankViews:
                 for _ in range(20)
             ]
         nodes = self._make_encoded_nodes(view_colors)
-        result = rank_views(nodes, top_k=4, min_domains=3)
-        assert len(result) == 5  # default + 4
+        registry = get_view_registry()
+        rank_views(registry, nodes, top_k=4, min_domains=3)
+        ranked = self._get_ranked(registry)
+        assert len(ranked) == 5  # default + 4
 
     def test_high_variance_ranks_higher(self):
         """A view with spread L values should beat a flat one."""
-        # "spread_view" has L values from 0.35 to 0.85 — high variance
         spread_colors = [(0.35 + i * 0.05, 0.10, (i * 30) % 360) for i in range(11)]
-        # "flat_view" has all L=0.60 (neutral) — zero variance
         flat_colors = [(NEUTRAL_L, NEUTRAL_C, 200.0)] * 11
 
         nodes = self._make_encoded_nodes({
             'architecture': spread_colors,
             'health': flat_colors,
         })
-        result = rank_views(nodes, top_k=4, min_domains=1)
+        registry = get_view_registry()
+        rank_views(registry, nodes, top_k=4, min_domains=1)
 
-        # Find scores
-        scores = {r['name']: r['score'] for r in result if r['score'] is not None}
-        assert scores.get('architecture', 0) > scores.get('health', 0), (
-            f"Spread view ({scores.get('architecture')}) should rank higher "
-            f"than flat view ({scores.get('health')})"
+        arch_score = registry['architecture']['score'] or 0
+        health_score = registry['health']['score'] or 0
+        assert arch_score > health_score, (
+            f"Spread view ({arch_score}) should rank higher "
+            f"than flat view ({health_score})"
         )
 
     def test_domain_diversity_enforced(self):
-        """At least min_domains distinct domains should appear in results."""
-        # Create 4 risk-domain views with high scores, 1 topology view with lower score
+        """At least min_domains distinct domains should appear in ranked views."""
         high_colors = [(0.35 + i * 0.05, 0.10, (i * 40) % 360) for i in range(10)]
         low_colors = [(0.55 + i * 0.02, 0.08, (i * 20) % 360) for i in range(10)]
 
@@ -1294,21 +1303,26 @@ class TestRankViews:
             'topology': low_colors,
             'influence': low_colors,
         })
-        result = rank_views(nodes, top_k=4, min_domains=3)
+        registry = get_view_registry()
+        rank_views(registry, nodes, top_k=4, min_domains=3)
+        ranked = self._get_ranked(registry)
 
-        domains = set(r['domain'] for r in result[1:])  # skip default
-        assert len(domains) >= 3, (
-            f"Expected at least 3 domains, got {len(domains)}: {domains}"
+        # Skip default (rank 0), check data views
+        data_domains = set(e['domain'] for e in ranked if e['rank'] > 0)
+        assert len(data_domains) >= 3, (
+            f"Expected at least 3 domains, got {len(data_domains)}: {data_domains}"
         )
 
     def test_empty_nodes(self):
-        """Empty nodes list should return just default."""
-        result = rank_views([], top_k=4, min_domains=3)
-        assert len(result) == 1
-        assert result[0]['name'] == 'default'
+        """Empty nodes list should only rank default."""
+        registry = get_view_registry()
+        rank_views(registry, [], top_k=4, min_domains=3)
+        ranked = self._get_ranked(registry)
+        assert len(ranked) == 1
+        assert ranked[0]['name'] == 'default'
 
     def test_scores_descending(self):
-        """Data views (ranks 1-4) should be ordered by decreasing score."""
+        """Ranked data views should be ordered by decreasing score."""
         import random
         random.seed(123)
         view_names = [n for n in PRESET_VIEWS if n != 'default']
@@ -1320,10 +1334,20 @@ class TestRankViews:
                 for _ in range(30)
             ]
         nodes = self._make_encoded_nodes(view_colors)
-        result = rank_views(nodes, top_k=4, min_domains=3)
+        registry = get_view_registry()
+        rank_views(registry, nodes, top_k=4, min_domains=3)
+        ranked = self._get_ranked(registry)
 
-        data_views = [r for r in result if r['score'] is not None]
-        scores = [r['score'] for r in data_views]
-        assert scores == sorted(scores, reverse=True), (
-            f"Scores not in descending order: {scores}"
+        data_scores = [e['score'] for e in ranked if e['score'] is not None]
+        assert data_scores == sorted(data_scores, reverse=True), (
+            f"Scores not in descending order: {data_scores}"
         )
+
+    def test_unranked_views_remain_none(self):
+        """Views not in top_k should keep rank=None, score=None."""
+        registry = get_view_registry()
+        rank_views(registry, [], top_k=4, min_domains=3)
+        unranked = [e for e in registry.values() if e['rank'] is None]
+        assert len(unranked) == 29  # all except default
+        for e in unranked:
+            assert e['score'] is None

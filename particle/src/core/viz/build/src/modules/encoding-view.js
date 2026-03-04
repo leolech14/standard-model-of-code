@@ -3,19 +3,18 @@
  * ENCODING-VIEW MODULE - Auto-ranked top 5 OKLCH view switching
  * ═══════════════════════════════════════════════════════════════════════════
  *
- * Python ranks all 30 views by informativeness for this dataset and sends
- * the top 5 (default + 4 data-driven) as `ranked_views` in the payload.
- * This module renders them as a flat row of dock buttons:
+ * Reads view_registry from the payload. Each entry has rank/score fields
+ * set by Python's rank_views(). Entries with rank != null are shown as
+ * dock buttons (default at rank 0, top 4 data-driven at ranks 1-4):
  *
  *   [Default] [Topo] [Risk] [Layers] [Cmplx]
  *   "Where are the highest risk areas?"
  *
- * Colors are pre-computed in Python as node.encoded_colors = { viewName: [L,C,H], ... }.
- * When a non-default view is active, getNodeColorByMode() in node-helpers.js
- * picks up the encoded color instead of computing from the JS color mode.
+ * Single data source: view_registry carries both metadata (question, reading,
+ * domain) and ranking (rank, score). No separate ranked_views field needed.
  *
  * @module ENCODING_VIEW
- * @version 3.0.0
+ * @version 3.1.0
  */
 
 // Short display labels for view buttons
@@ -43,11 +42,11 @@ function init() {
     const dock = document.getElementById('dock-encoding-view');
     if (!dock) return;
 
-    // Load registry for signature lookups
+    // Load registry — single source for metadata + ranking
     _registry = _loadRegistry();
 
-    // Load ranked views from payload
-    const ranked = _loadRankedViews();
+    // Extract ranked views from registry
+    const ranked = _getRankedViews(_registry);
 
     // Build UI
     _buildUI(dock, ranked);
@@ -64,30 +63,22 @@ function _loadRegistry() {
     }
     // Fallback for old payloads without view_registry
     return {
-        default: { name: 'default', domain: 'general', question: '', reading: 'Standard coloring (uses Color Mode selector)' },
-        architecture: { name: 'architecture', domain: 'general', question: '', reading: 'H=tier, L=coherence score, C=purity score' },
-        health: { name: 'health', domain: 'general', question: '', reading: 'H=tier, L=complexity (inverted), C=coherence' },
-        topology: { name: 'topology', domain: 'general', question: '', reading: 'H=topology role, L=pagerank, C=betweenness' },
-        files: { name: 'files', domain: 'general', question: '', reading: 'H=file (golden angle), L=coherence, C=purity' },
+        default: { name: 'default', domain: 'general', question: '', reading: 'Standard coloring (uses Color Mode selector)', rank: 0, score: null },
+        architecture: { name: 'architecture', domain: 'general', question: '', reading: 'H=tier, L=coherence score, C=purity score', rank: 1, score: null },
+        health: { name: 'health', domain: 'general', question: '', reading: 'H=tier, L=complexity (inverted), C=coherence', rank: 2, score: null },
+        topology: { name: 'topology', domain: 'general', question: '', reading: 'H=topology role, L=pagerank, C=betweenness', rank: 3, score: null },
+        files: { name: 'files', domain: 'general', question: '', reading: 'H=file (golden angle), L=coherence, C=purity', rank: 4, score: null },
     };
 }
 
 /**
- * Load ranked views from payload, with fallback for old payloads.
- * @returns {Array} [{ name, rank, score, domain }, ...]
+ * Extract ranked views from registry, sorted by rank.
+ * @returns {Array} entries with rank != null, sorted ascending
  */
-function _loadRankedViews() {
-    if (window.COLLIDER_DATA && window.COLLIDER_DATA.ranked_views) {
-        return window.COLLIDER_DATA.ranked_views;
-    }
-    // Fallback for old payloads
-    return [
-        { name: 'default', rank: 0 },
-        { name: 'architecture', rank: 1 },
-        { name: 'health', rank: 2 },
-        { name: 'topology', rank: 3 },
-        { name: 'files', rank: 4 },
-    ];
+function _getRankedViews(registry) {
+    return Object.values(registry)
+        .filter(e => e.rank != null)
+        .sort((a, b) => a.rank - b.rank);
 }
 
 /**
@@ -102,22 +93,21 @@ function _buildUI(dock, ranked) {
     dock.appendChild(btnContainer);
 
     // Render buttons from ranked views
-    for (const rv of ranked) {
+    for (const entry of ranked) {
         const btn = document.createElement('button');
         btn.className = 'dock-btn';
-        if (rv.name === window.ENCODING_VIEW) btn.classList.add('active');
-        btn.dataset.view = rv.name;
-        btn.textContent = VIEW_LABELS[rv.name] || rv.name;
+        if (entry.name === window.ENCODING_VIEW) btn.classList.add('active');
+        btn.dataset.view = entry.name;
+        btn.textContent = VIEW_LABELS[entry.name] || entry.name;
 
-        // Tooltip: question + score
-        const entry = _registry[rv.name];
-        const question = entry ? (entry.question || entry.reading || rv.name) : rv.name;
-        const scoreText = rv.score != null ? ` (score: ${rv.score})` : '';
+        // Tooltip: question + score (all from same entry)
+        const question = entry.question || entry.reading || entry.name;
+        const scoreText = entry.score != null ? ` (score: ${entry.score})` : '';
         btn.title = question + scoreText;
 
         btn.addEventListener('click', () => {
-            if (rv.name === window.ENCODING_VIEW) return;
-            setView(rv.name);
+            if (entry.name === window.ENCODING_VIEW) return;
+            setView(entry.name);
         });
         btnContainer.appendChild(btn);
     }
@@ -128,7 +118,6 @@ function _buildUI(dock, ranked) {
         sigPanel = document.createElement('div');
         sigPanel.id = 'encoding-signature';
         sigPanel.className = 'encoding-signature';
-        // Insert after the bottom-dock
         const bottomDock = dock.closest('.bottom-dock');
         if (bottomDock && bottomDock.parentElement) {
             bottomDock.parentElement.insertBefore(sigPanel, bottomDock.nextSibling);

@@ -387,11 +387,8 @@ def generate_webgl_html(json_source: Any, output_path: str):
         # Theme configuration for runtime switching
         "theme_config": resolver.get_js_theme_config(),
 
-        # View registry for dynamic encoding view UI
+        # View registry for dynamic encoding view UI (includes rank/score annotations)
         "view_registry": data.get("view_registry", {}),
-
-        # Ranked views — top 5 by informativeness (auto-selected by Python)
-        "ranked_views": data.get("ranked_views", []),
     }
 
     # NODE PROCESSING
