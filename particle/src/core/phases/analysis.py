@@ -41,6 +41,7 @@ def run_analysis(ctx: PipelineContext) -> None:
     _run_statistical(ctx)        # Stage 6.6
     _run_semantic(ctx)           # Stage 6.7
     _run_codome(ctx)             # Stage 6.8
+    _run_api_drift(ctx)          # Stage 6.9
 
 
 def _run_purpose_field(ctx: PipelineContext) -> None:
@@ -641,3 +642,59 @@ def _run_codome(ctx: PipelineContext) -> None:
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Codome boundary generation skipped: {e}")
+
+
+def _run_api_drift(ctx: PipelineContext) -> None:
+    """Stage 6.9: API Backend/Frontend Drift Detection."""
+    from observability import StageTimer
+
+    print("\n🔗 Stage 6.9: API Drift Detection...")
+    with StageTimer(ctx.perf_manager, "Stage 6.9: API Drift Detection") as timer:
+        try:
+            from src.core.api_route_extractor import extract_api_routes
+            from src.core.frontend_api_detector import detect_frontend_api_calls
+            from src.core.api_drift_analyzer import analyze_api_drift, generate_api_edges
+
+            # Step 1: Extract backend API routes
+            ctx.endpoint_catalog = extract_api_routes(
+                ctx.nodes, ctx.edges, source_root=str(ctx.target),
+            )
+            _log(f"   → {ctx.endpoint_catalog.total_routes} backend routes "
+                 f"({ctx.endpoint_catalog.framework_detected})", ctx.quiet)
+
+            # Step 2: Detect frontend API calls
+            ctx.consumer_report = detect_frontend_api_calls(ctx.nodes, ctx.edges)
+            _log(f"   → {ctx.consumer_report.total_calls} frontend API calls "
+                 f"({ctx.consumer_report.unique_endpoints_called} unique)", ctx.quiet)
+
+            # Step 3: Compare and detect drift
+            ctx.api_drift_report = analyze_api_drift(
+                ctx.endpoint_catalog, ctx.consumer_report,
+            )
+
+            # Step 4: Inject api_call/api_drift edges into the graph
+            drift_edges = generate_api_edges(ctx.api_drift_report)
+            if drift_edges:
+                ctx.edges.extend(drift_edges)
+
+            summary = ctx.api_drift_report.summary()
+            timer.set_output(
+                backend_routes=ctx.endpoint_catalog.total_routes,
+                frontend_calls=ctx.consumer_report.total_calls,
+                matched=ctx.api_drift_report.matched_endpoints,
+                drift_items=len(ctx.api_drift_report.drift_items),
+                drift_score=round(ctx.api_drift_report.drift_score, 4),
+            )
+            _log(f"   → Matched: {ctx.api_drift_report.matched_endpoints}, "
+                 f"Drift items: {len(ctx.api_drift_report.drift_items)}, "
+                 f"Score: {ctx.api_drift_report.drift_score:.2%}", ctx.quiet)
+
+            # Log drift items by severity
+            by_sev = summary.get('by_severity', {})
+            if any(v > 0 for v in by_sev.values()):
+                parts = [f"{k}={v}" for k, v in by_sev.items() if v > 0]
+                _log(f"   → Severity: {', '.join(parts)}", ctx.quiet)
+
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ API drift detection skipped: {e}")

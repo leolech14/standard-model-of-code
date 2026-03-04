@@ -26,7 +26,7 @@ import yaml
 class CompiledInsight:
     """A single interpreted finding with context and actionability."""
     id: str
-    category: str          # topology, constraints, purpose, dead_code, entanglement, rpbl, performance, data_flow, execution, incoherence, purpose_decomposition, gap_detection, temporal, contextome, ideome
+    category: str          # topology, constraints, purpose, dead_code, entanglement, rpbl, performance, data_flow, execution, incoherence, purpose_decomposition, gap_detection, temporal, contextome, ideome, api_drift
     severity: str          # critical, high, medium, low, info
     title: str
     description: str
@@ -258,6 +258,9 @@ class InsightsCompiler:
         self._interpret_classification_coverage()
         self._interpret_edge_diversity()
         self._interpret_codome_boundary()
+
+        # --- API Drift Detection ---
+        self._interpret_api_drift()
 
         # --- Data Chemistry (cross-signal correlation) ---
         self._interpret_chemistry()
@@ -3278,6 +3281,76 @@ class InsightsCompiler:
             effort='medium' if boundary_ratio > 0.3 else 'low',
             drill_down={'key': 'codome_boundaries'},
         )
+
+    def _interpret_api_drift(self):
+        """Interpret API backend/frontend drift findings."""
+        drift = self.data.get('api_drift', {})
+        if not drift:
+            return
+
+        drift_score = drift.get('drift_score', 0)
+        items = drift.get('drift_items', [])
+        matched = drift.get('matched_endpoints', 0)
+        total_be = drift.get('total_backend_routes', 0)
+        total_fe = drift.get('total_frontend_calls', 0)
+
+        # Skip if there's no API surface at all
+        if total_be == 0 and total_fe == 0:
+            return
+
+        # Convert drift items to insights using the analyzer's helper
+        try:
+            from src.core.api_drift_analyzer import generate_api_insights, APIDriftReport, DriftItem
+            # Reconstruct a minimal report for the helper
+            report = APIDriftReport(
+                drift_items=[DriftItem(**item) if isinstance(item, dict) else item for item in items],
+                matched_endpoints=matched,
+                total_backend_routes=total_be,
+                total_frontend_calls=total_fe,
+                drift_score=drift_score,
+            )
+            for insight in generate_api_insights(report):
+                self._add(
+                    category='api_drift',
+                    severity=insight['severity'],
+                    title=insight['title'],
+                    detail=insight['description'],
+                    recommendation=insight.get('recommendation', ''),
+                )
+        except Exception:
+            # Fallback: generate insights directly from drift items
+            for item in items:
+                if isinstance(item, dict):
+                    sev = item.get('severity', 'medium')
+                    desc = item.get('description', '')
+                    dtype = item.get('drift_type', 'unknown')
+                else:
+                    sev = getattr(item, 'severity', 'medium')
+                    desc = getattr(item, 'description', '')
+                    dtype = getattr(item, 'drift_type', 'unknown')
+                self._add(
+                    category='api_drift',
+                    severity=sev,
+                    title=f"API drift: {dtype.replace('_', ' ')}",
+                    detail=desc,
+                )
+
+        # Overall drift health insight
+        if drift_score == 0 and matched > 0:
+            self._add(
+                category='api_drift',
+                severity='info',
+                title='API contracts fully aligned',
+                detail=f'{matched} endpoints matched between backend and frontend with zero drift.',
+            )
+        elif drift_score > 0.5:
+            self._add(
+                category='api_drift',
+                severity='critical',
+                title='Severe API contract drift',
+                detail=f'Drift score {drift_score:.0%} — more than half the API surface is misaligned.',
+                recommendation='Audit all frontend API calls against the backend route definitions.',
+            )
 
     def _interpret_chemistry(self):
         """Interpret cross-signal chemistry: syndromes, contradictions, modulations."""

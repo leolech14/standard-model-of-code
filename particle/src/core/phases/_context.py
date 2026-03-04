@@ -77,6 +77,11 @@ class PipelineContext:
     file_purposes: Optional[Dict] = None
     orphan_analysis: Optional[List] = field(default_factory=list)
 
+    # ── API Drift Detection ────────────────────────────────────────────
+    endpoint_catalog: Any = None       # EndpointCatalog from api_route_extractor
+    consumer_report: Any = None        # APIConsumerReport from frontend_api_detector
+    api_drift_report: Any = None       # APIDriftReport from api_drift_analyzer
+
     # ── Logistics (Phase 28) ─────────────────────────────────────────
     refinery_signature: str = ""
     merkle_root: str = "UNSET"

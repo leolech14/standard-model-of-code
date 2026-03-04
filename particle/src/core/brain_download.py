@@ -359,7 +359,56 @@ def generate_brain_download(full_analysis: Dict) -> str:
             lines.append("")
 
     # =========================================================================
-    # SECTION 11: QUICK REFERENCE
+    # SECTION 11: API DRIFT (Backend/Frontend Contract Health)
+    # =========================================================================
+    api_drift = full_analysis.get('api_drift', {})
+    if api_drift and api_drift.get('total_backend_routes', 0) + api_drift.get('total_frontend_calls', 0) > 0:
+        lines.append("## API CONTRACT HEALTH")
+        lines.append("")
+
+        drift_score = api_drift.get('drift_score', 0)
+        matched = api_drift.get('matched_endpoints', 0)
+        total_be = api_drift.get('total_backend_routes', 0)
+        total_fe = api_drift.get('total_frontend_calls', 0)
+        coverage = api_drift.get('coverage', 0)
+
+        # Health indicator
+        if drift_score == 0:
+            health = "ALIGNED"
+        elif drift_score < 0.2:
+            health = "MINOR DRIFT"
+        elif drift_score < 0.5:
+            health = "SIGNIFICANT DRIFT"
+        else:
+            health = "CRITICAL DRIFT"
+
+        lines.append(f"**Status**: {health} (drift score: {drift_score:.1%})")
+        lines.append(f"- Backend routes: {total_be}")
+        lines.append(f"- Frontend API calls: {total_fe}")
+        lines.append(f"- Matched: {matched}")
+        lines.append(f"- Coverage: {coverage:.0%}")
+
+        # Catalog info
+        catalog = api_drift.get('endpoint_catalog', {})
+        if catalog:
+            lines.append(f"- Framework: {catalog.get('framework_detected', 'unknown')}")
+
+        # Drift items summary
+        drift_items = api_drift.get('drift_items', [])
+        if drift_items:
+            lines.append("")
+            lines.append("**Findings:**")
+            for item in drift_items[:10]:
+                sev = item.get('severity', '?').upper()
+                dtype = item.get('drift_type', '?')
+                desc = item.get('description', '')
+                lines.append(f"- [{sev}] {dtype}: {desc[:120]}")
+            if len(drift_items) > 10:
+                lines.append(f"- ... and {len(drift_items) - 10} more")
+        lines.append("")
+
+    # =========================================================================
+    # SECTION 12: QUICK REFERENCE
     # =========================================================================
     lines.append("## QUICK REFERENCE")
     lines.append("")

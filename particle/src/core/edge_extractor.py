@@ -1746,7 +1746,7 @@ def get_proof_edges(edges: List[Dict]) -> List[Dict]:
     """
     return [
         edge for edge in edges
-        if edge.get('edge_type') == 'calls'
+        if edge.get('edge_type') in ('calls', 'api_call')
         and edge.get('resolution') == 'resolved_internal'
     ]
 

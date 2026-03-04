@@ -515,6 +515,8 @@ def _assemble_output(ctx) -> None:
             'total_boundaries': codome_result.get('total_boundaries', 0),
             'total_inferred_edges': codome_result.get('total_inferred_edges', 0)
         },
+        # API Drift Detection
+        'api_drift': _assemble_api_drift(ctx),
     }
 
     # Compute top hubs
@@ -559,6 +561,35 @@ def _assemble_output(ctx) -> None:
 
     _log(f"   → {len(files_index)} files indexed", ctx.quiet)
     _log(f"   → {sum(f['atom_count'] for f in file_boundaries)} atoms mapped to files", ctx.quiet)
+
+
+def _assemble_api_drift(ctx) -> dict:
+    """Serialize API drift results for the output dict."""
+    drift = ctx.api_drift_report
+    if drift is None:
+        return {}
+    try:
+        result = drift.to_dict()
+        result['summary'] = drift.summary()
+        # Include endpoint catalog stats
+        cat = ctx.endpoint_catalog
+        if cat:
+            result['endpoint_catalog'] = {
+                'framework_detected': cat.framework_detected,
+                'total_routes': cat.total_routes,
+                'by_method': cat.by_method,
+            }
+        # Include consumer report stats
+        rep = ctx.consumer_report
+        if rep:
+            result['consumer_report'] = {
+                'total_calls': rep.total_calls,
+                'unique_endpoints_called': rep.unique_endpoints_called,
+                'by_method': rep.by_method,
+            }
+        return result
+    except Exception:
+        return {}
 
 
 def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[str, Any] = None, *, _guard: _PipelineCrashGuard = None) -> Dict:
