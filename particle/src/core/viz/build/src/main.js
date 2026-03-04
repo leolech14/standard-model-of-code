@@ -81,6 +81,7 @@ import './modules/file-viz.js';
 import './modules/tooltips.js';
 import './modules/theme.js';
 import './modules/holarchy.js';
+import './modules/encoding-view.js';
 
 // === PHASE 13: UPB System ===
 import './modules/upb/scales.js';

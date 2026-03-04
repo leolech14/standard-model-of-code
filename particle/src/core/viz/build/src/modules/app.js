@@ -101,6 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof HOLARCHY !== 'undefined' && HOLARCHY.createTabUI) {
         HOLARCHY.createTabUI();
     }
+
+    // Initialize Encoding View selector (OKLCH 3-channel scientific views)
+    if (typeof ENCODING_VIEW_MODULE !== 'undefined' && ENCODING_VIEW_MODULE.init) {
+        ENCODING_VIEW_MODULE.init();
+    }
 });
 let DEFAULT_LINK_DISTANCE = null;
 

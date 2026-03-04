@@ -465,7 +465,9 @@ def generate_webgl_html(json_source: Any, output_path: str):
             "depth": n.get('depth') or n.get('call_depth', 0),
             # Evolution metrics
             "churn": n.get('churn', 0),
-            "age": n.get('age', 0)
+            "age": n.get('age', 0),
+            # Pre-computed OKLCH view encodings (architecture, health, topology, files)
+            "encoded_colors": n.get('encoded_colors', {})
         })
         node_set.add(nid)
 
