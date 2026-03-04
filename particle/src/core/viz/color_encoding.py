@@ -41,6 +41,14 @@ class ChannelMapping:
 
 
 @dataclass(frozen=True)
+class SemanticSignature:
+    """What question does this view answer? Human-readable metadata."""
+    domain: str                             # 'architecture' | 'health' | 'topology' | etc.
+    question: str                           # e.g. "Where are the high-complexity, low-coherence nodes?"
+    reading: str                            # e.g. "Dark + gray = complex, incoherent code"
+
+
+@dataclass(frozen=True)
 class ViewSpec:
     """Complete encoding specification — which data maps to which channels."""
     name: str
@@ -48,6 +56,7 @@ class ViewSpec:
     lightness: Optional[ChannelMapping] = None
     chroma: Optional[ChannelMapping] = None
     edge_mapping: Optional[ChannelMapping] = None
+    signature: Optional[SemanticSignature] = None
 
 
 @dataclass
@@ -93,6 +102,11 @@ VIEW_ARCHITECTURE = ViewSpec(
         channel='chroma',
         output_range=(0.02, 0.20),
     ),
+    edge_mapping=ChannelMapping(
+        metric='confidence',
+        channel='hue',
+        output_range=(30.0, 145.0),  # warm (low confidence) → green (high)
+    ),
 )
 
 VIEW_HEALTH = ViewSpec(
@@ -103,11 +117,18 @@ VIEW_HEALTH = ViewSpec(
         channel='lightness',
         output_range=(0.35, 0.85),
         invert=True,  # high complexity → low lightness (dark = bad)
+        normalize='per_group',
+        group_by='file_path',  # complexity relative to file peers, not global
     ),
     chroma=ChannelMapping(
         metric='coherence_score',
         channel='chroma',
         output_range=(0.02, 0.20),
+    ),
+    edge_mapping=ChannelMapping(
+        metric='confidence',
+        channel='hue',
+        output_range=(30.0, 145.0),  # warm (low confidence) → green (high)
     ),
 )
 
@@ -141,12 +162,408 @@ VIEW_FILES = ViewSpec(
     ),
 )
 
+# =============================================================================
+# NEW VIEWS — Architecture domain
+# =============================================================================
+
+VIEW_LAYERS = ViewSpec(
+    name='layers',
+    hue_source='ring',
+    lightness=ChannelMapping(metric='coherence_score', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='D6_pure_score', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='architecture',
+        question='Which architectural layers have the most coherent code?',
+        reading='Bright + vivid = coherent, pure code',
+    ),
+)
+
+VIEW_BOUNDARIES = ViewSpec(
+    name='boundaries',
+    hue_source='boundary',
+    lightness=ChannelMapping(metric='coherence_score', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='D6_pure_score', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='architecture',
+        question='Are boundary components well-defined?',
+        reading='Bright + vivid = clean boundary; dark + gray = leaky abstraction',
+    ),
+)
+
+VIEW_SCALE = ViewSpec(
+    name='scale',
+    hue_source='level',
+    lightness=ChannelMapping(metric='loc', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='out_degree', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='architecture',
+        question='Where does code concentrate at each scale level?',
+        reading='Bright = large files; vivid = many outgoing dependencies',
+    ),
+)
+
+# =============================================================================
+# NEW VIEWS — Health domain
+# =============================================================================
+
+VIEW_COMPLEXITY = ViewSpec(
+    name='complexity',
+    hue_source='tier',
+    lightness=ChannelMapping(
+        metric='cyclomatic_complexity', channel='lightness',
+        output_range=(0.35, 0.85), invert=True,
+    ),
+    chroma=ChannelMapping(metric='loc', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='health',
+        question='Where are the large, complex components?',
+        reading='Dark = high complexity; vivid = large codebase',
+    ),
+)
+
+VIEW_QUALITY = ViewSpec(
+    name='quality',
+    hue_source='tier',
+    lightness=ChannelMapping(metric='q_total', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='coherence_score', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='health',
+        question='Which components have the best overall quality?',
+        reading='Bright + vivid = high quality + coherent',
+    ),
+)
+
+VIEW_CONVERGENCE = ViewSpec(
+    name='convergence',
+    hue_source='convergence_severity',
+    lightness=ChannelMapping(metric='convergence_count', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(
+        metric='cyclomatic_complexity', channel='chroma',
+        output_range=(0.02, 0.20), invert=True,
+    ),
+    signature=SemanticSignature(
+        domain='health',
+        question='Where do multiple problems converge?',
+        reading='Red-orange hue = critical; bright = many signals; vivid = complex',
+    ),
+)
+
+# =============================================================================
+# NEW VIEWS — Topology domain
+# =============================================================================
+
+VIEW_INFLUENCE = ViewSpec(
+    name='influence',
+    hue_source='topology_role',
+    lightness=ChannelMapping(metric='in_degree', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='out_degree', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='topology',
+        question='Which nodes are most connected?',
+        reading='Bright = many dependents; vivid = many dependencies',
+    ),
+)
+
+VIEW_COUPLING = ViewSpec(
+    name='coupling',
+    hue_source='tier',
+    lightness=ChannelMapping(metric='in_degree', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='out_degree', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='topology',
+        question='How tightly coupled are components by tier?',
+        reading='Bright = high afferent coupling; vivid = high efferent coupling',
+    ),
+)
+
+VIEW_CENTRALITY = ViewSpec(
+    name='centrality',
+    hue_source='topology_role',
+    lightness=ChannelMapping(metric='betweenness_centrality', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='pagerank', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='topology',
+        question='Which nodes control information flow?',
+        reading='Bright = high betweenness; vivid = high PageRank',
+    ),
+)
+
+# =============================================================================
+# NEW VIEWS — Files domain
+# =============================================================================
+
+VIEW_FILE_SIZE = ViewSpec(
+    name='file_size',
+    hue_source='file',
+    lightness=ChannelMapping(metric='loc', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(
+        metric='cyclomatic_complexity', channel='chroma', output_range=(0.02, 0.20),
+    ),
+    signature=SemanticSignature(
+        domain='files',
+        question='Which files are biggest and most complex?',
+        reading='Bright = large file; vivid = high complexity',
+    ),
+)
+
+VIEW_FILE_QUALITY = ViewSpec(
+    name='file_quality',
+    hue_source='file',
+    lightness=ChannelMapping(metric='q_total', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='coherence_score', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='files',
+        question='Which files have the healthiest code?',
+        reading='Bright + vivid = high quality + coherent file',
+    ),
+)
+
+# =============================================================================
+# NEW VIEWS — Behavior domain
+# =============================================================================
+
+VIEW_BEHAVIOR = ViewSpec(
+    name='behavior',
+    hue_source='behavior',
+    lightness=ChannelMapping(metric='coherence_score', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='D6_pure_score', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='behavior',
+        question='How do behavioral types compare in quality?',
+        reading='Bright + vivid = coherent, pure behavior',
+    ),
+)
+
+VIEW_INTENT = ViewSpec(
+    name='intent',
+    hue_source='atom_family',
+    lightness=ChannelMapping(metric='coherence_score', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(
+        metric='cyclomatic_complexity', channel='chroma',
+        output_range=(0.02, 0.20), invert=True,
+    ),
+    signature=SemanticSignature(
+        domain='behavior',
+        question='Which atom families are cleanest?',
+        reading='Bright = coherent; vivid = low complexity',
+    ),
+)
+
+VIEW_ROLES = ViewSpec(
+    name='roles',
+    hue_source='atom',
+    lightness=ChannelMapping(metric='loc', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='coherence_score', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='behavior',
+        question='How do specific atom types distribute?',
+        reading='Bright = large; vivid = coherent',
+    ),
+)
+
+# =============================================================================
+# NEW VIEWS — Purity domain
+# =============================================================================
+
+VIEW_PURITY = ViewSpec(
+    name='purity',
+    hue_source='tier',
+    lightness=ChannelMapping(metric='D6_pure_score', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='coherence_score', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='purity',
+        question='Which tiers have the purest implementations?',
+        reading='Bright = high purity; vivid = coherent',
+    ),
+)
+
+VIEW_PURITY_BY_LAYER = ViewSpec(
+    name='purity_by_layer',
+    hue_source='ring',
+    lightness=ChannelMapping(metric='D6_pure_score', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(
+        metric='cyclomatic_complexity', channel='chroma',
+        output_range=(0.02, 0.20), invert=True,
+    ),
+    signature=SemanticSignature(
+        domain='purity',
+        question='Where is purity weakest?',
+        reading='Dark = impure; vivid = low complexity (inverted)',
+    ),
+)
+
+VIEW_ISOLATION = ViewSpec(
+    name='isolation',
+    hue_source='topology_role',
+    lightness=ChannelMapping(metric='D6_pure_score', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='in_degree', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='purity',
+        question='Are isolated components more pure?',
+        reading='Bright = pure; vivid = many incoming deps',
+    ),
+)
+
+# =============================================================================
+# NEW VIEWS — Risk domain
+# =============================================================================
+
+VIEW_RISK = ViewSpec(
+    name='risk',
+    hue_source='tier',
+    lightness=ChannelMapping(metric='convergence_count', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='cyclomatic_complexity', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='risk',
+        question='Where are the highest risk areas?',
+        reading='Bright = many convergence signals; vivid = complex',
+    ),
+)
+
+VIEW_DEBT = ViewSpec(
+    name='debt',
+    hue_source='tier',
+    lightness=ChannelMapping(
+        metric='q_total', channel='lightness',
+        output_range=(0.35, 0.85), invert=True,
+    ),
+    chroma=ChannelMapping(metric='loc', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='risk',
+        question='Where is technical debt accumulating?',
+        reading='Dark = low quality (debt); vivid = large codebase',
+    ),
+)
+
+VIEW_FRAGILITY = ViewSpec(
+    name='fragility',
+    hue_source='topology_role',
+    lightness=ChannelMapping(metric='convergence_count', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='betweenness_centrality', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='risk',
+        question='Which bridges are fragile?',
+        reading='Bright = many problems; vivid = high betweenness (bridge)',
+    ),
+)
+
+VIEW_GOD_CLASS = ViewSpec(
+    name='god_class',
+    hue_source='atom_family',
+    lightness=ChannelMapping(metric='loc', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='out_degree', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='risk',
+        question='Are there god classes hiding in the codebase?',
+        reading='Bright = large; vivid = many outgoing deps (god class signal)',
+    ),
+)
+
+# =============================================================================
+# NEW VIEWS — Confidence domain
+# =============================================================================
+
+VIEW_CONFIDENCE = ViewSpec(
+    name='confidence',
+    hue_source='tier',
+    lightness=ChannelMapping(metric='coherence_score', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='out_degree', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='confidence',
+        question='How confident are we in each component?',
+        reading='Bright = coherent (confident); vivid = many deps',
+    ),
+)
+
+VIEW_CLARITY = ViewSpec(
+    name='clarity',
+    hue_source='atom_family',
+    lightness=ChannelMapping(metric='D6_pure_score', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='q_total', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='confidence',
+        question='Which atom families are most self-documenting?',
+        reading='Bright = pure; vivid = high quality score',
+    ),
+)
+
+# =============================================================================
+# NEW VIEWS — Convergence domain
+# =============================================================================
+
+VIEW_HOTSPOTS = ViewSpec(
+    name='hotspots',
+    hue_source='file',
+    lightness=ChannelMapping(metric='convergence_count', channel='lightness', output_range=(0.35, 0.85)),
+    chroma=ChannelMapping(metric='cyclomatic_complexity', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='convergence',
+        question='Which files are the biggest problem hotspots?',
+        reading='Bright = many convergence signals; vivid = complex',
+    ),
+)
+
+VIEW_SIGNALS = ViewSpec(
+    name='signals',
+    hue_source='convergence_severity',
+    lightness=ChannelMapping(
+        metric='q_total', channel='lightness',
+        output_range=(0.35, 0.85), invert=True,
+    ),
+    chroma=ChannelMapping(metric='loc', channel='chroma', output_range=(0.02, 0.20)),
+    signature=SemanticSignature(
+        domain='convergence',
+        question='How do quality signals distribute by severity?',
+        reading='Red-orange = critical severity; dark = low quality; vivid = large',
+    ),
+)
+
+
+# =============================================================================
+# PRESET VIEWS REGISTRY
+# =============================================================================
+
 PRESET_VIEWS = {
+    # Original 5 (general domain)
     'default': VIEW_DEFAULT,
     'architecture': VIEW_ARCHITECTURE,
     'health': VIEW_HEALTH,
     'topology': VIEW_TOPOLOGY,
     'files': VIEW_FILES,
+    # Architecture domain
+    'layers': VIEW_LAYERS,
+    'boundaries': VIEW_BOUNDARIES,
+    'scale': VIEW_SCALE,
+    # Health domain
+    'complexity': VIEW_COMPLEXITY,
+    'quality': VIEW_QUALITY,
+    'convergence': VIEW_CONVERGENCE,
+    # Topology domain
+    'influence': VIEW_INFLUENCE,
+    'coupling': VIEW_COUPLING,
+    'centrality': VIEW_CENTRALITY,
+    # Files domain
+    'file_size': VIEW_FILE_SIZE,
+    'file_quality': VIEW_FILE_QUALITY,
+    # Behavior domain
+    'behavior': VIEW_BEHAVIOR,
+    'intent': VIEW_INTENT,
+    'roles': VIEW_ROLES,
+    # Purity domain
+    'purity': VIEW_PURITY,
+    'purity_by_layer': VIEW_PURITY_BY_LAYER,
+    'isolation': VIEW_ISOLATION,
+    # Risk domain
+    'risk': VIEW_RISK,
+    'debt': VIEW_DEBT,
+    'fragility': VIEW_FRAGILITY,
+    'god_class': VIEW_GOD_CLASS,
+    # Confidence domain
+    'confidence': VIEW_CONFIDENCE,
+    'clarity': VIEW_CLARITY,
+    # Convergence domain
+    'hotspots': VIEW_HOTSPOTS,
+    'signals': VIEW_SIGNALS,
 }
 
 
@@ -185,6 +602,70 @@ _TOPOLOGY_HUES: Dict[str, float] = {
 }
 
 
+_ATOM_FAMILY_HUES: Dict[str, float] = {
+    'structural': 200.0,    # cyan
+    'behavioral': 30.0,     # orange
+    'connective': 145.0,    # green
+    'auxiliary': 280.0,     # purple
+    'meta': 330.0,          # pink
+}
+
+_BOUNDARY_HUES: Dict[str, float] = {
+    'INTERNAL': 200.0,
+    'BOUNDARY': 60.0,
+    'EXTERNAL': 30.0,
+    'BRIDGE': 145.0,
+    'UNKNOWN': 0.0,
+}
+
+_BEHAVIOR_HUES: Dict[str, float] = {
+    'STATELESS': 200.0,
+    'STATEFUL': 30.0,
+    'REACTIVE': 145.0,
+    'GENERATIVE': 280.0,
+    'PASSIVE': 60.0,
+    'UNKNOWN': 0.0,
+}
+
+_CONVERGENCE_HUES: Dict[str, float] = {
+    'critical': 25.0,       # red-orange
+    'high': 60.0,           # yellow
+    'moderate': 145.0,      # green
+}
+
+_LAYER_HUES: Dict[str, float] = {
+    'presentation': 30.0,
+    'application': 60.0,
+    'domain': 145.0,
+    'infrastructure': 200.0,
+    'cross_cutting': 280.0,
+    'test': 100.0,
+}
+
+_CATEGORY_HUES: Dict[str, float] = {
+    'class': 200.0,
+    'function': 145.0,
+    'module': 30.0,
+    'interface': 280.0,
+    'enum': 60.0,
+    'type': 330.0,
+}
+
+
+def _resolve_metric(item: dict, metric: str) -> Any:
+    """Resolve a dot-notation metric path. 'rpbl.responsibility' → item['rpbl']['responsibility']."""
+    if '.' not in metric:
+        return item.get(metric)
+    parts = metric.split('.')
+    current = item
+    for part in parts:
+        if isinstance(current, dict):
+            current = current.get(part)
+        else:
+            return None
+    return current
+
+
 def _resolve_base_hue(node: Dict[str, Any], hue_source: str) -> float:
     """Look up the base hue for a node given the hue source axis."""
     if hue_source == 'tier':
@@ -207,6 +688,27 @@ def _resolve_base_hue(node: Dict[str, Any], hue_source: str) -> float:
     elif hue_source == 'topology_role':
         role = node.get('topology_role', 'isolate')
         return _TOPOLOGY_HUES.get(role, 0.0)
+    elif hue_source == 'atom_family':
+        family = node.get('atom_family', 'structural')
+        return _ATOM_FAMILY_HUES.get(family, 0.0)
+    elif hue_source == 'boundary':
+        boundary = _resolve_metric(node, 'dimensions.D4_BOUNDARY') or node.get('D4_BOUNDARY', 'UNKNOWN')
+        return _BOUNDARY_HUES.get(str(boundary), 0.0)
+    elif hue_source == 'behavior':
+        behavior = _resolve_metric(node, 'dimensions.D5_BEHAVIOR') or node.get('D5_BEHAVIOR', 'UNKNOWN')
+        return _BEHAVIOR_HUES.get(str(behavior), 0.0)
+    elif hue_source == 'convergence_severity':
+        severity = node.get('convergence_severity', 'moderate')
+        return _CONVERGENCE_HUES.get(severity, 145.0)
+    elif hue_source == 'layer':
+        layer = node.get('layer', 'domain')
+        return _LAYER_HUES.get(str(layer).lower(), 0.0)
+    elif hue_source == 'category':
+        cat = node.get('category', 'class')
+        return _CATEGORY_HUES.get(str(cat).lower(), 0.0)
+    elif hue_source == 'atom':
+        atom = node.get('atom', '')
+        return (hash(atom) * 137.508) % 360.0
     return 0.0
 
 
@@ -221,7 +723,7 @@ def _collect_metric_values(
     """Extract numeric values for a metric, skipping missing/non-numeric."""
     values = []
     for item in items:
-        val = item.get(metric)
+        val = _resolve_metric(item, metric)
         if val is not None:
             try:
                 values.append(float(val))
@@ -246,7 +748,7 @@ def _normalize_global(
     lo, hi = mapping.output_range
     result: Dict[int, float] = {}
     for i, item in enumerate(items):
-        val = item.get(mapping.metric)
+        val = _resolve_metric(item, mapping.metric)
         if val is None:
             continue
         try:
@@ -272,7 +774,7 @@ def _normalize_per_group(
     # Partition into groups
     groups: Dict[str, List[Tuple[int, float]]] = {}
     for i, item in enumerate(items):
-        val = item.get(mapping.metric)
+        val = _resolve_metric(item, mapping.metric)
         if val is None:
             continue
         try:
@@ -537,3 +1039,20 @@ def encode_all(
 
     report.channels_used = channels
     return report
+
+
+def get_view_registry() -> Dict[str, Any]:
+    """Export view metadata for JS consumption. Grouped by domain."""
+    registry = {}
+    for name, view in PRESET_VIEWS.items():
+        sig = view.signature
+        registry[name] = {
+            'name': name,
+            'domain': sig.domain if sig else 'general',
+            'question': sig.question if sig else '',
+            'reading': sig.reading if sig else '',
+            'hue_source': view.hue_source,
+            'lightness_metric': view.lightness.metric if view.lightness else None,
+            'chroma_metric': view.chroma.metric if view.chroma else None,
+        }
+    return registry

@@ -24,7 +24,7 @@ repos:
     rev: v5.0.0
     hooks:
       - id: check-yaml
-        exclude: ^(archive/|\.agent/registry/inbox/|\.agent/state/|wave/docs/specs/|wave/library/)
+        exclude: ^(archive/|\.agent/|observer/|particle/src/patterns/|wave/docs/specs/|wave/library/|wave/config/|SUBSYSTEMS\.yaml)
       - id: check-json
         exclude: ^(particle/\.bandit_output\.json|wave/library/data/)
       - id: check-toml

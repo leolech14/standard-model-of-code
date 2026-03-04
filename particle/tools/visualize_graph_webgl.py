@@ -385,7 +385,10 @@ def generate_webgl_html(json_source: Any, output_path: str):
         "statistical_metrics": data.get("statistical_metrics", {}),
 
         # Theme configuration for runtime switching
-        "theme_config": resolver.get_js_theme_config()
+        "theme_config": resolver.get_js_theme_config(),
+
+        # View registry for dynamic encoding view UI
+        "view_registry": data.get("view_registry", {}),
     }
 
     # NODE PROCESSING

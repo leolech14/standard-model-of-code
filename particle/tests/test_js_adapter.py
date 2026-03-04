@@ -1,5 +1,14 @@
+import subprocess
 import pytest
 pytest.importorskip("libcst")
+
+# JS adapter tests require ts-morph (Node.js) -- skip if not installed
+_js_adapter_dir = str(__import__("pathlib").Path(__file__).resolve().parent.parent / "src" / "core" / "synthesis" / "js_adapter")
+try:
+    subprocess.run(["node", "-e", "require('ts-morph')"], cwd=_js_adapter_dir,
+                   capture_output=True, timeout=10, check=True)
+except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+    pytest.skip("ts-morph not installed (npm install needed in js_adapter/)", allow_module_level=True)
 
 from src.core.synthesis.compiler import ColliderCompiler, MutationOperation, MutationRequest
 

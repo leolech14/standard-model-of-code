@@ -40,15 +40,25 @@ from src.core.viz.color_encoding import (
     ChannelMapping,
     EncodingReport,
     PRESET_VIEWS,
+    SemanticSignature,
     VIEW_ARCHITECTURE,
     VIEW_DEFAULT,
     VIEW_FILES,
     VIEW_HEALTH,
     VIEW_TOPOLOGY,
     ViewSpec,
+    _resolve_metric,
+    _resolve_base_hue,
+    _ATOM_FAMILY_HUES,
+    _BOUNDARY_HUES,
+    _BEHAVIOR_HUES,
+    _CONVERGENCE_HUES,
+    _LAYER_HUES,
+    _CATEGORY_HUES,
     encode_all,
     encode_edges,
     encode_nodes,
+    get_view_registry,
     tag_convergence,
 )
 
@@ -147,8 +157,14 @@ class TestDataclasses:
             VIEW_DEFAULT.name = 'mutated'
 
     def test_preset_views_exist(self):
-        assert len(PRESET_VIEWS) == 5
-        for name in ('default', 'architecture', 'health', 'topology', 'files'):
+        assert len(PRESET_VIEWS) >= 30
+        for name in ('default', 'architecture', 'health', 'topology', 'files',
+                      'layers', 'boundaries', 'scale', 'complexity', 'quality',
+                      'convergence', 'influence', 'coupling', 'centrality',
+                      'file_size', 'file_quality', 'behavior', 'intent', 'roles',
+                      'purity', 'purity_by_layer', 'isolation', 'risk', 'debt',
+                      'fragility', 'god_class', 'confidence', 'clarity',
+                      'hotspots', 'signals'):
             assert name in PRESET_VIEWS
 
     def test_encoding_report_defaults(self):
@@ -783,3 +799,406 @@ class TestEncodeAll:
         for node in nodes:
             assert 'encoded_color' not in node, \
                 "VIEW_DEFAULT wrote encoded_color, which would shadow color_mode=file"
+
+
+# =============================================================================
+# _resolve_metric() tests
+# =============================================================================
+
+class TestResolveMetric:
+    """Test dot-notation field resolver."""
+
+    def test_top_level_access(self):
+        """Simple top-level key works like dict.get()."""
+        item = {'coherence_score': 0.8}
+        assert _resolve_metric(item, 'coherence_score') == 0.8
+
+    def test_dot_notation_nested(self):
+        """Dot notation traverses nested dicts."""
+        item = {'dimensions': {'D4_BOUNDARY': 'INTERNAL'}}
+        assert _resolve_metric(item, 'dimensions.D4_BOUNDARY') == 'INTERNAL'
+
+    def test_missing_nested_key(self):
+        """Missing intermediate key returns None."""
+        item = {'dimensions': {'D4_BOUNDARY': 'INTERNAL'}}
+        assert _resolve_metric(item, 'dimensions.D5_BEHAVIOR') is None
+
+    def test_non_dict_intermediate(self):
+        """Non-dict intermediate returns None instead of crashing."""
+        item = {'dimensions': 'not_a_dict'}
+        assert _resolve_metric(item, 'dimensions.D4_BOUNDARY') is None
+
+    def test_missing_top_level(self):
+        """Missing top-level key returns None."""
+        item = {'foo': 1}
+        assert _resolve_metric(item, 'bar') is None
+
+    def test_deeply_nested(self):
+        """Three levels of nesting work."""
+        item = {'a': {'b': {'c': 42}}}
+        assert _resolve_metric(item, 'a.b.c') == 42
+
+
+# =============================================================================
+# SemanticSignature tests
+# =============================================================================
+
+class TestSemanticSignature:
+    """Test SemanticSignature dataclass."""
+
+    def test_frozen_properties(self):
+        """SemanticSignature is frozen — mutation raises."""
+        sig = SemanticSignature(domain='health', question='Q?', reading='R')
+        with pytest.raises(AttributeError):
+            sig.domain = 'risk'
+
+    def test_viewspec_with_signature(self):
+        """ViewSpec can carry a SemanticSignature."""
+        sig = SemanticSignature(domain='test', question='Test?', reading='Test reading')
+        vs = ViewSpec(name='test', hue_source='tier', signature=sig)
+        assert vs.signature.domain == 'test'
+        assert vs.signature.question == 'Test?'
+
+    def test_original_views_have_no_signature(self):
+        """Original 5 views have signature=None."""
+        for name in ('default', 'architecture', 'health', 'topology', 'files'):
+            assert PRESET_VIEWS[name].signature is None
+
+    def test_new_views_have_signatures(self):
+        """All new views (beyond original 5) have SemanticSignature."""
+        original = {'default', 'architecture', 'health', 'topology', 'files'}
+        for name, view in PRESET_VIEWS.items():
+            if name not in original:
+                assert view.signature is not None, f"{name} missing signature"
+                assert view.signature.domain, f"{name} signature missing domain"
+                assert view.signature.question, f"{name} signature missing question"
+
+
+# =============================================================================
+# Hue table tests
+# =============================================================================
+
+class TestNewHueTables:
+    """Test the 6 new hue lookup tables."""
+
+    def test_atom_family_hues_complete(self):
+        """Atom family table covers all expected families."""
+        expected = {'structural', 'behavioral', 'connective', 'auxiliary', 'meta'}
+        assert set(_ATOM_FAMILY_HUES.keys()) == expected
+        for v in _ATOM_FAMILY_HUES.values():
+            assert 0 <= v < 360
+
+    def test_boundary_hues_complete(self):
+        """Boundary table covers all expected boundary types."""
+        expected = {'INTERNAL', 'BOUNDARY', 'EXTERNAL', 'BRIDGE', 'UNKNOWN'}
+        assert set(_BOUNDARY_HUES.keys()) == expected
+
+    def test_behavior_hues_complete(self):
+        """Behavior table covers expected behavior types."""
+        expected = {'STATELESS', 'STATEFUL', 'REACTIVE', 'GENERATIVE', 'PASSIVE', 'UNKNOWN'}
+        assert set(_BEHAVIOR_HUES.keys()) == expected
+
+    def test_convergence_hues_complete(self):
+        """Convergence severity table has 3 levels."""
+        expected = {'critical', 'high', 'moderate'}
+        assert set(_CONVERGENCE_HUES.keys()) == expected
+
+    def test_layer_hues_complete(self):
+        """Layer table covers architectural layers."""
+        expected = {'presentation', 'application', 'domain', 'infrastructure', 'cross_cutting', 'test'}
+        assert set(_LAYER_HUES.keys()) == expected
+
+    def test_category_hues_complete(self):
+        """Category table covers code categories."""
+        expected = {'class', 'function', 'module', 'interface', 'enum', 'type'}
+        assert set(_CATEGORY_HUES.keys()) == expected
+
+    def test_all_hue_values_in_range(self):
+        """Every hue value in every table is 0-360."""
+        all_tables = [_ATOM_FAMILY_HUES, _BOUNDARY_HUES, _BEHAVIOR_HUES,
+                      _CONVERGENCE_HUES, _LAYER_HUES, _CATEGORY_HUES]
+        for table in all_tables:
+            for k, v in table.items():
+                assert 0 <= v < 360, f"{k} hue {v} out of range"
+
+
+# =============================================================================
+# New _resolve_base_hue() branch tests
+# =============================================================================
+
+class TestNewHueSources:
+    """Test the 7 new hue_source branches in _resolve_base_hue()."""
+
+    def test_atom_family_source(self):
+        node = {'atom_family': 'behavioral'}
+        assert _resolve_base_hue(node, 'atom_family') == 30.0
+
+    def test_atom_family_default(self):
+        node = {}
+        assert _resolve_base_hue(node, 'atom_family') == _ATOM_FAMILY_HUES['structural']
+
+    def test_boundary_source_nested(self):
+        """Boundary reads from dimensions.D4_BOUNDARY."""
+        node = {'dimensions': {'D4_BOUNDARY': 'EXTERNAL'}}
+        assert _resolve_base_hue(node, 'boundary') == 30.0
+
+    def test_boundary_source_flat(self):
+        """Falls back to flat D4_BOUNDARY key."""
+        node = {'D4_BOUNDARY': 'BRIDGE'}
+        assert _resolve_base_hue(node, 'boundary') == 145.0
+
+    def test_behavior_source(self):
+        node = {'dimensions': {'D5_BEHAVIOR': 'REACTIVE'}}
+        assert _resolve_base_hue(node, 'behavior') == 145.0
+
+    def test_convergence_severity_source(self):
+        node = {'convergence_severity': 'critical'}
+        assert _resolve_base_hue(node, 'convergence_severity') == 25.0
+
+    def test_convergence_severity_default(self):
+        node = {}
+        assert _resolve_base_hue(node, 'convergence_severity') == _CONVERGENCE_HUES['moderate']
+
+    def test_layer_source(self):
+        node = {'layer': 'infrastructure'}
+        assert _resolve_base_hue(node, 'layer') == 200.0
+
+    def test_category_source(self):
+        node = {'category': 'function'}
+        assert _resolve_base_hue(node, 'category') == 145.0
+
+    def test_atom_golden_angle(self):
+        """Atom hue source uses golden-angle distribution on atom name hash."""
+        node = {'atom': 'CORE.MyService'}
+        hue = _resolve_base_hue(node, 'atom')
+        assert 0 <= hue < 360
+        # Different atom names should give different hues
+        node2 = {'atom': 'EXT.OtherThing'}
+        hue2 = _resolve_base_hue(node2, 'atom')
+        assert hue != hue2  # extremely unlikely to collide
+
+
+# =============================================================================
+# New ViewSpec encoding tests
+# =============================================================================
+
+class TestNewViewSpecEncoding:
+    """Test that new ViewSpecs encode nodes correctly."""
+
+    def _make_rich_nodes(self, n=10):
+        """Create nodes with all metrics that new views need."""
+        nodes = []
+        for i in range(n):
+            nodes.append({
+                'id': f'node_{i}',
+                'atom': f'CORE.{i:03d}',
+                'atom_family': ['structural', 'behavioral', 'connective'][i % 3],
+                'ring': ['DOMAIN', 'APPLICATION', 'INFRASTRUCTURE'][i % 3],
+                'topology_role': ['hub', 'authority', 'bridge', 'leaf'][i % 4],
+                'level': i,
+                'fileIdx': i,
+                'file_path': f'file_{i % 3}.py',
+                'category': ['class', 'function', 'module'][i % 3],
+                'layer': ['domain', 'application', 'infrastructure'][i % 3],
+                'coherence_score': 0.1 * (i + 1),
+                'D6_pure_score': 0.05 * (i + 1),
+                'cyclomatic_complexity': i * 3,
+                'loc': (i + 1) * 50,
+                'q_total': 0.5 + 0.05 * i,
+                'in_degree': i * 2,
+                'out_degree': i + 1,
+                'pagerank': 0.01 * (i + 1),
+                'betweenness_centrality': 0.001 * i,
+                'convergence_count': max(0, i - 5),
+                'convergence_severity': ['moderate', 'high', 'critical'][i % 3],
+                'dimensions': {
+                    'D4_BOUNDARY': ['INTERNAL', 'BOUNDARY', 'EXTERNAL'][i % 3],
+                    'D5_BEHAVIOR': ['STATELESS', 'STATEFUL', 'REACTIVE'][i % 3],
+                },
+            })
+        return nodes
+
+    def test_all_new_views_produce_valid_oklch(self):
+        """Every new ViewSpec should produce valid OKLCH tuples."""
+        nodes = self._make_rich_nodes(20)
+        original = {'default'}
+        for name, view in PRESET_VIEWS.items():
+            if name in original:
+                continue
+            encode_nodes(nodes, view)
+            for node in nodes:
+                if 'encoded_color' not in node:
+                    continue
+                L, C, H = _ec_oklch(node)
+                assert 0 <= L <= 1, f"L={L} out of range in {name}"
+                assert 0 <= C <= 0.4, f"C={C} out of range in {name}"
+                assert 0 <= H < 360, f"H={H} out of range in {name}"
+
+    def test_layers_view_uses_ring_hue(self):
+        """Layers view should use ring hue source."""
+        assert PRESET_VIEWS['layers'].hue_source == 'ring'
+
+    def test_behavior_view_uses_behavior_hue(self):
+        """Behavior view should use behavior hue source."""
+        assert PRESET_VIEWS['behavior'].hue_source == 'behavior'
+
+    def test_god_class_view_detects_large_connected_nodes(self):
+        """God class view should highlight large nodes with many outgoing deps."""
+        nodes = self._make_rich_nodes(5)
+        encode_nodes(nodes, PRESET_VIEWS['god_class'])
+        # All nodes should have encoded colors
+        for node in nodes:
+            assert 'encoded_color' in node
+
+    def test_debt_view_inverts_quality(self):
+        """Debt view inverts q_total — low quality = dark = debt."""
+        assert PRESET_VIEWS['debt'].lightness.invert is True
+
+    def test_missing_data_graceful_fallback(self):
+        """Nodes missing some metrics still get encoded without crash."""
+        nodes = [
+            {'id': 'a', 'atom': 'CORE.001'},  # minimal node
+            {'id': 'b', 'atom': 'EXT.002', 'coherence_score': 0.5},
+        ]
+        # Try every view
+        for name, view in PRESET_VIEWS.items():
+            if name == 'default':
+                continue
+            encoded, missing = encode_nodes(nodes, view)
+            assert encoded == 2  # both get encoded (neutral fallback)
+
+
+# =============================================================================
+# get_view_registry() tests
+# =============================================================================
+
+class TestGetViewRegistry:
+    """Test the view registry export function."""
+
+    def test_registry_contains_all_views(self):
+        """Registry should have 33 entries."""
+        registry = get_view_registry()
+        assert len(registry) >= 30
+
+    def test_domain_grouping_correct(self):
+        """Each view should have a domain that matches its signature."""
+        registry = get_view_registry()
+        for name, entry in registry.items():
+            view = PRESET_VIEWS[name]
+            if view.signature:
+                assert entry['domain'] == view.signature.domain
+            else:
+                assert entry['domain'] == 'general'
+
+    def test_serializable(self):
+        """Registry should be JSON-serializable."""
+        import json
+        registry = get_view_registry()
+        serialized = json.dumps(registry)
+        assert isinstance(serialized, str)
+        parsed = json.loads(serialized)
+        assert len(parsed) >= 30
+
+    def test_registry_has_expected_domains(self):
+        """Registry should cover all expected analytical domains."""
+        registry = get_view_registry()
+        domains = set(entry['domain'] for entry in registry.values())
+        expected = {'general', 'architecture', 'health', 'topology', 'files',
+                    'behavior', 'purity', 'risk', 'confidence', 'convergence'}
+        assert domains == expected
+
+    def test_registry_entries_have_required_fields(self):
+        """Every registry entry should have name, domain, hue_source."""
+        registry = get_view_registry()
+        for name, entry in registry.items():
+            assert 'name' in entry
+            assert 'domain' in entry
+            assert 'hue_source' in entry
+            assert entry['name'] == name
+
+
+
+# =============================================================================
+# Per-group normalization in VIEW_HEALTH (Gap 3 — activated)
+# =============================================================================
+
+class TestHealthPerGroupActive:
+    """VIEW_HEALTH uses per-group normalization for complexity by file_path.
+
+    This tests the ACTIVATED feature: same absolute complexity in different
+    files should produce different lightness values (normalized per file).
+    """
+
+    def test_same_complexity_different_files_different_lightness(self):
+        """Complexity=10 in a [1-10] file vs a [10-100] file should differ."""
+        nodes = [
+            # File A: complexity range [1, 20]. Node with complexity=10 is mid-range.
+            {'id': 'a1', 'atom': 'CORE.001', 'file_path': 'fileA.py',
+             'cyclomatic_complexity': 1, 'coherence_score': 0.5},
+            {'id': 'a2', 'atom': 'CORE.001', 'file_path': 'fileA.py',
+             'cyclomatic_complexity': 10, 'coherence_score': 0.5},
+            {'id': 'a3', 'atom': 'CORE.001', 'file_path': 'fileA.py',
+             'cyclomatic_complexity': 20, 'coherence_score': 0.5},
+            # File B: complexity range [10, 100]. Node with complexity=10 is minimum.
+            {'id': 'b1', 'atom': 'CORE.001', 'file_path': 'fileB.py',
+             'cyclomatic_complexity': 10, 'coherence_score': 0.5},
+            {'id': 'b2', 'atom': 'CORE.001', 'file_path': 'fileB.py',
+             'cyclomatic_complexity': 55, 'coherence_score': 0.5},
+            {'id': 'b3', 'atom': 'CORE.001', 'file_path': 'fileB.py',
+             'cyclomatic_complexity': 100, 'coherence_score': 0.5},
+        ]
+        encode_nodes(nodes, VIEW_HEALTH)
+
+        # a2 (complexity=10, mid of [1,20]) and b1 (complexity=10, min of [10,100])
+        L_a2 = _ec_oklch(nodes[1])[0]  # mid-range in file A
+        L_b1 = _ec_oklch(nodes[3])[0]  # minimum in file B
+
+        # Because VIEW_HEALTH inverts complexity, lower relative complexity → higher L.
+        # b1 is the MINIMUM in its file → should be BRIGHTEST in file B.
+        # a2 is MID-RANGE in its file → should be dimmer than b1.
+        assert L_b1 > L_a2, (
+            f"Per-group failed: b1 (min of file) L={L_b1:.3f} "
+            f"should be brighter than a2 (mid of file) L={L_a2:.3f}"
+        )
+
+    def test_health_view_uses_per_group_config(self):
+        """VIEW_HEALTH should have per_group normalization on its lightness channel."""
+        assert VIEW_HEALTH.lightness is not None
+        assert VIEW_HEALTH.lightness.normalize == 'per_group'
+        assert VIEW_HEALTH.lightness.group_by == 'file_path'
+
+    def test_health_view_has_edge_mapping(self):
+        """VIEW_HEALTH should have an edge_mapping for confidence."""
+        assert VIEW_HEALTH.edge_mapping is not None
+        assert VIEW_HEALTH.edge_mapping.metric == 'confidence'
+
+
+# =============================================================================
+# Edge encoding via PRESET_VIEWS (Gap 4 — activated)
+# =============================================================================
+
+class TestPresetEdgeMappings:
+    """Test that preset views with edge_mapping actually encode edges."""
+
+    def test_architecture_has_edge_mapping(self):
+        """VIEW_ARCHITECTURE should declare an edge_mapping."""
+        assert VIEW_ARCHITECTURE.edge_mapping is not None
+        assert VIEW_ARCHITECTURE.edge_mapping.metric == 'confidence'
+        assert VIEW_ARCHITECTURE.edge_mapping.channel == 'hue'
+
+    def test_edge_gradient_warm_to_cool(self):
+        """Low confidence edges should be warm, high confidence edges cool."""
+        edges = [
+            {'source': 'a', 'target': 'b', 'confidence': 0.5},
+            {'source': 'a', 'target': 'c', 'confidence': 1.0},
+        ]
+        encode_edges(edges, VIEW_ARCHITECTURE.edge_mapping)
+
+        hue_low = _ec_oklch(edges[0])[2]
+        hue_high = _ec_oklch(edges[1])[2]
+
+        # output_range is (30, 145): low confidence → 30 (warm), high → 145 (green)
+        assert hue_low < hue_high, (
+            f"Edge gradient wrong direction: low conf hue={hue_low:.1f}, "
+            f"high conf hue={hue_high:.1f}"
+        )

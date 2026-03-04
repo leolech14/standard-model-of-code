@@ -437,7 +437,10 @@ def _run_chemistry(ctx: 'PipelineContext') -> None:
 def _run_color_encoding(ctx: 'PipelineContext') -> None:
     """Post-Stage 20: Multi-channel OKLCH color encoding."""
     try:
-        from src.core.viz.color_encoding import encode_all, encode_nodes, VIEW_DEFAULT, PRESET_VIEWS
+        from src.core.viz.color_encoding import (
+            encode_all, encode_nodes, encode_edges, VIEW_DEFAULT, PRESET_VIEWS,
+            get_view_registry,
+        )
         chem_result_obj = ctx.full_output.get('_chemistry_lab', None)
         chemistry = chem_result_obj.get_result() if chem_result_obj else None
         enc_report = encode_all(ctx.full_output, view=VIEW_DEFAULT, chemistry=chemistry)
@@ -449,7 +452,9 @@ def _run_color_encoding(ctx: 'PipelineContext') -> None:
         # Pre-compute all non-default view colors for runtime view switching.
         # Store as OKLCH triples [L, C, H] — hex conversion at render boundary.
         nodes = ctx.full_output.get('nodes', [])
+        edges = ctx.full_output.get('edges', [])
         view_count = 0
+        edges_encoded_total = 0
         for view_name, view_spec in PRESET_VIEWS.items():
             if view_name == 'default':
                 continue
@@ -460,8 +465,20 @@ def _run_color_encoding(ctx: 'PipelineContext') -> None:
                     if 'encoded_colors' not in node:
                         node['encoded_colors'] = {}
                     node['encoded_colors'][view_name] = list(ec)
+            # Encode edges when the view specifies an edge mapping
+            if view_spec.edge_mapping is not None:
+                n_enc, _ = encode_edges(edges, view_spec.edge_mapping)
+                for edge in edges:
+                    ec = edge.pop('encoded_color', None)
+                    if ec:
+                        if 'encoded_colors' not in edge:
+                            edge['encoded_colors'] = {}
+                        edge['encoded_colors'][view_name] = list(ec)
+                edges_encoded_total += n_enc
             view_count += 1
-        _log(f"   → Pre-computed {view_count} encoding views for {len(nodes)} nodes", ctx.quiet)
+        ctx.full_output['view_registry'] = get_view_registry()
+        _log(f"   → Pre-computed {view_count} encoding views for "
+             f"{len(nodes)} nodes, {edges_encoded_total} edge encodings", ctx.quiet)
     except Exception as e:
         _log(f"   ⚠️ Color encoding skipped: {e}", ctx.quiet)
         import traceback

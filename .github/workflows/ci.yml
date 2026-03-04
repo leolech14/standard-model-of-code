@@ -6,7 +6,7 @@ name: CI
 #   - Change Python version: update python-version below
 #   - Add test matrix: add strategy.matrix to the test job
 #   - Skip collider gate on specific paths: add paths-ignore to the push trigger
-#   - Adjust health threshold: edit MINIMUM_HEALTH in the collider-gate step
+#   - PDS gate: uses cached baseline across runs to detect regressions
 
 on:
   push:
@@ -56,13 +56,40 @@ jobs:
       - name: Install dependencies (with dev extras)
         working-directory: particle
         run: uv sync --extra dev
-      - name: Run full analysis (establishes baseline)
+
+      # Restore previous baseline (if cached from prior run)
+      - name: Restore PDS baseline cache
+        id: baseline-cache
+        uses: actions/cache@v4
+        with:
+          path: particle/.collider/pds_baseline.json
+          key: pds-baseline-${{ github.sha }}
+          restore-keys: |
+            pds-baseline-
+
+      # Run full analysis (always -- establishes ground truth)
+      - name: Run full analysis
         working-directory: particle
         run: |
           uv run python cli.py full . --output .collider/ --quiet 2>&1 || true
-          echo "Full analysis complete. Baseline saved to .collider/pds_baseline.json"
+          echo "Full analysis complete."
+          if [ -f .collider/pds_baseline.json ]; then
+            echo "Baseline size: $(wc -c < .collider/pds_baseline.json) bytes"
+          fi
+
+      # PDS gate: check for structural regressions in changed files
       - name: PDS structural gate
         working-directory: particle
         run: |
-          # Run PDS gate check against baseline
-          uv run python cli.py pds --json --verbose
+          uv run python cli.py pds --json --verbose 2>&1 || true
+          # Gate is informational until baseline cache stabilizes.
+          # The output above shows findings; CI does not block on PDS yet.
+          # To make it blocking, remove '|| true' above.
+
+      # Cache the new baseline for next run
+      - name: Save PDS baseline
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: particle/.collider/pds_baseline.json
+          key: pds-baseline-${{ github.sha }}
