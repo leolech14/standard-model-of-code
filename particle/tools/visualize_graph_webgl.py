@@ -389,6 +389,9 @@ def generate_webgl_html(json_source: Any, output_path: str):
 
         # View registry for dynamic encoding view UI
         "view_registry": data.get("view_registry", {}),
+
+        # Ranked views — top 5 by informativeness (auto-selected by Python)
+        "ranked_views": data.get("ranked_views", []),
     }
 
     # NODE PROCESSING

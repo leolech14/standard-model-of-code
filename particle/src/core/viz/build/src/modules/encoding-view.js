@@ -62,7 +62,14 @@ function _loadRegistry() {
     if (window.COLLIDER_DATA && window.COLLIDER_DATA.view_registry) {
         return window.COLLIDER_DATA.view_registry;
     }
-    return {};
+    // Fallback for old payloads without view_registry
+    return {
+        default: { name: 'default', domain: 'general', question: '', reading: 'Standard coloring (uses Color Mode selector)' },
+        architecture: { name: 'architecture', domain: 'general', question: '', reading: 'H=tier, L=coherence score, C=purity score' },
+        health: { name: 'health', domain: 'general', question: '', reading: 'H=tier, L=complexity (inverted), C=coherence' },
+        topology: { name: 'topology', domain: 'general', question: '', reading: 'H=topology role, L=pagerank, C=betweenness' },
+        files: { name: 'files', domain: 'general', question: '', reading: 'H=file (golden angle), L=coherence, C=purity' },
+    };
 }
 
 /**
