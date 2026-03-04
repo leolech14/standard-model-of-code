@@ -1,8 +1,130 @@
 # PROJECT_elements .gitignore
-# Seamless Enforcement: These patterns are NEVER committed
+# 4-Zone Architecture: only Zone 1 (Source Code) and Zone 2 (Reference Data) are tracked.
+# Zone 3 (Generated Output) and Zone 4 (Ephemeral State) are gitignored.
+#
+# Zones:
+#   1. Source Code    — particle/src/, wave/tools/, tests/, CI configs
+#   2. Reference Data — particle/data/atoms/, wave/config/, standard-model-of-code/
+#   3. Generated Output — research/, reports/, observer/, .collider/
+#   4. Ephemeral State — .agent/state/, logs/, caches
 
 # =============================================================================
-# PYTHON
+# ZONE 3: GENERATED OUTPUT (regenerable, backed up to GCS)
+# =============================================================================
+
+# Archive (offloaded to GCS: gs://elements-archive-2026/)
+archive/
+
+# Research artifacts (AI research sessions, gemini dumps, extracted data)
+research/
+**/research/raw/
+**/research/sessions/
+**/research/extracted_nodes/
+**/research/gemini/sessions/
+**/research/gemini/raw/
+particle/docs/research/
+
+# Generated reports and analysis
+reports/
+
+# Observer analysis artifacts
+observer/
+
+# Wave library (agent cuts, large outputs)
+wave/library/
+
+# UI corpus data
+particle/docs/ui/corpus/
+
+# NotebookLM exports
+notebook-lm/
+
+# Collider outputs (all variants)
+.collider/
+.collider_*/
+.collider-*/
+.collider-full/
+collider_feedback/
+particle/collider_feedback/
+standard-model-of-code/.collider/
+standard-model-of-code/.collider_*/
+standard-model-of-code/.collider-*/
+standard-model-of-code/collider
+standard-model-of-code/collider_output/
+
+# Generated output directories
+output/
+logs/
+particle/graphrag_out/
+
+# Collider pipeline vendor libs (bundled in HTML reports)
+**/collider_pipeline_files/
+**/libs/bootstrap/
+**/libs/quarto-html/
+**/libs/clipboard/
+
+# Generated text output files
+*_output.txt
+enriched_history.txt
+unified_analysis.json
+
+# Context management generated data
+context-management/intelligence/socratic_audit_pipeline_*.json
+**/socratic_audit_pipeline_*.json
+context-management/data/intel/spiral/file_intel.json
+context-management/data/intel/file_intel_cache.json
+
+# Large generated reports
+wave/library/large_outputs/
+
+# Downloaded repos (benchmark targets)
+**/repos/
+**/artifacts/**/repos/
+context-management/library/spectrometer_benchmarks_legacy/axios/
+context-management/library/spectrometer_benchmarks_legacy/lodash/
+archive/spectrometer_benchmarks_legacy/express/
+
+# Tool-generated inventories
+tools/*.csv
+
+# Large reference files (stored in GCS)
+swebok-v4.pdf
+SMC_THEORY_COMPLETE*.zip
+
+# =============================================================================
+# ZONE 4: EPHEMERAL STATE (per-session, never committed)
+# =============================================================================
+
+# Agent runtime state (regenerated per session)
+.agent/state/
+.agent/macros/trigger_state*.yaml
+.agent/macros/logs/
+.agent/intelligence/autopilot_logs/
+.agent/intelligence/confidence_reports/
+.agent/intelligence/tdj.jsonl
+
+# Stale archive snapshots
+.archive-*/
+
+# Trash
+.file_explorer_trash/
+
+# Claude Code worktrees
+.claude/worktrees/
+
+# Temporary verification outputs
+.tmp_*/
+**/.tmp_*/
+tmp_*
+
+# Scratch notes
+ORGANIZED
+
+# External tool data
+.minimax/
+
+# =============================================================================
+# STANDARD: PYTHON
 # =============================================================================
 __pycache__/
 *.py[cod]
@@ -12,6 +134,7 @@ __pycache__/
 .venv/
 venv/
 venv_*/
+.tools_venv/
 *.egg-info/
 .eggs/
 *.egg
@@ -20,7 +143,7 @@ venv_*/
 .ruff_cache/
 
 # =============================================================================
-# NODE.JS
+# STANDARD: NODE.JS
 # =============================================================================
 node_modules/
 npm-debug.log*
@@ -28,7 +151,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # =============================================================================
-# IDE & EDITORS
+# STANDARD: IDE & EDITORS
 # =============================================================================
 .idea/
 .vscode/
@@ -40,7 +163,7 @@ yarn-error.log*
 .settings/
 
 # =============================================================================
-# OS FILES
+# STANDARD: OS FILES
 # =============================================================================
 .DS_Store
 .DS_Store?
@@ -51,24 +174,7 @@ Thumbs.db
 ehthumbs.db
 
 # =============================================================================
-# EVALUATIONS (downloaded tools for testing)
-# =============================================================================
-.eval/active/
-*-Evaluation/
-*-Evaluation.zip
-
-# =============================================================================
-# TEMPORARY & BACKUP
-# =============================================================================
-tmp_*
-*.tmp
-*.bak
-*.backup
-backup_*.zip
-*.log
-
-# =============================================================================
-# SECRETS (never commit)
+# STANDARD: SECRETS (never commit)
 # =============================================================================
 .env
 .env.local
@@ -76,7 +182,7 @@ backup_*.zip
 *.key
 
 # =============================================================================
-# BUILD OUTPUTS
+# STANDARD: BUILD OUTPUTS
 # =============================================================================
 dist/
 build/
@@ -84,127 +190,25 @@ build/
 *.whl
 
 # =============================================================================
-# OBSIDIAN (optional - remove if you use Obsidian here)
+# STANDARD: EVALUATIONS & OBSIDIAN
 # =============================================================================
+.eval/active/
+*-Evaluation/
+*-Evaluation.zip
 .obsidian/
 
 # =============================================================================
-# ARCHIVE (offloaded to GCS: gs://elements-archive-2026/)
-# =============================================================================
-archive/
-standard-model-of-code/collider_output/
-
-# Context Management Logs
-**/socratic_audit_pipeline_*.json
-context-management/intelligence/socratic_audit_pipeline_*.json
-
-# =============================================================================
-# COLLIDER OUTPUTS (test directories)
-# =============================================================================
-# Collider artifacts (all output directories)
-.collider/
-.collider_*/
-.collider-*/
-collider_feedback/
-particle/collider_feedback/
-standard-model-of-code/.collider/
-standard-model-of-code/.collider_*/
-standard-model-of-code/.collider-*/
-standard-model-of-code/collider
-
-# Vendor libraries (bundled in HTML reports)
-**/collider_pipeline_files/
-**/libs/bootstrap/
-**/libs/quarto-html/
-**/libs/clipboard/
-
-# Temporary verification outputs
-.tmp_*/
-**/.tmp_*/
-
-# =============================================================================
-# RESEARCH ARTIFACTS (downloaded repos and generated data)
-# =============================================================================
-**/repos/
-**/artifacts/**/repos/
-**/research/extracted_nodes/
-
-# =============================================================================
-# TOOLS VIRTUAL ENVIRONMENT
-# =============================================================================
-.tools_venv/
-
-# =============================================================================
-# USER UPLOADS (PDFs, images, etc.)
+# STANDARD: ASSETS (user uploads, vendored JS)
 # =============================================================================
 assets/
 !particle/src/core/viz/assets/
-
-# =============================================================================
-# AGENT SESSION STATE (ephemeral, not committed)
-# =============================================================================
-.agent/state/session.yaml
-# TDJ generated data (recreate with: python tdj.py --scan)
-.agent/intelligence/tdj.jsonl
-unified_analysis.json
-archive/spectrometer_benchmarks_legacy/express/
-.collider-full/
-# Large intel caches (regenerate with cerebras_spiral_intel.py)
-context-management/data/intel/spiral/file_intel.json
-context-management/data/intel/file_intel_cache.json
-# Embedded git repos (benchmarks)
-context-management/library/spectrometer_benchmarks_legacy/axios/
-context-management/library/spectrometer_benchmarks_legacy/lodash/
-
-# =============================================================================
-# CONSOLIDATION PATTERNS (2026-01-31)
-# Added by TASK-100 / BATCH-CONSOLIDATION-2026-01-31
-# =============================================================================
-
-# Research ephemeral data (keep docs/, ignore raw/ and sessions/)
-**/research/raw/
-**/research/sessions/
-
-# Agent ephemeral outputs (regenerated per session)
-.agent/intelligence/autopilot_logs/
-.agent/intelligence/confidence_reports/
-.agent/macros/logs/
-
-# Tool-generated inventories (regenerate with generate_file_inventory.py)
-tools/*.csv
-
-# Large reference files (stored in gs://elements-archive-2026/large-files/)
-swebok-v4.pdf
-SMC_THEORY_COMPLETE*.zip
-
-# =============================================================================
-# GIT HEALTH AUDIT (2026-03-03)
-# =============================================================================
-
-# Claude Code worktrees (ephemeral, not project code)
-.claude/worktrees/
-
-# Generated output directories
-output/
-logs/
-particle/graphrag_out/
-
-# Generated text output files (one-off analysis runs)
-*_output.txt
-enriched_history.txt
-
-# External tool data
-.minimax/
-
-# Scratch notes
-ORGANIZED
-
-# Research sessions (extend existing patterns to nested tool dirs)
-**/research/gemini/sessions/
-**/research/gemini/raw/
-
-# Vendored JS libs (use CDN or local dev only)
 particle/src/core/viz/assets/vendor/
 
-# Large generated reports (exceed 500KB pre-commit threshold)
-wave/library/large_outputs/
+# =============================================================================
+# STANDARD: TEMPORARY & BACKUP
+# =============================================================================
+*.tmp
+*.bak
+*.backup
+backup_*.zip
+*.log
