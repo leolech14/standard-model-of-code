@@ -694,6 +694,255 @@
           "$value": "0 0 8px #ff0000"
         }
       }
+    },
+    "scientific-paper": {
+      "$description": "Scientific paper aesthetic — white background, hairline borders, minimal color, maximum readability",
+      "$design-language": "Academic paper: white space, serif fonts, wireframe nodes, graph-paper grids",
+      "color": {
+        "bg": {
+          "base": {
+            "$value": "oklch(99% 0 0)"
+          },
+          "surface": {
+            "$value": "oklch(97% 0.005 250)"
+          },
+          "elevated": {
+            "$value": "oklch(100% 0 0)"
+          },
+          "sunken": {
+            "$value": "oklch(95% 0.01 250)"
+          },
+          "overlay": {
+            "$value": "oklch(100% 0 0 / 0.92)"
+          },
+          "overlay-light": {
+            "$value": "oklch(100% 0 0 / 0.5)"
+          },
+          "overlay-medium": {
+            "$value": "oklch(100% 0 0 / 0.7)"
+          },
+          "shadow-soft": {
+            "$value": "rgba(0, 0, 0, 0.06)"
+          },
+          "hover": {
+            "$value": "oklch(0% 0 0 / 0.03)"
+          },
+          "active": {
+            "$value": "oklch(0% 0 0 / 0.06)"
+          },
+          "highlight": {
+            "$value": "oklch(0% 0 0 / 0.08)"
+          },
+          "panel-dark": {
+            "$value": "rgba(245, 245, 240, 0.95)"
+          },
+          "panel-blue": {
+            "$value": "rgba(240, 245, 250, 0.95)"
+          },
+          "panel-accent": {
+            "$value": "rgba(235, 240, 250, 0.9)"
+          },
+          "tooltip": {
+            "$value": "rgba(30, 30, 30, 0.92)"
+          },
+          "scrollbar-track": {
+            "$value": "transparent"
+          },
+          "scrollbar-thumb": {
+            "$value": "oklch(0% 0 0 / 0.12)"
+          },
+          "scrollbar-thumb-hover": {
+            "$value": "oklch(0% 0 0 / 0.2)"
+          }
+        },
+        "border": {
+          "default": {
+            "$value": "oklch(0% 0 0 / 0.12)"
+          },
+          "subtle": {
+            "$value": "oklch(0% 0 0 / 0.06)"
+          },
+          "faint": {
+            "$value": "oklch(0% 0 0 / 0.04)"
+          },
+          "muted": {
+            "$value": "oklch(0% 0 0 / 0.08)"
+          },
+          "strong": {
+            "$value": "oklch(0% 0 0 / 0.25)"
+          },
+          "focus": {
+            "$value": "oklch(45% 0.08 250)"
+          }
+        },
+        "text": {
+          "primary": {
+            "$value": "oklch(10% 0.01 250)"
+          },
+          "bright": {
+            "$value": "oklch(5% 0 0)"
+          },
+          "high": {
+            "$value": "oklch(15% 0.01 250)"
+          },
+          "secondary": {
+            "$value": "oklch(30% 0.01 250)"
+          },
+          "tertiary": {
+            "$value": "oklch(45% 0.01 250)"
+          },
+          "muted": {
+            "$value": "oklch(55% 0.01 250)"
+          },
+          "disabled": {
+            "$value": "oklch(70% 0.01 250)"
+          },
+          "inverse": {
+            "$value": "oklch(98% 0 0)"
+          }
+        },
+        "accent": {
+          "primary": {
+            "$value": "oklch(45% 0.08 250)"
+          },
+          "primary-bright": {
+            "$value": "oklch(50% 0.10 250)"
+          },
+          "primary-dim": {
+            "$value": "oklch(38% 0.06 250)"
+          },
+          "primary-bg": {
+            "$value": "oklch(45% 0.08 250 / 0.08)"
+          },
+          "primary-bg-medium": {
+            "$value": "rgba(80, 90, 120, 0.15)"
+          },
+          "primary-bg-subtle": {
+            "$value": "rgba(80, 90, 120, 0.06)"
+          },
+          "primary-glow": {
+            "$value": "none"
+          }
+        },
+        "viz": {
+          "tooltip-bg": {
+            "$value": "rgba(30, 30, 30, 0.92)"
+          },
+          "tooltip-text": {
+            "$value": "rgba(240, 240, 240, 0.95)"
+          },
+          "node-glow": {
+            "$value": "none"
+          },
+          "edge-glow": {
+            "$value": "none"
+          },
+          "selection": {
+            "$value": "rgba(60, 80, 120, 0.2)"
+          },
+          "highlight": {
+            "$value": "rgba(80, 80, 80, 0.5)"
+          },
+          "canvas-bg": {
+            "$value": "#fafaf8"
+          },
+          "node-fallback": {
+            "$value": "#555560"
+          },
+          "edge-fallback": {
+            "$value": "#c0c0c0"
+          }
+        },
+        "neutral": {
+          "black": {
+            "$value": "#000000"
+          },
+          "near-black": {
+            "$value": "#1a1a1a"
+          },
+          "gray-dark": {
+            "$value": "#666666"
+          },
+          "white": {
+            "$value": "#ffffff"
+          }
+        },
+        "status": {
+          "success": {
+            "$value": "#2d7d46"
+          },
+          "success-bg": {
+            "$value": "#e8f5e9"
+          },
+          "warning": {
+            "$value": "#b8860b"
+          },
+          "warning-bg": {
+            "$value": "#fff8e1"
+          },
+          "error": {
+            "$value": "#c62828"
+          },
+          "error-bg": {
+            "$value": "#fce4ec"
+          },
+          "info": {
+            "$value": "#1565c0"
+          },
+          "info-bg": {
+            "$value": "#e3f2fd"
+          }
+        },
+        "data": {
+          "blue": {
+            "$value": "#1565c0"
+          },
+          "green": {
+            "$value": "#2d7d46"
+          },
+          "yellow": {
+            "$value": "#b8860b"
+          },
+          "red": {
+            "$value": "#c62828"
+          }
+        }
+      },
+      "shadow": {
+        "sm": {
+          "$value": "0 1px 3px oklch(0% 0 0 / 0.06)"
+        },
+        "md": {
+          "$value": "0 2px 8px oklch(0% 0 0 / 0.08)"
+        },
+        "lg": {
+          "$value": "0 4px 16px oklch(0% 0 0 / 0.1)"
+        },
+        "glow-accent": {
+          "$value": "none"
+        }
+      },
+      "typography": {
+        "family": {
+          "sans": {
+            "$value": "'Libre Baskerville', Georgia, 'Times New Roman', serif"
+          },
+          "mono": {
+            "$value": "'JetBrains Mono', 'SF Mono', Monaco, Consolas, monospace"
+          }
+        },
+        "size": {
+          "base": {
+            "$value": "13px"
+          },
+          "lg": {
+            "$value": "16px"
+          },
+          "xl": {
+            "$value": "18px"
+          }
+        }
+      }
     }
   },
   "color": {
@@ -1222,6 +1471,10 @@
       "mono": {
         "$value": "'JetBrains Mono', 'SF Mono', Monaco, Consolas, monospace",
         "$description": "Code/data font"
+      },
+      "serif": {
+        "$value": "'Libre Baskerville', Georgia, 'Times New Roman', serif",
+        "$description": "Academic/paper font for scientific-paper theme"
       }
     },
     "size": {

@@ -1,6 +1,17 @@
 {
   "$schema": "design-tokens",
   "$purpose": "Visual appearance variables - THE REMOTE CONTROL",
+  "appearance-mode": {
+    "$description": "Visual rendering mode for nodes — filled (default) or wireframe (scientific-paper)",
+    "$value": "filled",
+    "$options": ["filled", "wireframe"],
+    "wireframe": {
+      "node-fill-opacity": { "$value": 0.0, "$description": "Transparent fill for wireframe nodes" },
+      "node-stroke-opacity": { "$value": 1.0, "$description": "Full stroke visibility" },
+      "node-stroke-width": { "$value": 1.5, "$description": "Hairline stroke width in px" },
+      "edge-opacity": { "$value": 0.15, "$description": "Subtle edges for paper aesthetic" }
+    }
+  },
   "render": {
     "$description": "Core rendering parameters",
     "dimensions": {

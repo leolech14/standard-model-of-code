@@ -69,7 +69,9 @@ class AppearanceEngine:
         ) if wireframe else None
 
         for node in nodes:
-            # Prefer pre-encoded OKLCH color from color_encoding layer
+            # PRECEDENCE: encoded_color (from color_encoding views) wins for
+            # the color field, but wireframe properties are still applied
+            # independently. Data encoding = WHAT color, wireframe = HOW it renders.
             if 'encoded_color' in node:
                 node["color"] = node["encoded_color"]
             elif color_mode == "file":

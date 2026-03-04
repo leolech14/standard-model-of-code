@@ -239,6 +239,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
     flow_mode_config = appearance.get_flow_mode_config()
     flow_presets_config = appearance.get_flow_presets_config()
     animation_config = appearance.get_animation_config()
+    wireframe_config = appearance.get_wireframe_config()
     controls_config = controls.to_js_config(
         available_rings=available_rings,
         available_families=available_families,
@@ -315,7 +316,8 @@ def generate_webgl_html(json_source: Any, output_path: str):
             "highlight": highlight_config,
             "flow_mode": flow_mode_config,
             "flow-presets": flow_presets_config,
-            "animation": animation_config
+            "animation": animation_config,
+            "wireframe": wireframe_config
         },
         "controls": controls_config,
 
