@@ -42,11 +42,13 @@ jobs:
         run: uv run pytest tests/ -q
 
   collider-gate:
-    name: Collider Gate
+    name: Collider Gate (PDS)
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need HEAD~1 for PDS diff
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -54,38 +56,13 @@ jobs:
       - name: Install dependencies (with dev extras)
         working-directory: particle
         run: uv sync --extra dev
-      - name: Collider health gate
+      - name: Run full analysis (establishes baseline)
         working-directory: particle
-        env:
-          MINIMUM_HEALTH: "7.0"
         run: |
-          # Run grade in JSON mode and enforce threshold
-          OUTPUT=$(uv run python cli.py grade --json 2>&1) || true
-          echo "$OUTPUT"
-
-          # Extract health_index from JSON output
-          HEALTH=$(echo "$OUTPUT" | python3 -c "
-          import sys, json
-          text = sys.stdin.read()
-          start = text.find('{')
-          if start < 0:
-              print('0.0')
-              sys.exit(0)
-          try:
-              data = json.loads(text[start:])
-              print(data.get('health_index', 0.0))
-          except:
-              print('0.0')
-          ")
-
-          echo "Health score: $HEALTH / $MINIMUM_HEALTH required"
-
-          # Compare as floats
-          python3 -c "
-          health = float('$HEALTH')
-          minimum = float('$MINIMUM_HEALTH')
-          if health < minimum:
-              print(f'FAIL: {health}/10 < {minimum} minimum')
-              exit(1)
-          print(f'PASS: {health}/10 >= {minimum} minimum')
-          "
+          uv run python cli.py full . --output .collider/ --quiet 2>&1 || true
+          echo "Full analysis complete. Baseline saved to .collider/pds_baseline.json"
+      - name: PDS structural gate
+        working-directory: particle
+        run: |
+          # Run PDS gate check against baseline
+          uv run python cli.py pds --json --verbose

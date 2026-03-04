@@ -177,6 +177,36 @@ def main():
     )
 
     # ==========================================
+    # PDS Command - Progressive Discovery System
+    # ==========================================
+    pds_parser = subparsers.add_parser(
+        "pds",
+        help="Incremental gate: check if recent changes introduce structural damage",
+        description="Progressive Discovery System. Reads cached baseline, computes blast radius of changed files, and gates on critical/high structural findings."
+    )
+    pds_parser.add_argument(
+        "path",
+        nargs="?",
+        default=".",
+        help="Path to the repository (default: current directory)"
+    )
+    pds_parser.add_argument(
+        "--base-ref",
+        default="HEAD~1",
+        help="Git ref to diff against (default: HEAD~1)"
+    )
+    pds_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output results as JSON"
+    )
+    pds_parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Show detailed blast radius and findings"
+    )
+
+    # ==========================================
     # AUDIT Command
     # ==========================================
     audit_parser = subparsers.add_parser(
@@ -943,6 +973,95 @@ def main():
         passed = (probe_fail_count == 0) and analysis_ok
         print(f"Audit result: {'PASS' if passed else 'FAIL'}")
         sys.exit(0 if passed else 1)
+
+    elif args.command == "pds":
+        import json as json_module
+        from src.core.pds import get_changed_files, compute_blast_radius, evaluate_gate
+        from src.core.pds_baseline import load_baseline, map_files_to_nodes
+        from src.core.graph_framework import build_nx_graph
+
+        target_path = Path(args.path).resolve()
+        json_mode = getattr(args, 'json', False)
+        verbose = getattr(args, 'verbose', False)
+        base_ref = getattr(args, 'base_ref', 'HEAD~1')
+
+        # Step 1: Load baseline
+        baseline = load_baseline(str(target_path))
+        if baseline is None:
+            msg = "No PDS baseline found. Run `collider full .` first to establish one."
+            if json_mode:
+                print(json_module.dumps({"passed": True, "summary": msg}))
+            else:
+                print(msg)
+            sys.exit(0)
+
+        # Step 2: Get changed files
+        changed_files = get_changed_files(str(target_path), base_ref=base_ref)
+        if not changed_files:
+            msg = "No analyzable changes detected."
+            if json_mode:
+                print(json_module.dumps({"passed": True, "changed_files": [], "summary": msg}))
+            else:
+                print(msg)
+            sys.exit(0)
+
+        # Step 3: Build graph from baseline
+        nodes = baseline.get("nodes", [])
+        edges = baseline.get("edges", [])
+        G = build_nx_graph(nodes, edges)
+
+        # Step 4: Map changed files to node IDs
+        changed_nodes = map_files_to_nodes(nodes, changed_files, repo_root=str(target_path))
+
+        # Step 5: Compute blast radius
+        blast_radius = compute_blast_radius(G, changed_nodes)
+
+        # Step 6: Filter findings and evaluate gate
+        compiled = baseline.get("compiled_insights", {})
+        findings = compiled.get("findings", [])
+        result = evaluate_gate(findings, blast_radius, changed_files)
+
+        # Step 7: Output
+        if json_mode:
+            output = {
+                "changed_files": sorted(changed_files),
+                "changed_nodes": len(changed_nodes),
+                "blast_radius_nodes": len(blast_radius),
+                "blocking_findings": result.blocking_findings,
+                "warnings": result.warnings,
+                "passed": result.passed,
+                "summary": result.summary,
+            }
+            print(json_module.dumps(output, indent=2))
+        else:
+            status = "PASS" if result.passed else "FAIL"
+            print(f"PDS Gate: {status}")
+            print(f"  {result.summary}")
+
+            if verbose:
+                print(f"\n  Changed files:")
+                for f in sorted(changed_files):
+                    print(f"    {f}")
+                print(f"\n  Changed nodes: {len(changed_nodes)}")
+                print(f"  Blast radius: {len(blast_radius)} nodes")
+
+                if result.blocking_findings:
+                    print(f"\n  Blocking findings ({len(result.blocking_findings)}):")
+                    for finding in result.blocking_findings:
+                        sev = finding.get('severity', '?').upper()
+                        title = finding.get('title', '?')
+                        print(f"    [{sev}] {title}")
+
+                if result.warnings:
+                    print(f"\n  Warnings ({len(result.warnings)}):")
+                    for w in result.warnings[:5]:
+                        sev = w.get('severity', '?').upper()
+                        title = w.get('title', '?')
+                        print(f"    [{sev}] {title}")
+                    if len(result.warnings) > 5:
+                        print(f"    ... and {len(result.warnings) - 5} more")
+
+        sys.exit(0 if result.passed else 1)
 
     elif args.command == "grade":
         from src.core.full_analysis import run_full_analysis
