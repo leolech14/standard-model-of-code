@@ -1,28 +1,22 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════
- * ENCODING-VIEW MODULE - Dynamic domain-grouped OKLCH view switching
+ * ENCODING-VIEW MODULE - Auto-ranked top 5 OKLCH view switching
  * ═══════════════════════════════════════════════════════════════════════════
  *
- * Reads view_registry from the payload and builds a domain-grouped UI:
- *   [Domain: Architecture ▾] [Default] [Arch] [Layers] [Boundaries] [Scale]
- *   "Which architectural layers have the most coherent code?"
+ * Python ranks all 30 views by informativeness for this dataset and sends
+ * the top 5 (default + 4 data-driven) as `ranked_views` in the payload.
+ * This module renders them as a flat row of dock buttons:
+ *
+ *   [Default] [Topo] [Risk] [Layers] [Cmplx]
+ *   "Where are the highest risk areas?"
  *
  * Colors are pre-computed in Python as node.encoded_colors = { viewName: [L,C,H], ... }.
  * When a non-default view is active, getNodeColorByMode() in node-helpers.js
  * picks up the encoded color instead of computing from the JS color mode.
  *
  * @module ENCODING_VIEW
- * @version 2.0.0
+ * @version 3.0.0
  */
-
-// Fallback VIEW_INFO for when view_registry is not in payload (backward compat)
-const FALLBACK_VIEW_INFO = {
-    default: { name: 'default', domain: 'general', question: '', reading: 'Standard coloring (uses Color Mode selector)' },
-    architecture: { name: 'architecture', domain: 'general', question: '', reading: 'H=tier, L=coherence score, C=purity score' },
-    health: { name: 'health', domain: 'general', question: '', reading: 'H=tier, L=complexity (inverted), C=coherence' },
-    topology: { name: 'topology', domain: 'general', question: '', reading: 'H=topology role, L=pagerank, C=betweenness' },
-    files: { name: 'files', domain: 'general', question: '', reading: 'H=file (golden angle), L=coherence, C=purity' },
-};
 
 // Short display labels for view buttons
 const VIEW_LABELS = {
@@ -38,17 +32,8 @@ const VIEW_LABELS = {
     hotspots: 'Hotspot', signals: 'Signals',
 };
 
-// Domain display labels
-const DOMAIN_LABELS = {
-    general: 'General', architecture: 'Architecture', health: 'Health',
-    topology: 'Topology', files: 'Files', behavior: 'Behavior',
-    purity: 'Purity', risk: 'Risk', confidence: 'Confidence',
-    convergence: 'Convergence',
-};
-
 // Current state
 let _registry = {};
-let _activeDomain = 'general';
 window.ENCODING_VIEW = 'default';
 
 /**
@@ -58,17 +43,16 @@ function init() {
     const dock = document.getElementById('dock-encoding-view');
     if (!dock) return;
 
-    // Load registry from payload
+    // Load registry for signature lookups
     _registry = _loadRegistry();
 
-    // Group views by domain
-    const domains = _groupByDomain(_registry);
+    // Load ranked views from payload
+    const ranked = _loadRankedViews();
 
     // Build UI
-    _buildUI(dock, domains);
+    _buildUI(dock, ranked);
 
-    const viewCount = Object.keys(_registry).length;
-    console.log(`[Module] ENCODING_VIEW loaded - ${viewCount} views across ${Object.keys(domains).length} domains`);
+    console.log(`[Module] ENCODING_VIEW loaded - ${ranked.length} ranked views`);
 }
 
 /**
@@ -78,57 +62,58 @@ function _loadRegistry() {
     if (window.COLLIDER_DATA && window.COLLIDER_DATA.view_registry) {
         return window.COLLIDER_DATA.view_registry;
     }
-    return FALLBACK_VIEW_INFO;
+    return {};
 }
 
 /**
- * Group registry entries by domain.
- * @returns {Object} { domainName: [viewEntry, ...], ... }
+ * Load ranked views from payload, with fallback for old payloads.
+ * @returns {Array} [{ name, rank, score, domain }, ...]
  */
-function _groupByDomain(registry) {
-    const groups = {};
-    for (const [name, entry] of Object.entries(registry)) {
-        const domain = entry.domain || 'general';
-        if (!groups[domain]) groups[domain] = [];
-        groups[domain].push(entry);
+function _loadRankedViews() {
+    if (window.COLLIDER_DATA && window.COLLIDER_DATA.ranked_views) {
+        return window.COLLIDER_DATA.ranked_views;
     }
-    // Ensure 'general' is first
-    const ordered = {};
-    if (groups.general) { ordered.general = groups.general; }
-    for (const [d, views] of Object.entries(groups)) {
-        if (d !== 'general') ordered[d] = views;
-    }
-    return ordered;
+    // Fallback for old payloads
+    return [
+        { name: 'default', rank: 0 },
+        { name: 'architecture', rank: 1 },
+        { name: 'health', rank: 2 },
+        { name: 'topology', rank: 3 },
+        { name: 'files', rank: 4 },
+    ];
 }
 
 /**
- * Build the dynamic dock UI: domain selector + view buttons + signature panel.
+ * Build the dock UI: flat row of ranked view buttons + signature panel.
  */
-function _buildUI(dock, domains) {
+function _buildUI(dock, ranked) {
     dock.innerHTML = '';
-
-    // Domain dropdown
-    const select = document.createElement('select');
-    select.className = 'encoding-domain-select';
-    select.title = 'Filter views by analytical domain';
-    for (const domain of Object.keys(domains)) {
-        const opt = document.createElement('option');
-        opt.value = domain;
-        opt.textContent = DOMAIN_LABELS[domain] || domain;
-        select.appendChild(opt);
-    }
-    select.value = _activeDomain;
-    select.addEventListener('change', () => {
-        _activeDomain = select.value;
-        _renderViewButtons(btnContainer, domains[_activeDomain] || []);
-        _updateSignature();
-    });
-    dock.appendChild(select);
 
     // View button container
     const btnContainer = document.createElement('div');
     btnContainer.className = 'encoding-view-group';
     dock.appendChild(btnContainer);
+
+    // Render buttons from ranked views
+    for (const rv of ranked) {
+        const btn = document.createElement('button');
+        btn.className = 'dock-btn';
+        if (rv.name === window.ENCODING_VIEW) btn.classList.add('active');
+        btn.dataset.view = rv.name;
+        btn.textContent = VIEW_LABELS[rv.name] || rv.name;
+
+        // Tooltip: question + score
+        const entry = _registry[rv.name];
+        const question = entry ? (entry.question || entry.reading || rv.name) : rv.name;
+        const scoreText = rv.score != null ? ` (score: ${rv.score})` : '';
+        btn.title = question + scoreText;
+
+        btn.addEventListener('click', () => {
+            if (rv.name === window.ENCODING_VIEW) return;
+            setView(rv.name);
+        });
+        btnContainer.appendChild(btn);
+    }
 
     // Signature panel (below dock, injected as sibling)
     let sigPanel = document.getElementById('encoding-signature');
@@ -143,29 +128,7 @@ function _buildUI(dock, domains) {
         }
     }
 
-    // Render initial domain
-    _renderViewButtons(btnContainer, domains[_activeDomain] || []);
     _updateSignature();
-}
-
-/**
- * Render view buttons for the currently selected domain.
- */
-function _renderViewButtons(container, views) {
-    container.innerHTML = '';
-    for (const view of views) {
-        const btn = document.createElement('button');
-        btn.className = 'dock-btn';
-        if (view.name === window.ENCODING_VIEW) btn.classList.add('active');
-        btn.dataset.view = view.name;
-        btn.textContent = VIEW_LABELS[view.name] || view.name;
-        btn.title = view.question || view.reading || view.name;
-        btn.addEventListener('click', () => {
-            if (view.name === window.ENCODING_VIEW) return;
-            setView(view.name);
-        });
-        container.appendChild(btn);
-    }
 }
 
 /**
@@ -195,22 +158,6 @@ function _updateSignature() {
 function setView(view) {
     window.ENCODING_VIEW = view;
 
-    // Switch domain if the view belongs to a different one
-    const entry = _registry[view];
-    if (entry && entry.domain && entry.domain !== _activeDomain) {
-        _activeDomain = entry.domain;
-        const select = document.querySelector('.encoding-domain-select');
-        if (select) select.value = _activeDomain;
-        const dock = document.getElementById('dock-encoding-view');
-        if (dock) {
-            const btnContainer = dock.querySelector('.encoding-view-group');
-            if (btnContainer) {
-                const domains = _groupByDomain(_registry);
-                _renderViewButtons(btnContainer, domains[_activeDomain] || []);
-            }
-        }
-    }
-
     // Update button active states
     const dock = document.getElementById('dock-encoding-view');
     if (dock) {
@@ -223,6 +170,7 @@ function setView(view) {
     _updateSignature();
 
     // Show toast
+    const entry = _registry[view];
     if (typeof window.showToast === 'function') {
         const info = entry ? (entry.question || entry.reading || view) : view;
         window.showToast(`View: ${view} — ${info}`, 3000);

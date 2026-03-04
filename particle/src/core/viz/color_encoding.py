@@ -682,7 +682,16 @@ def _resolve_base_hue(node: Dict[str, Any], hue_source: str) -> float:
         file_idx = node.get('fileIdx', 0)
         return (file_idx * 137.508) % 360.0
     elif hue_source == 'level':
-        level = node.get('level', 0)
+        level_raw = node.get('level', '0')
+        # Level may be 'L3', 'L10', etc. — extract the numeric part.
+        if isinstance(level_raw, str):
+            digits = ''.join(c for c in level_raw if c.isdigit())
+            level = int(digits) if digits else 0
+        else:
+            try:
+                level = int(level_raw)
+            except (TypeError, ValueError):
+                level = 0
         # Map levels 0-15 across hue wheel
         return (level * 22.5) % 360.0
     elif hue_source == 'topology_role':
@@ -1056,3 +1065,128 @@ def get_view_registry() -> Dict[str, Any]:
             'chroma_metric': view.chroma.metric if view.chroma else None,
         }
     return registry
+
+
+# =============================================================================
+# VIEW RANKING — score informativeness from encoded OKLCH values
+# =============================================================================
+
+def _score_view(nodes: List[Dict[str, Any]], view_name: str) -> float:
+    """Score a single view's informativeness from its encoded OKLCH triples.
+
+    Three signals:
+        A. Coverage  (0.35) — fraction of nodes with non-neutral colors
+        B. L-variance (0.40) — brightness contrast (stdev of L values)
+        C. H-diversity (0.25) — number of distinct hue buckets (10-degree bins)
+    """
+    colors = []
+    for n in nodes:
+        ec = n.get('encoded_colors', {}).get(view_name)
+        if ec and len(ec) == 3:
+            colors.append(ec)
+
+    if not colors:
+        return 0.0
+
+    total = len(nodes)
+
+    # A. Coverage — non-neutral nodes
+    non_neutral = sum(
+        1 for L, C, H in colors
+        if abs(L - NEUTRAL_L) > 0.01 or abs(C - NEUTRAL_C) > 0.005
+    )
+    coverage = non_neutral / total if total > 0 else 0.0
+
+    # B. Lightness variance
+    l_values = [L for L, C, H in colors]
+    if len(l_values) >= 2:
+        mean_l = sum(l_values) / len(l_values)
+        variance = sum((v - mean_l) ** 2 for v in l_values) / len(l_values)
+        l_stdev = variance ** 0.5
+        l_score = min(l_stdev / 0.15, 1.0)
+    else:
+        l_score = 0.0
+
+    # C. Hue diversity — 10-degree bins
+    buckets = set(int(H / 10.0) % 36 for L, C, H in colors)
+    h_score = min(len(buckets) / 6.0, 1.0)
+
+    return 0.35 * coverage + 0.40 * l_score + 0.25 * h_score
+
+
+def rank_views(
+    nodes: List[Dict[str, Any]],
+    top_k: int = 4,
+    min_domains: int = 3,
+) -> List[Dict[str, Any]]:
+    """Rank encoding views by informativeness for this dataset.
+
+    Scores each view's encoded OKLCH values, then returns the top_k most
+    informative views plus 'default' at rank 0.
+
+    After scoring, enforces domain diversity: ensures at least min_domains
+    distinct domains appear in the top_k results.
+
+    Args:
+        nodes: List of node dicts with 'encoded_colors' already populated.
+        top_k: Number of data-driven views to return (default always included).
+        min_domains: Minimum distinct domains in result.
+
+    Returns:
+        List of dicts: [{'name', 'rank', 'score', 'domain'}, ...] with
+        default at rank 0 followed by top_k scored views in descending order.
+    """
+    if not nodes:
+        return [{'name': 'default', 'rank': 0, 'score': None, 'domain': 'general'}]
+
+    # Score all non-default views
+    scored = []
+    for view_name, view_spec in PRESET_VIEWS.items():
+        if view_name == 'default':
+            continue
+        sig = view_spec.signature
+        domain = sig.domain if sig else 'general'
+        score = _score_view(nodes, view_name)
+        scored.append({'name': view_name, 'score': score, 'domain': domain})
+
+    # Sort by score descending
+    scored.sort(key=lambda x: x['score'], reverse=True)
+
+    # Take initial top_k
+    top = scored[:top_k]
+
+    # Enforce domain diversity via greedy swap
+    if len(top) >= 2 and min_domains > 1:
+        top_domains = set(v['domain'] for v in top)
+        if len(top_domains) < min_domains:
+            # Find domains missing from top
+            remaining = scored[top_k:]
+            for candidate in remaining:
+                if candidate['domain'] not in top_domains:
+                    # Swap with the lowest-scored view from a duplicate domain
+                    domain_counts = {}
+                    for v in top:
+                        domain_counts[v['domain']] = domain_counts.get(v['domain'], 0) + 1
+                    # Find a duplicate domain (count > 1), pick lowest-scored in it
+                    for i in range(len(top) - 1, -1, -1):
+                        if domain_counts.get(top[i]['domain'], 0) > 1:
+                            domain_counts[top[i]['domain']] -= 1
+                            top[i] = candidate
+                            top_domains.add(candidate['domain'])
+                            break
+                    if len(top_domains) >= min_domains:
+                        break
+            # Re-sort after swaps
+            top.sort(key=lambda x: x['score'], reverse=True)
+
+    # Build result: default at rank 0, then scored views
+    result = [{'name': 'default', 'rank': 0, 'score': None, 'domain': 'general'}]
+    for i, entry in enumerate(top):
+        result.append({
+            'name': entry['name'],
+            'rank': i + 1,
+            'score': round(entry['score'], 4),
+            'domain': entry['domain'],
+        })
+
+    return result

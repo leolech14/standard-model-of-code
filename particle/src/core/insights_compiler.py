@@ -3314,8 +3314,11 @@ class InsightsCompiler:
                     category='api_drift',
                     severity=insight['severity'],
                     title=insight['title'],
-                    detail=insight['description'],
-                    recommendation=insight.get('recommendation', ''),
+                    description=insight['description'],
+                    evidence={'drift_score': drift_score, 'matched': matched},
+                    interpretation=insight.get('description', ''),
+                    recommendation=insight.get('recommendation', 'Review API contract alignment.'),
+                    effort='medium',
                 )
         except Exception:
             # Fallback: generate insights directly from drift items
@@ -3332,7 +3335,11 @@ class InsightsCompiler:
                     category='api_drift',
                     severity=sev,
                     title=f"API drift: {dtype.replace('_', ' ')}",
-                    detail=desc,
+                    description=desc,
+                    evidence={'drift_type': dtype},
+                    interpretation=desc,
+                    recommendation='Review API contract alignment.',
+                    effort='medium',
                 )
 
         # Overall drift health insight
@@ -3341,15 +3348,22 @@ class InsightsCompiler:
                 category='api_drift',
                 severity='info',
                 title='API contracts fully aligned',
-                detail=f'{matched} endpoints matched between backend and frontend with zero drift.',
+                description=f'{matched} endpoints matched between backend and frontend with zero drift.',
+                evidence={'drift_score': 0, 'matched': matched},
+                interpretation='Backend and frontend API surfaces are in perfect agreement.',
+                recommendation='Maintain contract alignment through API versioning or contract tests.',
+                effort='low',
             )
         elif drift_score > 0.5:
             self._add(
                 category='api_drift',
                 severity='critical',
                 title='Severe API contract drift',
-                detail=f'Drift score {drift_score:.0%} — more than half the API surface is misaligned.',
+                description=f'Drift score {drift_score:.0%} — more than half the API surface is misaligned.',
+                evidence={'drift_score': drift_score, 'matched': matched, 'total_be': total_be},
+                interpretation='Major disconnect between backend routes and frontend consumers.',
                 recommendation='Audit all frontend API calls against the backend route definitions.',
+                effort='high',
             )
 
     def _interpret_chemistry(self):

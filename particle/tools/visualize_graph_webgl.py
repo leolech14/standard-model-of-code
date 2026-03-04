@@ -469,7 +469,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
             # Evolution metrics
             "churn": n.get('churn', 0),
             "age": n.get('age', 0),
-            # Pre-computed OKLCH view encodings (architecture, health, topology, files)
+            # Pre-computed OKLCH view encodings (33 views across 10 domains)
             "encoded_colors": n.get('encoded_colors', {})
         })
         node_set.add(nid)

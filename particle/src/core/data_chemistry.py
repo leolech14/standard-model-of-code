@@ -289,6 +289,15 @@ def _extract_ideome_coherence(full_output: dict) -> Optional[float]:
     return ideome.get('global_coherence')
 
 
+def _extract_drift_score(full_output: dict) -> Optional[float]:
+    """Extract API drift score [0,1]. 0 = fully aligned, 1 = total mismatch."""
+    drift = full_output.get('api_drift', {})
+    if not drift:
+        return None
+    score = drift.get('drift_score')
+    return float(score) if score is not None else None
+
+
 def _extract_dead_code_pct(full_output: dict) -> float:
     """Extract dead code percentage."""
     return float(full_output.get('kpis', {}).get('dead_code_percent', 0) or 0)
@@ -928,6 +937,7 @@ _INGEST_EXTRACTORS: Dict[str, Any] = {
     'file_concentration': _extract_file_concentration,
     'domain_clarity': _extract_domain_clarity,
     'ideome_coherence': _extract_ideome_coherence,
+    'drift_score': _extract_drift_score,
 }
 
 # Extractors that always return a value (never None)

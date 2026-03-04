@@ -59,6 +59,7 @@ from src.core.viz.color_encoding import (
     encode_edges,
     encode_nodes,
     get_view_registry,
+    rank_views,
     tag_convergence,
 )
 
@@ -1076,9 +1077,9 @@ class TestGetViewRegistry:
     """Test the view registry export function."""
 
     def test_registry_contains_all_views(self):
-        """Registry should have 33 entries."""
+        """Registry should have 30 entries (5 original + 25 new)."""
         registry = get_view_registry()
-        assert len(registry) >= 30
+        assert len(registry) == 30
 
     def test_domain_grouping_correct(self):
         """Each view should have a domain that matches its signature."""
@@ -1097,7 +1098,7 @@ class TestGetViewRegistry:
         serialized = json.dumps(registry)
         assert isinstance(serialized, str)
         parsed = json.loads(serialized)
-        assert len(parsed) >= 30
+        assert len(parsed) == 30
 
     def test_registry_has_expected_domains(self):
         """Registry should cover all expected analytical domains."""
@@ -1201,4 +1202,128 @@ class TestPresetEdgeMappings:
         assert hue_low < hue_high, (
             f"Edge gradient wrong direction: low conf hue={hue_low:.1f}, "
             f"high conf hue={hue_high:.1f}"
+        )
+
+
+# =============================================================================
+# rank_views() tests
+# =============================================================================
+
+class TestRankViews:
+    """Test the informativeness ranking of encoding views."""
+
+    def _make_encoded_nodes(self, view_colors):
+        """Create nodes with pre-populated encoded_colors.
+
+        Args:
+            view_colors: dict of {view_name: list of (L, C, H) tuples}
+        Returns:
+            list of node dicts with encoded_colors populated
+        """
+        if not view_colors:
+            return []
+        # All views should have the same number of color entries
+        n = len(next(iter(view_colors.values())))
+        nodes = []
+        for i in range(n):
+            ec = {}
+            for vname, colors in view_colors.items():
+                ec[vname] = list(colors[i])
+            nodes.append({'id': f'n{i}', 'encoded_colors': ec})
+        return nodes
+
+    def test_default_always_first(self):
+        """Default view should always be rank 0 regardless of data."""
+        # Create nodes with some encoded colors for architecture view
+        nodes = self._make_encoded_nodes({
+            'architecture': [(0.5, 0.10, 200.0)] * 10,
+        })
+        result = rank_views(nodes, top_k=4, min_domains=3)
+        assert result[0]['name'] == 'default'
+        assert result[0]['rank'] == 0
+        assert result[0]['score'] is None
+
+    def test_returns_top_k_plus_default(self):
+        """Should return exactly top_k + 1 results (default + top_k data views)."""
+        # Create nodes with encoded colors for several views
+        import random
+        random.seed(42)
+        view_names = [n for n in PRESET_VIEWS if n != 'default']
+        view_colors = {}
+        for vn in view_names:
+            view_colors[vn] = [
+                (0.35 + random.random() * 0.5, 0.02 + random.random() * 0.18,
+                 random.random() * 360)
+                for _ in range(20)
+            ]
+        nodes = self._make_encoded_nodes(view_colors)
+        result = rank_views(nodes, top_k=4, min_domains=3)
+        assert len(result) == 5  # default + 4
+
+    def test_high_variance_ranks_higher(self):
+        """A view with spread L values should beat a flat one."""
+        # "spread_view" has L values from 0.35 to 0.85 — high variance
+        spread_colors = [(0.35 + i * 0.05, 0.10, (i * 30) % 360) for i in range(11)]
+        # "flat_view" has all L=0.60 (neutral) — zero variance
+        flat_colors = [(NEUTRAL_L, NEUTRAL_C, 200.0)] * 11
+
+        nodes = self._make_encoded_nodes({
+            'architecture': spread_colors,
+            'health': flat_colors,
+        })
+        result = rank_views(nodes, top_k=4, min_domains=1)
+
+        # Find scores
+        scores = {r['name']: r['score'] for r in result if r['score'] is not None}
+        assert scores.get('architecture', 0) > scores.get('health', 0), (
+            f"Spread view ({scores.get('architecture')}) should rank higher "
+            f"than flat view ({scores.get('health')})"
+        )
+
+    def test_domain_diversity_enforced(self):
+        """At least min_domains distinct domains should appear in results."""
+        # Create 4 risk-domain views with high scores, 1 topology view with lower score
+        high_colors = [(0.35 + i * 0.05, 0.10, (i * 40) % 360) for i in range(10)]
+        low_colors = [(0.55 + i * 0.02, 0.08, (i * 20) % 360) for i in range(10)]
+
+        nodes = self._make_encoded_nodes({
+            'risk': high_colors,
+            'debt': high_colors,
+            'fragility': high_colors,
+            'god_class': high_colors,
+            'topology': low_colors,
+            'influence': low_colors,
+        })
+        result = rank_views(nodes, top_k=4, min_domains=3)
+
+        domains = set(r['domain'] for r in result[1:])  # skip default
+        assert len(domains) >= 3, (
+            f"Expected at least 3 domains, got {len(domains)}: {domains}"
+        )
+
+    def test_empty_nodes(self):
+        """Empty nodes list should return just default."""
+        result = rank_views([], top_k=4, min_domains=3)
+        assert len(result) == 1
+        assert result[0]['name'] == 'default'
+
+    def test_scores_descending(self):
+        """Data views (ranks 1-4) should be ordered by decreasing score."""
+        import random
+        random.seed(123)
+        view_names = [n for n in PRESET_VIEWS if n != 'default']
+        view_colors = {}
+        for vn in view_names:
+            view_colors[vn] = [
+                (0.35 + random.random() * 0.5, 0.02 + random.random() * 0.18,
+                 random.random() * 360)
+                for _ in range(30)
+            ]
+        nodes = self._make_encoded_nodes(view_colors)
+        result = rank_views(nodes, top_k=4, min_domains=3)
+
+        data_views = [r for r in result if r['score'] is not None]
+        scores = [r['score'] for r in data_views]
+        assert scores == sorted(scores, reverse=True), (
+            f"Scores not in descending order: {scores}"
         )

@@ -102,10 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
         HOLARCHY.createTabUI();
     }
 
-    // Initialize Encoding View selector (OKLCH 3-channel scientific views)
-    if (typeof ENCODING_VIEW_MODULE !== 'undefined' && ENCODING_VIEW_MODULE.init) {
-        ENCODING_VIEW_MODULE.init();
-    }
+    // Encoding View: initialized later in initializeModules() when payload data is available
+    // (view_registry must be loaded from COLLIDER_DATA before building the UI)
 });
 let DEFAULT_LINK_DISTANCE = null;
 

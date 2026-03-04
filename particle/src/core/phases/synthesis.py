@@ -439,7 +439,7 @@ def _run_color_encoding(ctx: 'PipelineContext') -> None:
     try:
         from src.core.viz.color_encoding import (
             encode_all, encode_nodes, encode_edges, VIEW_DEFAULT, PRESET_VIEWS,
-            get_view_registry,
+            get_view_registry, rank_views,
         )
         chem_result_obj = ctx.full_output.get('_chemistry_lab', None)
         chemistry = chem_result_obj.get_result() if chem_result_obj else None
@@ -476,6 +476,12 @@ def _run_color_encoding(ctx: 'PipelineContext') -> None:
                         edge['encoded_colors'][view_name] = list(ec)
                 edges_encoded_total += n_enc
             view_count += 1
+
+        # Rank views by informativeness — top 4 data-driven + default
+        ranked = rank_views(nodes, top_k=4, min_domains=3)
+        ctx.full_output['ranked_views'] = ranked
+        _log(f"   → Top views: {', '.join(r['name'] for r in ranked[1:])}", ctx.quiet)
+
         ctx.full_output['view_registry'] = get_view_registry()
         _log(f"   → Pre-computed {view_count} encoding views for "
              f"{len(nodes)} nodes, {edges_encoded_total} edge encodings", ctx.quiet)
