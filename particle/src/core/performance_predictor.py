@@ -153,8 +153,8 @@ class PerformanceProfile:
             "critical_path_length": len(self.critical_path),
             "critical_path_cost": round(self.critical_path_cost, 2),
             "hotspot_count": len(self.hotspots),
-            "time_by_type": {k: round(v, 1) for k, v in self.time_by_type.items()},
-            "time_by_layer": {k: round(v, 1) for k, v in self.time_by_layer.items()},
+            "time_by_type": {k: round(max(0.0, v), 1) for k, v in self.time_by_type.items()},
+            "time_by_layer": {k: round(max(0.0, v), 1) for k, v in self.time_by_layer.items()},
             "node_count_by_type": self.node_count_by_type
         }
 

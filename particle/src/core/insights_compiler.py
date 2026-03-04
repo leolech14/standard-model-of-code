@@ -206,7 +206,9 @@ class InsightsCompiler:
         self.kpis = full_output.get('kpis', {})
         self.findings: List[CompiledInsight] = []
         self._next_id = 1
-        self._lab = full_output.get('_chemistry_lab')  # ChemistryLab or None
+        # ChemistryLab or None — must be a live object, not a serialized string
+        _lab_candidate = full_output.get('_chemistry_lab')
+        self._lab = _lab_candidate if hasattr(_lab_candidate, 'get_modulation') else None
 
     def compile(self) -> InsightsReport:
         """Run all interpretation passes and produce the report."""
@@ -3380,6 +3382,7 @@ class InsightsCompiler:
                     'Chemistry modulations adjust health, incoherence, and mission matrix scores '
                     'based on cross-signal correlations detected by the lab.'
                 ),
+                recommendation='Review modulated scores in the chemistry section for unexpected adjustments.',
                 effort='low',
             )
 
