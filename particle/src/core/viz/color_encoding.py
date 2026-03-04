@@ -394,7 +394,7 @@ def encode_nodes(
         1. Resolve base hue from view.hue_source
         2. Normalize lightness metric → L channel (if mapped)
         3. Normalize chroma metric → C channel (if mapped)
-        4. Gamut-map and write node['encoded_color'] as hex
+        4. Gamut-map and write node['encoded_color'] as OKLCH tuple (L, C, H)
 
     Args:
         nodes: List of node dicts (mutated in place)

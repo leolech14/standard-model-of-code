@@ -17,16 +17,14 @@ Covers:
     - VIEW_DEFAULT preserves appearance_engine color_mode (file/ring/tier)
 """
 
-import re
+
 
 import pytest
 
 from src.core.viz.color_science import (
     gamut_map_oklch,
-    hex_to_oklch,
     in_srgb_gamut,
     modulate_oklch,
-    oklch_to_hex,
 )
 
 
@@ -55,7 +53,6 @@ from src.core.viz.color_encoding import (
 )
 
 
-HEX_RE = re.compile(r'^#[0-9a-fA-F]{6}$')
 
 # A view with explicit edge_mapping for testing edge encoding via encode_all
 _VIEW_WITH_EDGES = ViewSpec(
