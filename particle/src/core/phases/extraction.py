@@ -1,0 +1,129 @@
+"""Phase 2: Extraction — Base Analysis, Standard Model, Ecosystem, Levels, Dimensions."""
+
+from __future__ import annotations
+import os
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ._context import PipelineContext
+
+
+def _log(msg: str, quiet: bool = False):
+    if not quiet:
+        print(msg)
+
+
+def run_extraction(ctx: PipelineContext) -> None:
+    """Execute all extraction sub-stages:
+
+    1. Base Analysis (unified_analysis.analyze)
+    2. Standard Model Enrichment (with RPBL scores)
+    3. Ecosystem Discovery (hybrid T2 approach)
+    4. Holarchy Level Classification (L-3..L12)
+    5. Octahedral Dimension Classification (D4, D5, D7)
+    """
+    from src.core.unified_analysis import analyze
+    from src.core.standard_model_enricher import enrich_with_standard_model
+    from observability import StageTimer
+
+    # Stage 1: Base analysis
+    print("\n🔬 Stage 1: Base Analysis...")
+    with StageTimer(ctx.perf_manager, "Stage 1: Base Analysis") as timer:
+        analysis_options = dict(ctx.options)
+        analysis_options.pop("roadmap", None)
+        # Pass survey exclusions to unified analysis (Phase 10 integration)
+        if ctx.exclude_paths:
+            analysis_options['exclude_paths'] = ctx.exclude_paths
+        result = analyze(str(ctx.target), output_dir=str(ctx.output_dir), write_output=False, **analysis_options)
+        ctx.nodes = result.nodes if hasattr(result, 'nodes') else result.get('nodes', [])
+        ctx.edges = result.edges if hasattr(result, 'edges') else result.get('edges', [])
+        ctx.unified_stats = getattr(result, 'stats', {}) if hasattr(result, 'stats') else result.get('stats', {})
+        ctx.unified_classification = getattr(result, 'classification', {}) if hasattr(result, 'classification') else result.get('classification', {})
+        ctx.unified_auto_discovery = getattr(result, 'auto_discovery', {}) if hasattr(result, 'auto_discovery') else result.get('auto_discovery', {})
+        ctx.unified_dependencies = getattr(result, 'dependencies', {}) if hasattr(result, 'dependencies') else result.get('dependencies', {})
+        ctx.unified_architecture = getattr(result, 'architecture', {}) if hasattr(result, 'architecture') else result.get('architecture', {})
+        ctx.unified_llm_enrichment = getattr(result, 'llm_enrichment', {}) if hasattr(result, 'llm_enrichment') else result.get('llm_enrichment', {})
+        ctx.unified_warnings = getattr(result, 'warnings', []) if hasattr(result, 'warnings') else result.get('warnings', [])
+        ctx.unified_recommendations = getattr(result, 'recommendations', []) if hasattr(result, 'recommendations') else result.get('recommendations', [])
+        timer.set_output(nodes=len(ctx.nodes), edges=len(ctx.edges))
+    ctx.guard.nodes = ctx.nodes
+    ctx.guard.edges = ctx.edges
+    _log(f"   → {len(ctx.nodes)} nodes, {len(ctx.edges)} edges", ctx.quiet)
+
+    # Stage 2: Standard Model enrichment
+    print("\n🧬 Stage 2: Standard Model Enrichment...")
+    with StageTimer(ctx.perf_manager, "Stage 2: Standard Model Enrichment") as timer:
+        ctx.nodes = enrich_with_standard_model(ctx.nodes)
+        rpbl_count = sum(1 for n in ctx.nodes if n.get('rpbl'))
+
+        # Flatten RPBL scores for UPB binding (P4-05/07/08)
+        for node in ctx.nodes:
+            rpbl = node.get('rpbl', {})
+            node['rpbl_responsibility'] = rpbl.get('responsibility', 0)
+            node['rpbl_purity'] = rpbl.get('purity', 0)
+            node['rpbl_boundary'] = rpbl.get('boundary', 0)
+            node['rpbl_lifecycle'] = rpbl.get('lifecycle', 0)
+
+        timer.set_output(nodes=len(ctx.nodes), rpbl_enriched=rpbl_count)
+    _log(f"   → {rpbl_count} nodes with RPBL scores", ctx.quiet)
+
+    # Pipeline Assertion: Validate canonical roles
+    try:
+        from registry.role_registry import get_role_registry
+        _registry = get_role_registry()
+        _invalid = {n.get('role') for n in ctx.nodes if n.get('role') and not _registry.validate(n['role'])}
+        if _invalid:
+            if os.environ.get('COLLIDER_STRICT_ROLES', '').lower() == 'true':
+                raise ValueError(f"Non-canonical roles detected: {_invalid}")
+            else:
+                print(f"   ⚠️ WARNING: Non-canonical roles: {_invalid}")
+    except ImportError:
+        pass  # Registry not available, skip validation
+
+    # Stage 2.5: Ecosystem discovery (hybrid T2 approach)
+    ctx.ecosystem_discovery = {}
+    ctx.ecosystem_discovery_status = "not_run"
+    ctx.ecosystem_discovery_error = ""
+    print("\n🧭 Stage 2.5: Ecosystem Discovery...")
+    with StageTimer(ctx.perf_manager, "Stage 2.5: Ecosystem Discovery") as timer:
+        try:
+            from discovery_engine import discover_ecosystem_unknowns
+            ctx.ecosystem_discovery = discover_ecosystem_unknowns(ctx.nodes)
+            ctx.ecosystem_discovery_status = "ok"
+            timer.set_output(unknowns=ctx.ecosystem_discovery.get('total_unknowns', 0))
+            _log(f"   → {ctx.ecosystem_discovery.get('total_unknowns', 0)} unknown ecosystem patterns", ctx.quiet)
+        except Exception as e:
+            ctx.ecosystem_discovery_status = "skipped"
+            ctx.ecosystem_discovery_error = str(e)
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Ecosystem discovery skipped: {e}")
+
+    # Stage 2.6: Holarchy Level Classification (L-3..L12)
+    print("\n📊 Stage 2.6: Holarchy Level Classification...")
+    with StageTimer(ctx.perf_manager, "Stage 2.6: Level Classification") as timer:
+        try:
+            from level_classifier import classify_level_batch, compute_level_statistics, infer_package_levels
+            level_count = classify_level_batch(ctx.nodes)
+            pkg_count = infer_package_levels(ctx.nodes)
+            level_stats = compute_level_statistics(ctx.nodes)
+            timer.set_output(nodes_classified=level_count, packages_detected=pkg_count, distribution=level_stats)
+            # Show distribution summary
+            dist_str = ", ".join(f"{k}:{v}" for k, v in level_stats.items() if v > 0)
+            _log(f"   → {level_count} nodes assigned holarchy levels ({dist_str})", ctx.quiet)
+            if pkg_count > 0:
+                _log(f"   → {pkg_count} implicit L6 packages detected", ctx.quiet)
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Level classification skipped: {e}")
+
+    # Stage 2.7: Octahedral Dimension Classification (D4, D5, D7)
+    print("\n📐 Stage 2.7: Octahedral Dimension Classification...")
+    with StageTimer(ctx.perf_manager, "Stage 2.7: Dimension Classification") as timer:
+        try:
+            from dimension_classifier import classify_all_dimensions
+            dim_count = classify_all_dimensions(ctx.nodes)
+            timer.set_output(nodes_classified=dim_count)
+            _log(f"   → {dim_count} nodes with full 8-dimension coordinates", ctx.quiet)
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Dimension classification skipped: {e}")
