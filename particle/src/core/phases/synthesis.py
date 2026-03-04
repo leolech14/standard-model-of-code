@@ -72,17 +72,22 @@ def _run_roadmap(ctx: 'PipelineContext') -> None:
                     ctx.full_output['roadmap'] = roadmap_result
                     timer.set_output(readiness=roadmap_result.get('readiness_score', 0))
                     _log(f"   → Roadmap '{roadmap_name}' analyzed: {roadmap_result['readiness_score']:.0f}% ready", ctx.quiet)
+                    ctx.data_ledger.publish("roadmap", "Stage 9: Roadmap Evaluation",
+                        summary=f"{roadmap_result.get('readiness_score', 0):.0f}% ready")
                 else:
                     timer.set_status("WARN", f"Roadmap '{roadmap_name}' not found")
                     print(f"   ⚠️ Roadmap '{roadmap_name}' not found in roadmaps directory")
+                    ctx.data_ledger.publish("roadmap", "Stage 9: Roadmap Evaluation", status="skipped", summary="not found")
             except Exception as e:
                 timer.set_status("WARN", str(e))
                 print(f"   ⚠️ Roadmap analysis failed: {e}")
                 import traceback
                 traceback.print_exc()
+                ctx.data_ledger.publish("roadmap", "Stage 9: Roadmap Evaluation", status="failed", summary=str(e))
         else:
             timer.set_status("SKIP")
             print("   → Skipped (no --roadmap specified)")
+            ctx.data_ledger.publish("roadmap", "Stage 9: Roadmap Evaluation", status="skipped")
 
 
 def _run_visual_reasoning(ctx: 'PipelineContext') -> None:
@@ -100,9 +105,12 @@ def _run_visual_reasoning(ctx: 'PipelineContext') -> None:
             timer.set_output(shape=topology_result.get('shape', 'UNKNOWN'))
             _log(f"   → Visual Shape: {topology_result['shape']}", ctx.quiet)
             _log(f"   → Description: {topology_result['description']}", ctx.quiet)
+            ctx.data_ledger.publish("topology", "Stage 10: Visual Reasoning",
+                summary=topology_result.get('shape', 'UNKNOWN'))
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Topology analysis failed: {e}")
+            ctx.data_ledger.publish("topology", "Stage 10: Visual Reasoning", status="failed", summary=str(e))
 
 
 def _run_semantic_cortex(ctx: 'PipelineContext') -> None:
@@ -119,9 +127,12 @@ def _run_semantic_cortex(ctx: 'PipelineContext') -> None:
             timer.set_output(concepts=len(semantics.get('top_concepts', [])))
             _log(f"   → Domain Inference: {semantics['domain_inference']}", ctx.quiet)
             _log(f"   → Top Concepts: {', '.join([t['term'] for t in semantics['top_concepts'][:5]])}", ctx.quiet)
+            ctx.data_ledger.publish("semantics", "Stage 11: Semantic Cortex",
+                summary=f"{len(semantics.get('top_concepts', []))} concepts")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Semantic analysis failed: {e}")
+            ctx.data_ledger.publish("semantics", "Stage 11: Semantic Cortex", status="failed", summary=str(e))
 
 
 def _run_ai_insights(ctx: 'PipelineContext') -> None:
@@ -138,12 +149,17 @@ def _run_ai_insights(ctx: 'PipelineContext') -> None:
                     ctx.full_output['ai_insights'] = ai_insights
                     timer.set_output(insights=len(ai_insights) if isinstance(ai_insights, list) else 1)
                     print("   → AI insights generated successfully")
+                    ctx.data_ledger.publish("ai_insights", "Stage 12: AI Insights")
                 else:
                     timer.set_status("WARN", "No results returned")
                     print("   ⚠️ AI insights generation returned no results")
+                    ctx.data_ledger.publish("ai_insights", "Stage 12: AI Insights", status="empty")
             except Exception as e:
                 timer.set_status("FAIL", str(e))
                 print(f"   ⚠️ AI insights generation failed: {e}")
+                ctx.data_ledger.publish("ai_insights", "Stage 12: AI Insights", status="failed", summary=str(e))
+    else:
+        ctx.data_ledger.publish("ai_insights", "Stage 12: AI Insights", status="skipped")
 
 
 def _run_manifest(ctx: 'PipelineContext') -> None:
@@ -195,9 +211,12 @@ def _run_manifest(ctx: 'PipelineContext') -> None:
             _log(f"   → Manifest generated: {len(ctx.nodes)} nodes, {len(ctx.edges)} edges recorded", ctx.quiet)
             _log(f"   → Status: SIGNED (Integrity verified)", ctx.quiet)
             timer.set_output(nodes=len(ctx.nodes), edges=len(ctx.edges))
+            ctx.data_ledger.publish("manifest", "Stage 13: Manifest Writer",
+                summary=f"{len(ctx.nodes)} nodes, {len(ctx.edges)} edges")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Manifest generation failed: {e}")
+            ctx.data_ledger.publish("manifest", "Stage 13: Manifest Writer", status="failed", summary=str(e))
 
 
 def _run_igt(ctx: 'PipelineContext') -> None:
@@ -248,10 +267,13 @@ def _run_igt(ctx: 'PipelineContext') -> None:
             )
             _log(f"   → Average Directory Stability: {igt_results['avg_stability']:.3f}", ctx.quiet)
             _log(f"   → Critical Orphans: {igt_results['critical_orphans_count']}", ctx.quiet)
+            ctx.data_ledger.publish("igt", "Stage 14: IGT Metrics",
+                summary=f"stability={igt_results['avg_stability']:.3f}")
 
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ IGT analysis failed: {e}")
+            ctx.data_ledger.publish("igt", "Stage 14: IGT Metrics", status="failed", summary=str(e))
 
 
 def _run_db_persistence(ctx: 'PipelineContext') -> None:
@@ -312,9 +334,15 @@ def _run_db_persistence(ctx: 'PipelineContext') -> None:
                 except Exception:
                     pass
 
+                ctx.data_ledger.publish("db_persistence", "Stage 15: Database Persistence",
+                    summary=f"run={ctx.db_run_id}")
+
             except Exception as e:
                 timer.set_status("WARN", str(e))
                 print(f"   ⚠️ Database persistence failed: {e}")
+                ctx.data_ledger.publish("db_persistence", "Stage 15: Database Persistence", status="failed", summary=str(e))
+    else:
+        ctx.data_ledger.publish("db_persistence", "Stage 15: Database Persistence", status="skipped")
 
 
 def _run_vectorization(ctx: 'PipelineContext') -> None:
@@ -336,6 +364,9 @@ def _run_vectorization(ctx: 'PipelineContext') -> None:
 
     ctx.full_output.setdefault('kpis', {})['vectorization_status'] = vectorization_status
     ctx.full_output['kpis']['vectorization_error'] = vectorization_error
+    ctx.data_ledger.publish("vectorization", "Stage 16: Semantic Vector Indexing",
+        status=vectorization_status if vectorization_status in ("ok", "failed") else "skipped",
+        summary=vectorization_error or "")
     if vectorization_status == "failed":
         warnings_list = ctx.full_output.setdefault('warnings', [])
         if isinstance(warnings_list, list):
@@ -364,10 +395,13 @@ def _run_trinity(ctx: 'PipelineContext') -> None:
         gap_count = len(gap_report.gaps)
         crit_count = sum(1 for g in gap_report.gaps if g.severity == 'critical')
         _log(f"   → Gap Detection: {gap_count} gaps ({crit_count} critical), coverage={gap_report.coverage:.1%}", ctx.quiet)
+        ctx.data_ledger.publish("trinity", "Stage 17: Collider Trinity",
+            summary=f"I={incoherence_result.i_total:.3f}, {gap_count} gaps")
     except Exception as e:
         print(f"   ⚠️ Trinity computation failed: {e}")
         import traceback
         traceback.print_exc()
+        ctx.data_ledger.publish("trinity", "Stage 17: Collider Trinity", status="failed", summary=str(e))
 
 
 def _run_temporal(ctx: 'PipelineContext') -> None:
@@ -381,12 +415,16 @@ def _run_temporal(ctx: 'PipelineContext') -> None:
             _log(f"   → {temporal_result.total_commits} commits, {temporal_result.active_days} active days", ctx.quiet)
             _log(f"   → {len(temporal_result.hotspots)} hotspots, {len(temporal_result.change_coupling)} coupling pairs", ctx.quiet)
             _log(f"   → Bus factor: {temporal_result.bus_factor}, median file age: {temporal_result.median_age_days:.0f} days", ctx.quiet)
+            ctx.data_ledger.publish("temporal", "Stage 18: Temporal Analysis",
+                summary=f"{temporal_result.total_commits} commits")
         else:
             _log(f"   → Skipped: {temporal_result.error}", ctx.quiet)
+            ctx.data_ledger.publish("temporal", "Stage 18: Temporal Analysis", status="skipped", summary=temporal_result.error)
     except Exception as e:
         print(f"   ⚠️ Temporal analysis failed: {e}")
         import traceback
         traceback.print_exc()
+        ctx.data_ledger.publish("temporal", "Stage 18: Temporal Analysis", status="failed", summary=str(e))
 
 
 def _run_ideome(ctx: 'PipelineContext') -> None:
@@ -399,10 +437,13 @@ def _run_ideome(ctx: 'PipelineContext') -> None:
         _log(f"   → Coherence: {ideome_result.global_coherence:.3f}", ctx.quiet)
         _log(f"   → Drift: code={ideome_result.global_drift_C:.3f} docs={ideome_result.global_drift_X:.3f}", ctx.quiet)
         _log(f"   → Coverage: {ideome_result.coverage:.1%} ({ideome_result.node_count} nodes)", ctx.quiet)
+        ctx.data_ledger.publish("ideome", "Stage 19: Ideome Synthesis",
+            summary=f"coherence={ideome_result.global_coherence:.3f}")
     except Exception as e:
         print(f"   ⚠️ Ideome synthesis failed: {e}")
         import traceback
         traceback.print_exc()
+        ctx.data_ledger.publish("ideome", "Stage 19: Ideome Synthesis", status="failed", summary=str(e))
 
 
 def _run_chemistry(ctx: 'PipelineContext') -> None:
@@ -411,6 +452,7 @@ def _run_chemistry(ctx: 'PipelineContext') -> None:
     try:
         from src.core.data_chemistry import ChemistryLab
         chem_lab = ChemistryLab()
+        chem_lab.set_ledger(ctx.data_ledger)
         chem_lab.ingest(ctx.full_output)
         chem_result = chem_lab.get_result()
         ctx.full_output['chemistry'] = chem_result.to_dict()
@@ -428,10 +470,13 @@ def _run_chemistry(ctx: 'PipelineContext') -> None:
         ctx.full_output['ai_consumer_summary'] = chem_lab.build_ai_consumer_summary()
         if not ctx.quiet:
             print(f"   → AI Consumer Summary: grade={ctx.full_output['ai_consumer_summary']['data_utility_grade']}")
+        ctx.data_ledger.publish("chemistry", "Stage 20: Data Chemistry",
+            summary=f"coverage={chem_result.signal_coverage:.0%}, severity={chem_result.compound_severity:.3f}")
     except Exception as e:
         print(f"   ⚠️ Data Chemistry failed: {e}")
         import traceback
         traceback.print_exc()
+        ctx.data_ledger.publish("chemistry", "Stage 20: Data Chemistry", status="failed", summary=str(e))
 
 
 def _run_color_encoding(ctx: 'PipelineContext') -> None:
@@ -486,7 +531,10 @@ def _run_color_encoding(ctx: 'PipelineContext') -> None:
         _log(f"   → Top views: {', '.join(ranked_names)}", ctx.quiet)
         _log(f"   → Pre-computed {view_count} encoding views for "
              f"{len(nodes)} nodes, {edges_encoded_total} edge encodings", ctx.quiet)
+        ctx.data_ledger.publish("color_encoding", "Post-Stage 20: Color Encoding",
+            summary=f"{enc_report.nodes_encoded} nodes, {view_count} views")
     except Exception as e:
         _log(f"   ⚠️ Color encoding skipped: {e}", ctx.quiet)
         import traceback
         traceback.print_exc()
+        ctx.data_ledger.publish("color_encoding", "Post-Stage 20: Color Encoding", status="failed", summary=str(e))

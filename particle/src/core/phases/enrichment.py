@@ -73,9 +73,12 @@ def _run_scope_analysis(ctx: 'PipelineContext') -> None:
             _log(f"   → {scope_stats['files_analyzed']} files analyzed", ctx.quiet)
             _log(f"   → {scope_stats['unused']} unused definitions detected", ctx.quiet)
             _log(f"   → {scope_stats['shadowed']} shadowing pairs found", ctx.quiet)
+            ctx.data_ledger.publish("scope_analysis", "Stage 2.8: Scope Analysis",
+                summary=f"{scope_stats['files_analyzed']} files")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Scope analysis skipped: {e}")
+            ctx.data_ledger.publish("scope_analysis", "Stage 2.8: Scope Analysis", status="skipped", summary=str(e))
 
 
 def _run_control_flow(ctx: 'PipelineContext') -> None:
@@ -149,9 +152,12 @@ def _run_control_flow(ctx: 'PipelineContext') -> None:
             _log(f"   → {cf_stats['nodes_analyzed']} nodes analyzed", ctx.quiet)
             _log(f"   → Avg CC: {cf_stats['avg_cc']}, Max CC: {cf_stats['max_cc']}", ctx.quiet)
             _log(f"   → Avg Depth: {cf_stats['avg_depth']}, Max Depth: {cf_stats['max_depth']}", ctx.quiet)
+            ctx.data_ledger.publish("control_flow", "Stage 2.9: Control Flow Metrics",
+                summary=f"{cf_stats['nodes_analyzed']} nodes, avg_cc={cf_stats['avg_cc']}")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Control flow analysis skipped: {e}")
+            ctx.data_ledger.publish("control_flow", "Stage 2.9: Control Flow Metrics", status="skipped", summary=str(e))
 
 
 def _run_pattern_detection(ctx: 'PipelineContext') -> None:
@@ -220,9 +226,12 @@ def _run_pattern_detection(ctx: 'PipelineContext') -> None:
             if pattern_stats['by_type']:
                 top_types = sorted(pattern_stats['by_type'].items(), key=lambda x: -x[1])[:5]
                 _log(f"   → Top types: {', '.join(f'{t}:{c}' for t, c in top_types)}", ctx.quiet)
+            ctx.data_ledger.publish("pattern_detection", "Stage 2.10: Pattern Detection",
+                summary=f"{pattern_stats['atoms_detected']} atoms")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Pattern detection skipped: {e}")
+            ctx.data_ledger.publish("pattern_detection", "Stage 2.10: Pattern Detection", status="skipped", summary=str(e))
 
 
 def _run_data_flow_analysis(ctx: 'PipelineContext') -> None:
@@ -295,9 +304,12 @@ def _run_data_flow_analysis(ctx: 'PipelineContext') -> None:
             _log(f"   → {flow_stats['total_mutations']} mutations, {flow_stats['total_side_effects']} side effects", ctx.quiet)
             purity_dist = flow_stats['purity_distribution']
             _log(f"   → Purity: pure={purity_dist['pure']}, mostly_pure={purity_dist['mostly_pure']}, mixed={purity_dist['mixed']}, impure={purity_dist['impure']}", ctx.quiet)
+            ctx.data_ledger.publish("data_flow_enrichment", "Stage 2.11: Data Flow Analysis",
+                summary=f"{flow_stats['nodes_analyzed']} nodes")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Data flow analysis skipped: {e}")
+            ctx.data_ledger.publish("data_flow_enrichment", "Stage 2.11: Data Flow Analysis", status="skipped", summary=str(e))
 
 
 def run_enrichment(ctx: 'PipelineContext') -> None:

@@ -28,6 +28,8 @@ def run_intelligence(ctx: 'PipelineContext') -> None:
         timer.set_output(sources=len(ctx.data_flow['data_sources']), sinks=len(ctx.data_flow['data_sinks']))
     _log(f"   → {len(ctx.data_flow['data_sources'])} data sources", ctx.quiet)
     _log(f"   → {len(ctx.data_flow['data_sinks'])} data sinks", ctx.quiet)
+    ctx.data_ledger.publish("data_flow", "Stage 7: Data Flow Analysis",
+        summary=f"{len(ctx.data_flow['data_sources'])} sources, {len(ctx.data_flow['data_sinks'])} sinks")
 
     # Stage 8: Performance Prediction
     print("\n⏱️  Stage 8: Performance Prediction...")
@@ -36,10 +38,12 @@ def run_intelligence(ctx: 'PipelineContext') -> None:
             from src.core.performance_predictor import predict_performance
             perf = predict_performance(ctx.nodes, ctx.exec_flow)
             ctx.perf_summary = perf.summary() if hasattr(perf, 'summary') else {}
+            ctx.data_ledger.publish("performance", "Stage 8: Performance Prediction")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️  Performance prediction skipped: {e}")
             ctx.perf_summary = {}
+            ctx.data_ledger.publish("performance", "Stage 8: Performance Prediction", status="skipped", summary=str(e))
 
     # Stage 8.5: Constraint Field Validation
     print("\n🚧 Stage 8.5: Constraint Field Validation...")
@@ -66,9 +70,12 @@ def run_intelligence(ctx: 'PipelineContext') -> None:
             _log(f"   → Policy (Tier B): {ctx.constraint_report['policy_violations']['count']}", ctx.quiet)
             _log(f"   → Signals (Tier C): {ctx.constraint_report['signals']['count']}", ctx.quiet)
             _log(f"   → Valid: {ctx.constraint_report['valid']}", ctx.quiet)
+            ctx.data_ledger.publish("constraints", "Stage 8.5: Constraint Validation",
+                summary=f"antimatter={ctx.constraint_report['antimatter']['count']}")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Constraint validation skipped: {e}")
+            ctx.data_ledger.publish("constraints", "Stage 8.5: Constraint Validation", status="skipped", summary=str(e))
 
     # Stage 8.6: Purpose Intelligence (Q-Scores)
     print("\n🧠 Stage 8.6: Purpose Intelligence...")
@@ -85,9 +92,12 @@ def run_intelligence(ctx: 'PipelineContext') -> None:
             _log(f"   → Interpretation: {ctx.codebase_intelligence.get('interpretation', 'Unknown')}", ctx.quiet)
             dist = ctx.codebase_intelligence.get('distribution', {})
             _log(f"   → Distribution: {dist.get('excellent', 0)} excellent, {dist.get('good', 0)} good, {dist.get('moderate', 0)} moderate, {dist.get('poor', 0)} poor", ctx.quiet)
+            ctx.data_ledger.publish("purpose_intelligence", "Stage 8.6: Purpose Intelligence",
+                summary=f"Q={ctx.codebase_intelligence.get('codebase_intelligence', 0):.3f}")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Purpose Intelligence skipped: {e}")
+            ctx.data_ledger.publish("purpose_intelligence", "Stage 8.6: Purpose Intelligence", status="skipped", summary=str(e))
 
     # Apply data-driven color scales to nodes (metric_color field)
     try:

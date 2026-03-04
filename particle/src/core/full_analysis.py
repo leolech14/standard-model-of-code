@@ -69,12 +69,15 @@ def _log(msg: str, quiet: bool = False):
 
 
 def _write_pipeline_report(
-    perf_manager, out_path, target, total_time, nodes, edges, pipeline_error=None
+    perf_manager, out_path, target, total_time, nodes, edges, pipeline_error=None,
+    data_ledger=None,
 ):
     """Write pipeline_report.json -- best-effort, returns path or None."""
     try:
         report_path = out_path / "pipeline_report.json"
         report = perf_manager.to_dict()
+        if data_ledger is not None:
+            report["data_availability"] = data_ledger.to_dict()
         report["meta"] = {
             "report_version": "1.0",
             "target": str(target),
@@ -561,6 +564,8 @@ def _assemble_output(ctx) -> None:
 
     _log(f"   → {len(files_index)} files indexed", ctx.quiet)
     _log(f"   → {sum(f['atom_count'] for f in file_boundaries)} atoms mapped to files", ctx.quiet)
+    ctx.data_ledger.publish("full_output", "_assemble_output",
+        summary=f"{len(nodes)} nodes, {len(edges)} edges assembled")
 
 
 def _assemble_api_drift(ctx) -> dict:
