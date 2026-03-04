@@ -28,6 +28,14 @@ from src.core.viz.color_science import (
     modulate_oklch,
     oklch_to_hex,
 )
+
+
+def _ec_oklch(node_or_edge):
+    """Extract OKLCH triple from encoded_color (now a tuple, not hex)."""
+    ec = node_or_edge['encoded_color']
+    assert isinstance(ec, (tuple, list)), f"encoded_color should be OKLCH tuple, got {type(ec)}: {ec}"
+    assert len(ec) == 3, f"encoded_color should be [L, C, H], got {ec}"
+    return ec
 from src.core.viz.color_encoding import (
     NEUTRAL_C,
     NEUTRAL_L,
@@ -274,8 +282,8 @@ class TestTierHueOrdering:
         # Use ARCHITECTURE view (has L/C mappings) so encoded_color is written
         encode_nodes(nodes, VIEW_ARCHITECTURE)
 
-        hue_discovered = hex_to_oklch(nodes[0]['encoded_color'])[2]
-        hue_ext = hex_to_oklch(nodes[1]['encoded_color'])[2]
+        hue_discovered = _ec_oklch(nodes[0])[2]
+        hue_ext = _ec_oklch(nodes[1])[2]
 
         # They should be meaningfully different (EXT.DISCOVERED=60deg, EXT=145deg)
         diff = abs(hue_discovered - hue_ext)
@@ -315,23 +323,25 @@ class TestEncodeNodes:
         for node in nodes:
             assert 'encoded_color' not in node
 
-    def test_view_architecture_produces_hex_colors(self):
-        """VIEW_ARCHITECTURE should assign encoded_color to every node."""
+    def test_view_architecture_produces_oklch_tuples(self):
+        """VIEW_ARCHITECTURE should assign encoded_color OKLCH tuples to every node."""
         nodes = self._make_tier_nodes()
         encoded, missing = encode_nodes(nodes, VIEW_ARCHITECTURE)
 
         assert encoded == 5
         for node in nodes:
-            assert 'encoded_color' in node
-            assert HEX_RE.match(node['encoded_color'])
+            L, C, H = _ec_oklch(node)
+            assert 0 <= L <= 1
+            assert 0 <= C <= 0.4
+            assert 0 <= H < 360
 
     def test_view_architecture_produces_lc_variation(self):
         """VIEW_ARCHITECTURE should produce varying L and C across nodes."""
         nodes = self._make_tier_nodes()
         encode_nodes(nodes, VIEW_ARCHITECTURE)
 
-        lightnesses = [hex_to_oklch(n['encoded_color'])[0] for n in nodes]
-        chromas = [hex_to_oklch(n['encoded_color'])[1] for n in nodes]
+        lightnesses = [_ec_oklch(n)[0] for n in nodes]
+        chromas = [_ec_oklch(n)[1] for n in nodes]
 
         # With varying coherence_score and D6_pure_score, L and C should vary
         assert max(lightnesses) - min(lightnesses) > 0.05
@@ -342,9 +352,9 @@ class TestEncodeNodes:
         nodes = self._make_tier_nodes()
         encode_nodes(nodes, VIEW_ARCHITECTURE)
 
-        core_hue = hex_to_oklch(nodes[0]['encoded_color'])[2]  # CORE
-        arch_hue = hex_to_oklch(nodes[2]['encoded_color'])[2]  # ARCH
-        ext_hue = hex_to_oklch(nodes[3]['encoded_color'])[2]   # EXT
+        core_hue = _ec_oklch(nodes[0])[2]  # CORE
+        arch_hue = _ec_oklch(nodes[2])[2]  # ARCH
+        ext_hue = _ec_oklch(nodes[3])[2]   # EXT
 
         # Hues should be meaningfully different (at least 30 degrees apart)
         assert abs(core_hue - arch_hue) > 30 or abs(core_hue - arch_hue) > 330
@@ -356,21 +366,23 @@ class TestEncodeNodes:
         encode_nodes(nodes, VIEW_HEALTH)
 
         # node_0 has complexity=0 (lowest), node_4 has complexity=20 (highest)
-        L_low_complex = hex_to_oklch(nodes[0]['encoded_color'])[0]
-        L_high_complex = hex_to_oklch(nodes[4]['encoded_color'])[0]
+        L_low_complex = _ec_oklch(nodes[0])[0]
+        L_high_complex = _ec_oklch(nodes[4])[0]
 
         # Inverted: low complexity -> high lightness, high complexity -> low lightness
         assert L_low_complex > L_high_complex
 
-    def test_data_views_produce_valid_hex(self):
-        """Every data-driven view (non-default) should produce valid hex colors."""
+    def test_data_views_produce_valid_oklch(self):
+        """Every data-driven view (non-default) should produce valid OKLCH tuples."""
         nodes = self._make_tier_nodes(20)
         data_views = {k: v for k, v in PRESET_VIEWS.items() if k != 'default'}
         for name, view in data_views.items():
             encode_nodes(nodes, view)
             for node in nodes:
-                assert HEX_RE.match(node['encoded_color']), \
-                    f"Invalid hex in {name}: {node['encoded_color']}"
+                L, C, H = _ec_oklch(node)
+                assert 0 <= L <= 1, f"L out of range in {name}: {L}"
+                assert 0 <= C <= 0.4, f"C out of range in {name}: {C}"
+                assert 0 <= H < 360, f"H out of range in {name}: {H}"
 
     def test_missing_metric_uses_neutral(self):
         """Nodes lacking the mapped metric should get neutral L/C."""
@@ -385,7 +397,7 @@ class TestEncodeNodes:
         assert missing['D6_pure_score'] == 1
 
         # Node 'a' should have neutral-ish L/C
-        La, Ca, Ha = hex_to_oklch(nodes[0]['encoded_color'])
+        La, Ca, Ha = _ec_oklch(nodes[0])
         assert La == pytest.approx(NEUTRAL_L, abs=0.05)
         assert Ca == pytest.approx(NEUTRAL_C, abs=0.03)
 
@@ -403,7 +415,7 @@ class TestEncodeNodes:
         ]
         encode_nodes(nodes, VIEW_FILES)
 
-        hues = [hex_to_oklch(n['encoded_color'])[2] for n in nodes]
+        hues = [_ec_oklch(n)[2] for n in nodes]
         # Adjacent files should have different hues (golden angle ~ 137.5deg)
         for i in range(len(hues) - 1):
             diff = abs(hues[i + 1] - hues[i])
@@ -449,13 +461,13 @@ class TestPerGroupNormalization:
 
         # a1 (5 in range [1,10]) and b1 (75 in range [50,100]) have different absolute
         # values but similar relative positions (~midpoint). Their L should be similar.
-        La1 = hex_to_oklch(nodes[0]['encoded_color'])[0]
-        Lb1 = hex_to_oklch(nodes[3]['encoded_color'])[0]
+        La1 = _ec_oklch(nodes[0])[0]
+        Lb1 = _ec_oklch(nodes[3])[0]
         assert abs(La1 - Lb1) < 0.15  # relatively close
 
         # a2 (min of group A) and b3 (max of group B) should have very different L
-        La2 = hex_to_oklch(nodes[1]['encoded_color'])[0]
-        Lb3 = hex_to_oklch(nodes[5]['encoded_color'])[0]
+        La2 = _ec_oklch(nodes[1])[0]
+        Lb3 = _ec_oklch(nodes[5])[0]
         assert abs(La2 - Lb3) > 0.2
 
     def test_single_node_group_gets_midpoint(self):
@@ -476,7 +488,7 @@ class TestPerGroupNormalization:
         ]
         encode_nodes(nodes, view)
 
-        L = hex_to_oklch(nodes[0]['encoded_color'])[0]
+        L = _ec_oklch(nodes[0])[0]
         midpoint = (0.35 + 0.85) / 2.0  # 0.60
         assert L == pytest.approx(midpoint, abs=0.05)
 
@@ -500,7 +512,7 @@ class TestPerGroupNormalization:
 
         midpoint = (0.35 + 0.85) / 2.0
         for node in nodes:
-            L = hex_to_oklch(node['encoded_color'])[0]
+            L = _ec_oklch(node)[0]
             assert L == pytest.approx(midpoint, abs=0.05)
 
 
@@ -523,12 +535,13 @@ class TestEncodeEdges:
         assert encoded == 3
         assert missing == 0
         for edge in edges:
-            assert 'encoded_color' in edge
-            assert HEX_RE.match(edge['encoded_color'])
+            L, C, H = _ec_oklch(edge)
+            assert 0 <= L <= 1
+            assert 0 <= H < 360
 
-        # Different confidence -> different colors
-        colors = [edge['encoded_color'] for edge in edges]
-        assert len(set(colors)) >= 2  # at least 2 distinct colors
+        # Different confidence -> different OKLCH values
+        hues = [_ec_oklch(e)[2] for e in edges]
+        assert max(hues) - min(hues) > 1  # at least some hue variation
 
     def test_missing_confidence_reports_count(self):
         """Edges without the metric are not encoded; missing count is tracked."""
@@ -589,8 +602,8 @@ class TestEncodeEdges:
         ]
         encode_edges(edges)
 
-        hue_low = hex_to_oklch(edges[0]['encoded_color'])[2]
-        hue_high = hex_to_oklch(edges[1]['encoded_color'])[2]
+        hue_low = _ec_oklch(edges[0])[2]
+        hue_high = _ec_oklch(edges[1])[2]
 
         # Low confidence ~ 30deg (warm orange-red), high ~ 145deg (green)
         assert hue_low < 90, f"Low confidence hue too high: {hue_low:.1f}"

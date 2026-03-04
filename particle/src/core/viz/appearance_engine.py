@@ -72,8 +72,10 @@ class AppearanceEngine:
             # PRECEDENCE: encoded_color (from color_encoding views) wins for
             # the color field, but wireframe properties are still applied
             # independently. Data encoding = WHAT color, wireframe = HOW it renders.
+            # encoded_color is an OKLCH tuple — convert to hex at this boundary.
             if 'encoded_color' in node:
-                node["color"] = node["encoded_color"]
+                ec = node["encoded_color"]
+                node["color"] = oklch_to_hex(*ec) if isinstance(ec, (tuple, list)) else ec
             elif color_mode == "file":
                 node["color"] = self._file_color(node.get("fileIdx", -1), total_files)
             elif color_mode == "ring":
@@ -103,9 +105,11 @@ class AppearanceEngine:
         )
 
         for edge in edges:
-            # Prefer pre-encoded OKLCH color from color_encoding layer
+            # Prefer pre-encoded OKLCH color from color_encoding layer.
+            # encoded_color is an OKLCH tuple — convert to hex at this boundary.
             if 'encoded_color' in edge:
-                edge["color"] = edge["encoded_color"]
+                ec = edge["encoded_color"]
+                edge["color"] = oklch_to_hex(*ec) if isinstance(ec, (tuple, list)) else ec
             else:
                 edge_type = edge.get("edge_type", "default")
                 edge["color"] = self._normalize_color(

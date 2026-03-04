@@ -22,7 +22,6 @@ from typing import Any, Dict, List, Optional, Tuple
 from src.core.viz.color_science import (
     gamut_map_oklch,
     modulate_oklch,
-    oklch_to_hex,
 )
 
 
@@ -429,11 +428,11 @@ def encode_nodes(
         L = l_values.get(i, NEUTRAL_L)
         C = c_values.get(i, NEUTRAL_C)
 
-        # Gamut-map and convert via modulate_oklch pattern:
-        # take base hue, overlay data-driven L and C
+        # Gamut-map via modulate_oklch: take base hue, overlay data-driven L and C.
+        # Store as OKLCH triple — hex conversion happens at the render boundary.
         mL, mC, mH = modulate_oklch(NEUTRAL_L, NEUTRAL_C, H,
                                      l_target=L, c_target=C)
-        node['encoded_color'] = oklch_to_hex(mL, mC, mH)
+        node['encoded_color'] = (mL, mC, mH)
         encoded += 1
 
     return encoded, missing
@@ -486,7 +485,7 @@ def encode_edges(
             continue
 
         mL, mC, mH = gamut_map_oklch(L, C, H)
-        edge['encoded_color'] = oklch_to_hex(mL, mC, mH)
+        edge['encoded_color'] = (mL, mC, mH)
         encoded += 1
 
     return encoded, edges_missing

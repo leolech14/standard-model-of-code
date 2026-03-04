@@ -446,7 +446,8 @@ def _run_color_encoding(ctx: 'PipelineContext') -> None:
              f"{enc_report.edges_encoded} edges, "
              f"{enc_report.convergent_tagged} convergent", ctx.quiet)
 
-        # Pre-compute all non-default view colors for runtime view switching
+        # Pre-compute all non-default view colors for runtime view switching.
+        # Store as OKLCH triples [L, C, H] — hex conversion at render boundary.
         nodes = ctx.full_output.get('nodes', [])
         view_count = 0
         for view_name, view_spec in PRESET_VIEWS.items():
@@ -458,7 +459,7 @@ def _run_color_encoding(ctx: 'PipelineContext') -> None:
                 if ec:
                     if 'encoded_colors' not in node:
                         node['encoded_colors'] = {}
-                    node['encoded_colors'][view_name] = ec
+                    node['encoded_colors'][view_name] = list(ec)
             view_count += 1
         _log(f"   → Pre-computed {view_count} encoding views for {len(nodes)} nodes", ctx.quiet)
     except Exception as e:

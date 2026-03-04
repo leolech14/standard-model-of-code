@@ -11,6 +11,64 @@
  */
 
 // ═══════════════════════════════════════════════════════════════════════
+// OKLCH → HEX CONVERTER (render boundary)
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * Convert OKLCH [L, C, H] triple to hex string.
+ * Port of color_science.py's oklch_to_hex — same matrices, same gamut mapping.
+ */
+function oklchToHex(L, C, H) {
+    // Gamut map: binary-search chroma reduction
+    L = Math.max(0, Math.min(1, L));
+    if (L <= 0) return '#000000';
+    if (L >= 1) return '#ffffff';
+
+    let lo = 0, hi = C;
+    for (let i = 0; i < 24 && hi - lo > 0.001; i++) {
+        const mid = (lo + hi) / 2;
+        const [r, g, b] = _oklchToSrgb(L, mid, H);
+        if (r >= -0.001 && r <= 1.001 && g >= -0.001 && g <= 1.001 && b >= -0.001 && b <= 1.001) {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    C = lo;
+
+    const [r, g, b] = _oklchToSrgb(L, C, H);
+    const clamp = v => Math.max(0, Math.min(255, Math.round(v * 255)));
+    return '#' + [r, g, b].map(v => clamp(v).toString(16).padStart(2, '0')).join('');
+}
+
+function _oklchToSrgb(L, C, H) {
+    const hRad = H * Math.PI / 180;
+    const a = C * Math.cos(hRad);
+    const b = C * Math.sin(hRad);
+
+    // OKLab → LMS (cube-root)
+    const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+    const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+    const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
+
+    const l = l_ * l_ * l_;
+    const m = m_ * m_ * m_;
+    const s = s_ * s_ * s_;
+
+    // LMS → linear sRGB
+    const rLin = +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s;
+    const gLin = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s;
+    const bLin = -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s;
+
+    // Linear → sRGB gamma
+    const gamma = v => v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055;
+    return [gamma(rLin), gamma(gLin), gamma(bLin)];
+}
+
+// Expose for other modules
+window.oklchToHex = oklchToHex;
+
+// ═══════════════════════════════════════════════════════════════════════
 // NODE COLOR BY MODE
 // ═══════════════════════════════════════════════════════════════════════
 
@@ -70,11 +128,12 @@ function getNodeColorByMode(node) {
     const NODE_COLOR_MODE = window.NODE_COLOR_MODE;
     const DM = window.DM;
 
-    // Encoding view override: pre-computed OKLCH 3-channel colors from Python
-    // When a non-default view is active, its encoded color takes priority
+    // Encoding view override: pre-computed OKLCH triples from Python.
+    // Convert [L, C, H] → hex at this render boundary.
     const activeView = window.ENCODING_VIEW || 'default';
     if (activeView !== 'default' && node.encoded_colors && node.encoded_colors[activeView]) {
-        return node.encoded_colors[activeView];
+        const oklch = node.encoded_colors[activeView];
+        return Array.isArray(oklch) ? oklchToHex(oklch[0], oklch[1], oklch[2]) : oklch;
     }
 
     // Special case: CODOME boundary nodes (external callers)
