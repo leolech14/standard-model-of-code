@@ -57,6 +57,8 @@ class ViewSpec:
     chroma: Optional[ChannelMapping] = None
     edge_mapping: Optional[ChannelMapping] = None
     signature: Optional[SemanticSignature] = None
+    size_metric: Optional[str] = None       # Node metric for size channel (e.g. 'pagerank')
+    opacity_metric: Optional[str] = None    # Node metric for opacity channel (e.g. 'centrality')
 
 
 @dataclass
@@ -130,6 +132,8 @@ VIEW_HEALTH = ViewSpec(
         channel='hue',
         output_range=(30.0, 145.0),  # warm (low confidence) → green (high)
     ),
+    size_metric='cyclomatic_complexity',
+    opacity_metric='trust',
 )
 
 VIEW_TOPOLOGY = ViewSpec(
@@ -145,6 +149,8 @@ VIEW_TOPOLOGY = ViewSpec(
         channel='chroma',
         output_range=(0.02, 0.20),
     ),
+    size_metric='pagerank',
+    opacity_metric='betweenness_centrality',
 )
 
 VIEW_FILES = ViewSpec(
@@ -219,6 +225,7 @@ VIEW_COMPLEXITY = ViewSpec(
         question='Where are the large, complex components?',
         reading='Dark = high complexity; vivid = large codebase',
     ),
+    size_metric='cyclomatic_complexity',
 )
 
 VIEW_QUALITY = ViewSpec(
@@ -418,6 +425,8 @@ VIEW_RISK = ViewSpec(
         question='Where are the highest risk areas?',
         reading='Bright = many convergence signals; vivid = complex',
     ),
+    size_metric='cyclomatic_complexity',
+    opacity_metric='trust',
 )
 
 VIEW_DEBT = ViewSpec(
@@ -1068,6 +1077,8 @@ def get_view_registry() -> Dict[str, Any]:
             'hue_source': view.hue_source,
             'lightness_metric': view.lightness.metric if view.lightness else None,
             'chroma_metric': view.chroma.metric if view.chroma else None,
+            'size_metric': view.size_metric,
+            'opacity_metric': view.opacity_metric,
             'rank': None,
             'score': None,
         }

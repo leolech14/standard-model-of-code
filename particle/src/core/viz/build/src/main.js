@@ -62,6 +62,7 @@ import './modules/visibility.js';
 // === PHASE 9: Animation & Selection ===
 import './modules/animation.js';
 import './modules/selection.js';
+import './modules/node-intel.js';
 
 // === PHASE 10: Panels & Filtering ===
 import './modules/panels.js';
@@ -82,6 +83,8 @@ import './modules/tooltips.js';
 import './modules/theme.js';
 import './modules/holarchy.js';
 import './modules/encoding-view.js';
+import './modules/syndromes.js';
+import './modules/temporal.js';
 
 // === PHASE 13: UPB System ===
 import './modules/upb/scales.js';

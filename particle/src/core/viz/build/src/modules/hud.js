@@ -85,6 +85,97 @@ function updateStats(data) {
         const formatted = ts.replace('T', ' ').substring(0, 16);
         timestamp.textContent = formatted || 'Live';
     }
+
+    // Health stat from incoherence data
+    _updateHealth();
+}
+
+/**
+ * Populate the Health stat in the HUD bar and build expandable incoherence breakdown.
+ */
+function _updateHealth() {
+    const statHealth = document.getElementById('stat-health');
+    const wrap = document.getElementById('stat-health-wrap');
+    if (!statHealth || !wrap) return;
+
+    const inc = window.COLLIDER_DATA?.incoherence || {};
+    const health = inc.health_10;
+
+    if (health == null) {
+        statHealth.textContent = '--';
+        return;
+    }
+
+    statHealth.textContent = typeof health === 'number' ? health.toFixed(1) : health;
+
+    // Color-code based on health level
+    const cls = health >= 7 ? 'signal-good' : health >= 4 ? 'signal-warn' : 'signal-bad';
+    statHealth.className = 'stat-value stat-health-value ' + cls;
+
+    // Build expandable breakdown panel (only once)
+    if (wrap.querySelector('.incoherence-breakdown')) return;
+
+    const terms = [
+        { label: 'Structural', key: 'i_struct' },
+        { label: 'Teleological', key: 'i_telic' },
+        { label: 'Symmetry', key: 'i_sym' },
+        { label: 'Boundary', key: 'i_bound' },
+        { label: 'Flow', key: 'i_flow' },
+    ];
+
+    const hasTerms = terms.some(t => inc[t.key] != null);
+    if (!hasTerms) return;
+
+    const breakdown = document.createElement('div');
+    breakdown.className = 'incoherence-breakdown';
+    breakdown.style.display = 'none';
+
+    const total = inc.incoherence_total || inc.i_total;
+    if (total != null) {
+        const header = document.createElement('div');
+        header.className = 'inc-header';
+        header.textContent = `INCOHERENCE (I=${typeof total === 'number' ? total.toFixed(2) : total})`;
+        breakdown.appendChild(header);
+    }
+
+    for (const { label, key } of terms) {
+        const val = inc[key];
+        if (val == null) continue;
+
+        const row = document.createElement('div');
+        row.className = 'inc-row';
+
+        const lbl = document.createElement('span');
+        lbl.className = 'inc-label';
+        lbl.textContent = label;
+
+        const bar = document.createElement('div');
+        bar.className = 'inc-bar-wrap';
+        const fill = document.createElement('div');
+        // Bars are inverted: lower = better
+        const barCls = val < 0.15 ? 'signal-good' : val < 0.35 ? 'signal-warn' : 'signal-bad';
+        fill.className = 'inc-bar-fill ' + barCls;
+        fill.style.width = (Math.min(val, 1) * 100) + '%';
+        bar.appendChild(fill);
+
+        const valSpan = document.createElement('span');
+        valSpan.className = 'inc-value';
+        valSpan.textContent = typeof val === 'number' ? val.toFixed(2) : val;
+
+        row.appendChild(lbl);
+        row.appendChild(bar);
+        row.appendChild(valSpan);
+        breakdown.appendChild(row);
+    }
+
+    wrap.appendChild(breakdown);
+
+    // Toggle on click
+    wrap.style.cursor = 'pointer';
+    wrap.addEventListener('click', () => {
+        const visible = breakdown.style.display !== 'none';
+        breakdown.style.display = visible ? 'none' : 'block';
+    });
 }
 
 // ═══════════════════════════════════════════════════════════════════════

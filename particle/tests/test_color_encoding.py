@@ -1122,6 +1122,40 @@ class TestGetViewRegistry:
             assert entry['rank'] is None
             assert entry['score'] is None
 
+    def test_registry_entries_have_size_opacity_fields(self):
+        """Every registry entry should have size_metric and opacity_metric fields."""
+        registry = get_view_registry()
+        for name, entry in registry.items():
+            assert 'size_metric' in entry, f'{name} missing size_metric'
+            assert 'opacity_metric' in entry, f'{name} missing opacity_metric'
+
+    def test_topology_has_size_and_opacity(self):
+        """Topology view should specify size=pagerank, opacity=betweenness."""
+        registry = get_view_registry()
+        topo = registry['topology']
+        assert topo['size_metric'] == 'pagerank'
+        assert topo['opacity_metric'] == 'betweenness_centrality'
+
+    def test_risk_has_size_and_opacity(self):
+        """Risk view should specify size=complexity, opacity=trust."""
+        registry = get_view_registry()
+        risk = registry['risk']
+        assert risk['size_metric'] == 'cyclomatic_complexity'
+        assert risk['opacity_metric'] == 'trust'
+
+    def test_layers_has_no_size_opacity(self):
+        """Layers view should have None for size and opacity."""
+        registry = get_view_registry()
+        layers = registry['layers']
+        assert layers['size_metric'] is None
+        assert layers['opacity_metric'] is None
+
+    def test_complexity_has_size_no_opacity(self):
+        """Complexity view should have size but no opacity."""
+        registry = get_view_registry()
+        cmplx = registry['complexity']
+        assert cmplx['size_metric'] == 'cyclomatic_complexity'
+        assert cmplx['opacity_metric'] is None
 
 
 # =============================================================================

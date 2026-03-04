@@ -151,6 +151,9 @@ function _updateSignature() {
  * Set the active encoding view.
  * @param {string} view - View name from PRESET_VIEWS
  */
+// Scale factor for size channel (tuned for 3d-force-graph nodeVal)
+const SIZE_SCALE = 10;
+
 function setView(view) {
     window.ENCODING_VIEW = view;
 
@@ -165,8 +168,12 @@ function setView(view) {
     // Update signature
     _updateSignature();
 
-    // Show toast
+    // Apply multi-channel encoding (size + opacity)
     const entry = _registry[view];
+    _applySizeChannel(entry);
+    _applyOpacityChannel(entry);
+
+    // Show toast
     if (typeof window.showToast === 'function') {
         const info = entry ? (entry.question || entry.reading || view) : view;
         window.showToast(`View: ${view} — ${info}`, 3000);
@@ -180,6 +187,65 @@ function setView(view) {
     // Also update gradient edges if available
     if (typeof window.refreshGradientEdgeColors === 'function') {
         window.refreshGradientEdgeColors();
+    }
+}
+
+/**
+ * Apply size channel from view registry entry.
+ * When a view specifies size_metric, node sizes scale by that metric.
+ */
+function _applySizeChannel(entry) {
+    const graph = window.FULL_GRAPH;
+    if (!graph || typeof graph.nodeVal !== 'function') return;
+
+    if (entry?.size_metric) {
+        const metric = entry.size_metric;
+        // Pre-compute max for normalization
+        const nodes = window.COLLIDER_DATA?.nodes || [];
+        let max = 0;
+        for (const n of nodes) {
+            const v = n[metric] || 0;
+            if (v > max) max = v;
+        }
+        if (max > 0) {
+            graph.nodeVal(n => {
+                const val = n[metric] || 0;
+                return Math.max(1, (val / max) * SIZE_SCALE);
+            });
+        }
+    } else {
+        // Reset to default size
+        graph.nodeVal(n => n.val || 4);
+    }
+}
+
+/**
+ * Apply opacity channel from view registry entry.
+ * When a view specifies opacity_metric, node opacity scales by that metric.
+ */
+function _applyOpacityChannel(entry) {
+    const graph = window.FULL_GRAPH;
+    // nodeOpacity is not a standard 3d-force-graph API, but we can set it
+    // via the node's __opacity property and use it in the custom node renderer.
+    // For now, store on node objects for accessors to pick up.
+    if (!graph) return;
+
+    const nodes = window.COLLIDER_DATA?.nodes || [];
+    if (entry?.opacity_metric) {
+        const metric = entry.opacity_metric;
+        let max = 0;
+        for (const n of nodes) {
+            const v = n[metric] || 0;
+            if (v > max) max = v;
+        }
+        for (const n of nodes) {
+            const val = n[metric] || 0;
+            n.__viewOpacity = max > 0 ? 0.3 + 0.7 * Math.min(val / max, 1) : 1;
+        }
+    } else {
+        for (const n of nodes) {
+            n.__viewOpacity = 1;
+        }
     }
 }
 
