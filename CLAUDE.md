@@ -13,6 +13,17 @@ Two hemispheres (like a brain):
 
 **Projectome** = Codome (executable code) + Contextome (docs/config/data). MECE partition.
 
+### 4-Zone Repository Architecture
+
+| Zone | Tracked | What belongs here | Examples |
+|------|---------|-------------------|----------|
+| **1: Source Code** | Yes | Executable code, tests, configs, CI | `particle/src/`, `wave/tools/`, `tests/` |
+| **2: Reference Data** | Yes | Taxonomies, schemas, specs | `particle/data/atoms/`, `wave/config/` |
+| **3: Generated Output** | No | Regenerable analysis, reports, research | `research/`, `reports/`, `.collider/` |
+| **4: Ephemeral State** | No | Agent state, logs, caches | `.agent/state/`, `wave/library/` |
+
+Zone 3 backed up via `scripts/archive-to-gcs.sh`. Zone 4 is transient (Syncthing-only).
+
 ### Key Directories
 
 ```
@@ -53,7 +64,11 @@ doppler run -- .venv/bin/python3 wave/tools/ai/cerebras_tagger.py tag --pattern 
 doppler run -- .venv/bin/python3 wave/tools/ai/perplexity_research.py "topic"
 
 # Testing
-cd particle && pytest tests/ -q    # 406 tests
+cd particle && pytest tests/ -q    # 1,211 tests
+
+# Archive Zone 3 to GCS
+bash scripts/archive-to-gcs.sh             # Dry-run
+bash scripts/archive-to-gcs.sh --execute   # Real sync
 
 # Dashboards
 cd context-management/viz/unified-dashboard && npm run dev   # Projectome viewer :3000
