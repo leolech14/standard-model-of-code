@@ -19,6 +19,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
@@ -936,6 +937,28 @@ def cmd_mcp_check(args: argparse.Namespace) -> int:
     return _run(overview_cmd)
 
 
+def cmd_audit_doc(args: argparse.Namespace) -> int:
+    """Thin wrapper: delegate to wave/tools/ai/adversarial_auditor.py."""
+    auditor = _ELEMENTS_ROOT / "wave" / "tools" / "ai" / "adversarial_auditor.py"
+    if not auditor.exists():
+        print(f"adversarial_auditor.py not found at {auditor}")
+        return 1
+
+    cmd: list[str] = [
+        sys.executable, str(auditor), "audit", args.document,
+        "--domain", args.domain,
+    ]
+    if args.layers:
+        for layer in args.layers:
+            cmd.extend(["--layer", str(layer)])
+    if args.dry_run:
+        cmd.append("--dry-run")
+
+    print("Collider Hub Audit-Doc")
+    print(f"  delegating to: {auditor.name}")
+    return _run(cmd)
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         description="Canonical Collider wrapper for cross-agent ecosystem usage."
@@ -1060,6 +1083,23 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_common(mcp)
     mcp.set_defaults(func=cmd_mcp_check)
+
+    audit_doc = sub.add_parser(
+        "audit-doc",
+        help="Run three-layer adversarial audit on a document",
+    )
+    audit_doc.add_argument("document", help="Path to document (md, txt)")
+    audit_doc.add_argument(
+        "--domain", "-d", default="general",
+        help="Domain profile: smoc, general (default: general)",
+    )
+    audit_doc.add_argument(
+        "--layer", "-l", type=int, action="append", dest="layers",
+        choices=[1, 2, 3],
+        help="Run specific layer(s) only (repeatable)",
+    )
+    audit_doc.add_argument("--dry-run", action="store_true", help="No API calls")
+    audit_doc.set_defaults(func=cmd_audit_doc)
 
     return p
 

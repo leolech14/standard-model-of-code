@@ -1,0 +1,79 @@
+# CARD-AUD-002: Three-Layer Adversarial Audit
+# Play this card before publishing documents with IP claims
+
+id: CARD-AUD-002
+title: "Run Adversarial Document Audit"
+description: "Three-layer automated audit for documents: adversarial review (overclaims), evidence audit (citation verification), domain audit (methodology). Essential before publishing specs, glossaries, or external-facing documentation."
+
+phase_gate: [VALIDATING, PUBLISHING]
+
+preconditions:
+  - check: "document_exists"
+    description: "Target document must exist (md or txt)"
+  - check: "CEREBRAS_API_KEY is set"
+    description: "Need Cerebras for Layers 1 and 3"
+  - check: "PERPLEXITY_API_KEY is set"
+    description: "Need Perplexity for Layer 2 citation checks"
+
+steps:
+  - action: "doppler run -- python wave/tools/ai/adversarial_auditor.py audit <doc> --domain smoc --dry-run"
+    description: "Dry run to verify document is parseable and estimate cost"
+    checkpoint: false
+
+  - action: "doppler run -- python wave/tools/ai/adversarial_auditor.py audit <doc> --domain smoc"
+    description: "Execute full three-layer audit"
+    checkpoint: true
+
+  - action: "Review mandatory_edits in output and apply to document"
+    description: "Apply all critical/high severity edits"
+    checkpoint: true
+
+  - action: "Re-run audit on edited document to verify fixes"
+    description: "Confirm edits resolved findings"
+    checkpoint: false
+
+outcomes:
+  success:
+    state_changes:
+      - "adversarial_audit_*.json created in collider_feedback/"
+      - "adversarial_audit_*.md created in collider_feedback/"
+      - "All critical/high findings addressed"
+      - "Citations verified against web sources"
+    unlocks: []
+    meters:
+      reliability: 3
+      discovery: 1
+      debt: -2  # Prevents IP debt from publishing unchecked claims
+
+  failure:
+    state_changes:
+      - "Audit incomplete or findings unaddressed"
+      - "Document may contain overclaims or inaccurate citations"
+    meters:
+      reliability: -2
+      debt: 2
+
+rollback:
+  possible: true
+  steps:
+    - "Delete audit outputs from collider_feedback/"
+    - "Revert document edits if applied"
+  warning: "Rollback means document ships without audit"
+
+cost:
+  tokens_estimate: 25000
+  api_cost_estimate: "$0.01-0.04"
+  risk_level: LOW
+
+tags: [audit, document, ip-claims, citations, adversarial, three-layer]
+
+# Linkage
+tool_ref: "wave/tools/ai/adversarial_auditor.py"
+hub_ref: "collider-hub audit-doc"
+first_execution: null
+
+# When to play this card:
+# - Before publishing any spec, glossary, or briefing document
+# - After major edits to theory documentation
+# - Before external presentations or submissions
+# - When onboarding new claims about compression ratios, atom counts, etc.
