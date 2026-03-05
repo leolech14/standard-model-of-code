@@ -68,7 +68,7 @@ window.SIDEBAR = (function () {
     // =========================================================================
 
     function _bindSectionHeaders() {
-        document.querySelectorAll('.section-header[data-section]').forEach(header => {
+        document.querySelectorAll('.side-title[data-section]').forEach(header => {
             // G04 FIX: Use tracked listener
             _addListener(header, 'click', () => {
                 const sectionId = header.dataset.section;

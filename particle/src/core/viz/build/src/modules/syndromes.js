@@ -162,10 +162,10 @@ function _buildPanel() {
         panel.appendChild(cWrap);
     }
 
-    // Inject into HUD
-    const hud = document.getElementById('hud');
-    if (hud) {
-        hud.appendChild(panel);
+    // Inject into Z4: left-float zone
+    const zone = document.getElementById('zone-left-float') || document.getElementById('hud');
+    if (zone) {
+        zone.appendChild(panel);
     }
 
     return panel;

@@ -453,10 +453,18 @@ function updateSelectionPanel() {
     if (!nodes.length) {
         panel.classList.remove('visible');
         body.innerHTML = '';
+        // Show overview when no selection
+        if (typeof RIGHT_INTEL !== 'undefined' && RIGHT_INTEL.showOverview) {
+            RIGHT_INTEL.showOverview();
+        }
         return;
     }
 
     panel.classList.add('visible');
+    // Hide overview, show selection panel
+    if (typeof RIGHT_INTEL !== 'undefined' && RIGHT_INTEL.showSelection) {
+        RIGHT_INTEL.showSelection();
+    }
     if (title) title.textContent = `SELECTION (${nodes.length})`;
     body.innerHTML = '';
 

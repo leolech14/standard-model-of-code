@@ -6,7 +6,6 @@
     <title>Collider v__VERSION_PLACEHOLDER__</title>
     <style>
         __STYLES_PLACEHOLDER__
-
         /* ═══════════════════════════════════════════════════════════════════
            COLLIDER UI - Canvas-First Layout
            ═══════════════════════════════════════════════════════════════════ */
@@ -52,7 +51,8 @@
     <!-- Google Fonts: Libre Baskerville for scientific-paper theme -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
 
     <script>
         window.process = window.process || { env: { NODE_ENV: "production" } };
@@ -76,145 +76,222 @@
     <div id="3d-graph"></div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
-         HUD OVERLAY - All controls are transparent overlays on the canvas
+         HUD OVERLAY - 9-Zone CSS Grid Layout
+         Zones: top | left+canvas+right | leftfloat+canvas+right | bottom
          ═══════════════════════════════════════════════════════════════════ -->
     <div id="hud">
 
-        <!-- Top Center: Stats bar (nodes, edges, entropy) -->
-        <div class="hud-panel top-center">
-            <div class="stat">
-                <span class="stat-label">Nodes</span>
-                <span class="stat-value" id="stat-nodes">0</span>
+        <!-- Z1: Top row — identity + stats -->
+        <div class="hud-zone zone-top" id="zone-top">
+            <div class="hud-panel top-left">
+                <div class="hud-title">COLLIDER <span class="hud-version">v__VERSION_PLACEHOLDER__</span></div>
+                <div class="hud-target" id="target-name"></div>
+                <div class="hud-timestamp" id="timestamp"></div>
             </div>
-            <div class="stat">
-                <span class="stat-label">Edges</span>
-                <span class="stat-value" id="stat-edges">0</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Entropy</span>
-                <span class="stat-value" id="stat-entropy">--</span>
-            </div>
-            <div class="stat stat-health-wrap" id="stat-health-wrap">
-                <span class="stat-label">Health</span>
-                <span class="stat-value" id="stat-health">--</span>
-            </div>
-        </div>
-
-        <!-- Top Left: Target info -->
-        <div class="hud-panel top-left">
-            <div class="hud-title">COLLIDER <span class="hud-version">v__VERSION_PLACEHOLDER__</span></div>
-            <div class="hud-target" id="target-name"></div>
-            <div class="hud-timestamp" id="timestamp"></div>
-        </div>
-
-        <!-- Bottom Dock: Primary controls -->
-        <div class="hud-panel bottom-dock">
-            <!-- View Mode: Atoms / Files -->
-            <div class="dock-group" id="dock-view-mode">
-                <button class="dock-btn active" data-mode="atoms" title="Atom-level view">Atoms</button>
-                <button class="dock-btn" data-mode="files" title="File-level view">Files</button>
-            </div>
-
-            <div class="dock-sep"></div>
-
-            <!-- Color Mode -->
-            <div class="dock-group" id="dock-color-mode">
-                <button class="dock-btn active" data-color="tier" title="Color by tier">Tier</button>
-                <button class="dock-btn" data-color="family" title="Color by family">Family</button>
-                <button class="dock-btn" data-color="layer" title="Color by layer">Layer</button>
-                <button class="dock-btn" data-color="ring" title="Color by ring">Ring</button>
-                <button class="dock-btn" data-color="file" title="Color by file">File</button>
-                <button class="dock-btn" data-color="flow" title="Color by flow">Flow</button>
-            </div>
-
-            <div class="dock-sep"></div>
-
-            <!-- Encoding View: auto-ranked top 5 from view_registry -->
-            <div class="dock-group" id="dock-encoding-view">
-                <!-- Populated by encoding-view.js from payload.view_registry (rank != null) -->
-            </div>
-
-            <div class="dock-sep"></div>
-
-            <!-- Actions -->
-            <div class="dock-group" id="dock-actions">
-                <button class="dock-btn" id="btn-dx" title="Syndrome diagnosis">Dx</button>
-                <button class="dock-btn" id="btn-temporal" title="Temporal overlay">Time</button>
-                <button class="dock-btn" id="btn-reset" title="Reset camera">Reset</button>
-                <button class="dock-btn" id="btn-screenshot" title="Screenshot">Shot</button>
-                <button class="dock-btn" id="btn-freeze" title="Freeze layout">Freeze</button>
+            <div class="hud-panel top-center rc-hero" id="top-center-stats">
+                <div class="rc-hero-card">
+                    <div class="rc-hero-value" id="stat-nodes">0</div>
+                    <div class="rc-hero-label">Nodes</div>
+                </div>
+                <div class="rc-hero-card">
+                    <div class="rc-hero-value" id="stat-edges">0</div>
+                    <div class="rc-hero-label">Edges</div>
+                </div>
+                <div class="rc-hero-card">
+                    <div class="rc-hero-value" id="stat-entropy">--</div>
+                    <div class="rc-hero-label">Entropy</div>
+                </div>
+                <div class="rc-hero-card stat-health-wrap" id="stat-health-wrap">
+                    <div class="rc-hero-value" id="stat-health">--</div>
+                    <div class="rc-hero-label">Health</div>
+                </div>
             </div>
         </div>
 
-        <!-- Side Dock: Hover-reveal control panel (left edge) -->
-        <div class="side-dock" id="side-dock">
-            <div class="side-handle-row">
-                <button class="side-handle" id="side-toggle" title="Toggle controls">Controls</button>
-                <button class="side-lock" id="side-lock" title="Pin panel open">Pin</button>
-            </div>
-            <div class="side-content">
-                <!-- Appearance Section -->
-                <div class="side-section">
-                    <div class="side-title collapsible" data-section="appearance">
-                        <span class="collapse-icon">&#9662;</span> Appearance
+        <!-- Z2: Left rail — side-dock controls -->
+        <div class="hud-zone zone-left" id="zone-left">
+            <div class="side-dock locked expanded" id="side-dock">
+                <div class="side-content">
+                    <!-- Appearance Section -->
+                    <div class="side-section">
+                        <div class="side-title collapsible" data-section="appearance">
+                            <span class="collapse-icon">&#9662;</span> Appearance
+                        </div>
+                        <div class="collapsible-content" id="sec-appearance">
+                            <div class="filter-row">
+                                <label class="filter-label">Node Size</label>
+                                <input type="range" class="slider" id="cfg-node-size" min="1" max="20" value="4"
+                                    step="0.5">
+                            </div>
+                            <div class="filter-row">
+                                <label class="filter-label">Node Opacity</label>
+                                <input type="range" class="slider" id="cfg-node-opacity" min="0" max="1" value="0.85"
+                                    step="0.05">
+                            </div>
+                            <div class="filter-row">
+                                <label class="filter-label">Edge Opacity</label>
+                                <input type="range" class="slider" id="cfg-edge-opacity" min="0" max="1" value="0.3"
+                                    step="0.05">
+                            </div>
+                            <div class="filter-row">
+                                <label class="filter-label">Label Size</label>
+                                <input type="range" class="slider" id="cfg-label-size" min="0" max="6" value="2"
+                                    step="0.5">
+                            </div>
+                        </div>
                     </div>
-                    <div class="collapsible-content" id="sec-appearance">
-                        <div class="filter-row">
-                            <label class="filter-label">Node Size</label>
-                            <input type="range" class="slider" id="cfg-node-size" min="1" max="20" value="4" step="0.5">
+
+                    <!-- Physics Section -->
+                    <div class="side-section">
+                        <div class="side-title collapsible collapsed" data-section="physics">
+                            <span class="collapse-icon">&#9662;</span> Physics
                         </div>
-                        <div class="filter-row">
-                            <label class="filter-label">Node Opacity</label>
-                            <input type="range" class="slider" id="cfg-node-opacity" min="0" max="1" value="0.85" step="0.05">
+                        <div class="collapsible-content collapsed" id="sec-physics">
+                            <div class="filter-row">
+                                <label class="filter-label">Charge</label>
+                                <input type="range" class="slider" id="cfg-charge" min="-200" max="0" value="-30"
+                                    step="5">
+                            </div>
+                            <div class="filter-row">
+                                <label class="filter-label">Link Distance</label>
+                                <input type="range" class="slider" id="cfg-link-distance" min="10" max="200" value="30"
+                                    step="5">
+                            </div>
+                            <div class="filter-row">
+                                <label class="filter-label">Gravity</label>
+                                <input type="range" class="slider" id="cfg-gravity" min="0" max="1" value="0.1"
+                                    step="0.05">
+                            </div>
+                            <div class="preset-grid">
+                                <button class="preset-btn" data-preset="tight">Tight</button>
+                                <button class="preset-btn" data-preset="spread">Spread</button>
+                                <button class="preset-btn" data-preset="cluster">Cluster</button>
+                                <button class="preset-btn active" data-preset="default">Default</button>
+                            </div>
                         </div>
-                        <div class="filter-row">
-                            <label class="filter-label">Edge Opacity</label>
-                            <input type="range" class="slider" id="cfg-edge-opacity" min="0" max="1" value="0.3" step="0.05">
+                    </div>
+
+                    <!-- Theme Switcher Section -->
+                    <div class="side-section">
+                        <div class="side-title collapsible collapsed" data-section="theme">
+                            <span class="collapse-icon">&#9662;</span> Theme
                         </div>
-                        <div class="filter-row">
-                            <label class="filter-label">Label Size</label>
-                            <input type="range" class="slider" id="cfg-label-size" min="0" max="6" value="2" step="0.5">
+                        <div class="collapsible-content collapsed" id="sec-theme">
+                            <div class="theme-switcher">
+                                <!-- Populated dynamically by theme.js / app.js or directly here -->
+                                <button class="theme-btn" data-theme="dark">Dark</button>
+                                <button class="theme-btn" data-theme="light">Light</button>
+                                <button class="theme-btn" data-theme="rainmaker">Rainmaker</button>
+                                <button class="theme-btn" data-theme="high-contrast">High Contrast</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Tree Section -->
+                    <div class="side-section">
+                        <div class="side-title collapsible collapsed" data-section="file-tree">
+                            <span class="collapse-icon">&#9662;</span> Page Tree Map
+                        </div>
+                        <div class="collapsible-content collapsed" id="sec-file-tree">
+                            <div id="file-tree-container">
+                                <!-- Populated dynamically by file-tree.js -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filters Section -->
+                    <div class="side-section">
+                        <div class="side-title collapsible collapsed" data-section="filters">
+                            <span class="collapse-icon">&#9662;</span> Filters
+                        </div>
+                        <div class="collapsible-content collapsed" id="sec-filters">
+                            <div class="filter-row">
+                                <input type="text" class="filter-input" id="cfg-search" placeholder="Search nodes...">
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Physics Section -->
-                <div class="side-section">
-                    <div class="side-title collapsible collapsed" data-section="physics">
-                        <span class="collapse-icon">&#9662;</span> Physics
+        <!-- Z3: Right rail — always visible intelligence sidebar -->
+        <div class="hud-zone zone-right" id="zone-right">
+            <!-- Default view: dataset intelligence overview (visible when no selection) -->
+            <div class="right-overview" id="right-overview">
+                <div class="right-section-title">INTELLIGENCE</div>
+                <div class="right-overview-body" id="right-overview-body">
+                    <div class="right-hint">Click a node to inspect</div>
+                </div>
+            </div>
+
+            <!-- File Context view: appears when viewing file mode -->
+            <div class="file-panel" id="file-panel">
+                <div class="file-panel-header">
+                    <div class="file-name" id="file-name">--</div>
+                    <div class="file-cohesion" id="file-cohesion">--</div>
+                </div>
+                <div class="file-panel-body">
+                    <div class="file-purpose" id="file-purpose">--</div>
+                    <div class="file-stats">
+                        <span id="file-atom-count">0</span> atoms • <span id="file-lines">--</span> lines
                     </div>
-                    <div class="collapsible-content collapsed" id="sec-physics">
-                        <div class="filter-row">
-                            <label class="filter-label">Charge</label>
-                            <input type="range" class="slider" id="cfg-charge" min="-200" max="0" value="-30" step="5">
-                        </div>
-                        <div class="filter-row">
-                            <label class="filter-label">Link Distance</label>
-                            <input type="range" class="slider" id="cfg-link-distance" min="10" max="200" value="30" step="5">
-                        </div>
-                        <div class="filter-row">
-                            <label class="filter-label">Gravity</label>
-                            <input type="range" class="slider" id="cfg-gravity" min="0" max="1" value="0.1" step="0.05">
-                        </div>
-                        <div class="preset-grid">
-                            <button class="preset-btn" data-preset="tight">Tight</button>
-                            <button class="preset-btn" data-preset="spread">Spread</button>
-                            <button class="preset-btn" data-preset="cluster">Cluster</button>
-                            <button class="preset-btn active" data-preset="default">Default</button>
-                        </div>
+                    <div class="file-components">
+                        <div class="file-classes" id="file-classes"></div>
+                        <div class="file-functions" id="file-functions"></div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Filters Section -->
-                <div class="side-section">
-                    <div class="side-title collapsible collapsed" data-section="filters">
-                        <span class="collapse-icon">&#9662;</span> Filters
-                    </div>
-                    <div class="collapsible-content collapsed" id="sec-filters">
-                        <div class="filter-row">
-                            <input type="text" class="filter-input" id="cfg-search" placeholder="Search nodes...">
-                        </div>
-                    </div>
+            <!-- Selection view: appears when node(s) selected -->
+            <div class="selection-panel" id="selection-panel">
+                <div class="selection-header">
+                    <span class="selection-title" id="selection-title">SELECTION</span>
+                    <button class="selection-clear" id="selection-clear">Clear</button>
+                </div>
+                <div class="selection-body" id="selection-body"></div>
+            </div>
+        </div>
+
+        <!-- Z4: Left float — syndrome & temporal panels inject here -->
+        <div class="hud-zone zone-left-float" id="zone-left-float"></div>
+
+        <!-- Z7+Z8: Bottom — dock controls + encoding signature -->
+        <div class="hud-zone zone-bottom" id="zone-bottom">
+            <div class="hud-panel bottom-dock">
+                <!-- View Mode: Atoms / Files -->
+                <div class="dock-group" id="dock-view-mode">
+                    <button class="dock-btn active" data-mode="atoms" title="Atom-level view">Atoms</button>
+                    <button class="dock-btn" data-mode="files" title="File-level view">Files</button>
+                </div>
+
+                <div class="dock-sep"></div>
+
+                <!-- Color Mode -->
+                <div class="dock-group" id="dock-color-mode">
+                    <button class="dock-btn active" data-color="tier" title="Color by tier">Tier</button>
+                    <button class="dock-btn" data-color="family" title="Color by family">Family</button>
+                    <button class="dock-btn" data-color="layer" title="Color by layer">Layer</button>
+                    <button class="dock-btn" data-color="ring" title="Color by ring">Ring</button>
+                    <button class="dock-btn" data-color="file" title="Color by file">File</button>
+                    <button class="dock-btn" data-color="flow" title="Color by flow">Flow</button>
+                </div>
+
+                <div class="dock-sep"></div>
+
+                <!-- Encoding View: auto-ranked top 5 from view_registry -->
+                <div class="dock-group" id="dock-encoding-view">
+                    <!-- Populated by encoding-view.js from payload.view_registry (rank != null) -->
+                </div>
+
+                <div class="dock-sep"></div>
+
+                <!-- Actions -->
+                <div class="dock-group" id="dock-actions">
+                    <button class="dock-btn" id="btn-dx" title="Syndrome diagnosis">Dx</button>
+                    <button class="dock-btn" id="btn-temporal" title="Temporal overlay">Time</button>
+                    <button class="dock-btn" id="btn-reset" title="Reset camera">Reset</button>
+                    <button class="dock-btn" id="btn-screenshot" title="Screenshot">Shot</button>
+                    <button class="dock-btn" id="btn-freeze" title="Freeze layout">Freeze</button>
                 </div>
             </div>
         </div>
@@ -240,6 +317,44 @@
 
     <!-- Selection Box -->
     <div id="selection-box"></div>
+
+    <!-- Selection Modal Overlay -->
+    <div class="selection-modal-overlay" id="selection-modal-overlay">
+        <div class="selection-modal">
+            <div class="selection-modal-header">
+                <h2 id="selection-modal-title">SELECTED NODES</h2>
+                <button class="selection-modal-close" id="selection-modal-close">×</button>
+            </div>
+            <div class="selection-modal-stats" id="selection-modal-stats"></div>
+            <div class="selection-modal-body" id="selection-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Hover Node Tooltip -->
+    <div class="hover-panel" id="hover-panel"
+        style="display: none; position: absolute; pointer-events: none; z-index: 1000;">
+        <div id="hover-placeholder" style="display: none;"></div>
+        <div class="hover-header">
+            <span id="hover-name"></span>
+            <span class="hover-badge" id="hover-type"></span>
+        </div>
+        <div class="hover-meta">
+            <div class="hover-file" id="hover-file"></div>
+            <div class="hover-tags">
+                <span class="hover-tag" id="hover-tier"></span>
+                <span class="hover-tag" id="hover-ring"></span>
+                <span class="hover-tag" id="hover-family"></span>
+                <span class="hover-tag" id="hover-role"></span>
+            </div>
+        </div>
+        <div class="hover-metrics">
+            <span>CMP: <span id="hover-complexity"></span></span>
+            <span>LOC: <span id="hover-loc"></span></span>
+            <span>IN: <span id="hover-fanin"></span></span>
+            <span>OUT: <span id="hover-fanout"></span></span>
+        </div>
+        <pre class="hover-code-preview" id="hover-code"></pre>
+    </div>
 
     <!-- Topology Tooltip -->
     <div class="topo-tooltip" id="topo-tooltip">

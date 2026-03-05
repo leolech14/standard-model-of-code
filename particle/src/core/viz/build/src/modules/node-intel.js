@@ -69,12 +69,12 @@ function _kv(label, value) {
 }
 
 /**
- * Create a pill tag.
+ * Create a pill tag styling using the Rainmaker rc-comp-chip component.
  */
-function _tag(text, cls) {
+function _tag(text, styleClass) {
     const span = document.createElement('span');
-    span.className = 'ni-tag' + (cls ? ' ' + cls : '');
-    span.textContent = text;
+    span.className = 'rc-comp-chip';
+    span.innerHTML = `<span class="pip h-neutral"></span>${text}`;
     return span;
 }
 

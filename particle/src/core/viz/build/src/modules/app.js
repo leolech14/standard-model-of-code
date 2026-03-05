@@ -536,6 +536,9 @@ function initGraph(data) {
         if (typeof SIDEBAR !== 'undefined' && SIDEBAR.populateFilterChips) {
             SIDEBAR.populateFilterChips(data);
         }
+        if (typeof FILE_TREE !== 'undefined' && FILE_TREE.init) {
+            FILE_TREE.init();
+        }
     }
 
     // =================================================================
@@ -1047,7 +1050,7 @@ function initGraph(data) {
         // =================================================================
         // ORBIT TARGET: Rotate around data centroid, not world origin
         // =================================================================
-        window._updateOrbitTarget = function() {
+        window._updateOrbitTarget = function () {
             const ctrl = Graph.controls();
             if (!ctrl) return;
             const nodes = Graph.graphData().nodes;
@@ -1138,8 +1141,8 @@ function runSelfTest(data) {
 
     // Main layout containers
     test('header-exists', !!document.getElementById('header'));
-    test('left-sidebar-exists', !!document.getElementById('left-sidebar'));
-    test('right-sidebar-exists', !!document.getElementById('right-sidebar'));
+    test('side-dock-exists', !!document.getElementById('side-dock'));
+    test('zone-right-exists', !!document.getElementById('zone-right'));
     test('graph-container-exists', !!document.getElementById('3d-graph'));
 
     // Header stats
@@ -1689,7 +1692,7 @@ function setupConfigControls() {
     // ═══════════════════════════════════════════════════════════════════
     // Section Collapse Handlers
     // ═══════════════════════════════════════════════════════════════════
-    document.querySelectorAll('.section-header[data-section]').forEach(header => {
+    document.querySelectorAll('.side-title[data-section]').forEach(header => {
         header.addEventListener('click', () => {
             const sectionId = header.dataset.section;
             const content = document.getElementById(`section-${sectionId}`);
@@ -2704,4 +2707,4 @@ window.THEME_CONFIG = THEME_CONFIG;
 window.VIS_FILTERS = VIS_FILTERS;
 window.refreshGraph = refreshGraph;
 
-export {};  // Mark as ES6 module
+export { };  // Mark as ES6 module

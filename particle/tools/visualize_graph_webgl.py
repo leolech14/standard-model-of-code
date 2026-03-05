@@ -623,10 +623,10 @@ def generate_webgl_html(json_source: Any, output_path: str):
             "panel-system.js",
             "panel-handlers.js",
             "edge-system.js",
-            "file-color-model.js",
             "layout-forces.js",
             "hull-visualizer.js",
             "file-viz.js",
+            "file-tree.js",
             "tooltips.js",
             "theme.js",
             "upb/scales.js",
@@ -730,6 +730,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
             "modules/layout-forces.js",          # D3 force manipulation (takes graph as arg)
             "modules/hull-visualizer.js",        # SDF-based organic membranes
             "modules/file-viz.js",              # File visualization controller (thin orchestrator)
+            "modules/file-tree.js",             # File explorer widget
             "modules/tooltips.js",              # Tooltip & toast notifications
             "modules/theme.js",                 # Theme management (needs toast)
             # UPB Module (Universal Property Binder) - BEFORE control-bar.js

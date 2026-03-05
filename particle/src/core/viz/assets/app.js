@@ -1130,8 +1130,8 @@ function runSelfTest(data) {
 
     // Main layout containers
     test('header-exists', !!document.getElementById('header'));
-    test('left-sidebar-exists', !!document.getElementById('left-sidebar'));
-    test('right-sidebar-exists', !!document.getElementById('right-sidebar'));
+    test('side-dock-exists', !!document.getElementById('side-dock'));
+    test('zone-right-exists', !!document.getElementById('zone-right'));
     test('graph-container-exists', !!document.getElementById('3d-graph'));
 
     // Header stats
@@ -1681,7 +1681,7 @@ function setupConfigControls() {
     // ═══════════════════════════════════════════════════════════════════
     // Section Collapse Handlers
     // ═══════════════════════════════════════════════════════════════════
-    document.querySelectorAll('.section-header[data-section]').forEach(header => {
+    document.querySelectorAll('.side-title[data-section]').forEach(header => {
         header.addEventListener('click', () => {
             const sectionId = header.dataset.section;
             const content = document.getElementById(`section-${sectionId}`);

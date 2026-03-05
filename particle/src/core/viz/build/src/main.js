@@ -85,6 +85,7 @@ import './modules/holarchy.js';
 import './modules/encoding-view.js';
 import './modules/syndromes.js';
 import './modules/temporal.js';
+import './modules/right-intel.js';
 
 // === PHASE 13: UPB System ===
 import './modules/upb/scales.js';

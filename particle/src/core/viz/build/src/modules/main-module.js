@@ -233,6 +233,12 @@ window.initializeModules = function (data) {
         console.log('[MAIN] TEMPORAL module initialized');
     }
 
+    // Initialize Right Intel sidebar (needs COLLIDER_DATA)
+    if (typeof RIGHT_INTEL !== 'undefined' && RIGHT_INTEL.init) {
+        RIGHT_INTEL.init();
+        console.log('[MAIN] RIGHT_INTEL module initialized');
+    }
+
     console.log('[MAIN] Module initialization complete');
 };
 

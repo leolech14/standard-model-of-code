@@ -411,8 +411,8 @@ window.LAYOUT = (function() {
      * Validate graph has minimum width, adjust sidebars if needed
      */
     function validateGraphWidth() {
-        const leftSidebar = document.getElementById('left-sidebar');
-        const rightSidebar = document.getElementById('right-sidebar');
+        const leftSidebar = document.getElementById('side-dock');
+        const rightSidebar = document.getElementById('zone-right');
         const viewport = getViewport();
 
         const leftWidth = leftSidebar ? (getRect(leftSidebar)?.width || 0) : 0;
@@ -427,7 +427,7 @@ window.LAYOUT = (function() {
             if (rightSidebar && rightWidth > 200) {
                 const newWidth = Math.max(200, rightWidth - deficit);
                 document.documentElement.style.setProperty('--right-panel-width', newWidth + 'px');
-                return { adjusted: true, component: 'right-sidebar', newWidth };
+                return { adjusted: true, component: 'zone-right', newWidth };
             }
         }
         return { adjusted: false };
@@ -562,7 +562,7 @@ window.LAYOUT = (function() {
         if (!_debugOverlay) return;
 
         let html = '';
-        const allPanels = [...FIXED_PANELS, ...DYNAMIC_PANELS, 'toast', 'control-bar', 'left-sidebar', 'right-sidebar'];
+        const allPanels = [...FIXED_PANELS, ...DYNAMIC_PANELS, 'toast', 'control-bar', 'side-dock', 'zone-right'];
 
         allPanels.forEach(id => {
             const el = document.getElementById(id) || document.querySelector('.' + id);

@@ -1,7 +1,7 @@
 {
   "$schema": "design-tokens",
   "$purpose": "UI chrome theming - backgrounds, borders, text, typography, shadows",
-  "$default-theme": "dark",
+  "$default-theme": "rainmaker",
   "themes": {
     "$description": "Theme variants - override values for specific themes",
     "light": {
@@ -696,7 +696,7 @@
       }
     },
     "scientific-paper": {
-      "$description": "Scientific paper aesthetic — white background, hairline borders, minimal color, maximum readability",
+      "$description": "Scientific paper aesthetic \u2014 white background, hairline borders, minimal color, maximum readability",
       "$design-language": "Academic paper: white space, serif fonts, wireframe nodes, graph-paper grids",
       "color": {
         "bg": {
@@ -941,6 +941,204 @@
           "xl": {
             "$value": "18px"
           }
+        }
+      }
+    },
+    "rainmaker": {
+      "$description": "Rainmaker Dashboard Aesthetic - B&W with vivid health indicators",
+      "color": {
+        "bg": {
+          "base": {
+            "$value": "oklch(0% 0 0)"
+          },
+          "surface": {
+            "$value": "oklch(10% 0 0)"
+          },
+          "elevated": {
+            "$value": "oklch(13% 0 0)"
+          },
+          "sunken": {
+            "$value": "oklch(0% 0 0)"
+          },
+          "overlay": {
+            "$value": "oklch(0% 0 0 / 0.9)"
+          },
+          "overlay-light": {
+            "$value": "oklch(0% 0 0 / 0.4)"
+          },
+          "overlay-medium": {
+            "$value": "oklch(0% 0 0 / 0.6)"
+          },
+          "shadow-soft": {
+            "$value": "oklch(0% 0 0 / 0.15)"
+          },
+          "hover": {
+            "$value": "oklch(20% 0 0)"
+          },
+          "active": {
+            "$value": "oklch(28% 0 0)"
+          },
+          "highlight": {
+            "$value": "oklch(35% 0 0)"
+          },
+          "panel-dark": {
+            "$value": "oklch(16% 0 0)"
+          },
+          "panel-blue": {
+            "$value": "oklch(16% 0 0)"
+          },
+          "panel-accent": {
+            "$value": "oklch(20% 0 0)"
+          },
+          "tooltip": {
+            "$value": "oklch(16% 0 0)"
+          },
+          "scrollbar-track": {
+            "$value": "transparent"
+          },
+          "scrollbar-thumb": {
+            "$value": "oklch(35% 0 0)"
+          },
+          "scrollbar-thumb-hover": {
+            "$value": "oklch(42% 0 0)"
+          }
+        },
+        "border": {
+          "default": {
+            "$value": "oklch(20% 0 0)"
+          },
+          "subtle": {
+            "$value": "oklch(13% 0 0)"
+          },
+          "faint": {
+            "$value": "oklch(10% 0 0)"
+          },
+          "muted": {
+            "$value": "oklch(16% 0 0)"
+          },
+          "strong": {
+            "$value": "oklch(35% 0 0)"
+          },
+          "focus": {
+            "$value": "oklch(42% 0 0)"
+          }
+        },
+        "text": {
+          "primary": {
+            "$value": "oklch(90% 0 0)"
+          },
+          "bright": {
+            "$value": "oklch(100% 0 0)"
+          },
+          "high": {
+            "$value": "oklch(90% 0 0)"
+          },
+          "secondary": {
+            "$value": "oklch(78% 0 0)"
+          },
+          "tertiary": {
+            "$value": "oklch(65% 0 0)"
+          },
+          "muted": {
+            "$value": "oklch(50% 0 0)"
+          },
+          "disabled": {
+            "$value": "oklch(35% 0 0)"
+          },
+          "inverse": {
+            "$value": "oklch(0% 0 0)"
+          }
+        },
+        "accent": {
+          "primary": {
+            "$value": "oklch(65% 0 0)"
+          },
+          "primary-bright": {
+            "$value": "oklch(78% 0 0)"
+          },
+          "primary-dim": {
+            "$value": "oklch(42% 0 0)"
+          },
+          "primary-bg": {
+            "$value": "oklch(20% 0 0)"
+          },
+          "primary-glow": {
+            "$value": "none"
+          }
+        },
+        "viz": {
+          "tooltip-bg": {
+            "$value": "oklch(16% 0 0)"
+          },
+          "tooltip-text": {
+            "$value": "oklch(90% 0 0)"
+          },
+          "node-glow": {
+            "$value": "none"
+          },
+          "edge-glow": {
+            "$value": "none"
+          },
+          "selection": {
+            "$value": "oklch(50% 0 0 / 0.3)"
+          },
+          "highlight": {
+            "$value": "oklch(65% 0 0)"
+          }
+        },
+        "status": {
+          "success": {
+            "$value": "oklch(70% 0.19 160)"
+          },
+          "success-bg": {
+            "$value": "oklch(70% 0.19 160 / 0.15)"
+          },
+          "warning": {
+            "$value": "oklch(75% 0.17 80)"
+          },
+          "warning-bg": {
+            "$value": "oklch(75% 0.17 80 / 0.15)"
+          },
+          "error": {
+            "$value": "oklch(60% 0.24 27)"
+          },
+          "error-bg": {
+            "$value": "oklch(60% 0.24 27 / 0.15)"
+          },
+          "info": {
+            "$value": "oklch(62% 0.20 255)"
+          },
+          "info-bg": {
+            "$value": "oklch(62% 0.20 255 / 0.15)"
+          }
+        },
+        "data": {
+          "blue": {
+            "$value": "oklch(62% 0.20 255)"
+          },
+          "green": {
+            "$value": "oklch(70% 0.19 160)"
+          },
+          "yellow": {
+            "$value": "oklch(75% 0.17 80)"
+          },
+          "red": {
+            "$value": "oklch(60% 0.24 27)"
+          }
+        }
+      },
+      "shadow": {
+        "sm": {
+          "$value": "0 2px 4px oklch(0% 0 0 / 0.18)"
+        },
+        "md": {
+          "$value": "0 4px 8px oklch(0% 0 0 / 0.22)"
+        },
+        "lg": {
+          "$value": "0 8px 16px oklch(0% 0 0 / 0.28)"
+        },
+        "glow-accent": {
+          "$value": "none"
         }
       }
     }
