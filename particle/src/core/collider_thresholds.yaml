@@ -44,6 +44,12 @@ purpose:
   dominant_role_ratio: 0.60  # above -> purpose imbalance finding
   # Docstring coverage
   doc_ratio_low: 0.30       # below -> low documentation finding
+  # Sub-weights for _score_purpose() blended score (must sum to 1.0)
+  score_weights:
+    ci: 0.45
+    clarity: 0.25
+    alignment: 0.20
+    structural: 0.10
 
 rpbl_balance:
   # Role counts that trigger imbalance findings
@@ -64,6 +70,15 @@ hotspots:
 
 signal_density:
   signal_count_high: 20     # above -> noisy signal landscape finding
+
+topology_scores:
+  # Shape-to-score mapping for _score_topology() (each 0.0-10.0)
+  STRICT_LAYERS: 10.0
+  MESH: 7.0
+  DISCONNECTED_ISLANDS: 5.0
+  STAR_HUB: 4.0
+  BIG_BALL_OF_MUD: 2.0
+  _default: 6.0               # fallback for unknown shapes
 
 health_scoring:
   # Constraint violation scoring (rho_antimatter + rho_policy combined)
@@ -89,6 +104,10 @@ health_scoring:
   test_coverage_ideal: 1.0
   test_coverage_good: 0.5
   test_coverage_low: 0.2
+  # Atom types counted as "test" artifacts for coverage ratio
+  test_atoms: [Asserter, Test, test]
+  # Atom types counted as "logic under test" for coverage ratio
+  logic_atoms: [Service, Command, UseCase, ApplicationService, Controller, Handler]
 
   # Health component weights
   weights:
@@ -108,6 +127,17 @@ grade_boundaries:
   # Below D = F
 
 # Category-based default confidence levels (0.0-1.0)
+#
+# Confidence measures the RELIABILITY OF THE ANALYSIS METHOD, not the
+# severity of the finding.  A dead_code finding at 0.85 means "we are
+# 85% sure our static reachability analysis is correct", not "the dead
+# code is 85% bad".  Higher values = deterministic/well-understood
+# techniques.  Lower values = heuristic/speculative analyses where
+# false positives are more likely.
+#
+# These baselines are auto-assigned by _add() when a pass does not
+# set confidence explicitly.  Individual passes may still override
+# with a per-finding value.
 confidence_baselines:
   dead_code: 0.85
   execution: 0.85

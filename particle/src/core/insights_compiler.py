@@ -1629,14 +1629,19 @@ class InsightsCompiler:
 
     def _score_topology(self) -> float:
         shape = self.kpis.get('topology_shape', 'UNKNOWN')
-        scores = {
+        default_scores = {
             'STRICT_LAYERS': 10.0,
             'MESH': 7.0,
             'DISCONNECTED_ISLANDS': 5.0,
             'STAR_HUB': 4.0,
             'BIG_BALL_OF_MUD': 2.0,
         }
-        return scores.get(shape, 6.0)
+        yaml_scores = self._thresholds.get('topology_scores')
+        if isinstance(yaml_scores, dict):
+            fallback = float(yaml_scores.get('_default', 6.0))
+            scores = {k: float(v) for k, v in yaml_scores.items() if k != '_default'}
+            return scores.get(shape, fallback)
+        return default_scores.get(shape, 6.0)
 
     def _score_constraints(self) -> float:
         rho_am = self.kpis.get('rho_antimatter', 0) or 0
@@ -1694,21 +1699,32 @@ class InsightsCompiler:
         else:
             structural_score = max(0.0, structural_score - min(4.0, god_class_count * 0.05))
 
+        # Sub-weights — overridable via purpose.score_weights in YAML.
+        dw = {'ci': 0.45, 'clarity': 0.25, 'alignment': 0.20, 'structural': 0.10}
+        yaml_sw = self._thresholds.get('purpose', {}).get('score_weights')
+        if isinstance(yaml_sw, dict):
+            dw.update({k: float(v) for k, v in yaml_sw.items()})
         blended = (
-            ci_score * 0.45
-            + clarity_score * 0.25
-            + alignment_score * 0.20
-            + structural_score * 0.10
+            ci_score * dw['ci']
+            + clarity_score * dw['clarity']
+            + alignment_score * dw['alignment']
+            + structural_score * dw['structural']
         )
         return round(max(0.0, min(10.0, blended)), 1)
 
     def _score_test_coverage(self) -> float:
-        # Use distributions to infer test ratio
-        # Test nodes are classified as 'Asserter' (not 'Test')
+        # Use distributions to infer test ratio.
+        # Which atom types count as "tests" and "logic" is YAML-configurable.
         dist = self.data.get('distributions', {})
         types = dist.get('types', {})
-        tests = types.get('Asserter', 0) + types.get('Test', 0) + types.get('test', 0)
-        logic = sum(types.get(t, 0) for t in ['Service', 'Command', 'UseCase', 'ApplicationService'])
+        hs = self._thresholds.get('health_scoring', {})
+        test_atoms = hs.get('test_atoms', ['Asserter', 'Test', 'test'])
+        logic_atoms = hs.get('logic_atoms', [
+            'Service', 'Command', 'UseCase', 'ApplicationService',
+            'Controller', 'Handler',
+        ])
+        tests = sum(types.get(t, 0) for t in test_atoms)
+        logic = sum(types.get(t, 0) for t in logic_atoms)
         if logic == 0:
             return 7.0  # No logic to test
         ratio = tests / logic
@@ -2023,9 +2039,11 @@ class InsightsCompiler:
             'entanglement': 0.10,
             'rpbl_balance': 0.10,
         }
-        # Override from YAML if present
+        # Merge from YAML — partial overrides keep remaining defaults intact.
         yaml_weights = self._thresholds.get('health_scoring', {}).get('weights')
-        weights = yaml_weights if isinstance(yaml_weights, dict) else default_weights
+        weights = dict(default_weights)
+        if isinstance(yaml_weights, dict):
+            weights.update(yaml_weights)
         score = sum(components.get(k, 5.0) * w for k, w in weights.items())
         return round(min(10.0, max(0.0, score)), 2)
 
