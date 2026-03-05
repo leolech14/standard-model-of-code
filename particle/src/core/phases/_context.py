@@ -89,6 +89,9 @@ class PipelineContext:
     refinery_signature: str = ""
     merkle_root: str = "UNSET"
 
+    # ── Meta-envelope (identity for cross-run analysis) ──────────────
+    meta_envelope: Optional[Dict] = None
+
     # ── Output file paths ────────────────────────────────────────────
     unified_json: Any = None
     viz_file: Any = None

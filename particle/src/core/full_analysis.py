@@ -93,11 +93,15 @@ def _write_pipeline_report(
         else:
             report["meta"]["status"] = "OK"
         report["output_files"] = {
+            "tier1_raw": str(out_path / "collider_raw.json"),
+            "tier2_briefing": str(out_path / "collider_briefing.json"),
+            "tier3_report": str(out_path / "collider_report.html"),
             "collider_output": str(out_path / "collider_output.json"),
             "unified_analysis": str(out_path / "unified_analysis.json"),
             "database": str(out_path / "collider.db"),
             "insights_md": str(out_path / "collider_insights.md"),
             "insights_json": str(out_path / "collider_insights.json"),
+            "meta_index": str(out_path / "meta_index.jsonl"),
         }
         with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
@@ -356,9 +360,10 @@ def _assemble_output(ctx) -> None:
         'edges': list(edges),
         'meta': {
             'target': str(ctx.target),
-            'timestamp': time.strftime('%Y-%m-%dT%H:%M:%S'),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'analysis_time_ms': int(total_time * 1000),
             'version': '4.0.0',
+            'schema_version': '1.0.0',
             'deterministic': True,
             'hostname': socket.gethostname(),
             'cwd': os.getcwd()

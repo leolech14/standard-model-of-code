@@ -2,7 +2,10 @@
 """
 Unified output generator for Collider.
 
-Emits the LLM-oriented JSON output and the human-facing HTML report.
+Emits three purpose-driven tiers:
+    Tier 1: Raw verification  (collider_raw.json)   — complete machine-readable data
+    Tier 2: AI briefing        (collider_briefing.json) — <4K token compact intelligence
+    Tier 3: Human report       (collider_report.html)   — self-contained narrative HTML
 """
 
 from __future__ import annotations
@@ -123,28 +126,6 @@ def _aggressively_strip_keys(obj: Any, keys_to_remove: set) -> Any:
         return [_aggressively_strip_keys(item, keys_to_remove) for item in obj]
     return obj
 
-def create_lod_payloads(payload: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
-    import copy
-
-    # LOD 1: Verbose (Raw stripped payload)
-    lod1 = payload
-
-    # LOD 2: Standard -- structural analyst view
-    # Keep: node identity, graph metrics, classifications, edges, summaries
-    # Drop: raw source text, heavy per-node analytics, heavy root sections
-    lod2 = copy.deepcopy(payload)
-    lod2 = _aggressively_strip_keys(lod2, {
-        # Raw text (~9 MB)
-        "code", "body_source", "body_preview",
-        # Heavy per-node analytics (~18 MB combined)
-        "waybill", "purpose_intelligence", "purpose_coherence",
-        "control_flow", "data_flow", "intent_profile", "disconnection",
-        "scope_analysis", "detected_atoms",
-        # Heavy root sections (~12 MB combined)
-        "markov", "ideome", "codome_boundaries",
-    })
-
-    return {"lod1": lod1, "lod2": lod2}
 
 def _strip_dead_output(data: Dict[str, Any]) -> Dict[str, Any]:
     """Remove empty/stub sections and redundant node fields from output.
@@ -200,74 +181,103 @@ def generate_outputs(
     timestamp: Optional[str] = None,
     skip_html: bool = False,
     verbose_output: bool = False,
+    meta_envelope: Optional[Dict[str, Any]] = None,
+    webgl: bool = False,
 ) -> Dict[str, Path]:
+    """Generate three-tier output suite.
+
+    Tier 1: collider_raw.json       — complete data for verification + CI
+    Tier 2: collider_briefing.json  — <4K token AI briefing
+    Tier 3: collider_report.html    — self-contained narrative HTML report
+
+    Plus: backward-compat symlinks, insights files, optional WebGL, meta-index.
+    """
     if isinstance(data, dict):
         data = normalize_output(data)
         data = _strip_dead_output(data)
 
-    if not json_filename or not html_filename:
-        resolved_target = target_name or _resolve_target_name(data)
-        json_filename, html_filename = _default_filenames(resolved_target, timestamp=timestamp)
-
-    # Strip heavy fields before LOD creation
-    payload = data.copy() if isinstance(data, dict) else data
-    if isinstance(payload, dict):
-        payload = _strip_heavy_waybill_fields(payload)
-
-    # Create Multi-LOD outputs
-    lods = create_lod_payloads(payload)
     output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    ans: Dict[str, Any] = {}
+    tokens_info: Dict[str, Any] = {}
 
-    ans = {}
-    tokens_info = {}
+    # Tokenizer (optional, for budget reporting)
     try:
         import tiktoken
         enc = tiktoken.get_encoding("cl100k_base")
     except ImportError:
         enc = None
 
-    _LOD_FILENAMES = {
-        "lod1": "ast_lod1_verbose.json",
-        "lod2": "collider_output.json",
-    }
+    # ── Tier 1: Raw Verification (collider_raw.json) ──────────────────
+    payload = data.copy() if isinstance(data, dict) else data
+    if isinstance(payload, dict):
+        payload = _strip_heavy_waybill_fields(payload)
+        if meta_envelope:
+            payload["meta_envelope"] = meta_envelope
 
-    for level, data_lod in lods.items():
-        # Skip LOD1 unless --verbose-output (saves ~60% disk + tokens)
-        if level == "lod1" and not verbose_output:
-            continue
+    raw_path = output_dir / "collider_raw.json"
+    raw_json_str = json.dumps(payload, indent=2, default=str, sort_keys=True)
+    with open(raw_path, "w") as f:
+        f.write(raw_json_str)
+    ans["raw"] = raw_path
+    ans["llm"] = raw_path  # backward-compat key
 
-        fname = _LOD_FILENAMES[level]
-        out_path = output_dir / fname
-        json_str = json.dumps(data_lod, indent=2, default=str, sort_keys=True)
-        with open(out_path, "w") as f:
-            f.write(json_str)
-        ans[level] = out_path
+    if enc:
+        tokens_info["tier1_raw"] = len(enc.encode(raw_json_str))
 
-        if enc:
-            tokens_info[level] = len(enc.encode(json_str))
+    # Backward-compat symlinks: collider_output.json → collider_raw.json
+    for symlink_name in ("collider_output.json", "unified_analysis.json"):
+        sym = output_dir / symlink_name
+        if sym.exists() or sym.is_symlink():
+            sym.unlink()
+        sym.symlink_to("collider_raw.json")
+    ans["stable_json"] = output_dir / "unified_analysis.json"
 
+    # ── Tier 2: AI Briefing (collider_briefing.json) ──────────────────
+    compiled = data.get("compiled_insights") if isinstance(data, dict) else None
+    if compiled and meta_envelope:
+        try:
+            from src.core.tier2_briefing import build_briefing
+            briefing = build_briefing(compiled, data, meta_envelope)
+            briefing_path = output_dir / "collider_briefing.json"
+            briefing_json_str = json.dumps(briefing, indent=2, default=str, sort_keys=True)
+            with open(briefing_path, "w") as f:
+                f.write(briefing_json_str)
+            ans["briefing"] = briefing_path
+
+            if enc:
+                tokens_info["tier2_briefing"] = len(enc.encode(briefing_json_str))
+        except Exception as e:
+            print(f"   ⚠️ Tier 2 briefing generation failed: {e}")
+
+    # ── Tier 3: Human Report (collider_report.html) ───────────────────
+    if compiled and meta_envelope and not skip_html:
+        try:
+            from src.core.tier3_html_report import build_html_report
+            report_html = build_html_report(compiled, data, meta_envelope)
+            report_path = output_dir / "collider_report.html"
+            with open(report_path, "w") as f:
+                f.write(report_html)
+            ans["report_html"] = report_path
+        except Exception as e:
+            print(f"   ⚠️ Tier 3 report generation failed: {e}")
+
+    # ── WebGL visualization (opt-in via --webgl) ──────────────────────
+    if webgl and not skip_html:
+        try:
+            if not html_filename:
+                resolved_target = target_name or _resolve_target_name(data)
+                _, html_filename = _default_filenames(resolved_target, timestamp=timestamp)
+            html_path = write_html_report(data, output_dir, filename=html_filename, normalize=False)
+            ans["html"] = html_path
+        except Exception as e:
+            print(f"   ⚠️ WebGL visualization failed: {e}")
+
+    # ── Token report ──────────────────────────────────────────────────
     if tokens_info:
         ans["tokens"] = tokens_info
 
-    # Default output = LOD2 (collider_output.json); LOD1 only when --verbose-output
-    default_lod = "lod1" if verbose_output else "lod2"
-    default_path = ans[default_lod]
-
-    # Backward-compat: consumers read unified_analysis.json
-    stable_json = output_dir / "unified_analysis.json"
-    if stable_json.exists() or stable_json.is_symlink():
-        stable_json.unlink()
-    stable_json.symlink_to("collider_output.json")
-
-    ans["llm"] = ans[default_lod]
-    ans["stable_json"] = stable_json
-
-    if not skip_html:
-        html_path = write_html_report(data, output_dir, filename=html_filename, normalize=False)
-        ans["html"] = html_path
-
-    # Emit Insights files if compiled_insights exists
-    compiled = data.get("compiled_insights") if isinstance(data, dict) else None
+    # ── Insights files (keep existing output for backward compat) ─────
     if compiled:
         # JSON
         insights_json_path = output_dir / "collider_insights.json"
@@ -275,12 +285,21 @@ def generate_outputs(
             json.dump(compiled, f, indent=2, default=str)
         ans["insights_json"] = insights_json_path
 
-        # Markdown (pre-generated by full_analysis.py)
+        # Markdown (pre-generated in Stage 21)
         insights_md = data.get("_insights_markdown", "") if isinstance(data, dict) else ""
         if insights_md:
             insights_md_path = output_dir / "collider_insights.md"
             with open(insights_md_path, "w") as f:
                 f.write(insights_md)
             ans["insights_md"] = insights_md_path
+
+    # ── Meta-index (append-only JSONL for cross-run analysis) ─────────
+    if meta_envelope:
+        try:
+            from src.core.meta_envelope import append_to_meta_index
+            index_path = append_to_meta_index(meta_envelope, output_dir)
+            ans["meta_index"] = index_path
+        except Exception as e:
+            print(f"   ⚠️ Meta-index append failed: {e}")
 
     return ans

@@ -6,10 +6,10 @@ from src.core.output_generator import generate_outputs, write_llm_output
 
 
 class TestStableOutputFilenames:
-    """Tests for stable collider_output.json and unified_analysis.json symlink."""
+    """Tests for stable collider_raw.json and backward-compat symlinks."""
 
     def test_stable_json_created(self, tmp_path):
-        """Verify collider_output.json and unified_analysis.json symlink are created."""
+        """Verify collider_raw.json canonical + backward-compat symlinks are created."""
         data = {
             "nodes": [{"id": "test"}],
             "edges": [],
@@ -18,19 +18,23 @@ class TestStableOutputFilenames:
 
         outputs = generate_outputs(data, tmp_path, target_name="test")
 
-        # Canonical and backward-compat files should exist
+        # Canonical Tier 1 file should be collider_raw.json
         assert outputs["llm"].exists()
-        assert outputs["llm"].name == "collider_output.json"
+        assert outputs["llm"].name == "collider_raw.json"
+
+        # Backward-compat symlinks should exist
         assert outputs["stable_json"].exists()
         assert outputs["stable_json"].name == "unified_analysis.json"
+        assert (tmp_path / "collider_output.json").exists()
 
-        # Content should be identical (symlink)
+        # Content should be identical (symlink → collider_raw.json)
         canonical_content = outputs["llm"].read_text()
         stable_content = outputs["stable_json"].read_text()
         assert canonical_content == stable_content
+        assert (tmp_path / "collider_output.json").read_text() == canonical_content
 
     def test_html_created(self, tmp_path):
-        """Verify HTML report is created when skip_html=False."""
+        """Verify WebGL HTML report is created when webgl=True."""
         # app.js is a Vite build artifact, not git-tracked -- skip if absent (e.g. worktrees)
         assets_dir = Path(__file__).resolve().parent.parent / "src" / "core" / "viz" / "assets"
         if not (assets_dir / "app.js").exists():
@@ -42,7 +46,7 @@ class TestStableOutputFilenames:
             "meta": {"target": "test_project"}
         }
 
-        outputs = generate_outputs(data, tmp_path, target_name="test", skip_html=False)
+        outputs = generate_outputs(data, tmp_path, target_name="test", skip_html=False, webgl=True)
 
         assert outputs["html"].exists()
 

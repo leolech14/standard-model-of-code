@@ -20,12 +20,14 @@ def run_output(ctx: PipelineContext) -> None:
 
     Covers:
     - Stage 21: Insights Compilation
-    - Stage 22: Output Generation (data + visualization)
+    - Stage 21.5: Meta-Envelope (identity for cross-run analysis)
+    - Stage 22: Output Generation (tiered: raw + briefing + report)
     - Pipeline report generation
     - Enhanced final summary
     - Cleanup (database disconnection)
     """
     _run_insights(ctx)        # Stage 21
+    _build_meta_envelope(ctx) # Stage 21.5: Identity envelope
     _run_output_gen(ctx)      # Stage 22
     _write_report(ctx)        # Pipeline report
     _print_summary(ctx)       # Final summary with stage timing
@@ -57,6 +59,20 @@ def _run_insights(ctx: PipelineContext) -> None:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Insights compilation failed: {e}")
             ctx.data_ledger.publish("insights", "Stage 21: Insights Compilation", status="failed", summary=str(e))
+
+
+def _build_meta_envelope(ctx: PipelineContext) -> None:
+    """Stage 21.5: Build meta-envelope for cross-run identity and analysis."""
+    try:
+        from src.core.meta_envelope import build_meta_envelope
+        ctx.meta_envelope = build_meta_envelope(
+            ctx.full_output, ctx.target, ctx.options
+        )
+        _log(f"   → Meta-envelope: repo={ctx.meta_envelope.get('repo_id', '?')}, "
+             f"run={ctx.meta_envelope.get('run_id', '?')[:8]}", ctx.quiet)
+    except Exception as e:
+        print(f"   ⚠️ Meta-envelope build failed (non-fatal): {e}")
+        ctx.meta_envelope = None
 
 
 def _run_output_gen(ctx: PipelineContext) -> None:
@@ -103,17 +119,24 @@ def _run_output_gen(ctx: PipelineContext) -> None:
                 node['waybill'] = waybill
 
             verbose_output = ctx.options.get("verbose_output", False)
+            webgl = ctx.options.get("webgl", False)
             outputs = generate_outputs(
                 ctx.full_output,
                 ctx.output_dir,
                 target_name=ctx.target.name,
                 skip_html=skip_html,
-                verbose_output=verbose_output
+                verbose_output=verbose_output,
+                meta_envelope=ctx.meta_envelope,
+                webgl=webgl,
             )
             ctx.unified_json = outputs["llm"]
             ctx.viz_file = outputs.get("html")
             timer.set_output(json=1, html=1 if ctx.viz_file else 0)
-            _log(f"   → Data: {ctx.unified_json}", ctx.quiet)
+            _log(f"   → Tier 1 (raw):     {ctx.unified_json}", ctx.quiet)
+            if outputs.get("briefing"):
+                _log(f"   → Tier 2 (briefing): {outputs['briefing']}", ctx.quiet)
+            if outputs.get("report_html"):
+                _log(f"   → Tier 3 (report):   {outputs['report_html']}", ctx.quiet)
             if "tokens" in outputs:
                 for k, v in outputs["tokens"].items():
                     if isinstance(v, dict):
@@ -123,9 +146,9 @@ def _run_output_gen(ctx: PipelineContext) -> None:
                     else:
                         print(f"      - {k}: {v:,} tokens")
             if ctx.viz_file:
-                _log(f"   → Visual: {ctx.viz_file}", ctx.quiet)
-            else:
-                _log(f"   → Visual: SKIPPED (--no-html)", ctx.quiet)
+                _log(f"   → WebGL: {ctx.viz_file}", ctx.quiet)
+            elif webgl:
+                _log(f"   → WebGL: SKIPPED (--no-html)", ctx.quiet)
             ctx.data_ledger.publish("output_gen", "Stage 22: Output Generation")
         except Exception as e:
             timer.set_status("FAIL", str(e))

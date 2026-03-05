@@ -8,7 +8,7 @@ preserving backward compatibility with legacy outputs.
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import PurePath
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
@@ -61,9 +61,11 @@ def normalize_meta(data: Dict[str, Any]) -> Dict[str, Any]:
     if not meta.get("target"):
         meta["target"] = data.get("target_path") or data.get("target_name") or "unknown"
     if not meta.get("timestamp"):
-        meta["timestamp"] = datetime.now().isoformat()
+        meta["timestamp"] = datetime.now(timezone.utc).isoformat()
     if not meta.get("version"):
         meta["version"] = data.get("version") or data.get("collider_version") or "unknown"
+    if not meta.get("schema_version"):
+        meta["schema_version"] = "1.0.0"
 
     data["meta"] = meta
     return meta
