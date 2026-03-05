@@ -52,7 +52,7 @@ __all__ = [
     'detect_js_imports', 'detect_class_instantiation', 'create_codome_boundaries',
     'build_file_index', 'build_file_boundaries', 'compute_markov_matrix',
     'detect_knots', 'compute_data_flow', 'build_pipeline_snapshot',
-    'run_full_analysis', 'run_pipeline_analysis',
+    'run_full_analysis',
 ]
 
 
@@ -93,11 +93,11 @@ def _write_pipeline_report(
         else:
             report["meta"]["status"] = "OK"
         report["output_files"] = {
+            "collider_output": str(out_path / "collider_output.json"),
             "unified_analysis": str(out_path / "unified_analysis.json"),
-            "lod1": str(out_path / "ast_lod1_verbose.json"),
-            "lod2": str(out_path / "ast_lod2_standard.json"),
-            "lod3": str(out_path / "ast_lod3_compact.json"),
             "database": str(out_path / "collider.db"),
+            "insights_md": str(out_path / "collider_insights.md"),
+            "insights_json": str(out_path / "collider_insights.json"),
         }
         with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
@@ -278,66 +278,6 @@ def _generate_ai_insights(full_output: Dict, output_dir: Path, options: Dict) ->
             Path(temp_input).unlink()
         except Exception:  # noqa: best-effort cleanup
             pass
-
-
-def run_pipeline_analysis(target_path: str, options: Dict[str, Any] = None) -> "CodebaseState":
-    """
-    Run analysis using the new Pipeline architecture.
-
-    This is the refactored entry point that uses BaseStage classes
-    and PipelineManager for orchestration.
-
-    Args:
-        target_path: Path to codebase to analyze
-        options: Analysis options
-
-    Returns:
-        CodebaseState with all analysis results
-    """
-    from .pipeline import create_default_pipeline
-    from .data_management import CodebaseState
-
-    options = options or {}
-    KNOWN_OPTIONS = {
-        "roadmap", "open_latest", "ai_insights", "quiet", "output_dir",
-        "output_format", "skip_ai", "max_files", "include_tests", "verbose",
-        "db_backend", "db_path", "json_log", "dry_run", "no_color",
-        "parallel", "cache", "skip_survey", "summary_format",
-    }
-    unknown = set(options.keys()) - KNOWN_OPTIONS
-    if unknown:
-        print(f"[WARN] Unknown options ignored: {unknown}")
-
-    if options.get("dry_run"):
-        stages = ["Discovery", "SmartIgnore", "Survey", "Analysis", "Data Chemistry", "AI Insights", "Report"]
-        print("[DRY RUN] Pipeline stages that would execute:")
-        for i, s in enumerate(stages, 1):
-            print(f"  {i}. {s}")
-        print(f"[DRY RUN] Target: {target_path}")
-        return None
-
-    print("\n" + "=" * 60)
-    print("🚀 COLLIDER PIPELINE ANALYSIS")
-    print("=" * 60)
-
-    # Initialize state
-    state = CodebaseState(target_path)
-
-    # Create pipeline
-    pipeline = create_default_pipeline(options)
-
-    print(f"\n📋 Pipeline: {len(pipeline.stages)} stages")
-    for i, stage in enumerate(pipeline.stages, 1):
-        print(f"   {i}. {stage.name}")
-
-    # Execute pipeline
-    print("\n" + "-" * 40)
-    state = pipeline.run(state)
-    print("-" * 40)
-
-    print(f"\n✅ Analysis complete: {len(state.nodes)} nodes, {len(state.edges)} edges")
-
-    return state
 
 
 def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[str, Any] = None) -> Dict:
@@ -653,6 +593,10 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
             if db_manager:
                 db_manager.connect()
                 db_manager.initialize_schema()
+                # Run pending schema migrations (e.g. v2 git context columns)
+                from src.core.database.migrations.migrator import Migrator
+                migrator = Migrator(db_manager)
+                migrator.migrate()
                 print(f"Database: {db_config.backend} @ {db_config.get_sqlite_path()}")
                 if db_config.incremental_enabled:
                     delta_tracker = DeltaTracker(db_manager)

@@ -29,7 +29,6 @@
 - **`_generate_ai_insights`**: Generate AI insights using Vertex AI Gemini.
 - **`build_pipeline_snapshot`**: Build pipeline_snapshot from PerformanceManager for Pipeline Navigator UI.
 - **`build_pipeline_snapshot.normalize_stage_name`**: Convert 'Stage 1: Base Analysis' to 'stage_1'.
-- **`run_pipeline_analysis`**: Run analysis using the new Pipeline architecture.
 - **`run_full_analysis`**: Run complete analysis with all theoretical frameworks.
 
 ## Waybill

@@ -9,6 +9,8 @@
 #   - origin: attribution for borrowed terms
 #   - project_meaning: how WE use this term
 #   - not_to_be_confused_with: disambiguation
+#   - epistemic_status: AXIOM | CONJECTURE | THEOREM | FRAMEWORK_DEFINITION
+#   - prior_art_differentiation: closest prior work + what distinguishes SMoC
 #
 # CATEGORIES:
 #   - original_invention: We created this term (52 terms)
@@ -16,8 +18,9 @@
 #   - borrowed_theory: Academic concept with attribution (32 terms)
 #   - standard_cs: Conventional CS term (32 terms)
 #
-# Last updated: 2026-02-01
-# Total terms: 156
+# Last updated: 2026-03-04
+# Total terms: 161
+# Hardened: v2.1.0 (prior art, epistemic status, known limitations)
 # ============================================================================
 
 schema_version: "1.0.0"
@@ -160,6 +163,13 @@ terms:
       - B: Boundary (1-9) - How well-defined are its interfaces?
       - L: Lifecycle (1-9) - How well-managed is its creation/destruction?
     acronym_expansion: "Responsibility, Purity, Boundary, Lifecycle"
+    prior_art_differentiation: |
+      Multi-axis code quality profiling is established (SOLID, Martin 2003;
+      LCOM, Chidamber & Kemerer 1994; QMOOD, 2002). RPBL is distinguished
+      by: (a) the specific four-axis behavioral decomposition chosen to be
+      orthogonal and independently scorable 1-9; (b) the 6,561-profile
+      character space; (c) integration as a Locus coordinate component
+      rather than a standalone metric.
     related_terms: [eight_dimensions, brain_download]
 
   eight_dimensions:
@@ -178,6 +188,13 @@ terms:
     inspired_by:
       term: "Faceted Classification"
       author: "S.R. Ranganathan"
+    prior_art_differentiation: |
+      Faceted classification originates with Ranganathan (1933), acknowledged
+      as direct inspiration. The 8 Dimensions are distinguished by: (a) the
+      specific 8 axes tailored to code semantics (WHAT, LAYER, ROLE, BOUNDARY,
+      STATE, EFFECT, LIFECYCLE, TRUST); (b) claimed orthogonality (each
+      independently assignable); (c) use as the coordinate system for the
+      Manifold and as input to Tau notation.
     related_terms: [tau_notation, manifold]
 
   eight_lenses:
@@ -368,6 +385,52 @@ terms:
       architectural problems.
     related_terms: [coupling, topology_reasoning]
 
+  data_ledger:
+    canonical_name: "DataLedger"
+    category: standard_cs
+    introduced:
+      version: "4.1.0"
+      date: "2026-03"
+      by: "Leonardo Lech"
+    definition: |
+      Non-linear pipeline data traffic tracker on PipelineContext. Stages
+      publish data keys (ok/empty/skipped/failed) after producing results.
+      Consumers query availability before extraction. Provides data_availability
+      section in pipeline_report.json and console summary line. Distinguishes
+      "stage skipped" from "empty result" from "data not yet assembled."
+    implementation: "src/core/data_ledger.py"
+    related_terms: [data_manifest, data_chemistry, pipeline_performance]
+
+  data_manifest:
+    canonical_name: "MANIFEST"
+    category: standard_cs
+    introduced:
+      version: "4.1.0"
+      date: "2026-03"
+      by: "Leonardo Lech"
+    definition: |
+      Static dict in data_ledger.py declaring ~45 expected data keys and their
+      producer stages. Keys in MANIFEST but not published = pipeline gap.
+      Published but not in MANIFEST = undeclared output. Acts as the pipeline's
+      data schema contract.
+    implementation: "src/core/data_ledger.py"
+    related_terms: [data_ledger]
+
+  signal_availability:
+    canonical_name: "Signal Availability"
+    category: standard_cs
+    introduced:
+      version: "4.1.0"
+      date: "2026-03"
+      by: "Leonardo Lech"
+    definition: |
+      ChemistryLab-specific bridge between DataLedger and chemistry signal
+      extraction. Maps each of the 14 chemistry signals to a ledger key,
+      enabling diagnostics for "why is this signal None?" — ordering issue
+      vs genuinely missing data vs stage failure.
+    implementation: "src/core/data_chemistry.py"
+    related_terms: [data_ledger, data_chemistry]
+
   # ---------------------------------------------------------------------------
   # Levels & Hierarchy
   # ---------------------------------------------------------------------------
@@ -397,6 +460,12 @@ terms:
       - term: "Umwelt"
         author: "Jakob von Uexkull (1909)"
         insight: "Each organism has its own perceived world"
+    epistemic_status: AXIOM
+    epistemic_note: |
+      Design principle adopted by the framework, not an empirical discovery.
+      Enables tractable analysis by avoiding combinatorial intractability.
+      Not falsifiable because it is a modeling choice, not a claim about
+      how software IS.
     not_to_be_confused_with:
       - "Physical impossibility - we CAN inspect lower levels"
       - "Ignorance - this is deliberate, useful abstraction"
@@ -454,6 +523,13 @@ terms:
       Each level transition is an EMERGENCE boundary. The purpose of a higher
       level is emergent from, not merely aggregated from, its parts.
       L3 (Function) is the operational focus - the "atom" of semantic analysis.
+    prior_art_differentiation: |
+      Multi-level abstraction hierarchies appear in enterprise architecture
+      (Zachman Framework, 1987; Bunge-Wand-Weber ontology, 1990s; ISO/IEC
+      42010). Distinguished by: (a) spanning from sub-syntactic (Bit, L-3)
+      through cosmological (Universe, L12) with precise zone boundaries;
+      (b) identifying L0 (Token) as the "event horizon" where text becomes
+      logic; (c) defining L3 as the operational atom of semantic analysis.
     related_terms: [containment, abstraction, holon, holarchy, purpose_field]
 
   # ---------------------------------------------------------------------------
@@ -549,6 +625,52 @@ terms:
     antonym: '"bolted-on" - a feature obviously added later, creating cognitive load'
     related_terms: [agent_school, alien_architecture, brain_body_architecture]
 
+  concordance:
+    canonical_name: "Concordance"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      A semantic grouping with measured purpose alignment between code and
+      documentation. Score in [0,1]. Concordances COVER the projectome
+      (every file belongs to at least one) but may OVERLAP (a file can
+      serve multiple purposes).
+    formula: "κ(Cᵢ) → [0,1] where ⋃Cᵢ = P and Cᵢ ∩ Cⱼ ≠ ∅ is permitted"
+    prior_art_differentiation: |
+      Architecture conformance checking has prior art in Reflexion Models
+      (Murphy et al., 1995) and conformance tools (Knodel & Popescu, 2007).
+      Concordance is distinguished by: (a) measuring semantic purpose
+      alignment (code-to-documentation) rather than structural conformance
+      (code-to-design); (b) the covering-with-overlap property (unlike
+      architectural partitions); (c) formalization as κ(Cᵢ) → [0,1] with
+      Markov kernel interpretation for semantic drift tracking.
+    related_terms: [projectome, codome, contextome, symmetry_states]
+
+  symmetry_states:
+    canonical_name: "Symmetry States"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Classification of alignment state between code, documentation, and
+      understanding:
+      - SYMMETRIC: Code, docs, and understanding aligned. Healthy.
+      - ORPHAN: Code exists without documentation.
+      - PHANTOM: Documentation exists without implementation.
+      - DRIFT: Both exist but disagree. Dangerous.
+      - AMNESIAC: Code and logs exist, but human has lost structural memory.
+    prior_art_differentiation: |
+      Architecture erosion and documentation drift are studied in Perry &
+      Wolf (1992) and the living documentation movement. Distinguished by
+      the specific 5-state taxonomy, particularly the Amnesiac state (code
+      and logs exist but structural memory is lost), which has no direct
+      equivalent in prior erosion taxonomies.
+    related_terms: [concordance, holographic_socratic_layer]
+
   locus:
     canonical_name: "Locus"
     category: original_invention
@@ -598,6 +720,15 @@ terms:
       - "Dewey Decimal hierarchical classification"
       - "IP/CIDR network addressing"
       - "URI/IRI semantic web identifiers"
+    prior_art_differentiation: |
+      Multi-dimensional code characterization exists in OO metrics literature
+      (Chidamber & Kemerer CK Suite, 1994; QMOOD, Bansiya & Davis, 2002).
+      Locus is distinguished by: (a) the specific 5-tuple ⟨λ, Ω, τ, α, R⟩
+      integrating level, depth, classification, role, and behavioral profile;
+      (b) use as a topological address for spatial reasoning, not a quality
+      score; (c) separation of Locus (conceptual invariant) from Location
+      (file path, mutable). No prior formulation unifies these five axes
+      into a static classification coordinate for code atoms.
     validated: "2026-01-31 (Gemini 98/100, Perplexity confirmed)"
     see_also: "L1_DEFINITIONS.md §5.8"
     related_terms: [sixteen_levels, ring, atom, role, rpbl, holon]
@@ -637,6 +768,13 @@ terms:
       - "Ring ≠ Level (Level = containment; Ring = dependency flow)"
       - "Ring ≠ Phase (Phase = atom category; Ring = architectural layer)"
     antimatter: "AM006: Centrifugal Dependency Violation - inner rings MUST NOT depend on outer"
+    prior_art_differentiation: |
+      Concentric dependency layers are the core of Clean Architecture
+      (Martin, 2012) and Hexagonal Architecture (Cockburn, 2005). Ring is
+      distinguished by: (a) automated computation from the dependency graph
+      (max distance from zero-import nodes) rather than prescriptive design;
+      (b) integration as the Ω component of Locus; (c) input to antimatter
+      law detection (AM006). Ring measures what IS, not what SHOULD BE.
     see_also: "L1_DEFINITIONS.md §5.7"
     related_terms: [locus, sixteen_levels, layer]
 
@@ -647,6 +785,11 @@ terms:
   natural_law_of_code:
     canonical_name: "Natural Law of Code"
     category: original_invention
+    epistemic_status: FRAMEWORK_DEFINITION
+    epistemic_note: |
+      The recognition test is a classification heuristic, not itself a natural
+      law. The three-way classification (Natural / Roadmap / Empirical) is the
+      contribution; the recognition test is the proposed operationalization.
     introduced:
       version: "1.5.0"
       date: "2026-01-24"
@@ -933,6 +1076,12 @@ terms:
   observer_horizon:
     canonical_name: "Observer Horizon"
     category: original_invention
+    epistemic_status: CONJECTURE
+    epistemic_note: |
+      The discovery/co-creation boundary is hypothesized at the structural/
+      semantic interface. Validation requires: below horizon, repeated analysis
+      yields identical results (reproducibility); above, results depend on
+      analyst framing (observer-dependence). Pending.
     introduced:
       version: "1.5.0"
       date: "2026-01-24"
@@ -1433,6 +1582,13 @@ terms:
       The overarching theoretical framework treating code analysis like
       particle physics - finding the fundamental "particles" (atoms) that
       make up all software, their properties, and their interactions.
+    patent_note: |
+      The inventive contribution is the integrated system: AST parsing →
+      8-dimensional classification → Locus assignment → topological analysis
+      → concordance scoring → Brain Download generation, operationalized in
+      the Collider tool. Individual classification concepts may have prior
+      art (acknowledged); the unified pipeline and output artifacts are the
+      novel system claim.
     not_to_be_confused_with:
       - term: "Standard Model (physics)"
         distinction: "The physics theory describes actual subatomic particles"
@@ -1600,8 +1756,12 @@ terms:
       field: "mathematics/physics"
       note: "A topological space that locally resembles Euclidean space"
     project_meaning: |
-      The 8-dimensional space where every code particle has a coordinate.
-      Each particle's position in this manifold is described by Tau notation.
+      The 8-dimensional classification space where every code particle has a
+      coordinate. Technically a discrete product space of finite categories
+      (not a smooth differentiable manifold). The term is used as a structural
+      analogy: locally navigable (nearby coordinates share properties) and
+      globally structured (measurable topology). For mathematical precision,
+      this is a finite product lattice with Hamming-type distance metric.
     related_terms: [eight_dimensions, tau_notation]
 
   mass:
@@ -1682,6 +1842,13 @@ terms:
       A theoretical concept in our model - a field that gives "meaning"
       (semantic purpose) to otherwise meaningless code particles. The
       Purpose Field module implements this idea.
+    mathematical_precision: |
+      The Purpose Field 𝒫: N → ℝᵏ is a vector-valued function over nodes,
+      not a quantum field. It has no Lagrangian, symmetry group, or
+      conservation law. The Higgs analogy is pedagogical: just as the Higgs
+      field gives mass to particles, the Purpose Field assigns semantic
+      purpose (a measurable alignment score) to code nodes. The analogy
+      ends there.
     related_terms: [purpose_field]
 
 # ============================================================================
@@ -2220,6 +2387,12 @@ terms:
   codespace:
     canonical_name: "Codespace"
     category: original_invention
+    epistemic_status: CONJECTURE
+    epistemic_note: |
+      Properties (hyperbolic, fractal, non-Euclidean, folded, tunneled) are
+      hypothesized from structural observation of dependency graphs. Formal
+      validation via Hunt Protocol pending: Observable is shortest-path-length
+      distribution; Prediction is hyperbolic rather than Euclidean growth.
     introduced:
       version: "0.5.0"
       date: "2026-01-23"
@@ -2272,6 +2445,12 @@ terms:
   landscape:
     canonical_name: "Landscape"
     category: original_invention
+    epistemic_status: CONJECTURE
+    epistemic_note: |
+      Proposed experiential model for how humans traverse codebases. Features
+      (elevation, gradient, regions, paths, holes, wormholes) are analogical
+      mappings from topology. Formal validation requires user studies
+      correlating Landscape features with developer navigation patterns.
     introduced:
       version: "0.5.0"
       date: "2026-01-23"
@@ -2830,14 +3009,28 @@ terms:
 # ============================================================================
 
 statistics:
-  total_terms: 111
-  original_inventions: 35
-  physics_metaphors: 18
-  borrowed_theories: 27
-  standard_cs: 31
+  total_terms: 161
+  original_inventions: 54
+  physics_metaphors: 19
+  borrowed_theories: 32
+  standard_cs: 32
+  terms_with_epistemic_status: 5
+  terms_with_prior_art_differentiation: 9
   coverage: "100%"
 
 version_history:
+  - version: "2.1.0"
+    date: "2026-03-04"
+    author: "Leonardo Lech + Claude"
+    changes: |
+      Adversarial review hardening (9 edit categories):
+      - Added epistemic_status field to 5 unfalsifiable terms (AXIOM/CONJECTURE/FRAMEWORK_DEFINITION)
+      - Added prior_art_differentiation to 7 high-risk original inventions + SMoC/Locus
+      - Added mathematical_precision note to higgs_purpose_field
+      - Updated manifold project_meaning with mathematical precision
+      - Added patent_note to standard_model_of_code
+      - Added concordance and symmetry_states terms (previously missing)
+      - New schema fields: epistemic_status, epistemic_note, prior_art_differentiation, patent_note
   - version: "1.1.0"
     date: "2026-01-23"
     author: "Leonardo Lech + Claude"

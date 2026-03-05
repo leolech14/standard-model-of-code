@@ -40,5 +40,5 @@ These are real concepts, but learn them later:
 
 ---
 
-*Full glossary: `GLOSSARY.md` (340 lines)*
+*Full glossary: `GLOSSARY.md` (~520 lines)*
 *This file: 10 terms, 60 seconds to read*

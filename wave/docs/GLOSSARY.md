@@ -1,7 +1,7 @@
 # GLOSSARY - PROJECT_elements
 
 > **Status:** ACTIVE
-> **Version:** 2.0.0
+> **Version:** 2.1.0
 > **Created:** 2026-01-25
 > **Purpose:** Definitive terminology reference for humans and AI agents
 > **RFC 2119:** Terms MUST, SHOULD, MAY have normative meaning
@@ -148,6 +148,7 @@ Automation (Liquid) --[Build/Deploy]--> Infrastructure (Solid)
 | S6 | **Laboratory** | Bridge | Research API connecting Wave (AI) to Particle (Collider). Runs experiments programmatically. |
 | S7 | **Registry** | State | Task tracking system. Tasks are persistent, Runs are ephemeral. |
 | S13 | **Macro Registry** | State | Recorded action patterns for automation. "If you do it twice manually, record it as a macro." |
+| S14 | **DataLedger** | Observability | Non-linear pipeline data traffic tracker. Stages publish keys on produce; consumers query before extract. Feeds `data_availability` in pipeline report. |
 
 ---
 
@@ -206,6 +207,8 @@ Automation (Liquid) --[Build/Deploy]--> Infrastructure (Solid)
 | **PHANTOM** | ✗ | ✓ | ? | Documentation exists without implementation. Spec not built. |
 | **DRIFT** | ✓ | ✓ | ? | Both exist but disagree. Dangerous. |
 | **AMNESIAC** | ✓ | ✓ | ✗ | Code and session logs exist, but human has no structural memory. AI-assisted failure mode. |
+
+> **Prior Art:** Architecture erosion/documentation drift studied in Perry & Wolf (1992). Distinguished by the 5-state taxonomy, especially AMNESIAC (no prior equivalent).
 
 ---
 
@@ -313,6 +316,65 @@ Classification  roles.json              ──► unified_analysis.json
 
 ---
 
+## PIPELINE OBSERVABILITY
+
+| Term | Definition |
+|------|------------|
+| **DataLedger** | Passive observer on `PipelineContext`. Stages publish data keys with status (ok/empty/skipped/failed). Consumers query availability before extraction. Not an event bus. |
+| **LedgerEntry** | A single publication record: key, producer stage name, status, monotonic timestamp (ms), and optional summary string. |
+| **MANIFEST** | Static dict mapping ~45 expected data keys to their producer stages. Declared in `data_ledger.py`. Keys in MANIFEST but not published = gap. Published but not in MANIFEST = undeclared output. |
+| **Data Availability** | Section in `pipeline_report.json` produced by `DataLedger.to_dict()`. Shows total expected, total published, missing keys, status breakdown, and per-entry timestamps. |
+| **Signal Availability** | ChemistryLab-specific view bridging DataLedger status to chemistry signal extraction. Each of the 14 chemistry signals maps to a ledger key, enabling "why is this signal None?" diagnostics. |
+
+**Data Status Semantics:**
+
+| Status | Meaning |
+|--------|---------|
+| `ok` | Stage ran and produced non-empty result |
+| `empty` | Stage ran successfully but produced no output (legitimate zero) |
+| `skipped` | Stage was not executed (dependency missing, feature disabled, condition unmet) |
+| `failed` | Stage attempted execution but errored |
+
+**Usage Pattern:**
+```
+ctx.data_ledger.publish("api_drift", "Stage 6.9: API Drift Detection",
+    summary="91 items, score=3.3%")
+ctx.data_ledger.is_available("api_drift")  # True if status == "ok"
+ctx.data_ledger.get_status("api_drift")    # "ok"/"empty"/"skipped"/"failed"/None
+ctx.data_ledger.missing_keys()             # MANIFEST keys not yet published
+```
+
+**Implementation:** `particle/src/core/data_ledger.py`
+
+---
+
+## EPISTEMIC FRAMEWORK
+
+SMoC classifies every theoretical claim by its epistemic certainty:
+
+| Level | Meaning | Validation Path | Examples |
+|-------|---------|-----------------|----------|
+| **AXIOM** | Assumed for the framework to function. Not falsifiable -- it's a modeling choice. | N/A (design decision) | Level Blindness |
+| **CONJECTURE** | Believed but not yet empirically validated. Testable via Hunt Protocol. | Evidence Triangle + Hunt Protocol | Codespace geometry, Landscape, Observer Horizon |
+| **THEOREM** | Proven within the system or derivable from established mathematics. | Mathematical proof or derivation | Kolmogorov bound, Rice's theorem |
+| **FRAMEWORK DEFINITION** | Classification heuristic, not empirical claim. Subject to refinement. | Utility assessment | Natural Law recognition test |
+
+> **On Physics Metaphors:** SMoC borrows physics terminology as structural analogies for pedagogical clarity. These are NOT claims of mathematical isomorphism. Every physics term is acknowledged in the glossary with its origin.
+
+> **On Prior Art:** Terms marked "Original Invention" have no prior academic usage under their specific name and integrated formulation. Where the underlying analytical goal has precedent, a "Prior Art & Differentiation" field cites closest work and identifies the novel contribution.
+
+---
+
+## KNOWN LIMITATIONS
+
+1. **Empirical Validation.** Most structural claims (Codespace geometry, emergence thresholds, concordance-defect correlation) are conjectures awaiting systematic validation across diverse codebases.
+2. **Metaphor Boundaries.** Code "atoms" are not governed by conservation laws. Code "fermions" do not obey Fermi-Dirac statistics. The metaphors illuminate structural parallels only.
+3. **Classification Subjectivity.** The 8 Dimensions involve judgment calls at boundaries. Inter-rater reliability studies are planned but not yet conducted.
+4. **Scale Dependency.** Validated primarily on 10K-500K LOC codebases. Behavior at extremes (< 1K LOC or > 10M LOC) is untested.
+5. **Language Bias.** AST extraction supports Python, JS/TS, Go. Language-specific idioms (Rust ownership, Haskell types) may require dimension extensions.
+
+---
+
 ## EDGE TYPES
 
 | Type | Direction | Meaning | Example |
@@ -323,6 +385,18 @@ Classification  roles.json              ──► unified_analysis.json
 | **implements** | A → B | A realizes B | `UserRepo implements IRepo` |
 | **contains** | A → B | A holds B | `Class contains method` |
 | **uses** | A → B | A references B | `handler uses logger` |
+
+---
+
+## GRAPH TOPOLOGY (Node Roles)
+
+| Role | Condition | Meaning |
+|------|-----------|---------|
+| **orphan** | in=0, out=0 | Disconnected (but only ~9% are truly dead) |
+| **root** | in=0, out>0 | Entry point |
+| **leaf** | in>0, out=0 | Terminal node |
+| **hub** | high degree | Central coordinator |
+| **internal** | in>0, out>0 | Normal flow-through |
 
 ---
 
@@ -417,36 +491,26 @@ documented_in: PATH
 
 ---
 
-## SEE ALSO
+## DEEPER READING
 
-| Doc | Purpose |
-|-----|---------|
-| `CODOME.md` | Executable universe definition |
-| `CONTEXTOME.md` | Non-executable universe definition |
-| `PROJECTOME.md` | Complete contents definition |
-| `CONCORDANCES.md` | Purpose-aligned region definitions |
-| `TOPOLOGY_MAP.md` | Master navigation guide |
-| `.agent/SUBSYSTEM_INTEGRATION.md` | System connections |
-| `particle/docs/MODEL.md` | Full theory |
-| `CODESPACE_ALGEBRA.md` | Mathematical formalization (Purpose Field, Emergence, Constructal Law) |
+| Need | File |
+|------|------|
+| The unifying equation | `docs/essentials/LAGRANGIAN.md` |
+| The 13 big ideas | `docs/essentials/THEORY_WINS.md` |
+| Why "Standard Model" | `docs/essentials/VISION.md` |
+| Classification reference | `docs/essentials/CLASSIFICATION.md` |
+| Architecture overview | `docs/essentials/ARCHITECTURE.md` |
+| Quick topic lookup | `docs/nav/` (10 single-topic files) |
+| Full theory (L0-L3) | `particle/docs/theory/THEORY_INDEX.md` |
+| Math formalization | `CODESPACE_ALGEBRA.md` |
+| Machine-readable terms | `particle/docs/GLOSSARY.yaml` (161 terms, epistemic status, prior art) |
+| Day-1 survival kit | `wave/docs/GLOSSARY_QUICK.md` (10 terms, 60 seconds) |
 
----
-
----
-
-## RELATED FILES
-
-| File | Purpose | Location |
-|------|---------|----------|
-| **GLOSSARY.yaml** | Machine-readable version (122 terms with provenance) | `particle/docs/` |
-| **GLOSSARY_QUICK.md** | 10-term quick reference for Day 1 onboarding | This directory |
-| **MODEL.md** | Theory source for physics metaphors | `particle/docs/` |
-
-**Note:** This file (GLOSSARY.md) is the authoritative human-readable glossary. GLOSSARY.yaml provides the same terms in machine-readable format with attribution and category metadata.
+**Note:** This file (GLOSSARY.md) is the single authoritative human-readable glossary. All other glossary-like documents are either machine-readable derivatives (GLOSSARY.yaml) or onboarding subsets (GLOSSARY_QUICK.md).
 
 ---
 
 *Created: 2026-01-25*
-*Updated: 2026-01-27 (added related files section)*
+*Updated: 2026-03-04 (v2.1.0: adversarial review hardening -- epistemic framework, prior art differentiation, known limitations, pipeline observability)*
 *Sources: Gemini analysis, Perplexity validation, legacy glossary, MODEL.md*
 *Structure: RFC 2119 compliant, AI-agent optimized*

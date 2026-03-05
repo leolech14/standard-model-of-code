@@ -16,7 +16,6 @@ from .survey import (
 # Primary analysis entry points
 from .full_analysis import (
     run_full_analysis,
-    run_pipeline_analysis,
 )
 
 __version__ = "4.0.0"
@@ -35,5 +34,4 @@ __all__ = [
     "generate_analysis_config",
     # Analysis
     "run_full_analysis",
-    "run_pipeline_analysis",
 ]

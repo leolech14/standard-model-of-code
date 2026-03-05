@@ -29,7 +29,7 @@ def run_synthesis(ctx: 'PipelineContext') -> None:
     # Always include pipeline performance data
     ctx.full_output['pipeline_performance'] = ctx.perf_manager.to_dict()
 
-    skip_html = ctx.options.get("skip_html", True)
+    skip_html = ctx.options.get("skip_html", False)
     if not skip_html:
         from brain_download import generate_brain_download
         brain_content = generate_brain_download(ctx.full_output)
@@ -41,6 +41,7 @@ def run_synthesis(ctx: 'PipelineContext') -> None:
     _run_ai_insights(ctx)
     _run_manifest(ctx)
     _run_igt(ctx)
+    _run_git_context(ctx)          # Moved before DB: git context stored in run record
     _run_db_persistence(ctx)
     _run_vectorization(ctx)
     _run_trinity(ctx)
@@ -288,6 +289,7 @@ def _run_db_persistence(ctx: 'PipelineContext') -> None:
                 from src.core.database.backends.base import AnalysisRun
                 from datetime import datetime as dt_datetime
 
+                git_ctx = ctx.full_output.get('git_context', {})
                 run = AnalysisRun(
                     id=f"run_{hashlib.sha256(f'{ctx.target}-{time.time()}'.encode()).hexdigest()[:12]}",
                     project_name=ctx.target.name,
@@ -296,6 +298,10 @@ def _run_db_persistence(ctx: 'PipelineContext') -> None:
                     collider_version="1.0.0",
                     status="running",
                     options=ctx.options,
+                    git_commit=git_ctx.get('commit', ''),
+                    git_branch=git_ctx.get('branch', ''),
+                    git_dirty=git_ctx.get('dirty', False),
+                    git_summary=git_ctx.get('summary', ''),
                 )
 
                 ctx.db_run_id = ctx.db_manager.create_run(run)
@@ -303,12 +309,27 @@ def _run_db_persistence(ctx: 'PipelineContext') -> None:
                 node_count = ctx.db_manager.insert_nodes(ctx.db_run_id, ctx.nodes)
                 edge_count = ctx.db_manager.insert_edges(ctx.db_run_id, ctx.edges)
 
+                # Compute delta against previous run
+                delta_json_str = None
+                try:
+                    prev_run = ctx.db_manager.get_latest_run(str(ctx.target))
+                    if prev_run and prev_run.id != ctx.db_run_id:
+                        delta = ctx.db_manager.compare_runs(prev_run.id, ctx.db_run_id)
+                        delta['previous_run_id'] = prev_run.id
+                        delta['previous_git_commit'] = getattr(prev_run, 'git_commit', '') or ''
+                        delta['previous_git_branch'] = getattr(prev_run, 'git_branch', '') or ''
+                        delta_json_str = json.dumps(delta)
+                        _log(f"   → Delta: +{delta.get('added', 0)} -{delta.get('removed', 0)} nodes vs {prev_run.id}", ctx.quiet)
+                except Exception:
+                    pass
+
                 ctx.db_manager.update_run(
                     ctx.db_run_id,
                     status="completed",
                     completed_at=dt_datetime.now(),
                     node_count=node_count,
                     edge_count=edge_count,
+                    delta_json=delta_json_str,
                 )
 
                 timer.set_output(run_id=ctx.db_run_id, nodes=node_count, edges=edge_count)
@@ -347,20 +368,36 @@ def _run_db_persistence(ctx: 'PipelineContext') -> None:
 
 def _run_vectorization(ctx: 'PipelineContext') -> None:
     """Stage 16: Semantic Vector Indexing (GraphRAG)."""
+    from observability import StageTimer
+
+    print("\n🔗 Stage 16: Semantic Vector Indexing...")
     vectorization_status = "skipped"
     vectorization_error = ""
-    _has_graphrag_deps = importlib.util.find_spec("lancedb") and importlib.util.find_spec("sentence_transformers")
-    if _has_graphrag_deps:
-        try:
-            from src.core.rag.embedder import GraphRAGEmbedder
-            persistent_db = ctx.target / ".collider" / "collider.db"
-            embedder = GraphRAGEmbedder(db_path=persistent_db)
-            embedder.embed_graph()
-            vectorization_status = "ok"
-        except Exception as e:
-            vectorization_status = "failed"
-            vectorization_error = str(e)
-            print(f"\n   ⚠️ Stage 16 Vectorization Failed: {e}")
+    with StageTimer(ctx.perf_manager, "Stage 16: Semantic Vector Indexing") as timer:
+        _has_lancedb = importlib.util.find_spec("lancedb")
+        _has_st = importlib.util.find_spec("sentence_transformers")
+        if _has_lancedb and _has_st:
+            try:
+                from src.core.rag.embedder import GraphRAGEmbedder
+                persistent_db = ctx.target / ".collider" / "collider.db"
+                embedder = GraphRAGEmbedder(db_path=persistent_db)
+                embedder.embed_graph()
+                vectorization_status = "ok"
+                timer.set_output(status="ok")
+                _log("   → Vector index built", ctx.quiet)
+            except Exception as e:
+                vectorization_status = "failed"
+                vectorization_error = str(e)
+                timer.set_status("FAIL", str(e))
+                print(f"   ⚠️ Vectorization failed: {e}")
+        else:
+            missing = []
+            if not _has_lancedb:
+                missing.append("lancedb")
+            if not _has_st:
+                missing.append("sentence-transformers")
+            timer.set_status("SKIP")
+            _log(f"   → Skipped (missing: {', '.join(missing)})", ctx.quiet)
 
     ctx.full_output.setdefault('kpis', {})['vectorization_status'] = vectorization_status
     ctx.full_output['kpis']['vectorization_error'] = vectorization_error
@@ -425,6 +462,26 @@ def _run_temporal(ctx: 'PipelineContext') -> None:
         import traceback
         traceback.print_exc()
         ctx.data_ledger.publish("temporal", "Stage 18: Temporal Analysis", status="failed", summary=str(e))
+
+
+def _run_git_context(ctx: 'PipelineContext') -> None:
+    """Stage 18b: Git Context (repo identity + worktree topology)."""
+    try:
+        from src.core.git_context import compute_git_context
+        git_result = compute_git_context(repo_path=str(ctx.target))
+        ctx.full_output['git_context'] = git_result.to_dict()
+        if git_result.available:
+            # Backfill meta with basic git fields for frontend consumers
+            meta = ctx.full_output.get('meta', {})
+            meta['git_branch'] = git_result.branch
+            meta['git_commit'] = git_result.commit
+            meta['git_dirty'] = git_result.dirty
+            meta['git_summary'] = git_result.summary
+            _log(f"   → {git_result.summary}", ctx.quiet)
+        else:
+            _log(f"   → Skipped: {git_result.error}", ctx.quiet)
+    except Exception as e:
+        print(f"   ⚠️ Git context failed: {e}")
 
 
 def _run_ideome(ctx: 'PipelineContext') -> None:

@@ -123,9 +123,6 @@ def _aggressively_strip_keys(obj: Any, keys_to_remove: set) -> Any:
         return [_aggressively_strip_keys(item, keys_to_remove) for item in obj]
     return obj
 
-_FINE_GRAINED_ROLES = {"function", "method", "variable", "property", "parameter"}
-
-
 def create_lod_payloads(payload: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     import copy
 
@@ -147,28 +144,7 @@ def create_lod_payloads(payload: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
         "markov", "ideome", "codome_boundaries",
     })
 
-    # LOD 3: Compact (Remove fine-grained particles, keep files/classes/edges)
-    lod3 = copy.deepcopy(payload)
-    if "nodes" in lod3 and isinstance(lod3["nodes"], list):
-        lod3["nodes"] = [
-            node for node in lod3["nodes"]
-            if isinstance(node, dict) and node.get("role") not in _FINE_GRAINED_ROLES
-        ]
-
-    # Strip all large string fields and heavy analytical objects
-    lod3 = _aggressively_strip_keys(lod3, {
-        # Raw text
-        "code", "body_source", "body_preview", "docstring",
-        "file_content", "source_code",
-        # Heavy node metrics
-        "dimensions", "waybill", "purpose_intelligence", "purpose_coherence",
-        "control_flow", "data_flow", "rpbl", "intent_profile",
-        # Heavy root arrays
-        "markov", "execution_flow", "file_boundaries", "files", "igt",
-        "semantic_analysis", "codome_boundaries",
-    })
-
-    return {"lod1": lod1, "lod2": lod2, "lod3": lod3}
+    return {"lod1": lod1, "lod2": lod2}
 
 def _strip_dead_output(data: Dict[str, Any]) -> Dict[str, Any]:
     """Remove empty/stub sections and redundant node fields from output.
@@ -222,7 +198,7 @@ def generate_outputs(
     html_filename: Optional[str] = None,
     target_name: Optional[str] = None,
     timestamp: Optional[str] = None,
-    skip_html: bool = True,
+    skip_html: bool = False,
     verbose_output: bool = False,
 ) -> Dict[str, Path]:
     if isinstance(data, dict):
@@ -252,8 +228,7 @@ def generate_outputs(
 
     _LOD_FILENAMES = {
         "lod1": "ast_lod1_verbose.json",
-        "lod2": "ast_lod2_standard.json",
-        "lod3": "ast_lod3_compact.json",
+        "lod2": "collider_output.json",
     }
 
     for level, data_lod in lods.items():
@@ -271,42 +246,25 @@ def generate_outputs(
         if enc:
             tokens_info[level] = len(enc.encode(json_str))
 
-            if level == "lod3":
-                breakdown = {}
-                for k, v in data_lod.items():
-                    try:
-                        cat_str = json.dumps(v, default=str)
-                        breakdown[k] = len(enc.encode(cat_str))
-                    except Exception:
-                        pass
-                tokens_info["lod3_breakdown"] = breakdown
-
     if tokens_info:
         ans["tokens"] = tokens_info
 
-    # Default output = LOD2 (standard); LOD1 only when --verbose-output
+    # Default output = LOD2 (collider_output.json); LOD1 only when --verbose-output
     default_lod = "lod1" if verbose_output else "lod2"
     default_path = ans[default_lod]
 
-    # Maintain legacy aliases as symlinks (not copies)
-    legacy_path = output_dir / json_filename
+    # Backward-compat: consumers read unified_analysis.json
     stable_json = output_dir / "unified_analysis.json"
-    for alias in [legacy_path, stable_json]:
-        if alias.exists() or alias.is_symlink():
-            alias.unlink()
-        alias.symlink_to(default_path.name)  # relative symlink
+    if stable_json.exists() or stable_json.is_symlink():
+        stable_json.unlink()
+    stable_json.symlink_to("collider_output.json")
 
     ans["llm"] = ans[default_lod]
     ans["stable_json"] = stable_json
 
     if not skip_html:
         html_path = write_html_report(data, output_dir, filename=html_filename, normalize=False)
-        stable_html = output_dir / "collider_report.html"
-        if stable_html.exists() or stable_html.is_symlink():
-            stable_html.unlink()
-        stable_html.symlink_to(html_path.name)
         ans["html"] = html_path
-        ans["stable_html"] = stable_html
 
     # Emit Insights files if compiled_insights exists
     compiled = data.get("compiled_insights") if isinstance(data, dict) else None
