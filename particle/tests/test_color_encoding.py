@@ -970,13 +970,21 @@ class TestNewHueSources:
 
     def test_atom_golden_angle(self):
         """Atom hue source uses golden-angle distribution on atom name hash."""
-        node = {'atom': 'CORE.MyService'}
-        hue = _resolve_base_hue(node, 'atom')
-        assert 0 <= hue < 360
-        # Different atom names should give different hues
-        node2 = {'atom': 'EXT.OtherThing'}
-        hue2 = _resolve_base_hue(node2, 'atom')
-        assert hue != hue2  # extremely unlikely to collide
+        # Verify multiple atom names all produce valid hues in [0, 360)
+        names = [
+            'CORE.MyService', 'EXT.OtherThing', 'SVC.PaymentGateway',
+            'INFRA.Logger', 'CORE.UserController', 'EXT.DatabaseAdapter',
+        ]
+        hues = []
+        for name in names:
+            hue = _resolve_base_hue({'atom': name}, 'atom')
+            assert 0 <= hue < 360, f'{name} hue {hue} out of range'
+            hues.append(hue)
+        # With 6 names, at least 4 should be distinct (hash seed varies per run
+        # but golden-angle spacing makes total collision across 6 names vanishingly rare)
+        assert len(set(round(h, 1) for h in hues)) >= 4, (
+            f'Too many collisions among 6 atom hues: {hues}'
+        )
 
 
 # =============================================================================

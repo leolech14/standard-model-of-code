@@ -6,10 +6,10 @@ from src.core.output_generator import generate_outputs, write_llm_output
 
 
 class TestStableOutputFilenames:
-    """Tests for stable unified_analysis.json and collider_report.html creation."""
+    """Tests for stable collider_output.json and unified_analysis.json symlink."""
 
     def test_stable_json_created(self, tmp_path):
-        """Verify unified_analysis.json is created alongside timestamped file."""
+        """Verify collider_output.json and unified_analysis.json symlink are created."""
         data = {
             "nodes": [{"id": "test"}],
             "edges": [],
@@ -18,18 +18,19 @@ class TestStableOutputFilenames:
 
         outputs = generate_outputs(data, tmp_path, target_name="test")
 
-        # Both timestamped and stable files should exist
+        # Canonical and backward-compat files should exist
         assert outputs["llm"].exists()
+        assert outputs["llm"].name == "collider_output.json"
         assert outputs["stable_json"].exists()
         assert outputs["stable_json"].name == "unified_analysis.json"
 
-        # Content should be identical
-        timestamped_content = outputs["llm"].read_text()
+        # Content should be identical (symlink)
+        canonical_content = outputs["llm"].read_text()
         stable_content = outputs["stable_json"].read_text()
-        assert timestamped_content == stable_content
+        assert canonical_content == stable_content
 
-    def test_stable_html_created(self, tmp_path):
-        """Verify collider_report.html is created alongside timestamped file."""
+    def test_html_created(self, tmp_path):
+        """Verify HTML report is created when skip_html=False."""
         # app.js is a Vite build artifact, not git-tracked -- skip if absent (e.g. worktrees)
         assets_dir = Path(__file__).resolve().parent.parent / "src" / "core" / "viz" / "assets"
         if not (assets_dir / "app.js").exists():
@@ -44,8 +45,6 @@ class TestStableOutputFilenames:
         outputs = generate_outputs(data, tmp_path, target_name="test", skip_html=False)
 
         assert outputs["html"].exists()
-        assert outputs["stable_html"].exists()
-        assert outputs["stable_html"].name == "collider_report.html"
 
     def test_stable_json_content_valid(self, tmp_path):
         """Verify unified_analysis.json contains valid JSON with expected structure."""
@@ -64,7 +63,6 @@ class TestStableOutputFilenames:
         loaded = json.loads(outputs["stable_json"].read_text())
         assert "nodes" in loaded
         assert "edges" in loaded
-        # Note: semantic_analysis may be normalized/moved
 
     def test_multiple_runs_overwrite_stable(self, tmp_path):
         """Verify stable files are overwritten on subsequent runs."""
@@ -72,8 +70,7 @@ class TestStableOutputFilenames:
         data2 = {"nodes": [{"id": "v2"}], "edges": [], "meta": {"target": "t"}}
 
         # First run
-        outputs1 = generate_outputs(data1, tmp_path, target_name="test", timestamp="20260101_000001")
-        stable_content1 = outputs1["stable_json"].read_text()
+        generate_outputs(data1, tmp_path, target_name="test", timestamp="20260101_000001")
 
         # Second run
         outputs2 = generate_outputs(data2, tmp_path, target_name="test", timestamp="20260101_000002")
@@ -82,10 +79,6 @@ class TestStableOutputFilenames:
         # Stable file should have new content
         assert "v2" in stable_content2
         assert "v1" not in stable_content2
-
-        # Both timestamped files should exist
-        assert outputs1["llm"].exists()
-        assert outputs2["llm"].exists()
 
 
 class TestWriteLlmOutput:

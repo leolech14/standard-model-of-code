@@ -20,6 +20,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
@@ -337,13 +338,15 @@ def _extract_top_findings(insights: dict[str, Any], limit: int = 5) -> list[dict
         title = item.get("title") or item.get("finding") or item.get("message") or "untitled_finding"
         severity = item.get("severity", "unknown")
         evidence = item.get("evidence") or item.get("source") or item.get("path") or ""
-        top.append(
-            {
-                "severity": str(severity).lower(),
-                "title": str(title),
-                "evidence": str(evidence),
-            }
-        )
+        confidence = item.get("confidence")
+        entry: dict[str, Any] = {
+            "severity": str(severity).lower(),
+            "title": str(title),
+            "evidence": str(evidence),
+        }
+        if confidence is not None:
+            entry["confidence"] = confidence
+        top.append(entry)
         if len(top) >= limit:
             break
     return top
@@ -576,31 +579,108 @@ def _render_deterministic_audit(auto_feedback: dict[str, Any], reason: str) -> s
     return "\n".join(lines).strip() + "\n"
 
 
+def _assess_llm_quality(text: str, prompt: str, latency_ms: float, timeout_ms: float) -> dict[str, Any]:
+    """Assess LLM response quality with structured signals.
+
+    Returns a quality_signals dict that downstream consumers can use
+    to decide how much to trust the LLM-augmented audit.
+    """
+    has_sections = text.count("#") >= 2  # markdown headers present
+    prompt_len = max(len(prompt), 1)
+    response_ratio = round(len(text) / prompt_len, 3)
+    near_timeout = latency_ms > (timeout_ms * 0.80)
+    suspiciously_short = len(text) < 100
+
+    return {
+        "has_sections": has_sections,
+        "response_ratio": response_ratio,
+        "response_chars": len(text),
+        "near_timeout": near_timeout,
+        "suspiciously_short": suspiciously_short,
+    }
+
+
+def _compute_degradation_level(provider: str, quality_signals: dict[str, Any] | None) -> str:
+    """Classify audit reliability into none/partial/full.
+
+    - none:    LLM responded with reasonable quality
+    - partial: LLM responded but quality is questionable
+    - full:    fell back to deterministic (LLM unavailable/failed/disabled)
+    """
+    if provider == "deterministic":
+        return "full"
+    if quality_signals is None:
+        return "partial"
+    # Partial if any red flag is present
+    if (quality_signals.get("near_timeout")
+            or quality_signals.get("suspiciously_short")
+            or not quality_signals.get("has_sections")):
+        return "partial"
+    return "none"
+
+
 def _generate_ai_user_audit(
     auto_feedback: dict[str, Any],
     llm_model: str,
     timeout_sec: int,
     skip_llm: bool,
 ) -> tuple[str, dict[str, Any]]:
+    timeout_ms = timeout_sec * 1000
+
     if skip_llm:
         reason = "llm_audit_disabled"
-        return _render_deterministic_audit(auto_feedback, reason), {"provider": "deterministic", "reason": reason}
+        meta = {
+            "provider": "deterministic",
+            "reason": reason,
+            "degradation_level": "full",
+            "latency_ms": 0,
+            "quality_signals": None,
+        }
+        return _render_deterministic_audit(auto_feedback, reason), meta
 
     prompt = _build_audit_prompt(auto_feedback)
     ollama = shutil.which("ollama")
     if not ollama:
         reason = "ollama_not_found"
-        return _render_deterministic_audit(auto_feedback, reason), {"provider": "deterministic", "reason": reason}
+        meta = {
+            "provider": "deterministic",
+            "reason": reason,
+            "degradation_level": "full",
+            "latency_ms": 0,
+            "quality_signals": None,
+        }
+        return _render_deterministic_audit(auto_feedback, reason), meta
 
+    t0 = time.monotonic()
     rc, stdout, stderr = _run_capture([ollama, "run", llm_model, prompt], timeout_sec=timeout_sec)
+    latency_ms = round((time.monotonic() - t0) * 1000, 1)
+
     text = stdout.strip()
     if rc != 0 or not text:
         reason = f"ollama_failed_rc_{rc}"
         if stderr.strip():
             reason = f"{reason}:{stderr.strip()[:140]}"
-        return _render_deterministic_audit(auto_feedback, reason), {"provider": "deterministic", "reason": reason}
+        meta = {
+            "provider": "deterministic",
+            "reason": reason,
+            "degradation_level": "full",
+            "latency_ms": latency_ms,
+            "quality_signals": None,
+        }
+        return _render_deterministic_audit(auto_feedback, reason), meta
 
-    return text + ("\n" if not text.endswith("\n") else ""), {"provider": "ollama", "model": llm_model, "reason": "ok"}
+    # LLM succeeded -- assess quality
+    quality = _assess_llm_quality(text, prompt, latency_ms, timeout_ms)
+    degradation = _compute_degradation_level("ollama", quality)
+    meta = {
+        "provider": "ollama",
+        "model": llm_model,
+        "reason": "ok",
+        "degradation_level": degradation,
+        "latency_ms": latency_ms,
+        "quality_signals": quality,
+    }
+    return text + ("\n" if not text.endswith("\n") else ""), meta
 
 
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -669,6 +749,14 @@ def _generate_feedback_bundle(
         skip_llm=skip_llm,
     )
 
+    # Attach degradation signal to auto_feedback for primary artifact consumers
+    auto_feedback["llm_degradation"] = {
+        "level": llm_meta.get("degradation_level", "full"),
+        "provider": llm_meta.get("provider", "deterministic"),
+        "reason": llm_meta.get("reason", "unknown"),
+        "latency_ms": llm_meta.get("latency_ms", 0),
+    }
+
     stamp = _utc_stamp()
     auto_json_path = feedback_dir / f"collider_feedback_auto_{stamp}.json"
     latest_auto_json = feedback_dir / "latest_auto_feedback.json"
@@ -684,14 +772,27 @@ def _generate_feedback_bundle(
     audit_md_path.write_text(audit_md, encoding="utf-8")
     shutil.copy2(audit_md_path, latest_audit_md)
 
+    # Build top-level degradation summary for quick downstream consumption
+    degradation_level = llm_meta.get("degradation_level", "full")
+    llm_degradation = {
+        "level": degradation_level,
+        "provider": llm_meta.get("provider", "deterministic"),
+        "reason": llm_meta.get("reason", "unknown"),
+        "audit_reliability": "llm_augmented" if degradation_level == "none" else (
+            "llm_partial" if degradation_level == "partial" else "deterministic_only"
+        ),
+        "latency_ms": llm_meta.get("latency_ms", 0),
+    }
+
     feedback_report = {
-        "schema_version": "collider.feedback.report.v1",
+        "schema_version": "collider.feedback.report.v2",
         "generated_at_utc": _utc_iso(),
         "repo": str(repo),
         "run_mode": run_mode,
         "grade": auto_feedback.get("grade"),
         "health_score": auto_feedback.get("health_score"),
         "issue_count": auto_feedback.get("issue_count", 0),
+        "llm_degradation": llm_degradation,
         "llm_meta": llm_meta,
         "canonical_output_root": str(output_dir),
         "feedback_package_root": str(feedback_dir),

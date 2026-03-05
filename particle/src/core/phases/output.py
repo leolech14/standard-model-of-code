@@ -40,10 +40,10 @@ def _run_insights(ctx: PipelineContext) -> None:
     with StageTimer(ctx.perf_manager, "Stage 21: Insights Compilation") as timer:
         try:
             from src.core.insights_compiler import compile_insights, compile_insights_report
-            compiled_dict = compile_insights(ctx.full_output)
+            compiled_dict = compile_insights(ctx.full_output, repo_root=ctx.target)
             ctx.full_output['compiled_insights'] = compiled_dict
             # Generate markdown for file output
-            report_obj = compile_insights_report(ctx.full_output)
+            report_obj = compile_insights_report(ctx.full_output, repo_root=ctx.target)
             ctx.full_output['_insights_markdown'] = report_obj.to_markdown()
             grade = compiled_dict.get('grade', '?')
             finding_count = compiled_dict.get('findings_count', 0)
@@ -51,13 +51,6 @@ def _run_insights(ctx: PipelineContext) -> None:
             _log(f"   → Grade: {grade} ({compiled_dict.get('health_score', 0)}/10)", ctx.quiet)
             _log(f"   → {finding_count} findings compiled", ctx.quiet)
 
-            # Save PDS baseline for incremental gate checks
-            try:
-                from src.core.pds_baseline import save_baseline
-                save_baseline(str(ctx.target), ctx.full_output)
-                _log("   → PDS baseline saved", ctx.quiet)
-            except Exception as bl_err:
-                _log(f"   ⚠️ PDS baseline save skipped: {bl_err}", ctx.quiet)
             ctx.data_ledger.publish("insights", "Stage 21: Insights Compilation",
                 summary=f"grade={compiled_dict.get('grade', '?')}, {finding_count} findings")
         except Exception as e:
@@ -78,7 +71,7 @@ def _run_output_gen(ctx: PipelineContext) -> None:
             ctx.full_output['pipeline_performance'] = ctx.perf_manager.to_dict()
 
             from src.core.output_generator import generate_outputs
-            skip_html = ctx.options.get("skip_html", True)
+            skip_html = ctx.options.get("skip_html", False)
 
             # Attach Waybills to individual nodes (Phase 28)
             if not ctx.quiet:
@@ -132,7 +125,7 @@ def _run_output_gen(ctx: PipelineContext) -> None:
             if ctx.viz_file:
                 _log(f"   → Visual: {ctx.viz_file}", ctx.quiet)
             else:
-                _log(f"   → Visual: SKIPPED (AI-First Mode)", ctx.quiet)
+                _log(f"   → Visual: SKIPPED (--no-html)", ctx.quiet)
             ctx.data_ledger.publish("output_gen", "Stage 22: Output Generation")
         except Exception as e:
             timer.set_status("FAIL", str(e))

@@ -19,8 +19,88 @@ import yaml
 
 
 # =============================================================================
+# THRESHOLD LOADING
+# =============================================================================
+
+_BUNDLED_THRESHOLDS_PATH = Path(__file__).parent / 'collider_thresholds.yaml'
+_THRESHOLDS_CACHE: Optional[Dict[str, Any]] = None
+
+
+def _load_thresholds(repo_root: Optional[Path] = None) -> Dict[str, Any]:
+    """Load thresholds from bundled YAML, optionally merged with repo overrides.
+
+    Resolution order (later wins):
+      1. particle/src/core/collider_thresholds.yaml  (bundled defaults)
+      2. <repo>/.collider/collider_thresholds.yaml   (project overrides)
+      3. <repo>/collider_thresholds.yaml             (project overrides)
+    """
+    global _THRESHOLDS_CACHE
+    if _THRESHOLDS_CACHE is not None and repo_root is None:
+        return _THRESHOLDS_CACHE
+
+    base: Dict[str, Any] = {}
+    if _BUNDLED_THRESHOLDS_PATH.exists():
+        with open(_BUNDLED_THRESHOLDS_PATH) as f:
+            base = yaml.safe_load(f) or {}
+
+    # Merge repo-level overrides (shallow per-section merge).
+    if repo_root is not None:
+        for candidate in [
+            repo_root / '.collider' / 'collider_thresholds.yaml',
+            repo_root / 'collider_thresholds.yaml',
+        ]:
+            if candidate.exists():
+                with open(candidate) as f:
+                    overrides = yaml.safe_load(f) or {}
+                for section, values in overrides.items():
+                    if isinstance(values, dict) and isinstance(base.get(section), dict):
+                        base[section].update(values)
+                    else:
+                        base[section] = values
+
+    if repo_root is None:
+        _THRESHOLDS_CACHE = base
+    return base
+
+
+def _t(thresholds: Dict[str, Any], section: str, key: str, default: float) -> float:
+    """Shorthand: read a threshold value with fallback."""
+    sec = thresholds.get(section)
+    if isinstance(sec, dict):
+        return float(sec.get(key, default))
+    return default
+
+
+# =============================================================================
 # DATA CLASSES
 # =============================================================================
+
+# Category-based default confidence levels are loaded from YAML.
+# This dict is a fast runtime cache populated from the `confidence_baselines`
+# section of collider_thresholds.yaml.
+_CATEGORY_BASE_CONFIDENCE: Dict[str, float] = {}
+
+
+def _ensure_confidence_baselines() -> None:
+    """Populate _CATEGORY_BASE_CONFIDENCE from YAML if not yet loaded."""
+    global _CATEGORY_BASE_CONFIDENCE
+    if _CATEGORY_BASE_CONFIDENCE:
+        return
+    th = _load_thresholds()
+    baselines = th.get('confidence_baselines')
+    if isinstance(baselines, dict):
+        _CATEGORY_BASE_CONFIDENCE = {k: float(v) for k, v in baselines.items()}
+    else:
+        # Hardcoded fallback if YAML is missing/corrupt
+        _CATEGORY_BASE_CONFIDENCE = {
+            'dead_code': 0.85, 'execution': 0.85, 'constraints': 0.80,
+            'entanglement': 0.80, 'topology': 0.75, 'rpbl': 0.75,
+            'performance': 0.70, 'data_flow': 0.70, 'test_coverage': 0.70,
+            'api_drift': 0.65, 'incoherence': 0.60, 'gap_detection': 0.55,
+            'temporal': 0.55, 'purpose': 0.50, 'purpose_decomposition': 0.50,
+            'contextome': 0.45, 'ideome': 0.40,
+        }
+
 
 @dataclass
 class CompiledInsight:
@@ -34,6 +114,7 @@ class CompiledInsight:
     interpretation: str             # What it means in plain language
     recommendation: str             # What to do about it
     effort: str                     # low, medium, high
+    confidence: float = 0.5         # 0.0-1.0 -- how reliable this finding is
     related_nodes: List[str] = field(default_factory=list)
     theory_refs: List[str] = field(default_factory=list)  # References to THEORY_REFERENCE.yaml
     drill_down: Dict[str, Any] = field(default_factory=dict)  # Pointers for deeper investigation
@@ -43,6 +124,7 @@ class CompiledInsight:
             'id': self.id,
             'category': self.category,
             'severity': self.severity,
+            'confidence': round(self.confidence, 2),
             'title': self.title,
             'description': self.description,
             'evidence': self.evidence,
@@ -146,7 +228,8 @@ class InsightsReport:
             lines.append("")
             for f in self.findings:
                 sev_tag = f.severity.upper()
-                lines.append(f"### [{sev_tag}] {f.title}")
+                conf_pct = f"{f.confidence:.0%}"
+                lines.append(f"### [{sev_tag}] {f.title} (confidence: {conf_pct})")
                 lines.append("")
                 lines.append(f"{f.description}")
                 lines.append("")
@@ -201,11 +284,13 @@ class InsightsReport:
 class InsightsCompiler:
     """Transforms raw Collider full_output into an interpreted InsightsReport."""
 
-    def __init__(self, full_output: Dict[str, Any]):
+    def __init__(self, full_output: Dict[str, Any], repo_root: Optional[Path] = None):
         self.data = full_output
         self.kpis = full_output.get('kpis', {})
         self.findings: List[CompiledInsight] = []
         self._next_id = 1
+        # Load thresholds (bundled + optional per-project overrides)
+        self._thresholds = _load_thresholds(repo_root)
         # ChemistryLab or None — must be a live object, not a serialized string
         _lab_candidate = full_output.get('_chemistry_lab')
         self._lab = _lab_candidate if hasattr(_lab_candidate, 'get_modulation') else None
@@ -308,11 +393,12 @@ class InsightsCompiler:
 
     def _interpret_dead_code(self):
         pct = self.kpis.get('dead_code_percent', 0) or 0
-        if pct > 20:
+        th = self._thresholds
+        if pct > _t(th, 'dead_code', 'dead_code_percent_critical', 20):
             sev = 'critical'
-        elif pct > 10:
+        elif pct > _t(th, 'dead_code', 'dead_code_percent_high', 10):
             sev = 'high'
-        elif pct > 5:
+        elif pct > _t(th, 'dead_code', 'dead_code_percent_medium', 5):
             sev = 'medium'
         else:
             return  # Healthy
@@ -337,9 +423,10 @@ class InsightsCompiler:
     def _interpret_orphans(self):
         pct = self.kpis.get('orphan_percent', 0) or 0
         count = self.kpis.get('orphan_count', 0) or 0
-        if pct > 15:
+        th = self._thresholds
+        if pct > _t(th, 'orphans', 'orphan_percent_critical', 15):
             sev = 'critical'
-        elif pct > 8:
+        elif pct > _t(th, 'orphans', 'orphan_percent_high', 8):
             sev = 'high'
         else:
             return
@@ -365,11 +452,12 @@ class InsightsCompiler:
     def _interpret_entanglement(self):
         knot = self.kpis.get('knot_score', 0) or 0
         cycles = self.kpis.get('cycles_detected', 0) or 0
-        if knot > 7:
+        th = self._thresholds
+        if knot > _t(th, 'entanglement', 'knot_score_critical', 7):
             sev = 'critical'
-        elif knot > 4:
+        elif knot > _t(th, 'entanglement', 'knot_score_high', 4):
             sev = 'high'
-        elif knot > 2:
+        elif knot > _t(th, 'entanglement', 'knot_score_medium', 2):
             sev = 'medium'
         else:
             return
@@ -394,9 +482,10 @@ class InsightsCompiler:
     def _interpret_antimatter(self):
         rho = self.kpis.get('rho_antimatter', 0) or 0
         count = self.kpis.get('antimatter_count', 0) or 0
-        if rho > 0.05:
+        th = self._thresholds
+        if rho > _t(th, 'antimatter', 'rho_high', 0.05):
             sev = 'critical'
-        elif rho > 0.02:
+        elif rho > _t(th, 'antimatter', 'rho_medium', 0.02):
             sev = 'high'
         elif count > 0:
             sev = 'medium'
@@ -454,10 +543,11 @@ class InsightsCompiler:
         )
 
         if severe_misalignment or moderate_misalignment:
+            th = self._thresholds
             if severe_misalignment:
-                sev = 'critical' if ci < 0.40 else 'high'
+                sev = 'critical' if ci < _t(th, 'purpose', 'ci_low_critical', 0.40) else 'high'
             else:
-                sev = 'high' if ci < 0.60 else 'medium'
+                sev = 'high' if ci < _t(th, 'purpose', 'ci_low_high', 0.60) else 'medium'
 
             coherence_msg = []
             if alignment:
@@ -500,7 +590,7 @@ class InsightsCompiler:
             )
             return
 
-        if ci >= 0.85:
+        if ci >= _t(self._thresholds, 'purpose', 'ci_good_floor', 0.85):
             self._add(
                 category='purpose',
                 severity='info',
@@ -514,9 +604,9 @@ class InsightsCompiler:
             )
             return
 
-        if ci < 0.40:
+        if ci < _t(self._thresholds, 'purpose', 'ci_low_critical', 0.40):
             sev = 'critical'
-        elif ci < 0.60:
+        elif ci < _t(self._thresholds, 'purpose', 'ci_low_high', 0.60):
             sev = 'medium'
         else:
             return  # 0.60-0.85 is acceptable, no finding needed
@@ -781,14 +871,15 @@ class InsightsCompiler:
         b = rpbl.get('boundary', 5)
         l = rpbl.get('lifecycle', 5)
 
+        th = self._thresholds
         imbalances = []
-        if r > 6:
+        if r > _t(th, 'rpbl_balance', 'resource_heavy', 6):
             imbalances.append(f'R={r:.1f} (broad responsibility -- many god-class signals)')
-        if p < 4:
+        if p < _t(th, 'rpbl_balance', 'purpose_light', 4):
             imbalances.append(f'P={p:.1f} (impure -- heavy side effects)')
-        if b > 6:
+        if b > _t(th, 'rpbl_balance', 'behavior_heavy', 6):
             imbalances.append(f'B={b:.1f} (I/O heavy -- tightly coupled to externals)')
-        if l > 6:
+        if l > _t(th, 'rpbl_balance', 'logic_heavy', 6):
             imbalances.append(f'L={l:.1f} (stateful -- complex lifecycle management)')
 
         if not imbalances:
@@ -1551,13 +1642,14 @@ class InsightsCompiler:
         rho_am = self.kpis.get('rho_antimatter', 0) or 0
         rho_pol = self.kpis.get('rho_policy', 0) or 0
         combined = rho_am + rho_pol
-        if combined < 0.01:
+        th = self._thresholds
+        if combined < _t(th, 'health_scoring', 'constraint_perfect', 0.01):
             return 10.0
-        elif combined < 0.03:
+        elif combined < _t(th, 'health_scoring', 'constraint_good', 0.03):
             return 8.0
-        elif combined < 0.06:
+        elif combined < _t(th, 'health_scoring', 'constraint_moderate', 0.06):
             return 6.0
-        elif combined < 0.10:
+        elif combined < _t(th, 'health_scoring', 'constraint_poor', 0.10):
             return 4.0
         else:
             return 2.0
@@ -1620,37 +1712,41 @@ class InsightsCompiler:
         if logic == 0:
             return 7.0  # No logic to test
         ratio = tests / logic
-        if ratio >= 1.0:
+        th = self._thresholds
+        if ratio >= _t(th, 'health_scoring', 'test_coverage_ideal', 1.0):
             return 10.0
-        elif ratio >= 0.5:
+        elif ratio >= _t(th, 'health_scoring', 'test_coverage_good', 0.5):
             return 7.0
-        elif ratio >= 0.2:
+        elif ratio >= _t(th, 'health_scoring', 'test_coverage_low', 0.2):
             return 5.0
         else:
             return 3.0
 
     def _score_dead_code(self) -> float:
         pct = self.kpis.get('dead_code_percent', 0) or 0
-        if pct < 3:
+        ratio = pct / 100.0  # YAML stores ratios (0.0-1.0)
+        th = self._thresholds
+        if ratio < _t(th, 'health_scoring', 'dead_code_ratio_low', 0.03):
             return 10.0
-        elif pct < 8:
+        elif ratio < _t(th, 'health_scoring', 'dead_code_ratio_moderate', 0.08):
             return 8.0
-        elif pct < 15:
+        elif ratio < _t(th, 'health_scoring', 'dead_code_ratio_high', 0.15):
             return 6.0
-        elif pct < 25:
+        elif ratio < _t(th, 'health_scoring', 'dead_code_ratio_severe', 0.25):
             return 4.0
         else:
             return 2.0
 
     def _score_entanglement(self) -> float:
         knot = self.kpis.get('knot_score', 0) or 0
-        if knot < 1:
+        th = self._thresholds
+        if knot < _t(th, 'health_scoring', 'knot_clean', 1):
             return 10.0
-        elif knot < 3:
+        elif knot < _t(th, 'health_scoring', 'knot_low', 3):
             return 8.0
-        elif knot < 5:
+        elif knot < _t(th, 'health_scoring', 'knot_moderate', 5):
             return 6.0
-        elif knot < 8:
+        elif knot < _t(th, 'health_scoring', 'knot_severe', 8):
             return 4.0
         else:
             return 2.0
@@ -1663,15 +1759,16 @@ class InsightsCompiler:
         p = rpbl.get('purity', 5)
         b = rpbl.get('boundary', 5)
         l = rpbl.get('lifecycle', 5)
+        th = self._thresholds
 
         penalties = 0
-        if r > 6:
+        if r > _t(th, 'rpbl_balance', 'resource_heavy', 6):
             penalties += 2
-        if p < 4:
+        if p < _t(th, 'rpbl_balance', 'purpose_light', 4):
             penalties += 2
-        if b > 6:
+        if b > _t(th, 'rpbl_balance', 'behavior_heavy', 6):
             penalties += 1.5
-        if l > 6:
+        if l > _t(th, 'rpbl_balance', 'logic_heavy', 6):
             penalties += 1.5
         return max(2.0, 10.0 - penalties)
 
@@ -1917,7 +2014,7 @@ class InsightsCompiler:
         return round(max(0.0, min(100.0, score)), 1), notes
 
     def _compute_health_score(self, components: Dict[str, float]) -> float:
-        weights = {
+        default_weights = {
             'topology': 0.20,
             'constraints': 0.20,
             'purpose': 0.15,
@@ -1926,18 +2023,21 @@ class InsightsCompiler:
             'entanglement': 0.10,
             'rpbl_balance': 0.10,
         }
+        # Override from YAML if present
+        yaml_weights = self._thresholds.get('health_scoring', {}).get('weights')
+        weights = yaml_weights if isinstance(yaml_weights, dict) else default_weights
         score = sum(components.get(k, 5.0) * w for k, w in weights.items())
         return round(min(10.0, max(0.0, score)), 2)
 
-    @staticmethod
-    def _score_to_grade(score: float) -> str:
-        if score >= 8.5:
+    def _score_to_grade(self, score: float) -> str:
+        gb = self._thresholds.get('grade_boundaries', {})
+        if score >= float(gb.get('A', 8.5)):
             return 'A'
-        elif score >= 7.0:
+        elif score >= float(gb.get('B', 7.0)):
             return 'B'
-        elif score >= 5.5:
+        elif score >= float(gb.get('C', 5.5)):
             return 'C'
-        elif score >= 4.0:
+        elif score >= float(gb.get('D', 4.0)):
             return 'D'
         else:
             return 'F'
@@ -3515,6 +3615,11 @@ class InsightsCompiler:
     def _add(self, **kwargs):
         fid = f'CI-{self._next_id:03d}'
         self._next_id += 1
+        # Auto-assign confidence from category baseline if not explicitly set.
+        if 'confidence' not in kwargs:
+            _ensure_confidence_baselines()
+            cat = kwargs.get('category', '')
+            kwargs['confidence'] = _CATEGORY_BASE_CONFIDENCE.get(cat, 0.5)
         self.findings.append(CompiledInsight(id=fid, **kwargs))
 
 
@@ -3522,14 +3627,14 @@ class InsightsCompiler:
 # CONVENIENCE FUNCTION
 # =============================================================================
 
-def compile_insights(full_output: Dict[str, Any]) -> Dict[str, Any]:
+def compile_insights(full_output: Dict[str, Any], repo_root: Optional[Path] = None) -> Dict[str, Any]:
     """Convenience function: compile insights and return as dict."""
-    compiler = InsightsCompiler(full_output)
+    compiler = InsightsCompiler(full_output, repo_root=repo_root)
     report = compiler.compile()
     return report.to_dict()
 
 
-def compile_insights_report(full_output: Dict[str, Any]) -> InsightsReport:
+def compile_insights_report(full_output: Dict[str, Any], repo_root: Optional[Path] = None) -> InsightsReport:
     """Convenience function: compile insights and return InsightsReport object."""
-    compiler = InsightsCompiler(full_output)
+    compiler = InsightsCompiler(full_output, repo_root=repo_root)
     return compiler.compile()

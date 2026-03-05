@@ -161,6 +161,49 @@ _DRIFT_SIMILARITY_THRESHOLD = 0.55
 
 
 # ---------------------------------------------------------------------------
+# EXTERNAL / INFRASTRUCTURE EXCLUSION
+# ---------------------------------------------------------------------------
+
+# Patterns matching paths that should be excluded from drift analysis.
+# These represent external service calls, infrastructure endpoints, and
+# browser-generated requests that are NOT part of the internal API contract.
+_EXTERNAL_EXCLUSION_PATTERNS: List[re.Pattern] = [
+    # Absolute URLs — calls to external services (ElevenLabs, OpenAI, etc.)
+    re.compile(r"^https?://", re.IGNORECASE),
+    # WebSocket connections to external services
+    re.compile(r"^wss?://", re.IGNORECASE),
+    # Health and readiness probes (consumed by infra, not frontend)
+    re.compile(r"/health(?:z|check)?$", re.IGNORECASE),
+    re.compile(r"/ready$", re.IGNORECASE),
+    # Prometheus-style metrics
+    re.compile(r"/metrics$", re.IGNORECASE),
+    # Static file serving
+    re.compile(r"^/static/"),
+    # Favicon and manifest (browser-generated, not app API)
+    re.compile(r"^/favicon", re.IGNORECASE),
+    re.compile(r"^/manifest\.json$", re.IGNORECASE),
+    # API documentation endpoints (FastAPI/Swagger auto-generated)
+    re.compile(r"^/docs$|^/redoc$|^/openapi", re.IGNORECASE),
+]
+
+
+def _is_excluded_path(raw_path: str, extra_patterns: Optional[List[re.Pattern]] = None) -> bool:
+    """Return True if *raw_path* matches an exclusion pattern.
+
+    Checks built-in ``_EXTERNAL_EXCLUSION_PATTERNS`` first, then any
+    project-specific *extra_patterns* supplied by the caller.
+    """
+    for pat in _EXTERNAL_EXCLUSION_PATTERNS:
+        if pat.search(raw_path):
+            return True
+    if extra_patterns:
+        for pat in extra_patterns:
+            if pat.search(raw_path):
+                return True
+    return False
+
+
+# ---------------------------------------------------------------------------
 # DATA STRUCTURES
 # ---------------------------------------------------------------------------
 
@@ -230,6 +273,8 @@ class APIDriftReport:
     orphaned_count: int = 0
     missing_count: int = 0
     mismatch_count: int = 0
+    excluded_backend: int = 0
+    excluded_frontend: int = 0
 
     # Collider graph edges generated from matched endpoints
     _edges: List[Dict] = field(default_factory=list, repr=False)
@@ -244,6 +289,8 @@ class APIDriftReport:
             "orphaned_count": self.orphaned_count,
             "missing_count": self.missing_count,
             "mismatch_count": self.mismatch_count,
+            "excluded_backend": self.excluded_backend,
+            "excluded_frontend": self.excluded_frontend,
             "drift_items": [d.to_dict() for d in self.drift_items],
         }
 
@@ -265,6 +312,11 @@ class APIDriftReport:
                 "path_drift": sum(1 for d in self.drift_items if d.drift_type == "path_drift"),
                 "shadow_endpoint": sum(1 for d in self.drift_items if d.drift_type == "shadow_endpoint"),
             },
+            "excluded": {
+                "backend": self.excluded_backend,
+                "frontend": self.excluded_frontend,
+                "total": self.excluded_backend + self.excluded_frontend,
+            },
         }
 
     def get_edges(self) -> List[Dict]:
@@ -284,10 +336,13 @@ class APIDriftReport:
 def analyze_api_drift(
     endpoint_catalog,   # EndpointCatalog from api_route_extractor
     consumer_report,    # APIConsumerReport from frontend_api_detector
+    *,
+    exclusion_patterns: Optional[List[re.Pattern]] = None,
 ) -> APIDriftReport:
     """Compare backend endpoints against frontend API calls and return drift report.
 
     Matching strategy (applied in order):
+        0. Pre-filter: remove endpoints/calls matching exclusion patterns
         1. Normalize both sides: strip trailing slashes, lowercase, parameterize
         2. Exact match: normalized path + HTTP method (case-insensitive)
         3. Fuzzy match on path: path matches but method differs → method_mismatch
@@ -303,13 +358,41 @@ def analyze_api_drift(
         path_drift        → high      (likely a version mismatch)
         orphaned_endpoint → medium    (dead API surface, maintenance burden)
         shadow_endpoint   → low       (informational; route unreachable)
+
+    Args:
+        exclusion_patterns: Optional list of compiled regex patterns for
+            project-specific paths to exclude from analysis (in addition to
+            the built-in ``_EXTERNAL_EXCLUSION_PATTERNS``).
     """
-    endpoints = getattr(endpoint_catalog, "endpoints", []) or []
-    call_sites = getattr(consumer_report, "call_sites", []) or []
+    raw_endpoints = getattr(endpoint_catalog, "endpoints", []) or []
+    raw_call_sites = getattr(consumer_report, "call_sites", []) or []
+
+    # ------------------------------------------------------------------ #
+    # Pre-filter: exclude external / infrastructure paths
+    # ------------------------------------------------------------------ #
+    endpoints = []
+    excluded_be = 0
+    for ep in raw_endpoints:
+        raw = getattr(ep, "route_path", "")
+        if _is_excluded_path(raw, exclusion_patterns):
+            excluded_be += 1
+        else:
+            endpoints.append(ep)
+
+    call_sites = []
+    excluded_fe = 0
+    for cs in raw_call_sites:
+        raw = getattr(cs, "url_pattern", "")
+        if _is_excluded_path(raw, exclusion_patterns):
+            excluded_fe += 1
+        else:
+            call_sites.append(cs)
 
     report = APIDriftReport(
         total_backend_routes=len(endpoints),
         total_frontend_calls=len(call_sites),
+        excluded_backend=excluded_be,
+        excluded_frontend=excluded_fe,
     )
 
     if not endpoints and not call_sites:

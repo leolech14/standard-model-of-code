@@ -1,0 +1,128 @@
+# =============================================================================
+# Collider Insights Thresholds
+# =============================================================================
+#
+# Controls when and at what severity findings are emitted.
+# Operators can override these per-project by placing a
+# `collider_thresholds.yaml` in the repo root or `.collider/` directory.
+#
+# Each section maps to an _interpret_* pass in insights_compiler.py.
+# Fields follow the pattern:
+#   <metric>_<severity>: <value>
+# where severity ordering is: critical > high > medium > low > info.
+# A metric value ABOVE the threshold triggers that severity.
+# If the value is below all thresholds, no finding is emitted.
+
+dead_code:
+  dead_code_percent_critical: 20
+  dead_code_percent_high: 10
+  dead_code_percent_medium: 5
+
+orphans:
+  orphan_percent_critical: 15
+  orphan_percent_high: 8
+
+entanglement:
+  knot_score_critical: 7
+  knot_score_high: 4
+  knot_score_medium: 2
+
+antimatter:
+  # rho_antimatter thresholds
+  rho_high: 0.05
+  rho_medium: 0.02
+  # any count > 0 triggers low
+
+purpose:
+  # Codebase intelligence (CI) — ratio 0.0-1.0
+  ci_good_floor: 0.85      # above -> "good" (info finding)
+  ci_low_critical: 0.40    # below -> critical
+  ci_low_high: 0.60        # below -> high
+  # God class detection
+  god_class_any: 0          # > 0 triggers finding
+  # Dominant role concentration
+  dominant_role_ratio: 0.60  # above -> purpose imbalance finding
+  # Docstring coverage
+  doc_ratio_low: 0.30       # below -> low documentation finding
+
+rpbl_balance:
+  # Role counts that trigger imbalance findings
+  resource_heavy: 6
+  purpose_light: 4
+  behavior_heavy: 6
+  logic_heavy: 6
+
+hotspots:
+  # Absolute count and ratio thresholds
+  hotspot_any: 0            # > 0 to start checking
+  hotspot_count_critical: 80
+  hotspot_ratio_critical: 0.08
+  hotspot_count_high: 35
+  hotspot_ratio_high: 0.04
+  hotspot_count_medium: 25
+  hotspot_ratio_medium: 0.02
+
+signal_density:
+  signal_count_high: 20     # above -> noisy signal landscape finding
+
+health_scoring:
+  # Constraint violation scoring (rho_antimatter + rho_policy combined)
+  constraint_perfect: 0.01
+  constraint_good: 0.03
+  constraint_moderate: 0.06
+  constraint_poor: 0.10
+
+  # Dead code health scoring
+  dead_code_ratio_none: 0.0
+  dead_code_ratio_low: 0.03
+  dead_code_ratio_moderate: 0.08
+  dead_code_ratio_high: 0.15
+  dead_code_ratio_severe: 0.25
+
+  # Entanglement health scoring
+  knot_clean: 1
+  knot_low: 3
+  knot_moderate: 5
+  knot_severe: 8
+
+  # Test coverage thresholds
+  test_coverage_ideal: 1.0
+  test_coverage_good: 0.5
+  test_coverage_low: 0.2
+
+  # Health component weights
+  weights:
+    topology: 0.20
+    constraints: 0.20
+    purpose: 0.15
+    test_coverage: 0.15
+    dead_code: 0.10
+    entanglement: 0.10
+    rpbl_balance: 0.10
+
+grade_boundaries:
+  A: 8.5
+  B: 7.0
+  C: 5.5
+  D: 4.0
+  # Below D = F
+
+# Category-based default confidence levels (0.0-1.0)
+confidence_baselines:
+  dead_code: 0.85
+  execution: 0.85
+  constraints: 0.80
+  entanglement: 0.80
+  topology: 0.75
+  rpbl: 0.75
+  performance: 0.70
+  data_flow: 0.70
+  test_coverage: 0.70
+  api_drift: 0.65
+  incoherence: 0.60
+  gap_detection: 0.55
+  temporal: 0.55
+  purpose: 0.50
+  purpose_decomposition: 0.50
+  contextome: 0.45
+  ideome: 0.40
