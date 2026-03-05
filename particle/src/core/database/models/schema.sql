@@ -1,4 +1,4 @@
--- Collider Database Schema v1
+-- Collider Database Schema v2
 -- Supports SQLite, PostgreSQL, and DuckDB
 
 -- ============================================================================
@@ -10,9 +10,11 @@ CREATE TABLE IF NOT EXISTS schema_version (
     description TEXT
 );
 
--- Insert initial version if not exists
+-- Insert version records if not exists
 INSERT OR IGNORE INTO schema_version (version, description)
 VALUES (1, 'Initial schema with runs, nodes, edges, and file tracking');
+INSERT OR IGNORE INTO schema_version (version, description)
+VALUES (2, 'Add git context and run delta tracking to analysis_runs');
 
 -- ============================================================================
 -- ANALYSIS RUNS
@@ -29,7 +31,13 @@ CREATE TABLE IF NOT EXISTS analysis_runs (
     node_count INTEGER DEFAULT 0,
     edge_count INTEGER DEFAULT 0,
     options_json TEXT,              -- CLI options as JSON
-    metadata_json TEXT              -- Additional metadata as JSON
+    metadata_json TEXT,             -- Additional metadata as JSON
+    -- v2: Git context and run delta tracking
+    git_commit TEXT,
+    git_branch TEXT,
+    git_dirty INTEGER DEFAULT 0,
+    git_summary TEXT,
+    delta_json TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_runs_project ON analysis_runs(project_path);

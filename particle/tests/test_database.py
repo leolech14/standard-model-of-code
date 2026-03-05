@@ -548,16 +548,21 @@ class TestRetentionPolicy:
         return run_id
 
     def test_purge_excess_runs_by_count(self, db):
-        """Should purge runs beyond retention_max_runs per project."""
+        """Should archive runs beyond retention_max_runs per project."""
         # Create 5 runs (max is 3)
         for i in range(5):
             self._create_run(db, f"run_{i}", age_seconds=(4 - i) * 100)
 
         purged = db.purge_old_runs(project_path="/tmp/test")
-        assert purged == 2  # 5 - 3 = 2 purged
+        assert purged == 2  # 5 - 3 = 2 archived
 
+        # All 5 rows still exist, but 2 oldest are archived
         remaining = db.get_runs(project_path="/tmp/test", limit=100)
-        assert len(remaining) == 3
+        assert len(remaining) == 5
+        archived = [r for r in remaining if r.status == 'archived']
+        active = [r for r in remaining if r.status == 'completed']
+        assert len(archived) == 2
+        assert len(active) == 3
 
     def test_purge_respects_project_scope(self, db):
         """Purge should scope retention per-project."""
@@ -607,24 +612,28 @@ class TestRetentionPolicy:
         assert len(db.get_nodes("run_3")) == 1
 
     def test_purge_by_age(self):
-        """Should purge runs older than retention_max_days."""
+        """Should hard-delete archived runs older than 2x retention_max_days."""
         with tempfile.TemporaryDirectory() as tmpdir:
             config = DatabaseConfig(
                 retention_max_runs=0,  # Disable count-based
-                retention_max_days=7,  # 7-day retention
+                retention_max_days=7,  # 7-day retention; hard-delete at 14 days
             )
             config.sqlite_path = str(Path(tmpdir) / "test.db")
             db = SQLiteBackend(config)
             db.connect()
             db.initialize_schema()
 
-            # Create runs at various ages
+            # Create runs: one recent, two old (>14 days), pre-archived
             self._create_run(db, "recent", age_seconds=3600)           # 1 hour ago
-            self._create_run(db, "week_old", age_seconds=8 * 86400)    # 8 days ago
-            self._create_run(db, "month_old", age_seconds=30 * 86400)  # 30 days ago
+            self._create_run(db, "week_old", age_seconds=15 * 86400)   # 15 days (>2x7)
+            self._create_run(db, "month_old", age_seconds=30 * 86400)  # 30 days (>2x7)
+
+            # Pre-archive the old runs (simulates previous count-based purge)
+            db._conn.execute("UPDATE analysis_runs SET status = 'archived' WHERE id IN ('week_old', 'month_old')")
+            db._conn.commit()
 
             purged = db.purge_old_runs()
-            assert purged == 2  # week_old + month_old
+            assert purged == 2  # week_old + month_old hard-deleted
 
             remaining = db.get_runs(limit=100)
             assert len(remaining) == 1
@@ -633,31 +642,37 @@ class TestRetentionPolicy:
             db.disconnect()
 
     def test_purge_both_axes(self):
-        """Both count and age should apply together."""
+        """Both count-based archival and age-based hard-delete apply together."""
         with tempfile.TemporaryDirectory() as tmpdir:
             config = DatabaseConfig(
-                retention_max_runs=5,
-                retention_max_days=3,
+                retention_max_runs=3,
+                retention_max_days=3,  # Hard-delete archived runs > 6 days old
             )
             config.sqlite_path = str(Path(tmpdir) / "test.db")
             db = SQLiteBackend(config)
             db.connect()
             db.initialize_schema()
 
-            # 2 old runs (>3 days) + 3 recent runs
-            self._create_run(db, "old_1", age_seconds=5 * 86400)
-            self._create_run(db, "old_2", age_seconds=4 * 86400)
-            self._create_run(db, "new_1", age_seconds=7200)
-            self._create_run(db, "new_2", age_seconds=3600)
-            self._create_run(db, "new_3", age_seconds=1800)
+            # 2 very old runs (pre-archived, >6 days) + 5 recent runs
+            self._create_run(db, "ancient_1", age_seconds=10 * 86400)
+            self._create_run(db, "ancient_2", age_seconds=8 * 86400)
+            # Pre-archive ancient runs
+            db._conn.execute("UPDATE analysis_runs SET status = 'archived' WHERE id LIKE 'ancient%'")
+            db._conn.commit()
+
+            for i in range(5):
+                self._create_run(db, f"new_{i}", age_seconds=(4 - i) * 100)
 
             purged = db.purge_old_runs()
-            # Age removes old_1, old_2 (>3 days)
-            # Count: 3 remaining <= 5, so no further purge
-            assert purged == 2
+            # Age hard-deletes 2 ancient archived runs
+            # Count archives 2 excess recent runs (5 - 3 = 2)
+            assert purged == 4
 
             remaining = db.get_runs(limit=100)
-            assert len(remaining) == 3
+            # 5 recent (3 active + 2 archived) — 2 ancient hard-deleted
+            assert len(remaining) == 5
+            active = [r for r in remaining if r.status == 'completed']
+            assert len(active) == 3
 
             db.disconnect()
 

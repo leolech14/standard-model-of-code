@@ -60,13 +60,14 @@ class Migrator:
             up=lambda b: True,  # Already applied by initialize_schema
         ))
 
-        # Future migrations would be added here
-        # self._migrations.append(Migration(
-        #     version=2,
-        #     description="Add full-text search tables",
-        #     up=self._migrate_v2_up,
-        #     down=self._migrate_v2_down,
-        # ))
+        # v2: Git context + run delta tracking
+        from .versions import v002_git_context
+        self._migrations.append(Migration(
+            version=2,
+            description=v002_git_context.DESCRIPTION,
+            up=v002_git_context.up,
+            down=v002_git_context.down,
+        ))
 
     def get_current_version(self) -> int:
         """Get current schema version."""

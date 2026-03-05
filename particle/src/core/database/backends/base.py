@@ -24,11 +24,16 @@ class AnalysisRun:
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
     collider_version: str = "1.0.0"
-    status: str = "running"  # running, completed, failed
+    status: str = "running"  # running, completed, failed, archived
     node_count: int = 0
     edge_count: int = 0
     options: Optional[Dict[str, Any]] = None
     metadata: Optional[Dict[str, Any]] = None
+    git_commit: Optional[str] = None
+    git_branch: Optional[str] = None
+    git_dirty: bool = False
+    git_summary: Optional[str] = None
+    delta_json: Optional[str] = None
 
 
 @dataclass

@@ -217,8 +217,9 @@ class SQLiteBackend(DatabaseBackend):
             self._conn.execute(
                 """INSERT INTO analysis_runs
                    (id, project_name, project_path, started_at, collider_version,
-                    status, options_json, metadata_json)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                    status, options_json, metadata_json,
+                    git_commit, git_branch, git_dirty, git_summary)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     run.id,
                     run.project_name,
@@ -228,6 +229,10 @@ class SQLiteBackend(DatabaseBackend):
                     run.status,
                     json.dumps(run.options) if run.options else None,
                     json.dumps(run.metadata) if run.metadata else None,
+                    run.git_commit,
+                    run.git_branch,
+                    1 if run.git_dirty else 0,
+                    run.git_summary,
                 )
             )
             self._maybe_commit()
@@ -239,7 +244,8 @@ class SQLiteBackend(DatabaseBackend):
     # Allowlist of columns that can be updated (SQL injection prevention)
     ALLOWED_RUN_COLUMNS = {
         "status", "completed_at", "node_count", "edge_count",
-        "options", "metadata", "collider_version"
+        "options", "metadata", "collider_version",
+        "git_commit", "git_branch", "git_dirty", "git_summary", "delta_json",
     }
 
     def update_run(self, run_id: str, **updates) -> bool:
@@ -363,6 +369,11 @@ class SQLiteBackend(DatabaseBackend):
             edge_count=row.get("edge_count", 0),
             options=json.loads(row["options_json"]) if row.get("options_json") else None,
             metadata=json.loads(row["metadata_json"]) if row.get("metadata_json") else None,
+            git_commit=row.get("git_commit"),
+            git_branch=row.get("git_branch"),
+            git_dirty=bool(row.get("git_dirty", 0)),
+            git_summary=row.get("git_summary"),
+            delta_json=row.get("delta_json"),
         )
 
     # =========================================================================
@@ -643,15 +654,13 @@ class SQLiteBackend(DatabaseBackend):
 
     def purge_old_runs(self, project_path: Optional[str] = None) -> int:
         """
-        Purge old runs per retention policy in config.
+        Archive/purge old runs per retention policy in config.
 
         Two axes (0 = disabled):
-        1. retention_max_runs  -- keep N most recent per project
-        2. retention_max_days  -- delete runs older than X days
+        1. retention_max_runs  -- archive excess runs (keep metadata, drop nodes/edges)
+        2. retention_max_days  -- hard-delete archived runs older than 2x max_days
 
-        ON DELETE CASCADE handles nodes/edges cleanup automatically.
-        Orphaned tracked_files.last_analyzed_run refs are left as-is
-        (they are informational; the hash is what matters for incremental).
+        Archived runs retain git context and delta summaries for timeline queries.
         """
         if not self.is_connected():
             return 0
@@ -665,29 +674,28 @@ class SQLiteBackend(DatabaseBackend):
         purged = 0
 
         try:
-            # --- Age-based purge ---
+            # --- Hard-delete archived runs older than 2x max_days ---
             if max_days > 0:
-                cutoff = datetime.now()
                 from datetime import timedelta
-                cutoff = (cutoff - timedelta(days=max_days)).isoformat()
+                hard_cutoff = (datetime.now() - timedelta(days=max_days * 2)).isoformat()
 
                 if project_path:
                     cursor = self._conn.execute(
                         """DELETE FROM analysis_runs
-                           WHERE project_path = ? AND started_at < ?""",
-                        (project_path, cutoff)
+                           WHERE project_path = ? AND status = 'archived'
+                           AND started_at < ?""",
+                        (project_path, hard_cutoff)
                     )
                 else:
                     cursor = self._conn.execute(
                         """DELETE FROM analysis_runs
-                           WHERE started_at < ?""",
-                        (cutoff,)
+                           WHERE status = 'archived' AND started_at < ?""",
+                        (hard_cutoff,)
                     )
                 purged += cursor.rowcount
 
-            # --- Count-based purge (per project) ---
+            # --- Count-based archive (per project) ---
             if max_runs > 0:
-                # Get distinct projects to scope the purge
                 if project_path:
                     projects = [project_path]
                 else:
@@ -697,23 +705,24 @@ class SQLiteBackend(DatabaseBackend):
                     projects = [row[0] for row in cursor.fetchall()]
 
                 for proj in projects:
-                    # Find run IDs beyond the keep limit (oldest first)
+                    # Find non-archived run IDs beyond the keep limit
                     cursor = self._conn.execute(
                         """SELECT id FROM analysis_runs
-                           WHERE project_path = ?
+                           WHERE project_path = ? AND status != 'archived'
                            ORDER BY started_at DESC
                            LIMIT -1 OFFSET ?""",
                         (proj, max_runs)
                     )
                     excess_ids = [row[0] for row in cursor.fetchall()]
 
-                    if excess_ids:
-                        placeholders = ",".join("?" * len(excess_ids))
-                        cursor = self._conn.execute(
-                            f"DELETE FROM analysis_runs WHERE id IN ({placeholders})",
-                            excess_ids
+                    for run_id in excess_ids:
+                        self._conn.execute("DELETE FROM nodes WHERE run_id = ?", (run_id,))
+                        self._conn.execute("DELETE FROM edges WHERE run_id = ?", (run_id,))
+                        self._conn.execute(
+                            "UPDATE analysis_runs SET status = 'archived', node_count = 0, edge_count = 0 WHERE id = ?",
+                            (run_id,)
                         )
-                        purged += cursor.rowcount
+                        purged += 1
 
             self._maybe_commit()
             return purged
