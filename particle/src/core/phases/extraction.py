@@ -85,6 +85,27 @@ def run_extraction(ctx: PipelineContext) -> None:
     except ImportError:
         pass  # Registry not available, skip validation
 
+    # Stage 2.1: Post-enrichment graph inference pass
+    # Graph inference inside unified_analysis (Stage 5) runs BEFORE enrichment,
+    # so its 10 graph-topology rules (calls_repository, called_by_controller, etc.)
+    # see raw/Unknown neighbor roles and fire 0 times.  This second pass runs
+    # AFTER canonical roles are assigned, letting the rules match properly.
+    print("\n🧠 Stage 2.1: Post-Enrichment Graph Inference...")
+    with StageTimer(ctx.perf_manager, "Stage 2.1: Post-Enrichment Graph Inference") as timer:
+        try:
+            from graph_type_inference import apply_graph_inference
+            ctx.nodes, gi_report = apply_graph_inference(ctx.nodes, ctx.edges)
+            inferred = gi_report.get('total_inferred', 0)
+            rules = gi_report.get('rules_applied', 0)
+            timer.set_output(total_inferred=inferred, rules_applied=rules)
+            _log(f"   → {inferred} types inferred ({rules} graph rules applied)", ctx.quiet)
+        except ImportError as e:
+            timer.set_status("WARN", str(e))
+            _log(f"   ⚠️ Graph inference not available: {e}", ctx.quiet)
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            _log(f"   ⚠️ Graph inference failed: {e}", ctx.quiet)
+
     # Stage 2.5: Ecosystem discovery (hybrid T2 approach)
     ctx.ecosystem_discovery = {}
     ctx.ecosystem_discovery_status = "not_run"

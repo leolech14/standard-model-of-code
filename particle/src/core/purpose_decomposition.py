@@ -202,24 +202,39 @@ def _build_parent_child_map(nodes: list) -> Dict[str, List[dict]]:
 
     Uses the 'parent' field from Collider output. Nodes whose parent
     field is empty or missing are top-level (no parent).
+
+    When resolving bare-name parents (e.g., 'main' without file path),
+    only resolves if the bare name is unambiguous (exactly one node).
+    This prevents 46 different main() functions from collapsing into one.
     """
     children_of: Dict[str, List[dict]] = {}
     node_by_id: Dict[str, dict] = {}
-    id_by_bare_name: Dict[str, str] = {}
+    # Track bare-name → full-ID, but mark ambiguous names
+    bare_name_to_id: Dict[str, Optional[str]] = {}
 
     for n in nodes:
         nid = n.get("id", "")
         node_by_id[nid] = n
         bare = nid.split("::")[-1] if "::" in nid else nid
-        id_by_bare_name[bare] = nid
+        if bare in bare_name_to_id:
+            bare_name_to_id[bare] = None  # ambiguous — don't resolve
+        else:
+            bare_name_to_id[bare] = nid
 
     for n in nodes:
         parent = n.get("parent", "")
         if not parent:
             continue
-        # Resolve bare name to full ID when parent uses short format
-        if parent not in node_by_id and parent in id_by_bare_name:
-            parent = id_by_bare_name[parent]
+        # Try file-scoped resolution first: same file_path as child
+        if parent not in node_by_id:
+            child_file = n.get("file_path", "")
+            scoped_id = f"{child_file}::{parent}" if child_file else ""
+            if scoped_id and scoped_id in node_by_id:
+                parent = scoped_id
+            elif parent in bare_name_to_id and bare_name_to_id[parent] is not None:
+                # Unambiguous bare name — safe to resolve
+                parent = bare_name_to_id[parent]
+            # If ambiguous, leave parent as-is (won't match, child is orphaned)
         children_of.setdefault(parent, []).append(n)
 
     return children_of

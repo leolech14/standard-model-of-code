@@ -438,6 +438,9 @@ def _run_trinity(ctx: 'PipelineContext') -> None:
         print(f"   ⚠️ Trinity computation failed: {e}")
         import traceback
         traceback.print_exc()
+        ctx.full_output.setdefault('incoherence', {})
+        ctx.full_output.setdefault('purpose_decomposition', [])
+        ctx.full_output.setdefault('gap_report', {})
         ctx.data_ledger.publish("trinity", "Stage 17: Collider Trinity", status="failed", summary=str(e))
 
 
@@ -500,6 +503,7 @@ def _run_ideome(ctx: 'PipelineContext') -> None:
         print(f"   ⚠️ Ideome synthesis failed: {e}")
         import traceback
         traceback.print_exc()
+        ctx.full_output.setdefault('ideome', {})
         ctx.data_ledger.publish("ideome", "Stage 19: Ideome Synthesis", status="failed", summary=str(e))
 
 

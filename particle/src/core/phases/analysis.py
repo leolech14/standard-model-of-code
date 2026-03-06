@@ -66,22 +66,27 @@ def _run_organelle_purpose(ctx: PipelineContext) -> None:
 
     print("\n🧬 Stage 3.5: Organelle Purpose (π₃)...")
     pi3_count = 0
-    # Build parent-child index from names (Class.method pattern)
+    # Build parent-child index from names (Class.method pattern).
+    # Key by (file_path, parent_name) to prevent bare-name collisions
+    # (e.g., 46 different main() functions across files).
     children_by_parent = {}
-    node_by_name = {n.get('name', ''): n for n in ctx.nodes}
     for node in ctx.nodes:
         name = node.get('name', '')
         if '.' in name:
             parent_name = name.rsplit('.', 1)[0]
-            if parent_name not in children_by_parent:
-                children_by_parent[parent_name] = []
-            children_by_parent[parent_name].append(node)
+            file_path = node.get('file_path', '')
+            key = (file_path, parent_name)
+            if key not in children_by_parent:
+                children_by_parent[key] = []
+            children_by_parent[key].append(node)
 
     # Compute π₃ for containers
     for node in ctx.nodes:
         name = node.get('name', '')
-        if name in children_by_parent and len(children_by_parent[name]) > 0:
-            children = children_by_parent[name]
+        file_path = node.get('file_path', '')
+        key = (file_path, name)
+        if key in children_by_parent and len(children_by_parent[key]) > 0:
+            children = children_by_parent[key]
             pi3 = compute_pi3(node, children)
             node['pi3_purpose'] = pi3.purpose
             node['pi3_confidence'] = round(pi3.confidence, 2)

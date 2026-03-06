@@ -560,22 +560,12 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
         print(f"   ⚠️  Purpose field detection skipped: {e}")
 
     # =========================================================================
-    # STAGE 5.6: STANDARD MODEL ENRICHMENT → Apply full theory
+    # STAGE 5.6: STANDARD MODEL ENRICHMENT
+    # NOTE: Removed — enrichment now runs once in the pipeline (Stage 2 in
+    # phases/extraction.py) which also adds the RPBL flatten step.  Running
+    # it here was redundant when invoked via the pipeline.  When running
+    # unified_analysis standalone, the caller should enrich separately.
     # =========================================================================
-    print("\n🧬 Stage 5.6: Standard Model Enrichment...")
-    try:
-        from standard_model_enricher import enrich_with_standard_model
-        particles = enrich_with_standard_model(particles)
-
-        # Count enriched particles
-        with_rpbl = sum(1 for p in particles if p.get('rpbl'))
-        with_atom = sum(1 for p in particles if p.get('atom'))
-        print(f"   → {with_rpbl} particles with RPBL scores")
-        print(f"   → {with_atom} particles with Atom IDs")
-    except ImportError as e:
-        print(f"   ⚠️  Standard Model enrichment not available: {e}")
-    except Exception as e:
-        print(f"   ⚠️  Standard Model enrichment failed: {e}")
 
     # =========================================================================
     # STAGE 6: OUTPUT → Unified Schema

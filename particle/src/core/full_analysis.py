@@ -400,6 +400,7 @@ def _assemble_output(ctx) -> None:
             'atoms': dict(Counter(n.get('atom', '') for n in nodes)),
             'levels': dict(Counter(n.get('level', 'L3') for n in nodes)),
             'level_zones': dict(Counter(n.get('level_zone', 'SEMANTIC') for n in nodes)),
+            'layers': dict(Counter(n.get('layer', 'unknown') for n in nodes)),
         },
         'analytics': ctx.statistical_metrics or {},
         'edge_types': dict(edge_types),
