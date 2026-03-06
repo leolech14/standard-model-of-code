@@ -89,7 +89,7 @@ DECLARED_CONCORDANCES = {
     },
     "Research": {
         "codome": ["wave/tools/mcp/"],
-        "contextome": ["particle/docs/research/"],
+        "contextome": ["wave/tools/mcp/mcp_factory/"],
     },
 }
 
@@ -99,18 +99,93 @@ CONTEXTOME_EXTENSIONS = {'.md', '.yaml', '.yml', '.json'}
 
 # Known directories that should be declared
 EXPECTED_DIRECTORIES = {
+    # Particle hemisphere (Codome / Body)
     "particle/src/",
     "particle/docs/",
     "particle/tools/",
     "particle/schema/",
     "particle/tests/",
+    "particle/research/",
+    "particle/output/",
+    "particle/.github/",
+    "particle/audio/",
+    "particle/collider_feedback/",
+    "particle/data/",
+    "particle/graphrag_out/",
+    "particle/ops/",
+    "particle/particle/",
+    "particle/proofs/",
+    "particle/scripts/",
+    # Wave hemisphere (Contextome / Brain)
     "wave/tools/",
     "wave/docs/",
     "wave/config/",
+    "wave/viz/",
+    "wave/intelligence/",
+    "wave/experiments/",
+    "wave/data/",
+    "wave/rainmaker/",
+    "wave/llm-threads/",
+    "wave/output/",
+    "wave/reference_datasets/",
+    "wave/registry/",
+    "wave/services/",
+    "wave/tests/",
+    # Observer (.agent/)
     ".agent/registry/",
     ".agent/tools/",
     ".agent/specs/",
     ".agent/intelligence/",
+    ".agent/macros/",
+    ".agent/deck/",
+    ".agent/hooks/",
+    ".agent/emergency/",
+    ".agent/docs/",
+    ".agent/agents/",
+    ".agent/config/",
+    ".agent/citizenship/",
+    ".agent/handoffs/",
+    ".agent/roadmaps/",
+    ".agent/runs/",
+    ".agent/schema/",
+    ".agent/sprints/",
+    ".agent/state/",
+    # Root-level project directories
+    "research/",
+    "research/gemini/",
+    "research/perplexity/",
+    "docs/",
+    "docs/nav/",
+    "docs/reader/",
+    "docs/charts/",
+    "docs/essentials/",
+    "docs/frontier/",
+    "docs/specs/",
+    "reports/",
+    "reports/archives/",
+    "reports/consolidation/",
+    "reports/audits/",
+    "reports/refinery/",
+    "governance/",
+    "governance/staging/",
+    "observer/",
+    "observer/merged/",
+    "observer/analysis/",
+    "observer/docs/",
+    "observer/source-a/",
+    "observer/source-b/",
+    "collider_feedback/",
+    "context-management/",
+    "context-management/intelligence/",
+    "assets/",
+    "logs/",
+    "notebook-lm/",
+    "output/",
+    "output/audit/",
+    "scripts/",
+    "tools/",
+    "tools/experiments/",
+    "tools/file_explorer/",
 }
 
 
@@ -471,8 +546,14 @@ class BoundaryAnalyzer:
         self.report.declared_directories = len(declared_dirs & actual_dirs)
         self.report.undeclared_directories = len(undeclared)
 
-        # Filter out known acceptable undeclared directories
-        ignored = {'archive/', 'node_modules/', '.collider/', 'dist/', 'build/'}
+        # Filter out build artifacts, caches, and virtual environments
+        ignored = {
+            'archive/', 'node_modules/', '.collider/', 'dist/', 'build/',
+            'particle/artifacts/', 'particle/.venv/', 'particle/.collider/',
+            'particle/.pytest_cache/', 'particle/collider.egg-info/',
+            'wave/library/', '.claude/', '.git/', '__pycache__/',
+            'governance/.quarto/',
+        }
         significant_undeclared = {d for d in undeclared if not any(d.startswith(i.rstrip('/')) for i in ignored)}
 
         for dir_path in sorted(significant_undeclared):

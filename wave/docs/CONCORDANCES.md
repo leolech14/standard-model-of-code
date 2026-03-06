@@ -86,7 +86,7 @@ Theory      │ (N/A)               │ MODEL.md
 | **AI Tools** | `wave/tools/ai/` | `wave/config/` | Wave |
 | **Theory** | — | `particle/docs/MODEL.md` | Human |
 | **Archive** | `wave/tools/archive/` | `wave/tools/archive/config.yaml` | Wave |
-| **Research** | `wave/tools/mcp/` | `docs/research/` | Wave |
+| **Research** | `wave/tools/mcp/` | `wave/tools/mcp/mcp_factory/` | Wave |
 
 ## Concordance States
 

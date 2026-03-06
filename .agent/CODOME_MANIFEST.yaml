@@ -556,11 +556,11 @@ ai_tiers:
 # =============================================================================
 research:
   perplexity:
-    path: "particle/docs/research/perplexity/"
+    path: "research/perplexity/"
     format: "YYYYMMDD_HHMMSS_topic.md"
 
   gemini:
-    path: "particle/docs/research/gemini/"
+    path: "research/gemini/"
     subdirs: [docs, raw, sessions]
 
   intelligence:
@@ -647,7 +647,7 @@ registries:
       count: 18
       items: "~700"
       description: "Context universe - docs, configs, AI tools"
-      spec: "wave/docs/CONTEXTOME.md"  # TO BE CREATED
+      spec: "docs/CONTEXTOME.md"
 
     visualization:
       count: 14
