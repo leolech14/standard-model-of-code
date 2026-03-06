@@ -449,7 +449,26 @@ def _assemble_output(ctx) -> None:
         'purpose_field': ctx.purpose_field.summary() if ctx.purpose_field else {},
         'execution_flow': dict(exec_flow.summary(), **{
             'entry_points': exec_flow.entry_points,
-            'orphans': exec_flow.orphans
+            'orphans': exec_flow.orphans,
+            'chains': [
+                {
+                    'entry_point': c.entry_point,
+                    'path': c.path,
+                    'length': c.length,
+                    'layers_crossed': c.layers_crossed,
+                    'has_violation': c.has_violation,
+                }
+                for c in (exec_flow.chains or [])[:50]  # cap at 50 to limit output size
+            ],
+            'integration_errors': [
+                {
+                    'type': e.type,
+                    'source': e.source,
+                    'target': e.target,
+                    'message': e.message,
+                }
+                for e in (exec_flow.integration_errors or [])[:100]
+            ],
         }) if exec_flow else {},
         'markov': markov,
         'knots': knots,

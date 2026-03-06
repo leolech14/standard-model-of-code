@@ -157,7 +157,7 @@ def _segment_similarity(a: str, b: str) -> float:
 
 # Threshold below which two paths are not considered "similar enough" to be
 # flagged as path_drift (as opposed to truly unrelated routes).
-_DRIFT_SIMILARITY_THRESHOLD = 0.55
+_DRIFT_SIMILARITY_THRESHOLD = 0.40
 
 
 # ---------------------------------------------------------------------------

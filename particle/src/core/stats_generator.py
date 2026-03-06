@@ -63,7 +63,7 @@ class StatsGenerator:
 
         # Apply auto pattern discovery to reduce unknowns
         try:
-            from core.heuristic_classifier import apply_heuristics
+            from heuristic_classifier import apply_heuristics
             all_particles, discovery_report = apply_heuristics(all_particles)
             print(f"  🔬 Auto-discovery: {discovery_report.get('particles_updated', 0)} particles reclassified")
 
