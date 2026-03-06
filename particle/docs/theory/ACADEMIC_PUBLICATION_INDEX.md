@@ -147,12 +147,12 @@ This index organizes all materials created to address the 6 academic gaps identi
 
 | Document | Purpose |
 |----------|---------|
-| [L0_AXIOMS.md](./L0_AXIOMS.md) | Original axiom document (prose form) |
-| [L1_DEFINITIONS.md](./L1_DEFINITIONS.md) | Entity definitions |
-| [L2_PRINCIPLES.md](./L2_PRINCIPLES.md) | Behavioral principles |
-| [L3_APPLICATIONS.md](./L3_APPLICATIONS.md) | Applications and metrics |
+| [L0_AXIOMS.md](./foundations/L0_AXIOMS.md) | Original axiom document (prose form) |
+| [L1_DEFINITIONS.md](./foundations/L1_DEFINITIONS.md) | Entity definitions |
+| [L2_PRINCIPLES.md](./foundations/L2_PRINCIPLES.md) | Behavioral principles |
+| [L3_APPLICATIONS.md](./foundations/L3_APPLICATIONS.md) | Applications and metrics |
 | [ACADEMIC_GAPS.md](./ACADEMIC_GAPS.md) | Gap analysis that motivated this work |
-| [THEORY_INDEX.md](./THEORY_INDEX.md) | Complete theory index |
+| [INDEX.md](./INDEX.md) | Complete theory index |
 
 ---
 

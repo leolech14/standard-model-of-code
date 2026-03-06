@@ -404,6 +404,21 @@ The Standard Model of Code addresses these gaps through:
 
 This positioning demonstrates that SMC fills a genuine gap in the software engineering knowledge landscape: the need for a formal, complete, and practical foundation for describing code structure.
 
+### 6.1 SMC Mathematical Frameworks
+
+The following frameworks are developed in detail in the [frameworks/](./frameworks/) subdirectory, extending the formal foundations beyond what any single existing framework provides:
+
+| Framework | File | What It Formalizes | Closest Related Work |
+|-----------|------|--------------------|---------------------|
+| Purpose Space | [PURPOSE_SPACE.md](./frameworks/PURPOSE_SPACE.md) | Continuous manifold M = (S, d, mu, tau, A) | Differential geometry (novel application) |
+| Graph Theory | [GRAPH_THEORY.md](./frameworks/GRAPH_THEORY.md) | Newman modularity, centrality, community detection | Newman 2006, Blondel et al. 2008 |
+| Order Theory | [ORDER_THEORY.md](./frameworks/ORDER_THEORY.md) | FCA concept lattices, Galois connections | Ganter & Wille 1999 |
+| Information Theory | [INFORMATION_THEORY.md](./frameworks/INFORMATION_THEORY.md) | Entropy-based coherence, mutual information | Shannon 1948, Allen & Khoshgoftaar 1999 |
+| Category Theory | [CATEGORY_THEORY.md](./frameworks/CATEGORY_THEORY.md) | Functors Purp->Layer, presheaves on DAG | Pierce 1991, Breiner et al. |
+| Topology | [TOPOLOGY.md](./frameworks/TOPOLOGY.md) | Persistent homology, TDA on code graphs | Carlsson 2009, Edelsbrunner & Harer 2010 |
+| Matroid Theory | [MATROID_THEORY.md](./frameworks/MATROID_THEORY.md) | Rank-bounded purpose independence | Whitney 1935, Oxley 2011 |
+| Hypergraph Theory | [HYPERGRAPH_THEORY.md](./frameworks/HYPERGRAPH_THEORY.md) | n-ary purpose combinations as hyperedges | Berge 1973, Bretto 2013 |
+
 ---
 
 ## References

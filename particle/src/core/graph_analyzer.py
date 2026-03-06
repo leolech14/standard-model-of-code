@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 print("   DEBUG: Parsing graph_analyzer.py...")
+# Theory: L0_AXIOMS.md A3 (Dependencies Are Meaning)
+# Theory: GRAPH_THEORY.md (Network analysis framework)
 """
 🔬 GRAPH PATTERN ANALYZER
 Network analysis for codebase architecture using NetworkX.

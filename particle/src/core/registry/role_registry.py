@@ -1,3 +1,4 @@
+# Theory: L1_DEFINITIONS.md SS1.2 (33 Canonical Roles — WHY dimension)
 """
 Role Registry - Single source of truth for the 33 Canonical Roles.
 

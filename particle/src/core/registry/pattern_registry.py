@@ -1,3 +1,5 @@
+# Theory: L1_DEFINITIONS.md SS1 (Atom Classification Patterns)
+# Theory: L3_APPLICATIONS.md (Pattern-based role detection)
 """
 Pattern Registry
 

@@ -1,6 +1,16 @@
+---
+id: nav_concordance
+title: "Concordance - Code-Doc Alignment"
+category: nav
+theory_refs: [L0_AXIOMS.md A1, L2_PRINCIPLES.md §4]
+health_states: 4
+---
+
 # CONCORDANCE - Code-Doc Alignment
 
 > A concordance is a purpose-aligned region spanning both code and documentation. Health = alignment.
+
+<!-- T1:END -->
 
 ---
 
@@ -34,6 +44,8 @@ Both exist to serve the same purpose: the analysis pipeline.
 - **DISCORDANT** (both wrong): The docs say one thing, the code does another. **You don't know who's right.** Developers trust the docs and write code that contradicts the actual behavior. Users read the docs and expect behavior the code doesn't deliver.
 
 ---
+
+<!-- T2:END -->
 
 ## Measuring Drift
 

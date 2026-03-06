@@ -1,6 +1,16 @@
+---
+id: nav_antimatter
+title: "Antimatter - 7 Architectural Violations"
+category: nav
+theory_refs: [L2_PRINCIPLES.md §5, MODEL.md §4]
+node_count: 7
+---
+
 # ANTIMATTER - 7 Architectural Violations
 
 > When code contradicts its own architecture. Detected automatically from the graph.
+
+<!-- T1:END -->
 
 ---
 
@@ -35,6 +45,8 @@ UI should go through Application layer, never touch domain directly.
 **Detection:** Edge from layer=UI to layer=DOMAIN, bypassing APPLICATION.
 
 ---
+
+<!-- T2:END -->
 
 ### AM003: Test Leakage (Test Code in Production)
 ```

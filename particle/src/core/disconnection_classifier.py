@@ -1,3 +1,5 @@
+# Theory: L2_PRINCIPLES.md (Orphan Semantics Principle)
+# Theory: ORPHAN_SEMANTICS.md (Type-aware disconnection taxonomy)
 """
 Disconnection Taxonomy: Rich classification of why nodes appear disconnected.
 

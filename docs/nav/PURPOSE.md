@@ -1,6 +1,16 @@
+---
+id: nav_purpose
+title: "Purpose - The Purpose Field"
+category: nav
+theory_refs: [L0_AXIOMS.md D1-D7, L2_PRINCIPLES.md §1]
+purpose_levels: 4
+---
+
 # PURPOSE - The Purpose Field
 
 > How code elements get their "reason for being." Purpose is relational, not intrinsic.
+
+<!-- T1:END -->
 
 ---
 
@@ -32,6 +42,8 @@ Purpose aggregates upward. Each level genuinely **emerges** from the level below
 **Key:** π2 is NOT the average of π1 values. When methods combine, new capability appears.
 
 ---
+
+<!-- T2:END -->
 
 ## Crystallization
 

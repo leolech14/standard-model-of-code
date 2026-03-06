@@ -1,6 +1,16 @@
+---
+id: nav_consumers
+title: "Consumers - Who Uses the Output?"
+category: nav
+theory_refs: [L0_AXIOMS.md H1-H5]
+consumer_classes: 3
+---
+
 # CONSUMERS - Who Uses the Output?
 
 > Three consumer classes. The Stone Tool Principle. AI as universal consumer.
+
+<!-- T1:END -->
 
 ---
 
@@ -25,6 +35,8 @@ The `unified_analysis.json` output is a **stone tool**: a 5,000+ line structured
 This is a **valid design choice**, not a limitation. Just as a microscope mediates between human eyes and bacteria, AI mediates between humans and complex structured data.
 
 ---
+
+<!-- T2:END -->
 
 ## Why This Matters
 

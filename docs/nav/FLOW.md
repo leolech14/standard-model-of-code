@@ -1,6 +1,16 @@
+---
+id: nav_flow
+title: "Flow - Constructal Law in Code"
+category: nav
+theory_refs: [L0_AXIOMS.md E1-E2, L2_PRINCIPLES.md §3]
+flow_types: 4
+---
+
 # FLOW - Constructal Law in Code
 
 > Code is a conduit for four types of flow. Good architecture minimizes resistance to ALL of them.
+
+<!-- T1:END -->
 
 ---
 
@@ -34,6 +44,8 @@ Total resistance = R_static + R_runtime + R_change + R_human
 The best architectures minimize resistance across all four simultaneously.
 
 ---
+
+<!-- T2:END -->
 
 ## Flow Resistance
 

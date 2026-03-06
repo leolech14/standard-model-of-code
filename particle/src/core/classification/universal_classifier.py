@@ -1,3 +1,5 @@
+# Theory: L1_DEFINITIONS.md SS1 (Atom Classification)
+# Theory: L3_APPLICATIONS.md (Classification Engine)
 """
 Universal Classification Engine
 Extracted from TreeSitterUniversalEngine to separate concerns.

@@ -1,3 +1,5 @@
+# Theory: L1_DEFINITIONS.md SS3.2 (Contextome Definition)
+# Theory: CONTEXTOME.md (Formal Contextome specification)
 """
 CONTEXTOME INTELLIGENCE (Stage 0.8)
 ====================================

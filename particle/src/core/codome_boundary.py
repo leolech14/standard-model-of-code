@@ -1,3 +1,5 @@
+# Theory: L1_DEFINITIONS.md SS3.1 (Codome Boundary Definition)
+# Theory: L2_PRINCIPLES.md (Orphan Semantics — boundary node resolution)
 """
 Codome Boundary: Synthetic nodes representing external calling contexts.
 

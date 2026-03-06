@@ -1,4 +1,4 @@
-
+# Theory: L2_PRINCIPLES.md (Orphan Semantics Principle)
 import sys
 import json
 import os

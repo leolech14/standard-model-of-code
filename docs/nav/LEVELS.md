@@ -1,6 +1,17 @@
+---
+id: nav_levels
+title: "Levels - The 16-Level Holarchy"
+category: nav
+theory_refs: [L1_DEFINITIONS.md Section 2, L0_AXIOMS.md C1-C3]
+levels: 16
+zones: 5
+---
+
 # LEVELS - The 16-Level Holarchy
 
 > From BIT to UNIVERSE. Every code element sits at a level. Emergence happens at every transition.
+
+<!-- T1:END -->
 
 ---
 
@@ -42,6 +53,8 @@ Zones are **not** arbitrary groupings. They represent **phase boundaries** where
 **Zone transitions are phase transitions.** Moving from Syntactic to Semantic is where tokens acquire meaning. Moving from Semantic to Systemic is where functions become architecture.
 
 ---
+
+<!-- T2:END -->
 
 ## Operational Range
 

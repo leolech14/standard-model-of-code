@@ -1,6 +1,17 @@
+---
+id: nav_atoms
+title: "Atoms - The Classification Taxonomy"
+category: nav
+theory_refs: [MODEL.md §2, L1_DEFINITIONS.md §3]
+tier_count: 3
+atom_count: 3610
+---
+
 # ATOMS - The Classification Taxonomy
 
 > What TYPE of code element is this? The atom is the answer.
+
+<!-- T1:END -->
 
 ---
 
@@ -40,6 +51,8 @@ These exist in every programming language:
 | **Data** | Parameter, Property, TypeAlias, Enum |
 
 ---
+
+<!-- T2:END -->
 
 ## Tier 1: Language Patterns
 

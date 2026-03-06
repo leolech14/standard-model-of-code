@@ -1,3 +1,5 @@
+# Theory: TOPOLOGY.md (Topological analysis framework)
+# Theory: L2_PRINCIPLES.md (Structural Determinism)
 """
 Topology analysis: Markov matrices, knot detection, and data flow.
 

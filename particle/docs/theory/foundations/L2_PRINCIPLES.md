@@ -1,10 +1,10 @@
 # L2: Behavioral Principles of the Standard Model of Code
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md#FIXED) | [← L1: Definitions](./L1_DEFINITIONS.md#FIXED) | **Next:** [L3: Applications →](./L3_APPLICATIONS.md#FIXED)
+**📍 Navigation:** [Theory Index](../INDEX.md) | [← L1: Definitions](./L1_DEFINITIONS.md) | **Next:** [L3: Applications →](./L3_APPLICATIONS.md)
 
 **Layer:** 2 (Dynamic Behavior)
 **Status:** ACTIVE | EVOLVING
-**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md#FIXED), [L1_DEFINITIONS.md](./L1_DEFINITIONS.md#FIXED)
+**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md), [L1_DEFINITIONS.md](./L1_DEFINITIONS.md)
 **Version:** 2.0.0
 **Created:** 2026-01-27
 
@@ -35,6 +35,8 @@ pi1 (Atomic)    = Role from classifier            -> "Service", "Repository", "C
 ```
 
 **Source:** L0 Axiom D (Purpose Field), implemented in `src/core/purpose_emergence.py`
+
+> **Mathematical frameworks:** The purpose dynamics described here are formalized across seven framework files in [frameworks/](../frameworks/). Particularly relevant: [INFORMATION_THEORY.md](../frameworks/INFORMATION_THEORY.md) (coherence = 1 - H/H_max), [ORDER_THEORY.md](../frameworks/ORDER_THEORY.md) (emergence rules as FCA concepts), and [CATEGORY_THEORY.md](../frameworks/CATEGORY_THEORY.md) (PURPOSE_TO_LAYER as functor).
 
 **Key principle:** Purpose at level N **emerges** from purpose distribution at level N-1. It is not merely aggregated; it is **qualitatively different**.
 
@@ -823,10 +825,10 @@ Range: [0.67, 1.0] (low to high coupling)
 
 ## Navigation
 
-**📍 Up:** [Theory Index](./THEORY_INDEX.md#FIXED)
-**⬅️ Previous:** [L1: Definitions](./L1_DEFINITIONS.md#FIXED)
-**➡️ Next:** [L3: Applications](./L3_APPLICATIONS.md#FIXED) - Practical implementations
-**🔙 Foundation:** [L0: Axioms](./L0_AXIOMS.md#FIXED)
+**📍 Up:** [Theory Index](../INDEX.md)
+**⬅️ Previous:** [L1: Definitions](./L1_DEFINITIONS.md)
+**➡️ Next:** [L3: Applications](./L3_APPLICATIONS.md) - Practical implementations
+**🔙 Foundation:** [L0: Axioms](./L0_AXIOMS.md)
 
 **Specialized Laws:**
-- [ORPHAN_SEMANTICS.md](../../wave/docs/theory/ORPHAN_SEMANTICS.md#FIXED) - Detailed L2 law on connectivity
+- [ORPHAN_SEMANTICS.md](../../wave/docs/theory/ORPHAN_SEMANTICS.md) - Detailed L2 law on connectivity

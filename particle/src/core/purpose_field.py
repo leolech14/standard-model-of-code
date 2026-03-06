@@ -1,3 +1,6 @@
+# Theory: L0_AXIOMS.md A2 (Structure Reveals Purpose)
+# Theory: L2_PRINCIPLES.md (Purpose Emergence Principle)
+# Theory: PURPOSE_SPACE.md (Purpose field gradient formalization)
 """
 Purpose Field Detector
 

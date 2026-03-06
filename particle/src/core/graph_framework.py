@@ -1,3 +1,5 @@
+# Theory: L0_AXIOMS.md A3 (Dependencies Are Meaning — PURPOSE = f(edges))
+# Theory: PURPOSE_SPACE.md (Purpose field gradient formalization)
 """Graph-based semantic analysis framework.
 
 Implements PURPOSE = f(edges) by building NetworkX graphs from

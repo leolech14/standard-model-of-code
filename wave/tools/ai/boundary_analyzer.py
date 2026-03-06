@@ -8,6 +8,11 @@ Part of the Maintenance Layer. Validates that declared boundaries
 CONCORDANCE = A PURPOSE-defined region where code and docs share aligned purpose.
 States: CONCORDANT (aligned), DISCORDANT (conflict), UNVOICED (no docs), UNREALIZED (no code)
 
+Theory: L1_DEFINITIONS.md SS3.4 (Concordance definition)
+Theory: L1_DEFINITIONS.md SS3.5 (Concordance Health Score)
+  Health(k) = |CONCORDANT| / (|CONCORDANT| + |DISCORDANT| + |UNVOICED| + |UNREALIZED|)
+  Target: > 80% for production systems.
+
 Usage:
     python boundary_analyzer.py                    # Full analysis
     python boundary_analyzer.py --quick            # Quick check (exit code only)
@@ -120,10 +125,31 @@ class BoundaryIssue:
 
 
 @dataclass
+class ConcordanceHealth:
+    """Health score for a single concordance region.
+
+    Theory: L1_DEFINITIONS.md SS3.5
+    Health(k) = |CONCORDANT| / (|CONCORDANT| + |DISCORDANT| + |UNVOICED| + |UNREALIZED|)
+
+    Theory: L1_DEFINITIONS.md SS3.4
+    sigma(k) = cosine_similarity(declared_purpose_vector, actual_pattern_vector)
+    """
+    name: str = ""
+    state: str = ""  # CONCORDANT, DISCORDANT, UNVOICED, UNREALIZED, CONTEXTOME_ONLY, MISSING
+    health: float = 0.0  # [0.0, 1.0]
+    sigma: float = 0.0  # [0.0, 1.0] — structural alignment score
+    concordant_count: int = 0
+    discordant_count: int = 0
+    unvoiced_count: int = 0
+    unrealized_count: int = 0
+
+
+@dataclass
 class BoundaryReport:
     """Complete boundary analysis report."""
     timestamp: str = ""
     alignment_score: float = 0.0
+    overall_health: float = 0.0  # Mean Health(k) across all concordances
     total_directories: int = 0
     declared_directories: int = 0
     undeclared_directories: int = 0
@@ -131,12 +157,14 @@ class BoundaryReport:
     issues: List[BoundaryIssue] = field(default_factory=list)
     realms_status: Dict[str, Any] = field(default_factory=dict)
     concordances_status: Dict[str, Any] = field(default_factory=dict)
+    concordance_health: List[ConcordanceHealth] = field(default_factory=list)
     recommendations: List[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return {
             "timestamp": self.timestamp,
             "alignment_score": self.alignment_score,
+            "overall_health": round(self.overall_health, 4),
             "total_directories": self.total_directories,
             "declared_directories": self.declared_directories,
             "undeclared_directories": self.undeclared_directories,
@@ -144,6 +172,7 @@ class BoundaryReport:
             "issues": [asdict(i) for i in self.issues],
             "realms_status": self.realms_status,
             "concordances_status": self.concordances_status,
+            "concordance_health": [asdict(h) for h in self.concordance_health],
             "recommendations": self.recommendations,
         }
 
@@ -159,6 +188,8 @@ class BoundaryAnalyzer:
         """Run complete boundary analysis."""
         self._analyze_realms()
         self._analyze_concordances()
+        self._compute_concordance_health()
+        self._compute_sigma()
         self._find_undeclared_directories()
         self._find_phantom_declarations()
         self._check_partition_integrity()
@@ -273,6 +304,132 @@ class BoundaryAnalyzer:
                     message=f"Concordance {conc_name} is completely missing",
                     suggestion="Create concordance or remove from CONCORDANCES declaration",
                 ))
+
+    def _compute_concordance_health(self):
+        """Compute Health(k) for each concordance and the overall project.
+
+        Theory: L1_DEFINITIONS.md SS3.5
+        Health(k) = |CONCORDANT| / (|CONCORDANT| + |DISCORDANT| + |UNVOICED| + |UNREALIZED|)
+
+        Each concordance contributes 1 to exactly one state bucket.
+        CONTEXTOME_ONLY is a valid non-pathological state (e.g., Theory) and
+        counts as concordant for health purposes — its purpose is fully realized
+        within the contextome alone.
+        MISSING counts as discordant — the concordance was declared but nothing exists.
+        """
+        # Aggregate state counts across all concordances
+        total_concordant = 0
+        total_discordant = 0
+        total_unvoiced = 0
+        total_unrealized = 0
+
+        for conc_name, conc_status in self.report.concordances_status.items():
+            state = conc_status.get("status", "MISSING")
+
+            # Map analyzer states to the four canonical L1 states
+            c = d = u = r = 0
+            if state == "CONCORDANT":
+                c = 1
+            elif state == "CONTEXTOME_ONLY":
+                # Valid state — purpose is fully expressed in contextome
+                c = 1
+            elif state == "DISCORDANT" or state == "MISSING":
+                d = 1
+            elif state == "UNVOICED":
+                u = 1
+            elif state == "UNREALIZED":
+                r = 1
+            else:
+                d = 1  # Unknown states treated as discordant
+
+            total = c + d + u + r
+            health = c / total if total > 0 else 0.0
+
+            self.report.concordance_health.append(ConcordanceHealth(
+                name=conc_name,
+                state=state,
+                health=round(health, 4),
+                concordant_count=c,
+                discordant_count=d,
+                unvoiced_count=u,
+                unrealized_count=r,
+            ))
+
+            total_concordant += c
+            total_discordant += d
+            total_unvoiced += u
+            total_unrealized += r
+
+        # Overall Health(k) = |CONCORDANT| / total
+        grand_total = total_concordant + total_discordant + total_unvoiced + total_unrealized
+        if grand_total > 0:
+            self.report.overall_health = round(total_concordant / grand_total, 4)
+        else:
+            self.report.overall_health = 0.0
+
+    def _compute_sigma(self):
+        """Compute sigma alignment score for each concordance.
+
+        Theory: L1_DEFINITIONS.md SS3.4
+        sigma(k) = cosine_similarity(declared_purpose_vector, actual_pattern_vector)
+
+        For each concordance region:
+        - declared_vector: uniform [1, 1, 1, ...] across all declared paths
+        - actual_vector: [file_count_path_1, file_count_path_2, ...] normalized
+
+        Sigma measures structural SHAPE — how evenly content is distributed
+        across declared paths. Health measures EXISTENCE (binary), sigma
+        measures PROPORTION (continuous).
+
+        A concordance with Health=1.0 but sigma=0.3 means: both codome and
+        contextome exist, but content is heavily lopsided toward one path.
+        """
+        import math
+
+        for ch in self.report.concordance_health:
+            conc_info = DECLARED_CONCORDANCES.get(ch.name)
+            if not conc_info:
+                continue
+
+            # Collect all declared paths (codome + contextome)
+            all_paths = []
+            for p in conc_info.get("codome", []):
+                if "*" not in p:
+                    all_paths.append(p)
+            for p in conc_info.get("contextome", []):
+                if "*" not in p:
+                    all_paths.append(p)
+
+            if not all_paths:
+                # Glob-only patterns — skip sigma (can't define uniform vector)
+                ch.sigma = 0.0
+                continue
+
+            # Build declared vector: uniform weight per path
+            declared_vec = [1.0] * len(all_paths)
+
+            # Build actual vector: file count per declared path
+            actual_vec = []
+            for path_str in all_paths:
+                full_path = self.root / path_str
+                if full_path.exists():
+                    if full_path.is_dir():
+                        count = sum(1 for f in full_path.rglob("*") if f.is_file())
+                    else:
+                        count = 1  # Single file declared
+                else:
+                    count = 0
+                actual_vec.append(float(count))
+
+            # Cosine similarity: dot(d, a) / (|d| * |a|)
+            dot_product = sum(d * a for d, a in zip(declared_vec, actual_vec))
+            mag_declared = math.sqrt(sum(d * d for d in declared_vec))
+            mag_actual = math.sqrt(sum(a * a for a in actual_vec))
+
+            if mag_declared > 0 and mag_actual > 0:
+                ch.sigma = round(dot_product / (mag_declared * mag_actual), 4)
+            else:
+                ch.sigma = 0.0
 
     def _find_undeclared_directories(self):
         """Find directories that exist but aren't formally declared."""
@@ -452,8 +609,26 @@ class BoundaryAnalyzer:
         if self.report.alignment_score < 80:
             recs.append("CRITICAL: Purpose drift detected - schedule consolidation sprint")
 
+        # Health(k) recommendations (L1 SS3.5: target > 80%)
+        health_pct = self.report.overall_health * 100
+        if health_pct < 60:
+            recs.append(f"CRITICAL: Health(k) = {health_pct:.1f}% — below 60% threshold. Major concordance gaps.")
+        elif health_pct < 80:
+            recs.append(f"HIGH: Health(k) = {health_pct:.1f}% — below 80% production target (L1 SS3.5).")
+
+        # Per-concordance health warnings
+        for ch in self.report.concordance_health:
+            if ch.health == 0.0 and ch.state not in ("CONCORDANT", "CONTEXTOME_ONLY"):
+                recs.append(f"HIGH: Concordance '{ch.name}' has Health=0% ({ch.state})")
+
+        # Sigma alignment warnings (L1 SS3.4)
+        low_sigma = [ch for ch in self.report.concordance_health if ch.sigma > 0 and ch.sigma < 0.5]
+        if low_sigma:
+            names = ", ".join(ch.name for ch in low_sigma)
+            recs.append(f"MEDIUM: Low sigma alignment in: {names} — content lopsided across paths")
+
         if not recs:
-            recs.append("OK: Concordances are well-aligned. Purposes agree.")
+            recs.append("OK: Concordances are well-aligned. Health(k) meets production target.")
 
         self.report.recommendations = recs
 
@@ -480,12 +655,20 @@ def print_report(report: BoundaryReport, verbose: bool = False):
         icon = "✓" if status["status"] == "VALID" else "✗"
         print(f"║    {icon} {realm:<12} {status['codome_files']:>4} code, {status['contextome_files']:>4} docs       ║")
 
+    # Health(k) section
+    health_pct = report.overall_health * 100
+    health_grade = "HEALTHY" if health_pct >= 80 else "AT RISK" if health_pct >= 60 else "UNHEALTHY"
     print(f"""╠══════════════════════════════════════════════════════════════╣
+║  CONCORDANCE HEALTH (L1 SS3.5):                              ║
+║  Overall Health(k): {health_pct:>5.1f}%  ({health_grade:<10})                   ║
+╠══════════════════════════════════════════════════════════════╣
 ║  CONCORDANCES STATUS:                                        ║""")
 
-    for conc, status in report.concordances_status.items():
-        icon = "✓" if status["status"] == "CONCORDANT" else "◐" if status["status"] == "CONTEXTOME_ONLY" else "✗"
-        print(f"║    {icon} {conc:<16} {status['status']:<20}     ║")
+    for ch in report.concordance_health:
+        icon = "✓" if ch.state == "CONCORDANT" else "◐" if ch.state == "CONTEXTOME_ONLY" else "✗"
+        h_str = f"{ch.health * 100:.0f}%"
+        s_str = f"{ch.sigma:.2f}"
+        print(f"║    {icon} {ch.name:<14} {ch.state:<14} H={h_str:>4} σ={s_str}  ║")
 
     if report.issues and verbose:
         print(f"""╠══════════════════════════════════════════════════════════════╣
@@ -510,6 +693,183 @@ def save_report(report: BoundaryReport, output_path: Path):
     print(f"  Report saved to: {output_path}")
 
 
+# ═══════════════════════════════════════════════════════════════════
+# CONCORDANCE DRIFT TRACKING
+# Theory: L0_AXIOMS.md A3 — Debt(T) = integral |dP_human/dt| dt
+# ═══════════════════════════════════════════════════════════════════
+
+CONCORDANCE_HISTORY_DIR = ".collider/concordance_history"
+
+
+def save_snapshot(report: BoundaryReport, project_root: Path):
+    """Save a concordance snapshot for drift comparison.
+
+    Stores Health(k) and sigma(k) per region with timestamp.
+    File: .collider/concordance_history/snapshot_YYYYMMDD_HHMMSS.json
+    """
+    history_dir = project_root / CONCORDANCE_HISTORY_DIR
+    history_dir.mkdir(parents=True, exist_ok=True)
+
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    snapshot = {
+        "timestamp": report.timestamp,
+        "overall_health": report.overall_health,
+        "alignment_score": report.alignment_score,
+        "regions": {}
+    }
+
+    for ch in report.concordance_health:
+        snapshot["regions"][ch.name] = {
+            "state": ch.state,
+            "health": ch.health,
+            "sigma": ch.sigma,
+        }
+
+    snapshot_path = history_dir / f"snapshot_{ts}.json"
+    with open(snapshot_path, 'w') as f:
+        json.dump(snapshot, f, indent=2)
+
+    return snapshot_path
+
+
+def load_previous_snapshot(project_root: Path):
+    """Load the most recent concordance snapshot for drift comparison.
+
+    IMPORTANT: This function is called BEFORE save_snapshot() in the
+    execution flow. So snapshots[-1] is the previous run's snapshot,
+    not the current one (which hasn't been saved yet).
+
+    Returns None if no history exists.
+    """
+    history_dir = project_root / CONCORDANCE_HISTORY_DIR
+    if not history_dir.exists():
+        return None
+
+    snapshots = sorted(history_dir.glob("snapshot_*.json"))
+    if not snapshots:
+        return None
+
+    # Load the most recent snapshot (= previous run, since current
+    # run's snapshot hasn't been saved yet at this point)
+    target = snapshots[-1]
+
+    try:
+        with open(target, 'r') as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def compute_drift(current_report: BoundaryReport, project_root: Path, drift_threshold: float = 0.1):
+    """Compare current Health(k) and sigma(k) against previous snapshot.
+
+    Theory: L0_AXIOMS.md A3 — Debt(T) = integral |dP_human/dt| dt
+    Drift approximates dP/dt for a single time step.
+
+    Returns:
+        dict with drift metrics, or None if no previous snapshot exists.
+        Keys: per_region (dict), max_health_drift, max_sigma_drift, alerts (list)
+    """
+    previous = load_previous_snapshot(project_root)
+    if previous is None:
+        return None
+
+    drift_result = {
+        "previous_timestamp": previous.get("timestamp", "unknown"),
+        "current_timestamp": current_report.timestamp,
+        "per_region": {},
+        "max_health_drift": 0.0,
+        "max_sigma_drift": 0.0,
+        "overall_health_drift": 0.0,
+        "alerts": [],
+    }
+
+    prev_regions = previous.get("regions", {})
+
+    for ch in current_report.concordance_health:
+        prev = prev_regions.get(ch.name, {})
+        prev_health = prev.get("health", 0.0)
+        prev_sigma = prev.get("sigma", 0.0)
+
+        health_drift = abs(ch.health - prev_health)
+        sigma_drift = abs(ch.sigma - prev_sigma)
+
+        drift_result["per_region"][ch.name] = {
+            "health_drift": round(health_drift, 4),
+            "sigma_drift": round(sigma_drift, 4),
+            "health_prev": prev_health,
+            "health_curr": ch.health,
+            "sigma_prev": prev_sigma,
+            "sigma_curr": ch.sigma,
+        }
+
+        drift_result["max_health_drift"] = max(drift_result["max_health_drift"], health_drift)
+        drift_result["max_sigma_drift"] = max(drift_result["max_sigma_drift"], sigma_drift)
+
+        # Alert if drift exceeds threshold
+        if health_drift > drift_threshold:
+            direction = "improved" if ch.health > prev_health else "degraded"
+            drift_result["alerts"].append(
+                f"DRIFT: '{ch.name}' health {direction} by {health_drift:.1%} "
+                f"({prev_health:.0%} -> {ch.health:.0%})"
+            )
+        if sigma_drift > drift_threshold:
+            direction = "improved" if ch.sigma > prev_sigma else "degraded"
+            drift_result["alerts"].append(
+                f"DRIFT: '{ch.name}' sigma {direction} by {sigma_drift:.2f} "
+                f"({prev_sigma:.2f} -> {ch.sigma:.2f})"
+            )
+
+    # Overall health drift
+    prev_overall = previous.get("overall_health", 0.0)
+    drift_result["overall_health_drift"] = round(
+        abs(current_report.overall_health - prev_overall), 4
+    )
+
+    return drift_result
+
+
+def print_drift_report(drift_result: dict):
+    """Print drift comparison to stdout."""
+    if drift_result is None:
+        print("\n  ℹ  No previous snapshot — drift comparison skipped (first run)")
+        return
+
+    prev_ts = drift_result["previous_timestamp"][:19]
+    curr_ts = drift_result["current_timestamp"][:19]
+    print(f"\n╔══════════════════════════════════════════════════════════════╗")
+    print(f"║  CONCORDANCE DRIFT REPORT                                    ║")
+    print(f"║  {prev_ts}  →  {curr_ts}                ║")
+    print(f"╠══════════════════════════════════════════════════════════════╣")
+
+    max_h = drift_result["max_health_drift"]
+    max_s = drift_result["max_sigma_drift"]
+    overall_h = drift_result["overall_health_drift"]
+    print(f"║  Overall Health drift: {overall_h:.4f}                            ║")
+    print(f"║  Max Health drift:     {max_h:.4f}                            ║")
+    print(f"║  Max Sigma drift:      {max_s:.4f}                            ║")
+    print(f"╠══════════════════════════════════════════════════════════════╣")
+
+    for name, data in drift_result["per_region"].items():
+        h_d = data["health_drift"]
+        s_d = data["sigma_drift"]
+        h_arrow = "→" if h_d == 0 else "↑" if data["health_curr"] > data["health_prev"] else "↓"
+        s_arrow = "→" if s_d == 0 else "↑" if data["sigma_curr"] > data["sigma_prev"] else "↓"
+        print(f"║  {name:<14} H:{h_arrow}{h_d:.4f}  σ:{s_arrow}{s_d:.4f}              ║")
+
+    alerts = drift_result.get("alerts", [])
+    if alerts:
+        print(f"╠══════════════════════════════════════════════════════════════╣")
+        print(f"║  ALERTS ({len(alerts)}):                                              ║")
+        for alert in alerts:
+            print(f"║    ⚠ {alert[:52]:<52} ║")
+    else:
+        print(f"╠══════════════════════════════════════════════════════════════╣")
+        print(f"║  No drift alerts (all regions within threshold)              ║")
+
+    print(f"╚══════════════════════════════════════════════════════════════╝")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Boundary Analyzer - Validate PROJECT_elements internal organization"
@@ -526,6 +886,12 @@ def main():
                         help="Generate fix suggestions")
     parser.add_argument('--threshold', '-t', type=int, default=70,
                         help="Minimum alignment score (default: 70)")
+    parser.add_argument('--snapshot', action='store_true',
+                        help="Save concordance snapshot for drift tracking")
+    parser.add_argument('--drift', action='store_true',
+                        help="Show drift compared to previous snapshot (implies --snapshot)")
+    parser.add_argument('--drift-threshold', type=float, default=0.1,
+                        help="Drift alert threshold (default: 0.1)")
 
     args = parser.parse_args()
 
@@ -533,9 +899,26 @@ def main():
     report = analyzer.analyze()
 
     if args.json:
-        print(json.dumps(report.to_dict(), indent=2))
+        report_dict = report.to_dict()
+        # Include drift data in JSON if requested
+        if args.drift:
+            drift_result = compute_drift(report, PROJECT_ROOT, args.drift_threshold)
+            if drift_result:
+                report_dict["drift"] = drift_result
+        print(json.dumps(report_dict, indent=2))
     elif not args.quick:
         print_report(report, verbose=args.verbose or args.fix)
+
+    # Drift comparison (before saving current snapshot)
+    if args.drift and not args.json:
+        drift_result = compute_drift(report, PROJECT_ROOT, args.drift_threshold)
+        print_drift_report(drift_result)
+
+    # Save concordance snapshot (--drift implies --snapshot)
+    if args.snapshot or args.drift:
+        snap_path = save_snapshot(report, PROJECT_ROOT)
+        if not args.json and not args.quick:
+            print(f"\n  ✓ Snapshot saved: {snap_path}")
 
     if args.save:
         output_path = PROJECT_ROOT / ".agent/intelligence/boundary_analysis.json"

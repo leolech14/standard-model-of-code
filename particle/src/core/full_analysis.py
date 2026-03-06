@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Theory: L3_APPLICATIONS.md (Collider Pipeline — Full Analysis)
+# Theory: L0-L3 Integration (All theory layers converge here)
 """
 Collider Full Analysis
 Single command for complete deterministic analysis with all theoretical frameworks.

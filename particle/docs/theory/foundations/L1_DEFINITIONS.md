@@ -11,11 +11,11 @@ format: html
 # L1: Definitions of the Standard Model of Code
 
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md#FIXED) | [← L0: Axioms](./L0_AXIOMS.md#FIXED) | **Next:** [L2: Principles →](./L2_PRINCIPLES.md#FIXED)
+**📍 Navigation:** [Theory Index](../INDEX.md) | [← L0: Axioms](./L0_AXIOMS.md) | **Next:** [L2: Principles →](./L2_PRINCIPLES.md)
 
 **Layer:** 1 (Complete Enumeration)
 **Status:** ACTIVE | EVOLVING
-**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md#FIXED)
+**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md)
 **Version:** 2.0.0
 **Created:** 2026-01-27
 
@@ -51,7 +51,7 @@ Principle: One concept, one definition, one location.
 - WAVE = Brain (conceptual understanding)
 - OBSERVER = Governance (meta-coordination)
 
-**See:** [TRINITY_PRINCIPLE.md](../../wave/docs/theory/TRINITY_PRINCIPLE.md#FIXED)
+**See:** [TRINITY_PRINCIPLE.md](../../wave/docs/theory/TRINITY_PRINCIPLE.md)
 
 ---
 
@@ -1358,7 +1358,7 @@ Human navigation uses BOTH (structure + meaning).
 
 ## Navigation
 
-**📍 Up:** [Theory Index](./THEORY_INDEX.md#FIXED)
-**⬅️ Previous:** [L0: Axioms](./L0_AXIOMS.md#FIXED) - Foundation these definitions build on
-**➡️ Next:** [L2: Principles](./L2_PRINCIPLES.md#FIXED) - Dynamic behavioral patterns
-**🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md#FIXED) → [L0: Axioms](./L0_AXIOMS.md#FIXED)
+**📍 Up:** [Theory Index](../INDEX.md)
+**⬅️ Previous:** [L0: Axioms](./L0_AXIOMS.md) - Foundation these definitions build on
+**➡️ Next:** [L2: Principles](./L2_PRINCIPLES.md) - Dynamic behavioral patterns
+**🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md) → [L0: Axioms](./L0_AXIOMS.md)

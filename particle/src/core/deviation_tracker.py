@@ -1,3 +1,5 @@
+# Theory: L1_DEFINITIONS.md SS3.5 (Concordance Health — deviation states)
+# Theory: L2_PRINCIPLES.md (Concordance Drift Detection)
 """
 Deviation Tracker - Traces concordance deviations to their source.
 

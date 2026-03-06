@@ -13,13 +13,14 @@
 #   - prior_art_differentiation: closest prior work + what distinguishes SMoC
 #
 # CATEGORIES:
-#   - original_invention: We created this term (52 terms)
+#   - original_invention: We created this term (62 terms)
 #   - physics_metaphor: Borrowed from physics with new meaning (19 terms)
 #   - borrowed_theory: Academic concept with attribution (32 terms)
 #   - standard_cs: Conventional CS term (32 terms)
+#   - mathematical: Mathematical framework applied to Purpose Space (20 terms)
 #
-# Last updated: 2026-03-04
-# Total terms: 161
+# Last updated: 2026-03-05
+# Total terms: 185
 # Hardened: v2.1.0 (prior art, epistemic status, known limitations)
 # ============================================================================
 
@@ -2578,27 +2579,8 @@ terms:
       - Problematic system: χ negative (more holes than components)
     related_terms: [betti_numbers, topology]
 
-  persistent_homology:
-    canonical_name: "Persistent Homology"
-    category: borrowed_theory
-    origin:
-      term: "Persistent Homology"
-      field: "topological data analysis"
-      developed: "Early 2000s"
-      key_paper: "Edelsbrunner et al., 2002"
-    project_meaning: |
-      Technique tracking topological features across multiple scales.
-
-      At different scales (ε):
-      - ε = 0.1: Function-level dependencies
-      - ε = 0.5: Module-level patterns
-      - ε = 1.0: System-wide architecture
-
-      Features that PERSIST across scales = Real architecture
-      Features that appear at single scale = Noise
-
-      Used to separate architectural truth from implementation details.
-    related_terms: [betti_numbers, topology, landscape]
+  # persistent_homology: MOVED to mathematical category (see line ~3250)
+  # Removed duplicate borrowed_theory entry 2026-03-05
 
   spatialization:
     canonical_name: "Spatialization"
@@ -3005,20 +2987,499 @@ terms:
     related_terms: [purity, effect_dimension]
 
 # ============================================================================
+# MATHEMATICAL FRAMEWORKS (20 terms) - "Formalizing Purpose Space"
+# Applied mathematical constructs from the 7 framework files in
+# docs/theory/frameworks/. These are established mathematical concepts
+# applied to software architecture analysis via Purpose Space M.
+# ============================================================================
+
+  # --- Original Invention: Purpose Space Constructs (4 terms) ---
+
+  purpose_manifold:
+    canonical_name: "Purpose Manifold"
+    category: original_invention
+    epistemic_status: FRAMEWORK_DEFINITION
+    introduced:
+      version: "0.8.0"
+      date: "2026-03-05"
+      by: "Leonardo Lech + Claude"
+    definition: |
+      The continuous mathematical space M = (S, d, mu, tau, A) where purpose
+      vectors live. S is the set of 33-dimensional purpose vectors, d is the
+      cosine distance metric, mu is the Shannon entropy measure, tau is the
+      topology induced by d, and A is the algebraic structure (lattice + matroid).
+    project_meaning: |
+      The foundational space on which all 7 mathematical frameworks operate.
+      Every atom's purpose is a point in this space; architectural analysis
+      reduces to geometric/topological/algebraic operations on M.
+    prior_art_differentiation:
+      closest_prior: "Feature spaces in ML, code embedding spaces"
+      what_distinguishes_smoc: |
+        Purpose Space is not a learned embedding but a structured mathematical
+        space with explicit metric, measure, topology, and algebraic structure.
+        The 33 dimensions correspond to canonical architectural roles, not
+        latent features.
+    related_terms: [purpose_field, purpose_vector, purpose_metric]
+
+  purpose_metric:
+    canonical_name: "Purpose Metric"
+    category: original_invention
+    epistemic_status: FRAMEWORK_DEFINITION
+    introduced:
+      version: "0.8.0"
+      date: "2026-03-05"
+      by: "Leonardo Lech + Claude"
+    definition: |
+      The distance function d(p_i, p_j) = 1 - cos(p_i, p_j) on Purpose Space M.
+      Satisfies metric axioms: non-negativity, symmetry, triangle inequality.
+      Measures architectural dissimilarity between atoms.
+    project_meaning: |
+      Quantifies how different two atoms' purposes are. d = 0 means identical
+      purpose profiles; d = 1 means orthogonal (completely unrelated) purposes.
+      Used as input to topological data analysis (Rips filtration) and
+      community detection.
+    related_terms: [purpose_manifold, purpose_vector, cosine_similarity]
+
+  purpose_leakage:
+    canonical_name: "Purpose Leakage"
+    category: original_invention
+    epistemic_status: CONJECTURE
+    introduced:
+      version: "0.8.0"
+      date: "2026-03-05"
+      by: "Leonardo Lech + Claude"
+    definition: |
+      High mutual information I(P_A; P_B) between purpose distributions of
+      components A and B that reside in DIFFERENT architectural layers. Indicates
+      that purpose knowledge is "leaking" across a boundary that should be opaque.
+    project_meaning: |
+      A quantitative signal for separation-of-concerns violations. If a
+      controller's purpose distribution is correlated with a repository's,
+      the controller likely contains data-access logic that should be in a
+      service layer. Detected via mutual information from INFORMATION_THEORY.md.
+    related_terms: [mutual_information, purpose_manifold, coherence_score]
+
+  purpose_community:
+    canonical_name: "Purpose Community"
+    category: original_invention
+    epistemic_status: CONJECTURE
+    introduced:
+      version: "0.8.0"
+      date: "2026-03-05"
+      by: "Leonardo Lech + Claude"
+    definition: |
+      A cluster of atoms in Purpose Space M detected by Louvain community
+      detection on the purpose-weighted dependency graph. Atoms within a
+      community share coherent purpose and tight dependencies.
+    project_meaning: |
+      The natural grouping unit for architectural modules. Purpose communities
+      should align with package/module boundaries. Misalignment indicates
+      architectural drift. Detected via purpose-weighted modularity Q_purpose
+      from GRAPH_THEORY.md.
+    related_terms: [newman_modularity, purpose_manifold, louvain_algorithm]
+
+  # --- Mathematical Framework Terms (16 terms) ---
+
+  formal_concept_analysis:
+    canonical_name: "Formal Concept Analysis (FCA)"
+    category: mathematical
+    origin:
+      term: "Formal Concept Analysis"
+      field: "applied mathematics / lattice theory"
+      coined_by: "Rudolf Wille"
+      year: 1982
+      work: "Restructuring Lattice Theory"
+    project_meaning: |
+      Framework for constructing a concept lattice from a formal context
+      K = (G, M, I) where G = atoms, M = purpose labels, I = "has purpose"
+      relation. The EMERGENCE_RULES are hand-crafted FCA concepts mapping
+      purpose combinations to composite architectural patterns.
+    related_terms: [concept_lattice, galois_connection, emergence_rules]
+
+  concept_lattice:
+    canonical_name: "Concept Lattice"
+    category: mathematical
+    origin:
+      term: "Concept Lattice / Begriffsverband"
+      field: "lattice theory"
+      coined_by: "Rudolf Wille"
+      year: 1982
+    project_meaning: |
+      The complete lattice B(K) of formal concepts ordered by
+      extent-inclusion. In Purpose Space, this gives the hierarchy of
+      purpose-atom groupings. Each node is a formal concept (extent, intent)
+      where extent = set of atoms and intent = shared purposes. The
+      EMERGENCE_RULES define key concepts in this lattice.
+    related_terms: [formal_concept_analysis, galois_connection, emergence_rules]
+
+  galois_connection:
+    canonical_name: "Galois Connection"
+    category: mathematical
+    origin:
+      term: "Galois Connection"
+      field: "order theory"
+      coined_by: "Oystein Ore"
+      year: 1944
+      work: "Galois Connexions"
+    project_meaning: |
+      The pair of derivation operators (', ') between atoms and purposes
+      that forms the backbone of FCA. A' = purposes shared by all atoms
+      in A; B' = atoms sharing all purposes in B. This bidirectional
+      mapping structures the PURPOSE_TO_LAYER functor and EMERGENCE_RULES.
+    related_terms: [formal_concept_analysis, concept_lattice, functor]
+
+  newman_modularity:
+    canonical_name: "Newman Modularity (Q)"
+    category: mathematical
+    origin:
+      term: "Modularity"
+      field: "network science"
+      coined_by: "M. E. J. Newman"
+      year: 2006
+      work: "Modularity and community structure in networks"
+    project_meaning: |
+      Quality measure Q = (1/2m) sum[A_ij - k_i*k_j/2m] delta(c_i, c_j)
+      for community partitions. Extended to purpose-weighted modularity
+      Q_purpose that weights edges by purpose similarity. High Q_purpose
+      indicates well-separated architectural modules aligned with purpose.
+      Implemented in graph_metrics.py via Louvain algorithm.
+    related_terms: [purpose_community, louvain_algorithm, graph_theory]
+
+  mutual_information:
+    canonical_name: "Mutual Information"
+    category: mathematical
+    origin:
+      term: "Mutual Information"
+      field: "information theory"
+      coined_by: "Claude Shannon"
+      year: 1948
+      work: "A Mathematical Theory of Communication"
+    project_meaning: |
+      I(X;Y) = H(X) + H(Y) - H(X,Y) measures shared information between
+      two purpose distributions. Used to detect purpose leakage across
+      architectural boundaries. High I between components in different
+      layers signals separation-of-concerns violations. Connected to
+      L0 Axiom F2 (emergence via mutual information).
+    related_terms: [purpose_leakage, shannon_entropy, transfer_entropy]
+
+  transfer_entropy:
+    canonical_name: "Transfer Entropy"
+    category: mathematical
+    origin:
+      term: "Transfer Entropy"
+      field: "information theory / time series"
+      coined_by: "Thomas Schreiber"
+      year: 2000
+      work: "Measuring Information Transfer"
+    project_meaning: |
+      Directed information flow T_{X->Y} measuring how changes in one
+      component's purpose causally influence another's over git history.
+      High transfer entropy indicates tight coupling where one component's
+      purpose evolution drives another's. Theoretical extension (not yet
+      implemented); requires temporal purpose data across commits.
+    related_terms: [mutual_information, purpose_leakage, shannon_entropy]
+
+  functor:
+    canonical_name: "Functor"
+    category: mathematical
+    origin:
+      term: "Functor"
+      field: "category theory"
+      coined_by: "Samuel Eilenberg & Saunders Mac Lane"
+      year: 1945
+      work: "General Theory of Natural Equivalences"
+    project_meaning: |
+      A structure-preserving map between categories. The PURPOSE_TO_LAYER
+      mapping is a functor F: Purp -> Layer that preserves the subsumption
+      ordering (if purpose p1 specializes p2, then layer(p1) depends on
+      layer(p2)). Implemented as a Python dictionary in purpose_field.py
+      lines 174-216 (33 entries mapping purposes to layers).
+    related_terms: [natural_transformation, presheaf, category_theory]
+
+  natural_transformation:
+    canonical_name: "Natural Transformation"
+    category: mathematical
+    origin:
+      term: "Natural Transformation"
+      field: "category theory"
+      coined_by: "Samuel Eilenberg & Saunders Mac Lane"
+      year: 1945
+    project_meaning: |
+      A coherent morphism between functors. In Purpose Space, a natural
+      transformation eta: F => G represents a coherent refactoring —
+      reassigning purposes while preserving dependency structure. Incoherent
+      refactoring (e.g., changing Repository to Controller without updating
+      dependents) violates the naturality condition.
+    related_terms: [functor, presheaf, refactoring]
+
+  presheaf:
+    canonical_name: "Presheaf"
+    category: mathematical
+    origin:
+      term: "Presheaf"
+      field: "category theory / algebraic geometry"
+      coined_by: "Alexander Grothendieck"
+      year: 1957
+    project_meaning: |
+      A contravariant functor F: DAG^op -> Set. Models how purpose "flows
+      backward" through dependencies: if A depends on B, then B's purpose
+      constrains A's purpose. A consistent purpose assignment exists iff
+      the presheaf has a global section — otherwise the codebase has an
+      irreconcilable purpose conflict.
+    related_terms: [functor, natural_transformation, purpose_field]
+
+  persistent_homology:
+    canonical_name: "Persistent Homology"
+    category: mathematical
+    origin:
+      term: "Persistent Homology"
+      field: "topological data analysis"
+      coined_by: "Herbert Edelsbrunner, David Letscher, Afra Zomorodian"
+      year: 2002
+      work: "Topological Persistence and Simplification"
+    project_meaning: |
+      Multi-scale topological analysis tracking how features (components,
+      loops, voids) appear and disappear as a distance threshold varies.
+      Applied to the purpose metric: H_0 = purpose clusters, H_1 = circular
+      dependencies, H_2 = missing architectural layers. Long-lived features
+      represent genuine structure; short-lived are noise. Novel application
+      to software architecture (not yet implemented).
+    related_terms: [simplicial_complex, persistence_diagram, purpose_metric]
+
+  simplicial_complex:
+    canonical_name: "Simplicial Complex"
+    category: mathematical
+    origin:
+      term: "Simplicial Complex"
+      field: "algebraic topology"
+    project_meaning: |
+      A collection of simplices (vertices, edges, triangles, etc.) closed
+      under taking subsets. Constructed from the dependency graph: 0-simplices
+      = atoms, 1-simplices = dependencies, 2-simplices = transitive dependency
+      triangles. The Vietoris-Rips complex at scale epsilon connects atoms
+      with purpose distance <= epsilon. Input to persistent homology.
+    related_terms: [persistent_homology, persistence_diagram, hypergraph]
+
+  persistence_diagram:
+    canonical_name: "Persistence Diagram"
+    category: mathematical
+    origin:
+      term: "Persistence Diagram"
+      field: "topological data analysis"
+    project_meaning: |
+      A multiset of (birth, death) points representing topological features.
+      Points far from the diagonal have high persistence (genuine architecture);
+      points near the diagonal are noise. Provides a topological fingerprint
+      of the codebase's architecture. Each point maps to an architectural
+      interpretation: cluster merge, cycle creation, or void detection.
+    related_terms: [persistent_homology, simplicial_complex, purpose_metric]
+
+  matroid:
+    canonical_name: "Matroid"
+    category: mathematical
+    origin:
+      term: "Matroid"
+      field: "combinatorics"
+      coined_by: "Hassler Whitney"
+      year: 1935
+      work: "On the Abstract Properties of Linear Dependence"
+    project_meaning: |
+      A pair M = (E, I) where E = set of purposes and I = family of
+      independent (coherent) purpose combinations, satisfying hereditary
+      and augmentation axioms. The EMERGENCE_RULES frozensets define the
+      bases (maximal independent sets). A god class is an atom whose
+      purpose set exceeds the matroid rank bound: |purposes| > r(purposes).
+    related_terms: [rank_function, independence_system, emergence_rules]
+
+  rank_function:
+    canonical_name: "Rank Function"
+    category: mathematical
+    origin:
+      term: "Rank Function"
+      field: "matroid theory"
+    project_meaning: |
+      r(S) = max{|A| : A subset S, A independent}. For the purpose matroid,
+      r(S) gives the maximum number of purposes that can coherently coexist.
+      Empirically, architectural patterns have rank <= 3 (Repository = 2-3,
+      Service = 3, APILayer = 2). The god class threshold unique >= 4
+      in purpose_field.py:374 is an implicit rank bound violation.
+    related_terms: [matroid, independence_system, god_class]
+
+  hypergraph:
+    canonical_name: "Hypergraph"
+    category: mathematical
+    origin:
+      term: "Hypergraph"
+      field: "combinatorics / graph theory"
+      coined_by: "Claude Berge"
+      year: 1970
+      work: "Graphes et Hypergraphes"
+    project_meaning: |
+      H = (V, E_hyper) where hyperedges are arbitrary subsets of vertices
+      (not just pairs). Models n-ary dependencies irreducible to binary:
+      decorator stacks, mixin compositions, middleware chains, event
+      subscriber groups. The EMERGENCE_RULES frozensets are precisely
+      purpose hyperedges — multi-way purpose combinations.
+    related_terms: [hyperedge, simplicial_complex, emergence_rules]
+
+  hyperedge:
+    canonical_name: "Hyperedge"
+    category: mathematical
+    origin:
+      term: "Hyperedge"
+      field: "combinatorics"
+    project_meaning: |
+      A non-empty subset of vertices in a hypergraph, generalizing edges
+      to connect any number of vertices simultaneously. In Purpose Space,
+      each EMERGENCE_RULES frozenset is a purpose hyperedge: the set
+      {Query, Command, Factory} is a 3-ary hyperedge producing "Repository".
+      Captures the irreducibly multi-way nature of composite patterns.
+    related_terms: [hypergraph, emergence_rules, decorator_stack]
+
+  # ---------------------------------------------------------------------------
+  # Contextome & Concordance (added during consolidation phase)
+  # ---------------------------------------------------------------------------
+
+  contextome:
+    canonical_name: "Contextome"
+    category: original_invention
+    epistemic_status: FRAMEWORK_DEFINITION
+    introduced:
+      version: "0.9.0"
+      date: "2026-03-05"
+      by: "Leonardo Lech"
+    definition: |
+      The complete set of context-providing artifacts that surround and
+      describe a Codome: intelligence files, navigation docs, manifests,
+      agent instructions, and context injection infrastructure. The
+      "phenome" to the Codome's "genome" — how the codebase presents
+      itself to agents and developers.
+    etymology: |
+      Blend of "context" + "-ome" (suffix meaning "complete set of").
+      The contextome is the complete context infrastructure of a project.
+    project_meaning: |
+      In PROJECT_elements: the .agent/ directory (94+ intelligence files),
+      docs/nav/ (10 navigation files), CODOME_MANIFEST.yaml, and the
+      context injection pipeline (workspace_reader, prompt_assembler).
+    prior_art_differentiation: |
+      Documentation systems (Sphinx, JSDoc) generate reference docs from code.
+      Knowledge graphs (CodeQL, Sourcegraph) index code for querying.
+      The Contextome differs by: (a) treating context as a first-class
+      subsystem with its own governance, not a byproduct; (b) structuring
+      context for AI agent consumption via tiered disclosure; (c) defining
+      a formal relationship (concordance) between context and code.
+    related_terms: [codome, concordance, brain_body_architecture]
+
+  concordance_health:
+    canonical_name: "Concordance Health"
+    category: original_invention
+    epistemic_status: CONJECTURE
+    introduced:
+      version: "0.9.0"
+      date: "2026-03-05"
+      by: "Leonardo Lech"
+    definition: |
+      A scalar metric measuring how well a concordance region's documentation
+      and code are aligned. Computed as:
+      Health(k) = |CONCORDANT| / (|CONCORDANT| + |DISCORDANT| + |UNVOICED| + |UNREALIZED|)
+      where the four states classify each fact in a region boundary.
+    project_meaning: |
+      The primary quantitative output of the boundary_analyzer. A Health(k)
+      of 1.0 means every code fact is documented and every doc claim is
+      implemented. Values below 0.5 indicate severe drift.
+    prior_art_differentiation: |
+      Code coverage metrics (Istanbul, JaCoCo) measure test coverage.
+      Documentation coverage (docstring %) measures presence of docs.
+      Concordance Health differs by: (a) measuring bidirectional alignment
+      (code-to-doc AND doc-to-code); (b) using four states not two;
+      (c) operating at the architectural region level, not file level.
+    related_terms: [concordance, concordance_drift, sigma_alignment]
+    spec_doc: "particle/docs/theory/foundations/L1_DEFINITIONS.md"
+
+  concordance_drift:
+    canonical_name: "Concordance Drift"
+    category: original_invention
+    epistemic_status: CONJECTURE
+    introduced:
+      version: "0.9.0"
+      date: "2026-03-05"
+      by: "Leonardo Lech"
+    definition: |
+      The rate of change of concordance Health(k) over time, measuring how
+      fast code and documentation are diverging. Formally:
+      Drift(k, t) = |Health(k, t_now) - Health(k, t_prev)|
+      Accumulated drift is the integral of this rate, equivalent to
+      technical debt in the purpose field formalism.
+    project_meaning: |
+      Detected by comparing successive boundary_analyzer runs stored in
+      .collider/concordance_history/. A drift > 0.1 per run triggers an
+      alert indicating that code and documentation are diverging faster
+      than they are being reconciled.
+    prior_art_differentiation: |
+      Technical debt metrics (SonarQube, CodeClimate) track code quality
+      degradation. Concordance Drift differs by: (a) measuring the
+      code-documentation gap specifically, not general code quality;
+      (b) using the purpose field formalism (Debt = integral of drift);
+      (c) being computed from concordance state transitions, not heuristics.
+    related_terms: [concordance_health, crystallization_event, purpose_drift]
+
+  crystallization_event:
+    canonical_name: "Crystallization Event"
+    category: original_invention
+    epistemic_status: AXIOM
+    introduced:
+      version: "0.9.0"
+      date: "2026-03-05"
+      by: "Leonardo Lech"
+    definition: |
+      A discrete moment (typically a commit) when human intent is frozen
+      into code. Between crystallization events, the developer's mental
+      model evolves while the code remains static, creating a purpose gap:
+      Delta_P = intent_human(t_now) - intent_code(t_commit).
+      Refactoring is re-crystallization: updating the frozen code to match
+      the evolved intent.
+    project_meaning: |
+      Each git commit is a crystallization event. The purpose field equation
+      models the impulse force F_commit(t) that discrete commits exert on
+      the continuous purpose field. The gap between crystallizations
+      accumulates as concordance drift.
+    prior_art_differentiation: |
+      Software evolution research (Lehman's Laws, 1980) models change as
+      continuous. Version control treats commits as snapshots. Crystallization
+      differs by: (a) framing commits as phase transitions from fluid intent
+      to frozen code; (b) quantifying the intent-code gap that grows between
+      events; (c) connecting to the dynamic purpose equation d_P/dt.
+    related_terms: [concordance_drift, purpose_drift, purpose_field]
+
+# ============================================================================
 # METADATA
 # ============================================================================
 
 statistics:
-  total_terms: 161
-  original_inventions: 54
+  total_terms: 185
+  original_inventions: 62
   physics_metaphors: 19
   borrowed_theories: 32
   standard_cs: 32
-  terms_with_epistemic_status: 5
-  terms_with_prior_art_differentiation: 9
+  mathematical: 20
+  terms_with_epistemic_status: 9
+  terms_with_prior_art_differentiation: 10
   coverage: "100%"
 
 version_history:
+  - version: "2.2.0"
+    date: "2026-03-05"
+    author: "Leonardo Lech + Claude"
+    changes: |
+      Mathematical frameworks expansion (20 new terms):
+      - Added 'mathematical' category (5th category alongside original_invention, physics_metaphor, borrowed_theory, standard_cs)
+      - 4 original_invention terms: purpose_manifold, purpose_metric, purpose_leakage, purpose_community
+      - 16 mathematical terms: formal_concept_analysis, concept_lattice, galois_connection, newman_modularity,
+        mutual_information, transfer_entropy, functor, natural_transformation, presheaf, persistent_homology,
+        simplicial_complex, persistence_diagram, matroid, rank_function, hypergraph, hyperedge
+      - All terms include origin attribution, project_meaning, and related_terms
+      - 4 new epistemic_status annotations, 1 new prior_art_differentiation
+      - Supports 7 new framework files in docs/theory/frameworks/
   - version: "2.1.0"
     date: "2026-03-04"
     author: "Leonardo Lech + Claude"

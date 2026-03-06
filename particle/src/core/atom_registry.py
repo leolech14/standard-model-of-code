@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Theory: L1_DEFINITIONS.md SS1 (167 Atom Types — Single Source of Truth)
+# Theory: L1_DEFINITIONS.md SS1.1 (Atom Taxonomy: T0/T1/T2 tiers)
 """
 Atom Registry — Canonical list of all known atoms in the taxonomy.
 

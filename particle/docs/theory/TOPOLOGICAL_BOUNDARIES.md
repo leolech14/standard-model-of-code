@@ -1,9 +1,10 @@
 # Topological Boundaries: The Theory of Nested Abstraction
 
 > **Status:** GROUNDED (Gemini 4.6/5.0 CDPS, 2026-02-01)
-> **Parent:** [L1_DEFINITIONS.md](./L1_DEFINITIONS.md) §5.8 (Locus), §5.9 (Holon)
+> **Parent:** [L1_DEFINITIONS.md](./foundations/L1_DEFINITIONS.md) §5.8 (Locus), §5.9 (Holon)
 > **Principle:** Turtles all the way down.
 > **Originality:** Novel synthesis (no direct prior art found for software application)
+> **See also:** [TOPOLOGY.md](./frameworks/TOPOLOGY.md) — persistent homology H_0/H_1 formalizes boundary detection via simplicial complexes
 
 ---
 
@@ -145,9 +146,9 @@ Example:
 
 ## Cross-References
 
-- [L1_DEFINITIONS.md §5.8](./L1_DEFINITIONS.md) - Locus definition
-- [L1_DEFINITIONS.md §5.9](./L1_DEFINITIONS.md) - Holon definition
-- [L1_DEFINITIONS.md §2](./L1_DEFINITIONS.md) - 16-Level Scale (L3, L5)
+- [L1_DEFINITIONS.md §5.8](./foundations/L1_DEFINITIONS.md) - Locus definition
+- [L1_DEFINITIONS.md §5.9](./foundations/L1_DEFINITIONS.md) - Holon definition
+- [L1_DEFINITIONS.md §2](./foundations/L1_DEFINITIONS.md) - 16-Level Scale (L3, L5)
 - [GLOSSARY.yaml](../GLOSSARY.yaml) - holon, holarchy terms
 
 ---

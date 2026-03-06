@@ -1,6 +1,6 @@
 # L3: Applications of the Standard Model of Code
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L2: Principles](./L2_PRINCIPLES.md) | **Loop:** [↺ L0: Axioms](./L0_AXIOMS.md)
+**📍 Navigation:** [Theory Index](../INDEX.md) | [← L2: Principles](./L2_PRINCIPLES.md) | **Loop:** [↺ L0: Axioms](./L0_AXIOMS.md)
 
 **Layer:** 3 (Measurement & Implementation)
 **Status:** ACTIVE | EVOLVING
@@ -24,6 +24,8 @@ This is the **engineering layer** -- where theory becomes tooling.
 ---
 
 ## 1. Purpose Intelligence (Q-Scores)
+
+> **Mathematical interpretation:** God class detection (coherence < 0.4) is formalized as matroid rank violation in [MATROID_THEORY.md](../frameworks/MATROID_THEORY.md). Graph-based metrics (betweenness, modularity) are formalized in [GRAPH_THEORY.md](../frameworks/GRAPH_THEORY.md). Cycle detection (topology score T) connects to persistent homology H_1 in [TOPOLOGY.md](../frameworks/TOPOLOGY.md).
 
 ### 1.1 The Holon Quality Formula
 
@@ -796,7 +798,7 @@ Every Standard Model measurement has three components:
 
 ## Navigation
 
-**📍 Up:** [Theory Index](./THEORY_INDEX.md)
+**📍 Up:** [Theory Index](../INDEX.md)
 **⬅️ Previous:** [L2: Principles](./L2_PRINCIPLES.md)
 **🔄 LOOP CLOSURE:** [↺ L0: Axioms](./L0_AXIOMS.md) - Applications validate axioms
 

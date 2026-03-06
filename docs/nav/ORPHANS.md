@@ -1,6 +1,16 @@
+---
+id: nav_orphans
+title: "Orphans - The Disconnection Taxonomy"
+category: nav
+theory_refs: [MODEL.md §3, L2_PRINCIPLES.md]
+disconnection_types: 7
+---
+
 # ORPHANS - The Disconnection Taxonomy
 
 > "Orphan" is a misclassification bucket. Only ~9% of orphans are truly dead code.
+
+<!-- T1:END -->
 
 ---
 
@@ -25,6 +35,8 @@ An orphan is disconnected from the **statically visible** graph. But many nodes 
 | **unreachable** | True dead code | **Yes** | Delete |
 
 ---
+
+<!-- T2:END -->
 
 ## The Distribution
 

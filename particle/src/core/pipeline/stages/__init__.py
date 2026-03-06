@@ -1,7 +1,7 @@
 """
 Pipeline Stages for Collider.
 
-28 stages organized into 5 phases:
+31 stages organized into 5 phases:
 
 PHASE 1: EXTRACTION (Stages 0-2)
     0. SurveyStage - Pre-analysis intelligence
@@ -32,6 +32,7 @@ PHASE 4: INTELLIGENCE (Stages 7-8.6)
     8. PerformancePredictionStage - Hotspots
     8.5. ConstraintValidationStage - Architecture rules
     8.6. PurposeIntelligenceStage - Q-scores
+    8.7. ConcordanceStage - Boundary health
 
 PHASE 5: OUTPUT (Stages 9-12)
     9. RoadmapEvaluationStage - Roadmap alignment
@@ -72,6 +73,7 @@ from .data_flow_macro import DataFlowMacroStage
 from .performance_prediction import PerformancePredictionStage
 from .constraint_validation import ConstraintValidationStage
 from .purpose_intelligence import PurposeIntelligenceStage
+from .concordance_stage import ConcordanceStage
 
 # Phase 5: Output
 from .roadmap_evaluation import RoadmapEvaluationStage
@@ -113,6 +115,7 @@ __all__ = [
     "PerformancePredictionStage",
     "ConstraintValidationStage",
     "PurposeIntelligenceStage",
+    "ConcordanceStage",
     # Phase 5
     "RoadmapEvaluationStage",
     "TopologyReasoningStage",
@@ -124,7 +127,7 @@ __all__ = [
     "IGTMetricsStage",
 ]
 
-# Stage execution order (29 stages)
+# Stage execution order (31 stages)
 STAGE_ORDER = [
     # Phase 1: Extraction
     "survey",
@@ -153,6 +156,7 @@ STAGE_ORDER = [
     "performance_prediction",
     "constraint_validation",
     "purpose_intelligence",
+    "concordance",
     # Phase 5: Output
     "roadmap_evaluation",
     "topology_reasoning",

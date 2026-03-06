@@ -1,6 +1,17 @@
+---
+id: nav_roles
+title: "Roles - The 33 Canonical Roles"
+category: nav
+theory_refs: [MODEL.md §2, L1_DEFINITIONS.md §4]
+role_count: 33
+categories: 10
+---
+
 # ROLES - The 33 Canonical Roles
 
 > WHY does this code element exist? The role answers that question.
+
+<!-- T1:END -->
 
 ---
 
@@ -31,6 +42,8 @@ A `Function` (atom) might be a `Validator` (role) or a `Transformer` (role). Sam
 **29 implemented** in Collider. "Unknown" is a fallback label, not a role.
 
 ---
+
+<!-- T2:END -->
 
 ## How Roles Are Detected
 

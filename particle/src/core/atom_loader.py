@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Theory: L0_AXIOMS.md A1 (Code Has Structure)
+# Theory: L1_DEFINITIONS.md SS1 (Atom Classification — 167 structural types)
 """
 ATOM LOADER - Integrates all atom sources into unified taxonomy.
 

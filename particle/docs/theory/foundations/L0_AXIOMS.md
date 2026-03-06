@@ -1,6 +1,6 @@
 # L0: Axioms of the Standard Model of Code
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md#FIXED) | **Next:** [L1: Definitions →](./L1_DEFINITIONS.md#FIXED)
+**📍 Navigation:** [Theory Index](../INDEX.md) | **Next:** [L1: Definitions →](./L1_DEFINITIONS.md)
 
 **Layer:** 0 (Bedrock)
 **Status:** GROUNDED
@@ -291,6 +291,8 @@ Development = gradient descent on incoherence.
 ```
 
 **Validated against:** Friston's Free Energy Principle (see validation section).
+
+> **Framework deep-dive:** The purpose field P: N -> M maps into a continuous Purpose Space formalized in [PURPOSE_SPACE.md](../frameworks/PURPOSE_SPACE.md). Seven mathematical frameworks operating on this space are developed in [frameworks/](../frameworks/): graph theory, order theory, information theory, category theory, topology, matroid theory, and hypergraph theory.
 
 ---
 
@@ -906,13 +908,13 @@ The Lawvere argument (A1.1) applies **standard mathematics**. The application to
 
 ## Navigation
 
-**📍 Up:** [Theory Index](./THEORY_INDEX.md#FIXED)
-**➡️ Next:** [L1: Definitions](./L1_DEFINITIONS.md#FIXED) - Terms derived from these axioms
-**🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md#FIXED) - Practical implementations that validate these axioms
+**📍 Up:** [Theory Index](../INDEX.md)
+**➡️ Next:** [L1: Definitions](./L1_DEFINITIONS.md) - Terms derived from these axioms
+**🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md) - Practical implementations that validate these axioms
 
 **See also:**
-- [THEORY_AXIOMS.md](./THEORY_AXIOMS.md#FIXED) - Formal proof framework
-- [STANDARD_MODEL_COMPLETE.md](./STANDARD_MODEL_COMPLETE.md#FIXED) - All layers integrated
+- [THEORY_AXIOMS.md](../THEORY_AXIOMS.md) - Formal proof framework
+- [STANDARD_MODEL_COMPLETE.md](../STANDARD_MODEL_COMPLETE.md) - All layers integrated
 
 **Implementation:**
 - [DYNAMIC_OBSERVERS_IMPLEMENTATION_PLAN.md](../specs/DYNAMIC_OBSERVERS_IMPLEMENTATION_PLAN.md) - Implementation plan for Axioms E2 (Four Flows) and G1 (Three Observers)

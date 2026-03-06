@@ -1,6 +1,16 @@
+---
+id: nav_graph
+title: "Graph - Topology and Edges"
+category: nav
+theory_refs: [L0_AXIOMS.md B1-B2, MODEL.md §3]
+edge_types: 6
+---
+
 # GRAPH - Topology and Edges
 
 > Code is a directed graph. Nodes are code elements. Edges are dependencies. Structure reveals architecture.
+
+<!-- T1:END -->
 
 ---
 
@@ -40,6 +50,8 @@ Every node gets a **topology role** based on its in-degree and out-degree:
 | **internal** | >0 | >0 | Normal flow-through node |
 
 ---
+
+<!-- T2:END -->
 
 ## Centrality Metrics
 

@@ -1,3 +1,5 @@
+# Theory: L0_AXIOMS.md A2 (Structure Reveals Purpose)
+# Theory: L3_APPLICATIONS.md (Multi-modal intent extraction)
 """Multi-modal intent extraction from code, commits, docs.
 
 Research finding: "Developer intent is not fully captured by code alone"

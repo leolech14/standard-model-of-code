@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Theory: L1_DEFINITIONS.md SS2 (8-Dimensional Classification)
+# Theory: STANDARD_MODEL_COMPLETE.md (Octahedral dimension model)
 """
 DIMENSION CLASSIFIER (Tree-sitter Native)
 ==========================================

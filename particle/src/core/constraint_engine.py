@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Theory: L2_PRINCIPLES.md (Structural Determinism Principle)
+# Theory: CONSTRAINT_FIELD.md (Three-tier validation: Axioms, Invariants, Heuristics)
 """
 Constraint Engine for the Constraint Field
 

@@ -9,7 +9,7 @@
 ## THEORY HIERARCHY (The Narrative Loop)
 
 ### Layer 0: Axioms (Foundation)
-**File:** [L0_AXIOMS.md](./L0_AXIOMS.md)
+**File:** [L0_AXIOMS.md](./foundations/L0_AXIOMS.md)
 
 **Purpose:** Fundamental assumptions that cannot be proven
 
@@ -18,12 +18,12 @@
 - Axiom A2: Structure Reveals Purpose
 - Axiom A3: Purpose Emerges from Relationships
 
-**Leads to:** [L1 Definitions →](./L1_DEFINITIONS.md)
+**Leads to:** [L1 Definitions →](./foundations/L1_DEFINITIONS.md)
 
 ---
 
 ### Layer 1: Definitions (Built on L0)
-**File:** [L1_DEFINITIONS.md](./L1_DEFINITIONS.md)
+**File:** [L1_DEFINITIONS.md](./foundations/L1_DEFINITIONS.md)
 
 **Purpose:** Precise terms derived from axioms
 
@@ -33,13 +33,13 @@
 - What is a Dimension?
 - What is Purpose?
 
-**Built from:** [← L0 Axioms](./L0_AXIOMS.md)
-**Leads to:** [L2 Principles →](./L2_PRINCIPLES.md)
+**Built from:** [← L0 Axioms](./foundations/L0_AXIOMS.md)
+**Leads to:** [L2 Principles →](./foundations/L2_PRINCIPLES.md)
 
 ---
 
 ### Layer 2: Principles (Built on L1)
-**File:** [L2_PRINCIPLES.md](./L2_PRINCIPLES.md)
+**File:** [L2_PRINCIPLES.md](./foundations/L2_PRINCIPLES.md)
 
 **Purpose:** Behavioral patterns and relationships
 
@@ -49,15 +49,15 @@
 - Principle of Structural Determinism
 - Principle of Orphan Semantics (NEW)
 
-**Built from:** [← L1 Definitions](./L1_DEFINITIONS.md)
-**Leads to:** [L3 Applications →](./L3_APPLICATIONS.md)
+**Built from:** [← L1 Definitions](./foundations/L1_DEFINITIONS.md)
+**Leads to:** [L3 Applications →](./foundations/L3_APPLICATIONS.md)
 
 **See also:** [ORPHAN_SEMANTICS.md](../../wave/docs/theory/ORPHAN_SEMANTICS.md) (detailed L2 law)
 
 ---
 
 ### Layer 3: Applications (Built on L2)
-**File:** [L3_APPLICATIONS.md](./L3_APPLICATIONS.md)
+**File:** [L3_APPLICATIONS.md](./foundations/L3_APPLICATIONS.md)
 
 **Purpose:** Practical implementations of principles
 
@@ -67,8 +67,8 @@
 - How to measure coherence
 - How to validate architecture
 
-**Built from:** [← L2 Principles](./L2_PRINCIPLES.md)
-**Loops to:** [↺ L0 Axioms](./L0_AXIOMS.md) (theory closure)
+**Built from:** [← L2 Principles](./foundations/L2_PRINCIPLES.md)
+**Loops to:** [↺ L0 Axioms](./foundations/L0_AXIOMS.md) (theory closure)
 
 ---
 
@@ -97,7 +97,7 @@
 - All applications
 - Proofs and validations
 
-**Comprehensive version of:** [L0](./L0_AXIOMS.md) + [L1](./L1_DEFINITIONS.md) + [L2](./L2_PRINCIPLES.md) + [L3](./L3_APPLICATIONS.md)
+**Comprehensive version of:** [L0](./foundations/L0_AXIOMS.md) + [L1](./foundations/L1_DEFINITIONS.md) + [L2](./foundations/L2_PRINCIPLES.md) + [L3](./foundations/L3_APPLICATIONS.md)
 
 ---
 
