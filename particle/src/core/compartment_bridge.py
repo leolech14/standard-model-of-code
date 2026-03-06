@@ -187,9 +187,12 @@ def extract_subgraph_kpis(
     kpis["max_fanout"] = max(fanouts) if fanouts else 0
 
     # --- Average complexity ---
+    # Collider stores this as "cyclomatic_complexity", not "complexity"
+    # (the bare "complexity" field is always 0 — a naming artifact)
     complexities = [
-        n.get("complexity", 0) for n in sub_nodes
-        if n.get("complexity") is not None and n.get("complexity", 0) > 0
+        n.get("cyclomatic_complexity", 0) for n in sub_nodes
+        if n.get("cyclomatic_complexity") is not None
+        and n.get("cyclomatic_complexity", 0) > 0
     ]
     if complexities:
         kpis["avg_complexity"] = round(sum(complexities) / len(complexities), 2)
@@ -208,13 +211,20 @@ def extract_subgraph_kpis(
     kpis["unknown_count"] = unknown_count
     kpis["total_nodes"] = total
 
-    # --- Coherence score (per-node average, from Collider's coherence analysis) ---
+    # --- Coherence score (per-node average, from Purpose Field analysis) ---
+    # IMPORTANT: 98.9% of nodes have the default coherence_score=1.0 (uncomputed).
+    # Only nodes matched by name in the Purpose Field get real values (0.0-0.56).
+    # We EXCLUDE default 1.0 to avoid drowning real signals in noise.
     coherence_scores = [
-        n.get("coherence_score", 0) for n in sub_nodes
+        n.get("coherence_score") for n in sub_nodes
         if n.get("coherence_score") is not None
+        and n.get("coherence_score") != 1.0  # skip uncomputed defaults
     ]
     if coherence_scores:
         kpis["avg_coherence"] = round(sum(coherence_scores) / len(coherence_scores), 4)
+        kpis["coherence_computed_pct"] = round(
+            100.0 * len(coherence_scores) / total, 1
+        )
 
     # --- Dead code: orphaned nodes (in=0 AND out=0) as % of subgraph ---
     # More reliable than reachable_from_entry at subgraph level since
