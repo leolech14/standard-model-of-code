@@ -42,6 +42,7 @@ def run_analysis(ctx: PipelineContext) -> None:
     _run_semantic(ctx)           # Stage 6.7
     _run_codome(ctx)             # Stage 6.8
     _run_api_drift(ctx)          # Stage 6.9
+    ctx.flow_tracker.snapshot("After Phase 4: Analysis", ctx.nodes, ctx.edges)
 
 
 def _run_purpose_field(ctx: PipelineContext) -> None:

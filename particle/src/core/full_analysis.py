@@ -656,6 +656,7 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
     # ── Assemble output dict ──────────────────────────────────────────
     # Bridge: aggregates phase intermediates into canonical full_output
     _assemble_output(ctx)
+    ctx.full_output['pipeline_flow'] = ctx.flow_tracker.to_dict()
 
     # ── Phase 6: Synthesis ────────────────────────────────────────────
     # Roadmap, Topology, Cortex, AI, Manifest, IGT, DB, Vector, Trinity,

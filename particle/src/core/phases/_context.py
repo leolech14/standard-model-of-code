@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
 from src.core.data_ledger import DataLedger
+from src.core.pipeline_flow_tracker import PipelineFlowTracker
 
 
 @dataclass
@@ -28,6 +29,7 @@ class PipelineContext:
     perf_manager: Any          # PerformanceManager
     guard: Any                 # _PipelineCrashGuard
     data_ledger: DataLedger = field(default_factory=DataLedger)
+    flow_tracker: PipelineFlowTracker = field(default_factory=PipelineFlowTracker)
 
     # ── Mutable graph state ──────────────────────────────────────────
     nodes: List[Dict[str, Any]] = field(default_factory=list)

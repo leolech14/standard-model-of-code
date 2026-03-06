@@ -513,6 +513,7 @@ def _run_chemistry(ctx: 'PipelineContext') -> None:
         chem_lab.ingest(ctx.full_output)
         chem_result = chem_lab.get_result()
         ctx.full_output['chemistry'] = chem_result.to_dict()
+        ctx.full_output['chemistry']['diagnostics'] = chem_lab.build_diagnostics()
         ctx.full_output['_chemistry_lab'] = chem_lab  # ephemeral live ref
         syn_names = [s.name for s in chem_result.syndromes]
         if not ctx.quiet:

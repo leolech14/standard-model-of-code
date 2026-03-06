@@ -51,6 +51,7 @@ def run_extraction(ctx: PipelineContext) -> None:
     _log(f"   → {len(ctx.nodes)} nodes, {len(ctx.edges)} edges", ctx.quiet)
     ctx.data_ledger.publish("nodes", "Stage 1: Base Analysis", summary=f"{len(ctx.nodes)} nodes")
     ctx.data_ledger.publish("edges", "Stage 1: Base Analysis", summary=f"{len(ctx.edges)} edges")
+    ctx.flow_tracker.snapshot("After Stage 1: Base Analysis", ctx.nodes, ctx.edges)
 
     # Stage 2: Standard Model enrichment
     print("\n🧬 Stage 2: Standard Model Enrichment...")

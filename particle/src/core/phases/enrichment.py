@@ -322,3 +322,4 @@ def run_enrichment(ctx: 'PipelineContext') -> None:
     _run_control_flow(ctx)
     _run_pattern_detection(ctx)
     _run_data_flow_analysis(ctx)
+    ctx.flow_tracker.snapshot("After Phase 3: Enrichment", ctx.nodes, ctx.edges)

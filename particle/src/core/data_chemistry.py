@@ -1508,6 +1508,199 @@ class ChemistryLab:
             convergence=convergence,
         )
 
+    # --- Diagnostics --------------------------------------------------------
+
+    def build_diagnostics(self) -> dict:
+        """Build diagnostic report: signal values vs detector thresholds.
+
+        Answers "why is compound_severity 0.0?" without reading source code.
+        Returns a dict suitable for inclusion in the chemistry output.
+        """
+        self._ensure_computed()
+        signals = dict(self._signals)
+
+        # Signal values and coverage
+        signal_values: dict = {}
+        signal_coverage: dict = {}
+        all_signal_keys = (
+            list(_INGEST_EXTRACTORS.keys())
+            + list(_ALWAYS_EXTRACTORS.keys())
+            + ['advisory_counts']
+        )
+        for key in all_signal_keys:
+            val = signals.get(key)
+            signal_values[key] = val
+            if val is None:
+                signal_coverage[key] = "missing"
+            elif val == 0 or val == (0, 0):
+                signal_coverage[key] = "zero"
+            else:
+                signal_coverage[key] = "present"
+
+        # Detector traces
+        detector_traces = [
+            self._trace_flying_blind(signals),
+            self._trace_hollow_architecture(signals),
+            self._trace_dependency_sprawl(signals),
+            self._trace_purpose_vacuum(signals),
+            self._trace_advisory_storm(signals),
+        ]
+
+        return {
+            "signal_values": signal_values,
+            "signal_coverage": signal_coverage,
+            "detector_traces": detector_traces,
+        }
+
+    @staticmethod
+    def _trace_flying_blind(signals: dict) -> dict:
+        noise = signals.get('noise_ratio')
+        class_cov = signals.get('classification_coverage')
+        boundary = signals.get('boundary_ratio')
+
+        conditions = [
+            {"check": "noise_ratio > 0.3", "threshold": 0.3,
+             "actual": noise, "passed": noise is not None and noise > 0.3},
+            {"check": "classification_coverage < 0.7", "threshold": 0.7,
+             "actual": class_cov, "passed": class_cov is not None and class_cov < 0.7},
+            {"check": "boundary_ratio > 0.3", "threshold": 0.3,
+             "actual": boundary, "passed": boundary is not None and boundary > 0.3},
+        ]
+        active = sum(1 for c in conditions if c["passed"])
+
+        return {
+            "detector": "flying_blind",
+            "gate": "2+ conditions active AND severity >= 0.3",
+            "conditions": conditions,
+            "active_conditions": active,
+            "fired": active >= 2,
+            "reason": f"{active}/3 conditions met (need 2+)",
+        }
+
+    @staticmethod
+    def _trace_hollow_architecture(signals: dict) -> dict:
+        dead_code = signals.get('dead_code_pct', 0)
+        knot = signals.get('knot_score', 0)
+        ci = signals.get('codebase_intelligence', 0)
+
+        gate_dead = dead_code >= 10
+        gate_ci = ci <= 0.8
+        gate_passed = gate_dead and gate_ci
+
+        conditions = [
+            {"check": "dead_code_pct >= 10", "threshold": 10,
+             "actual": dead_code, "passed": gate_dead},
+            {"check": "codebase_intelligence <= 0.8", "threshold": 0.8,
+             "actual": ci, "passed": gate_ci},
+            {"check": "knot_score > 3 (severity boost)", "threshold": 3,
+             "actual": knot, "passed": knot > 3},
+        ]
+
+        reason = (
+            f"Gate passed: dead_code={dead_code}, ci={ci}"
+            if gate_passed
+            else f"Gate failed: dead_code_pct={dead_code} {'>=10' if gate_dead else '<10'} "
+                 f"AND ci={ci} {'<=0.8' if gate_ci else '>0.8'}"
+        )
+
+        return {
+            "detector": "hollow_architecture",
+            "gate": "dead_code_pct >= 10 AND codebase_intelligence <= 0.8",
+            "conditions": conditions,
+            "active_conditions": sum(1 for c in conditions if c["passed"]),
+            "fired": gate_passed,
+            "reason": reason,
+        }
+
+    @staticmethod
+    def _trace_dependency_sprawl(signals: dict) -> dict:
+        dep_count = signals.get('dependency_count')
+        eco_unknowns = signals.get('ecosystem_unknowns')
+        edge_div = signals.get('edge_diversity')
+
+        gate_passed = dep_count is not None and dep_count >= 30
+        conditions = [
+            {"check": "dependency_count >= 30", "threshold": 30,
+             "actual": dep_count, "passed": gate_passed},
+            {"check": "dependency_count > 100 (high severity)", "threshold": 100,
+             "actual": dep_count, "passed": dep_count is not None and dep_count > 100},
+            {"check": "ecosystem_unknowns > 20", "threshold": 20,
+             "actual": eco_unknowns,
+             "passed": eco_unknowns is not None and eco_unknowns > 20},
+        ]
+
+        reason = (
+            f"dep_count={dep_count} >= 30"
+            if gate_passed
+            else f"Gate failed: dependency_count={dep_count} (need >= 30)"
+        )
+
+        return {
+            "detector": "dependency_sprawl",
+            "gate": "dependency_count >= 30",
+            "conditions": conditions,
+            "active_conditions": sum(1 for c in conditions if c["passed"]),
+            "fired": gate_passed,
+            "reason": reason,
+        }
+
+    @staticmethod
+    def _trace_purpose_vacuum(signals: dict) -> dict:
+        ci = signals.get('codebase_intelligence', 0)
+        domain = signals.get('domain_clarity')
+        readiness = signals.get('roadmap_readiness')
+        class_cov = signals.get('classification_coverage')
+
+        gate_passed = ci <= 0.7
+        conditions = [
+            {"check": "codebase_intelligence <= 0.7", "threshold": 0.7,
+             "actual": ci, "passed": gate_passed},
+            {"check": "domain_clarity is Unknown/None", "threshold": "known domain",
+             "actual": domain,
+             "passed": domain is None or domain == 'Unknown'},
+            {"check": "roadmap_readiness < 50", "threshold": 50,
+             "actual": readiness,
+             "passed": readiness is not None and readiness < 50},
+            {"check": "classification_coverage < 0.5", "threshold": 0.5,
+             "actual": class_cov,
+             "passed": class_cov is not None and class_cov < 0.5},
+        ]
+
+        reason = (
+            f"ci={ci} <= 0.7, computing severity"
+            if gate_passed
+            else f"Gate failed: codebase_intelligence={ci} > 0.7"
+        )
+
+        return {
+            "detector": "purpose_vacuum",
+            "gate": "codebase_intelligence <= 0.7",
+            "conditions": conditions,
+            "active_conditions": sum(1 for c in conditions if c["passed"]),
+            "fired": gate_passed,
+            "reason": reason,
+        }
+
+    @staticmethod
+    def _trace_advisory_storm(signals: dict) -> dict:
+        warn_count, rec_count = signals.get('advisory_counts', (0, 0))
+        total = warn_count + rec_count
+
+        gate_passed = total >= 15
+        conditions = [
+            {"check": "total_advisories >= 15", "threshold": 15,
+             "actual": total, "passed": gate_passed},
+        ]
+
+        return {
+            "detector": "advisory_storm",
+            "gate": "total_advisories >= 15",
+            "conditions": conditions,
+            "active_conditions": 1 if gate_passed else 0,
+            "fired": gate_passed,
+            "reason": f"total={total} ({'>=15 -> fires' if gate_passed else '<15 -> silent'})",
+        }
+
     def __repr__(self) -> str:
         status = 'dirty' if self._dirty else 'computed'
         n_signals = len(self._signals)
