@@ -86,13 +86,11 @@ _COMPARTMENT_TO_CAPABILITY: dict[str, str] = {}
 
 # Compartments that map to code through dashboard_domains, not capabilities.
 # Maps compartment ID → list of capabilities that serve that domain.
+# NOTE: console-* compartments NO LONGER inherit all core files —
+# the 'core' compartment now owns those 19 files directly.
 _DOMAIN_COMPARTMENT_CAPABILITIES: dict[str, list[str]] = {
-    "console-runtime": ["core"],
-    "console-control-plane": ["core", "platform"],
-    "console-memory": ["core"],
-    "console-presentation": ["core"],
-    "context-injection": ["intel-pipeline", "core"],
-    "telemetry": ["monitoring", "core"],
+    "context-injection": ["intelligence-pipeline"],
+    "telemetry": ["monitoring"],
 }
 
 
@@ -533,6 +531,50 @@ def compute_all_compartments(
                 "children": children,
             }
 
+    # --- Coverage metrics: what fraction of Collider is mapped? ---
+    all_nodes = full_output.get("nodes", [])
+    all_collider_files = {n.get("file_path", "") for n in all_nodes}
+    all_collider_files.discard("")
+
+    # All files claimed by any compartment
+    mapped_files: set[str] = set()
+    for comp in compartments:
+        if comp.get("kind") == "umbrella":
+            continue
+        mapped_files.update(map_compartment_to_files(comp, capability_files))
+
+    # All files in dashboard_modules (regardless of compartment match)
+    all_module_files: set[str] = set()
+    for cap_files_list in capability_files.values():
+        all_module_files.update(cap_files_list)
+
+    unmapped_files = sorted(all_collider_files - mapped_files)
+    mapped_nodes = sum(1 for n in all_nodes if n.get("file_path", "") in mapped_files)
+    unmapped_nodes = len(all_nodes) - mapped_nodes
+
+    # Group unmapped files by top-level directory
+    unmapped_by_dir: dict[str, int] = {}
+    for f in unmapped_files:
+        parts = f.split("/")
+        top = parts[0] if parts else "root"
+        unmapped_by_dir[top] = unmapped_by_dir.get(top, 0) + 1
+
+    coverage = {
+        "collider_total_nodes": len(all_nodes),
+        "collider_total_files": len(all_collider_files),
+        "dashboard_modules_files": len(all_module_files),
+        "mapped_to_compartments": {
+            "files": len(mapped_files),
+            "nodes": mapped_nodes,
+        },
+        "unmapped": {
+            "files": len(unmapped_files),
+            "nodes": unmapped_nodes,
+            "by_directory": dict(sorted(unmapped_by_dir.items(), key=lambda x: -x[1])),
+        },
+        "coverage_pct": round(100.0 * mapped_nodes / len(all_nodes), 1) if all_nodes else 0,
+    }
+
     return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "source": {
@@ -540,6 +582,7 @@ def compute_all_compartments(
             "dashboard_modules_yaml": modules_yaml_path,
             "collider_output": collider_output_path,
         },
+        "coverage": coverage,
         "compartments": results,
         "umbrellas": umbrella_results,
     }
@@ -565,10 +608,23 @@ def main() -> None:
     if args.output:
         Path(args.output).write_text(output_json)
         print(f"Written to {args.output}")
-        # Print summary
+
+        # Coverage summary
+        cov = result.get("coverage", {})
+        mapped = cov.get("mapped_to_compartments", {})
+        unmapped = cov.get("unmapped", {})
+        print(f"\n  Coverage: {cov.get('coverage_pct', 0)}% of Collider nodes mapped")
+        print(f"  {mapped.get('nodes', 0)}/{cov.get('collider_total_nodes', 0)} nodes, "
+              f"{mapped.get('files', 0)}/{cov.get('collider_total_files', 0)} files")
+        if unmapped.get("by_directory"):
+            print(f"  Unmapped ({unmapped.get('files', 0)} files):")
+            for d, c in list(unmapped["by_directory"].items())[:5]:
+                print(f"    {d}/: {c} files")
+
+        # Compartment summary
         comps = result.get("compartments", {})
         active = {k: v for k, v in comps.items() if v.get("health_10") is not None}
-        print(f"  {len(active)} compartments with code / {len(comps)} total")
+        print(f"\n  {len(active)} compartments with code / {len(comps)} total")
         for cid, data in sorted(active.items(), key=lambda x: x[1].get("health_10", 0)):
             print(f"  {cid:25s}  health={data['health_10']:5.2f}  nodes={data.get('nodes', 0)}")
     else:

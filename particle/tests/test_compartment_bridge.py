@@ -214,25 +214,39 @@ class TestMapping:
         files = map_compartment_to_files(comp, cap_files)
         assert "dashboard/intelligence/crystal.py" in files
 
-    def test_domain_mapping_console_runtime(self):
-        """console-runtime resolves through domain mapping to core."""
+    def test_core_compartment_direct_match(self):
+        """core compartment matches directly to core capability."""
         cap_files = {"core": ["dashboard/app.py", "dashboard/config.py"]}
-        comp = {"id": "console-runtime"}
+        comp = {"id": "core"}
         files = map_compartment_to_files(comp, cap_files)
         assert "dashboard/app.py" in files
         assert "dashboard/config.py" in files
 
-    def test_domain_mapping_plus_direct(self):
-        """Compartment with both direct capability AND domain mapping."""
+    def test_console_runtime_no_longer_inherits_core(self):
+        """console-runtime does NOT get all core files (core has its own compartment)."""
+        cap_files = {"core": ["dashboard/app.py", "dashboard/config.py"]}
+        comp = {"id": "console-runtime"}
+        files = map_compartment_to_files(comp, cap_files)
+        # console-runtime has no direct capability match and no domain mapping to core
+        assert len(files) == 0
+
+    def test_domain_mapping_context_injection(self):
+        """context-injection resolves through domain mapping to intelligence-pipeline."""
+        cap_files = {
+            "intelligence-pipeline": ["dashboard/intelligence/crystal_store.py"],
+        }
+        comp = {"id": "context-injection"}
+        files = map_compartment_to_files(comp, cap_files)
+        assert "dashboard/intelligence/crystal_store.py" in files
+
+    def test_domain_mapping_telemetry(self):
+        """telemetry resolves through domain mapping to monitoring."""
         cap_files = {
             "monitoring": ["dashboard/monitoring/health.py"],
-            "core": ["dashboard/config.py"],
         }
         comp = {"id": "telemetry"}
         files = map_compartment_to_files(comp, cap_files)
-        # Gets monitoring (via domain) + core (via domain)
         assert "dashboard/monitoring/health.py" in files
-        assert "dashboard/config.py" in files
 
 
 # ---------------------------------------------------------------------------
@@ -409,5 +423,13 @@ class TestOutput:
         )
         assert "timestamp" in result
         assert "source" in result
+        assert "coverage" in result
         assert "compartments" in result
         assert "umbrellas" in result
+
+        # Coverage structure
+        cov = result["coverage"]
+        assert "collider_total_nodes" in cov
+        assert "mapped_to_compartments" in cov
+        assert "unmapped" in cov
+        assert "coverage_pct" in cov
