@@ -233,15 +233,30 @@ class TestInferFromStructure:
         assert result[0] == "Validator"
 
     def test_high_complexity_service(self):
-        """High complexity suggests Service."""
+        """High complexity class with fan-out suggests Service."""
         node = {
             "name": "complex_workflow",
+            "kind": "class",
             "complexity": 25,
+            "out_degree": 8,
             "role": "Unknown",
         }
         result = infer_from_structure(node)
         assert result is not None
         assert result[0] == "Service"
+
+    def test_high_complexity_function_not_service(self):
+        """High complexity alone does NOT make a function a Service."""
+        node = {
+            "name": "dense_switch",
+            "kind": "function",
+            "complexity": 30,
+            "role": "Unknown",
+        }
+        result = infer_from_structure(node)
+        # Should not classify as Service — functions with high CC
+        # could be validators, state machines, etc.
+        assert result is None or result[0] != "Service"
 
     def test_leaf_class_dto(self):
         """Zero out-degree class suggests DTO."""

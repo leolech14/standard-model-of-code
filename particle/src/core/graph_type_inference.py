@@ -213,10 +213,12 @@ def infer_from_structure(node: Dict) -> Tuple[str, float, str]:
             return ('Command', 78.0, 'docstring_persist')
 
     # -------------------------------------------------------------------------
-    # STRUCTURAL RULE 4: High complexity → likely Service
+    # STRUCTURAL RULE 4: High complexity CLASS with high fan-out → likely Service
     # -------------------------------------------------------------------------
+    # Guard: require class kind + high out_degree to avoid misclassifying
+    # complex utility functions or dense conditional handlers as Services.
     complexity = node.get('complexity', 0)
-    if complexity > 20:
+    if complexity > 20 and kind == 'class' and node.get('out_degree', 0) >= 5:
         return ('Service', 72.0, 'high_complexity')
 
     # -------------------------------------------------------------------------

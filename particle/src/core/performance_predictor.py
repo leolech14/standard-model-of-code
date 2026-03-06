@@ -225,13 +225,19 @@ class PerformancePredictor:
                 name = node.name
                 role = getattr(node, 'role', 'Unknown')
                 loc = self._coerce_positive_int(getattr(node, 'lines_of_code', 1), default=1)
-                complexity = self._coerce_positive_int(getattr(node, 'complexity', 1), default=1)
+                complexity = self._coerce_positive_int(
+                    getattr(node, 'cyclomatic_complexity', None) or getattr(node, 'complexity', 1),
+                    default=1,
+                )
             else:
                 node_id = node.get('id') or node.get('name') or f"node_{i}"
                 name = node.get('name', '')
                 role = node.get('role', 'Unknown')
                 loc = self._coerce_positive_int(node.get('lines_of_code', 1), default=1)
-                complexity = self._coerce_positive_int(node.get('complexity', 1), default=1)
+                complexity = self._coerce_positive_int(
+                    node.get('cyclomatic_complexity') or node.get('complexity', 1),
+                    default=1,
+                )
 
             # Get layer and in_degree from exec_flow if available
             layer = "unknown"
