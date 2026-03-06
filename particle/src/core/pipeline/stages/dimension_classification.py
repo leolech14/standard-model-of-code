@@ -37,6 +37,10 @@ class DimensionClassificationStage(BaseStage):
         """Validate we have nodes to classify."""
         return len(state.nodes) > 0
 
+    def validate_output(self, state: "CodebaseState") -> bool:
+        """Validate dimension classification was applied."""
+        return any(n.get('d4_boundary') for n in state.nodes.values())
+
     def execute(self, state: "CodebaseState") -> "CodebaseState":
         """
         Classify nodes in 8D semantic space.

@@ -43,6 +43,12 @@ class PurposeFieldStage(BaseStage):
         )
         return has_enrichment
 
+    def validate_output(self, state: "CodebaseState") -> bool:
+        """Validate purpose assignments were produced."""
+        has_purpose = any(n.get('purpose') for n in state.nodes.values())
+        has_metadata = 'purpose_field' in state.metadata
+        return has_purpose and has_metadata
+
     def execute(self, state: "CodebaseState") -> "CodebaseState":
         """
         Assign purpose field to nodes.

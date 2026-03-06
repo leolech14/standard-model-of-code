@@ -196,7 +196,7 @@ def compute_Q_density(node: Dict) -> float:
         base_density = 0.6  # Neutral
 
     # Factor in complexity vs size ratio
-    complexity = node.get('complexity', 1)
+    complexity = node.get('cyclomatic_complexity') or node.get('complexity', 1)
     loc = node.get('lines_of_code', node.get('end_line', 1) - node.get('start_line', 0) + 1)
 
     if loc > 0:
@@ -266,9 +266,9 @@ def compute_Q_simplicity(node: Dict) -> float:
 
     Formula: 1 / (1 + log(1 + complexity))
 
-    Consumes: complexity field
+    Consumes: cyclomatic_complexity (or complexity fallback)
     """
-    complexity = node.get('complexity', 1)
+    complexity = node.get('cyclomatic_complexity') or node.get('complexity', 1)
 
     if complexity <= 1:
         return 1.0

@@ -52,7 +52,7 @@ class CodomeBoundaryStage(BaseStage):
             sys.path.insert(0, str(core_path))
 
         try:
-            from full_analysis import create_codome_boundaries
+            from codome_boundary import create_codome_boundaries
 
             nodes_list = list(state.nodes.values())
             codome_result = create_codome_boundaries(nodes_list, state.edges)

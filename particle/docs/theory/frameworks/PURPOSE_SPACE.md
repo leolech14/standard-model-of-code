@@ -605,7 +605,7 @@ This integrates quality across the entire purpose distribution, weighting by how
 
 ---
 
-## Summary: The Seven Frameworks as Operations on M
+## Summary: The Eight Frameworks as Operations on M
 
 | Framework | What It Does on M | Section |
 |-----------|------------------|---------|
@@ -616,12 +616,14 @@ This integrates quality across the entire purpose distribution, weighting by how
 | **TDA** | Reveals the shape of M (holes, components, persistence) | SS4 |
 | **Matroid Theory** | Defines independence structure on M (coherence limits) | SS5.2 |
 | **Hypergraph Theory** | Models higher-order composition in M | SS5.3 |
+| **Totalization** | Determines structural completeness of subsets of M | [TOTALIZATION.md](./TOTALIZATION.md) |
 
-Each framework provides a **projection** of the full Purpose Space onto a specific structural aspect. Together, they form a comprehensive analytical toolkit.
+Each framework provides a **projection** of the full Purpose Space onto a specific structural aspect. Together, they form a comprehensive analytical toolkit. **Totalization** is unique in that it operates on subsets of M to determine self-containment — whether a code module has all its dependencies and no dead weight.
 
 **For detailed formulas, citations, and implementation guidance, see the individual framework files:**
 - [GRAPH_THEORY.md](./GRAPH_THEORY.md) | [ORDER_THEORY.md](./ORDER_THEORY.md) | [INFORMATION_THEORY.md](./INFORMATION_THEORY.md)
 - [CATEGORY_THEORY.md](./CATEGORY_THEORY.md) | [TOPOLOGY.md](./TOPOLOGY.md) | [MATROID_THEORY.md](./MATROID_THEORY.md) | [HYPERGRAPH_THEORY.md](./HYPERGRAPH_THEORY.md)
+- [TOTALIZATION.md](./TOTALIZATION.md)
 
 ---
 
@@ -638,7 +640,7 @@ Each framework provides a **projection** of the full Purpose Space onto a specif
 - [L2_PRINCIPLES.md](../foundations/L2_PRINCIPLES.md) — Purpose hierarchy (SS1), Emergence (SS2), Shannon (SS6), Evolution (SS7)
 - [L3_APPLICATIONS.md](../foundations/L3_APPLICATIONS.md) — Q-scores (SS1), coherence metric Q_cohere using Shannon entropy
 - [TOPOLOGICAL_BOUNDARIES.md](../TOPOLOGICAL_BOUNDARIES.md) — Zone phase transitions as topology changes
-- Framework files: [GRAPH_THEORY](./GRAPH_THEORY.md) | [ORDER_THEORY](./ORDER_THEORY.md) | [INFORMATION_THEORY](./INFORMATION_THEORY.md) | [CATEGORY_THEORY](./CATEGORY_THEORY.md) | [TOPOLOGY](./TOPOLOGY.md) | [MATROID_THEORY](./MATROID_THEORY.md) | [HYPERGRAPH_THEORY](./HYPERGRAPH_THEORY.md)
+- Framework files: [GRAPH_THEORY](./GRAPH_THEORY.md) | [ORDER_THEORY](./ORDER_THEORY.md) | [INFORMATION_THEORY](./INFORMATION_THEORY.md) | [CATEGORY_THEORY](./CATEGORY_THEORY.md) | [TOPOLOGY](./TOPOLOGY.md) | [MATROID_THEORY](./MATROID_THEORY.md) | [HYPERGRAPH_THEORY](./HYPERGRAPH_THEORY.md) | [TOTALIZATION](./TOTALIZATION.md)
 
 ### Implementation
 - `src/core/purpose_field.py` — Purpose detection, entropy, coherence, god class detection, emergence rules, layer mapping

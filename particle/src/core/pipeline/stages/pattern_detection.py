@@ -39,6 +39,11 @@ class PatternDetectionStage(BaseStage):
         """Validate we have nodes."""
         return len(state.nodes) > 0
 
+    def validate_output(self, state: "CodebaseState") -> bool:
+        """Validate pattern detection produced results."""
+        patterns = state.metadata.get('patterns')
+        return isinstance(patterns, dict) and 'counts' in patterns
+
     def execute(self, state: "CodebaseState") -> "CodebaseState":
         """
         Detect code patterns.

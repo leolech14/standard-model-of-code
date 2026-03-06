@@ -254,6 +254,33 @@ def normalize_files_index(files_index: Any, target: str) -> None:
         files_index.update(normalized)
 
 
+def _deduplicate_edges(data: Dict[str, Any]) -> None:
+    """Remove duplicate edges by (source, target, edge_type) key.
+
+    Keeps the first occurrence (highest confidence if present).
+    Modifies data['edges'] in-place.
+    """
+    edges = data.get("edges")
+    if not edges or not isinstance(edges, list):
+        return
+    seen: Dict[tuple, int] = {}
+    unique = []
+    for edge in edges:
+        key = (edge.get("source", ""), edge.get("target", ""), edge.get("edge_type", ""))
+        if key not in seen:
+            seen[key] = len(unique)
+            unique.append(edge)
+    if len(unique) < len(edges):
+        data["edges"] = unique
+
+
+def _ensure_edge_weights(edges: Iterable[Dict[str, Any]]) -> None:
+    """Ensure every edge has a 'weight' field (default 1.0)."""
+    for edge in edges:
+        if isinstance(edge, dict) and "weight" not in edge:
+            edge["weight"] = 1.0
+
+
 def canonicalize_ids(
     nodes: Iterable[Dict[str, Any]],
     edges: Iterable[Dict[str, Any]],
@@ -319,6 +346,8 @@ def normalize_output(data: Dict[str, Any]) -> Dict[str, Any]:
             normalize_confidence_fields(edge)
 
     canonicalize_ids(nodes, edges)
+    _deduplicate_edges(data)
+    _ensure_edge_weights(data.get("edges", []))
     return data
 
 

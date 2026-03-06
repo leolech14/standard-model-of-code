@@ -42,8 +42,8 @@ class StandardModelEnricher:
         with open(types_file) as f:
             data = json.load(f)
 
-        # Parse rings and types
-        for ring_name, ring_data in data.get('rings', {}).items():
+        # Parse layers (historically called "rings") and types
+        for ring_name, ring_data in data.get('layers', data.get('rings', {})).items():
             for type_def in ring_data.get('types', []):
                 type_id = type_def.get('id')
                 if not type_id:

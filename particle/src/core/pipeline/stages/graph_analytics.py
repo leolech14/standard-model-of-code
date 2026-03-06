@@ -39,6 +39,13 @@ class GraphAnalyticsStage(BaseStage):
         """Validate we have a graph to analyze."""
         return len(state.nodes) > 0 and len(state.edges) > 0
 
+    def validate_output(self, state: "CodebaseState") -> bool:
+        """Validate graph analytics metadata was produced."""
+        ga = state.metadata.get('graph_analytics')
+        if not isinstance(ga, dict):
+            return False
+        return ga.get('total_nodes', 0) > 0
+
     def execute(self, state: "CodebaseState") -> "CodebaseState":
         """
         Compute graph analytics metrics.

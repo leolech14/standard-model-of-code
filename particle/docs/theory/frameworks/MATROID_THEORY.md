@@ -259,6 +259,7 @@ The **dual matroid** M* has the same ground set E but independent sets are compl
 | [CATEGORY_THEORY](./CATEGORY_THEORY.md) | Matroid is a functor from subsets to rank values; rank is submodular |
 | [TOPOLOGY](./TOPOLOGY.md) | Matroid circuits ~ H_1 generators (both detect "beyond threshold" structure) |
 | [HYPERGRAPH_THEORY](./HYPERGRAPH_THEORY.md) | Matroid on hyperedges defines which multi-atom dependencies are independent |
+| [TOTALIZATION](./TOTALIZATION.md) | Matroid rank bounds constrain the coherence component of totalization score; tau_down (kernel) removes atoms exceeding independence threshold |
 
 ---
 

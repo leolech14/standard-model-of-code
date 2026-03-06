@@ -230,6 +230,7 @@ This connects FCA to machine learning (concept mining) while keeping the lattice
 | [INFORMATION_THEORY](./INFORMATION_THEORY.md) | Entropy measures disorder within a concept's extent |
 | [CATEGORY_THEORY](./CATEGORY_THEORY.md) | PURPOSE_TO_LAYER is a functor between lattice categories |
 | [MATROID_THEORY](./MATROID_THEORY.md) | Matroid independence generalizes lattice join-irreducibility |
+| [TOTALIZATION](./TOTALIZATION.md) | Galois connection (alpha, gamma) between feature-sets and atom-sets extends FCA; totalized subsets form a complete lattice under inclusion |
 
 ---
 

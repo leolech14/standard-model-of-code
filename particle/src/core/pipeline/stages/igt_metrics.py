@@ -41,6 +41,11 @@ class IGTMetricsStage(BaseStage):
         """Validate we have nodes."""
         return len(state.nodes) > 0
 
+    def validate_output(self, state: "CodebaseState") -> bool:
+        """Validate IGT metrics were computed."""
+        igt = state.metadata.get('igt_metrics')
+        return isinstance(igt, dict) and 'error' not in igt
+
     def execute(self, state: "CodebaseState") -> "CodebaseState":
         """
         Compute IGT metrics.

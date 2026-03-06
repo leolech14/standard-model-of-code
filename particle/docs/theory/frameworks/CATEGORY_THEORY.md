@@ -265,6 +265,7 @@ This captures the constraint that two components depending on the same module mu
 | [TOPOLOGY](./TOPOLOGY.md) | Simplicial complex = nerve of covering in category of open sets |
 | [MATROID_THEORY](./MATROID_THEORY.md) | Matroid is a functor from subsets to rank values |
 | [HYPERGRAPH_THEORY](./HYPERGRAPH_THEORY.md) | Hypergraph = presheaf on the simplex category Delta |
+| [TOTALIZATION](./TOTALIZATION.md) | Totalized subsets = global sections of purpose presheaf; totalization as end construction integral_v P(v) |
 
 ---
 

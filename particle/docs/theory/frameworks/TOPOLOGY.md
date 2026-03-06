@@ -213,6 +213,7 @@ This connects to our purpose metric: UMAP's local distance estimates use d(p_i, 
 | [CATEGORY_THEORY](./CATEGORY_THEORY.md) | Persistent homology = functor from (R, <=) to Vect |
 | [MATROID_THEORY](./MATROID_THEORY.md) | Both detect "complexity beyond threshold" — topology via cycles, matroid via rank |
 | [HYPERGRAPH_THEORY](./HYPERGRAPH_THEORY.md) | Simplicial complex generalizes to hypergraph for higher-order dependencies |
+| [TOTALIZATION](./TOTALIZATION.md) | Self-contained subsets are topologically closed under the purpose topology; totalization tower is a filtration analog |
 
 ---
 

@@ -136,9 +136,25 @@ def _run_contextome(ctx: PipelineContext) -> None:
         with StageTimer(ctx.perf_manager, "Stage 0.8: Contextome Intelligence") as timer:
             try:
                 from src.core.contextome_intel import run_contextome_intelligence
+
+                # Layer 2: Try to load Gemini adapter (optional, graceful degradation)
+                llm_adapter = None
+                if not ctx.options.get("no_llm", False):
+                    try:
+                        from src.core.adapters.gemini_contextome import GeminiContextomeAdapter
+                        llm_adapter = GeminiContextomeAdapter()
+                        _log("   → LLM adapter loaded (Gemini)", ctx.quiet)
+                    except Exception as e:
+                        _log(f"   → LLM adapter skipped: {type(e).__name__}: {e}", ctx.quiet)
+                        ctx.data_ledger.publish(
+                            "contextome_llm", "Stage 0.8 LLM",
+                            status="skipped", summary=f"{type(e).__name__}: {e}",
+                        )
+
                 ctx.contextome_result = run_contextome_intelligence(
                     root_path=str(ctx.target),
                     exclude_paths=ctx.exclude_paths,
+                    llm_adapter=llm_adapter,
                 )
                 timer.set_output(
                     docs=ctx.contextome_result.doc_count,

@@ -2,7 +2,7 @@
 
 **Purpose:** Central navigation for all Standard Model of Code theory documents
 **Organization:** Foundations (L0-L3) + Mathematical Frameworks + References
-**Last updated:** 2026-03-05
+**Last updated:** 2026-03-06
 
 ---
 
@@ -29,7 +29,7 @@ L0 AXIOMS ──> L1 DEFINITIONS ──> L2 PRINCIPLES ──> L3 APPLICATIONS
 
 ## 2. Mathematical Frameworks
 
-Seven mathematical frameworks operate on **Purpose Space** M = (S, d, mu, tau, A), each formalizing a different aspect of code architecture. They follow a strict reading order DAG (no circular dependencies):
+Nine mathematical frameworks operate on **Purpose Space** M = (S, d, mu, tau, A), each formalizing a different aspect of code architecture. They follow a strict reading order DAG (no circular dependencies):
 
 ```
 PURPOSE_SPACE ──┬──> GRAPH_THEORY
@@ -42,6 +42,8 @@ PURPOSE_SPACE ──┬──> GRAPH_THEORY
           TOPOLOGY    MATROID_THEORY
               └─────┬─────┘
            HYPERGRAPH_THEORY
+                    │
+            TOTALIZATION  (depends on ORDER + TOPOLOGY)
 ```
 
 | Framework | File | Layer | Status | Key Exports |
@@ -54,8 +56,11 @@ PURPOSE_SPACE ──┬──> GRAPH_THEORY
 | Topology | [TOPOLOGY.md](./frameworks/TOPOLOGY.md) | L2-L3 Bridge | THEORETICAL | persistent homology, simplicial complexes, TDA |
 | Matroid Theory | [MATROID_THEORY.md](./frameworks/MATROID_THEORY.md) | L3 | PARTIALLY_IMPLEMENTED | rank function, independence, greedy decomposition |
 | Hypergraph Theory | [HYPERGRAPH_THEORY.md](./frameworks/HYPERGRAPH_THEORY.md) | L1 | THEORETICAL | hyperedges, n-ary dependencies, composite emergence |
+| Totalization | [TOTALIZATION.md](./frameworks/TOTALIZATION.md) | L3 | THEORETICAL | closure operators, self-contained subsets, completeness score |
 
 **Notation consistency:** All framework files use dim(M) = 33, d(p_i, p_j) = 1 - cos(p_i, p_j), coherence = 1 - H/H_max, as defined in PURPOSE_SPACE.md.
+
+**Totalization** (added 2026-03-06) provides the mathematical framework for structural completeness — whether a subset of code is self-contained with no dangling references. Uses closure operators (monad/comonad pair) and Galois connections to formalize "normalize up" and "normalize down" operations.
 
 ---
 
@@ -159,7 +164,7 @@ START: INDEX.md (you are here)
   ↓
   frameworks/PURPOSE_SPACE.md (mathematical space)
   ↓
-  frameworks/ (7 framework files in DAG order)
+  frameworks/ (8 framework files in DAG order)
   ↓
   LOOP: Back to L0 (theory closure)
 ```
@@ -194,6 +199,7 @@ theory/
     TOPOLOGY.md
     MATROID_THEORY.md
     HYPERGRAPH_THEORY.md
+    TOTALIZATION.md
   synthesis/                   (future: cross-framework results)
   whitepapers/                 (future: standalone papers)
   *.md                         standalone theory files (root)
@@ -214,6 +220,7 @@ theory/
 | Order Theory (Emergence rules) | `src/core/purpose_field.py:149-170` |
 | Category Theory (Layer functor) | `src/core/purpose_field.py:174-216` |
 | Matroid Theory (God class rank) | `src/core/purpose_field.py:372-375` |
+| Totalization (Completeness) | `boundary_analyzer.py` (future: totalization score) |
 
 **Practice documentation:**
 - [MODEL.md](../MODEL.md) - Practical summary
@@ -222,4 +229,4 @@ theory/
 
 ---
 
-*This index supersedes THEORY_INDEX.md. The narrative loop L0->L1->L2->L3->L0 is preserved. Mathematical frameworks formalize the structure of Purpose Space M.*
+*This index supersedes THEORY_INDEX.md. The narrative loop L0->L1->L2->L3->L0 is preserved. Nine mathematical frameworks formalize the structure of Purpose Space M.*

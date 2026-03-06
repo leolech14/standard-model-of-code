@@ -2,7 +2,7 @@
 
 **Purpose:** Central navigation for all theory documents
 **Organization:** Hierarchical layers (L0→L3) + comprehensive references
-**Last updated:** 2026-01-28
+**Last updated:** 2026-03-06
 
 ---
 
@@ -134,6 +134,28 @@ Located in: `wave/docs/theory/`
 
 ---
 
+## MATHEMATICAL FRAMEWORKS (Purpose Space Operations)
+
+Located in: `particle/docs/theory/frameworks/`
+
+These nine documents formalize the mathematical structures that operate on Purpose Space M = (S, d, mu, tau, A). Each framework provides a projection of M onto a specific structural aspect.
+
+| Framework | File | What It Does on M |
+|-----------|------|--------------------|
+| **Purpose Space** | [PURPOSE_SPACE.md](./frameworks/PURPOSE_SPACE.md) | Defines M itself — metric, measure, topology, algebra |
+| **Graph Theory** | [GRAPH_THEORY.md](./frameworks/GRAPH_THEORY.md) | Discretizes M into dependency graph; community detection |
+| **Order Theory** | [ORDER_THEORY.md](./frameworks/ORDER_THEORY.md) | FCA concept lattice; partial orders on purposes |
+| **Information Theory** | [INFORMATION_THEORY.md](./frameworks/INFORMATION_THEORY.md) | Shannon entropy; coherence; mutual information |
+| **Category Theory** | [CATEGORY_THEORY.md](./frameworks/CATEGORY_THEORY.md) | Functors and natural transformations on purpose mappings |
+| **Topology** | [TOPOLOGY.md](./frameworks/TOPOLOGY.md) | Persistent homology; shape of purpose space |
+| **Matroid Theory** | [MATROID_THEORY.md](./frameworks/MATROID_THEORY.md) | Independence structure; coherence limits; god class bounds |
+| **Hypergraph Theory** | [HYPERGRAPH_THEORY.md](./frameworks/HYPERGRAPH_THEORY.md) | Higher-order composition; multi-atom dependencies |
+| **Totalization** | [TOTALIZATION.md](./frameworks/TOTALIZATION.md) | Completeness closure operators; self-contained subsets |
+
+**Totalization** (added 2026-03-06) provides the mathematical framework for determining structural completeness — whether a subset of code is self-contained with no dangling references. Uses closure operators (monad/comonad pair) and Galois connections to formalize "normalize up" and "normalize down" operations.
+
+---
+
 ## SPECIALIZED THEORY
 
 ### Analogies
@@ -211,9 +233,23 @@ START: THEORY_INDEX.md (you are here)
     APPLICATIONS (L3)
            ↓
         [loops to L0]
+
+    ─── MATHEMATICAL FRAMEWORKS ───
+    (9 projections operating on Purpose Space M)
+
+    PURPOSE_SPACE ── defines M
+        ├── GRAPH_THEORY ── G discretizes M
+        ├── ORDER_THEORY ── lattice on M
+        ├── INFORMATION_THEORY ── entropy on M
+        ├── CATEGORY_THEORY ── functors on M
+        ├── TOPOLOGY ── shape of M
+        ├── MATROID_THEORY ── independence in M
+        ├── HYPERGRAPH_THEORY ── higher-order M
+        └── TOTALIZATION ── completeness of M
 ```
 
 **Closure property:** L3 applications validate L0 axioms
+**Framework closure:** TOTALIZATION determines when a subset of M is self-contained (fixed point of closure operators)
 
 ---
 
@@ -224,6 +260,7 @@ START: THEORY_INDEX.md (you are here)
 - L1 Definitions encoded in: `src/patterns/*.yaml`
 - L2 Principles enforced in: `src/core/purpose_field.py`
 - L3 Applications executed in: Collider Pipeline (28 stages)
+- Frameworks: `purpose_field.py` (entropy, coherence, PURPOSE_TO_LAYER functor); `graph_analyzer.py` (community detection); `boundary_analyzer.py` (concordance health)
 
 **To Practice:**
 - [../../docs/MODEL.md](../MODEL.md) - Practical summary
