@@ -48,7 +48,7 @@ class DataFlowMacroStage(BaseStage):
             sys.path.insert(0, str(core_path))
 
         try:
-            from full_analysis import compute_data_flow
+            from topology_analysis import compute_data_flow
 
             nodes_list = list(state.nodes.values())
             data_flow = compute_data_flow(nodes_list, state.edges)

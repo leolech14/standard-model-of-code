@@ -48,7 +48,7 @@ class KnotDetectionStage(BaseStage):
             sys.path.insert(0, str(core_path))
 
         try:
-            from full_analysis import detect_knots
+            from topology_analysis import detect_knots
 
             nodes_list = list(state.nodes.values())
             knots = detect_knots(nodes_list, state.edges)

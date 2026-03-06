@@ -104,8 +104,10 @@ def _fallback_changed_files(repo_path: str) -> Set[str]:
             return set()
 
         files = set()
-        for line in result.stdout.strip().splitlines():
-            # porcelain format: XY filename
+        for line in result.stdout.splitlines():
+            # porcelain format: XY filename (positions 0-1 = status, 2 = space)
+            # Do NOT strip() the full stdout — leading spaces are part of
+            # the XY status code (e.g., " M" = unstaged modification).
             if len(line) < 4:
                 continue
             path = line[3:].strip()

@@ -40,6 +40,11 @@ class ScopeAnalysisStage(BaseStage):
         """Validate we have nodes with body_source."""
         return any(n.get('body_source') for n in state.nodes.values())
 
+    def validate_output(self, state: "CodebaseState") -> bool:
+        """Validate scope analysis produced results."""
+        sa = state.metadata.get('scope_analysis')
+        return isinstance(sa, dict) and sa.get('analyzed_nodes', 0) > 0
+
     def execute(self, state: "CodebaseState") -> "CodebaseState":
         """
         Analyze lexical scopes.

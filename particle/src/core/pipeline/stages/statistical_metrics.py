@@ -37,6 +37,11 @@ class StatisticalMetricsStage(BaseStage):
         """Validate we have nodes."""
         return len(state.nodes) > 0
 
+    def validate_output(self, state: "CodebaseState") -> bool:
+        """Validate statistical metrics were computed."""
+        stats = state.metadata.get('stats')
+        return isinstance(stats, dict) and len(stats) > 0
+
     def execute(self, state: "CodebaseState") -> "CodebaseState":
         """
         Compute statistical metrics.

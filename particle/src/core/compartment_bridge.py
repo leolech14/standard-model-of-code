@@ -79,17 +79,10 @@ def load_dashboard_modules(yaml_path: str) -> dict[str, list[str]]:
 # Capability → Compartment name resolution
 # ---------------------------------------------------------------------------
 
-# Known naming mismatches between dashboard_modules.yaml capabilities
-# and compartments.yaml IDs. Maps capability name → compartment ID.
-_CAPABILITY_TO_COMPARTMENT: dict[str, str] = {
-    "fin-intelligence": "financial-intelligence",
-    "intel-pipeline": "intelligence-pipeline",
-}
-
-# Reverse: compartment ID → capability name
-_COMPARTMENT_TO_CAPABILITY: dict[str, str] = {
-    v: k for k, v in _CAPABILITY_TO_COMPARTMENT.items()
-}
+# Alias map: compartment ID → alternative capability names.
+# Kept empty after renaming dashboard_modules.yaml to match compartments.yaml.
+# Preserved as extension point if future naming divergence occurs.
+_COMPARTMENT_TO_CAPABILITY: dict[str, str] = {}
 
 # Compartments that map to code through dashboard_domains, not capabilities.
 # Maps compartment ID → list of capabilities that serve that domain.

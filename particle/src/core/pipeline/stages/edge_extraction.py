@@ -38,6 +38,10 @@ class EdgeExtractionStage(BaseStage):
         """Validate we have edges to classify."""
         return len(state.edges) > 0
 
+    def validate_output(self, state: "CodebaseState") -> bool:
+        """Validate edges exist after extraction."""
+        return len(state.edges) > 0
+
     def execute(self, state: "CodebaseState") -> "CodebaseState":
         """
         Extract and classify execution flow edges.

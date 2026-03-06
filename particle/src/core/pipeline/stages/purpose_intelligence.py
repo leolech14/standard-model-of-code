@@ -38,6 +38,11 @@ class PurposeIntelligenceStage(BaseStage):
         """Validate we have nodes with purpose."""
         return any(n.get('purpose') for n in state.nodes.values())
 
+    def validate_output(self, state: "CodebaseState") -> bool:
+        """Validate purpose intelligence metrics were produced."""
+        intel = state.metadata.get('intelligence')
+        return isinstance(intel, dict) and 'avg_q_score' in intel
+
     def execute(self, state: "CodebaseState") -> "CodebaseState":
         """
         Calculate purpose intelligence metrics.

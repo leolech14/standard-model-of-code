@@ -200,16 +200,16 @@ class TestMapping:
         files = map_compartment_to_files(comp, {})
         assert len(files) == 0
 
-    def test_alias_resolution_financial_intelligence(self):
-        """financial-intelligence compartment → fin-intelligence capability."""
-        cap_files = {"fin-intelligence": ["dashboard/fin_intelligence/api.py"]}
+    def test_direct_match_financial_intelligence(self):
+        """financial-intelligence compartment matches directly after rename."""
+        cap_files = {"financial-intelligence": ["dashboard/fin_intelligence/api.py"]}
         comp = {"id": "financial-intelligence"}
         files = map_compartment_to_files(comp, cap_files)
         assert "dashboard/fin_intelligence/api.py" in files
 
-    def test_alias_resolution_intelligence_pipeline(self):
-        """intelligence-pipeline compartment → intel-pipeline capability."""
-        cap_files = {"intel-pipeline": ["dashboard/intelligence/crystal.py"]}
+    def test_direct_match_intelligence_pipeline(self):
+        """intelligence-pipeline compartment matches directly after rename."""
+        cap_files = {"intelligence-pipeline": ["dashboard/intelligence/crystal.py"]}
         comp = {"id": "intelligence-pipeline"}
         files = map_compartment_to_files(comp, cap_files)
         assert "dashboard/intelligence/crystal.py" in files

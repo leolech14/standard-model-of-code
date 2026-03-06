@@ -48,9 +48,9 @@ class MarkovMatrixStage(BaseStage):
         if str(core_path) not in sys.path:
             sys.path.insert(0, str(core_path))
 
-        # Use the compute_markov_matrix from full_analysis
+        # Use the compute_markov_matrix from topology_analysis
         try:
-            from full_analysis import compute_markov_matrix
+            from topology_analysis import compute_markov_matrix
 
             nodes_list = list(state.nodes.values())
             markov = compute_markov_matrix(nodes_list, state.edges)

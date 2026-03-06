@@ -39,6 +39,11 @@ class TopologyReasoningStage(BaseStage):
         """Validate we have nodes and edges."""
         return len(state.nodes) > 0
 
+    def validate_output(self, state: "CodebaseState") -> bool:
+        """Validate topology classification was produced."""
+        topo = state.metadata.get('topology')
+        return isinstance(topo, dict) and 'shape' in topo
+
     def execute(self, state: "CodebaseState") -> "CodebaseState":
         """
         Classify graph topology.
