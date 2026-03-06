@@ -1019,7 +1019,7 @@ def main():
         # Step 6: Filter findings and evaluate gate
         compiled = baseline.get("compiled_insights", {})
         findings = compiled.get("findings", [])
-        result = evaluate_gate(findings, blast_radius, changed_files)
+        result = evaluate_gate(findings, blast_radius, changed_files, changed_nodes)
 
         # Step 7: Output
         if json_mode:

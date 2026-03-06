@@ -144,21 +144,42 @@ def compute_blast_radius(G: nx.DiGraph, changed_nodes: Set[str]) -> Set[str]:
     return blast_radius
 
 
+def _node_in_changed_files(node_id: str, changed_files: Set[str]) -> bool:
+    """Check if a graph node belongs to one of the changed files.
+
+    Node IDs have the form '/full/path/to/file.py:function_name'.
+    Changed files are relative paths like 'particle/src/core/pds.py'.
+    We match by checking if the node's file path ends with any changed file.
+    """
+    file_part = node_id.split(":")[0] if ":" in node_id else node_id
+    return any(file_part.endswith(cf) for cf in changed_files)
+
+
 def evaluate_gate(
     findings: List[Dict],
     blast_radius: Set[str],
     changed_files: Set[str],
+    changed_nodes: Optional[Set[str]] = None,
 ) -> GateResult:
     """Evaluate whether findings in the blast radius should block a push.
 
     Filters findings to those whose related_nodes intersect with the blast
-    radius, then classifies them as blocking or warnings based on category
-    and severity.
+    radius, then classifies them based on proximity to actual changes:
+
+    - Findings directly in changed files/nodes → blocking (if critical/high
+      in structural categories)
+    - Findings only reachable via blast radius (pre-existing) → downgraded
+      to warnings with annotation
+
+    This prevents pre-existing findings from blocking unrelated pushes.
 
     Args:
         findings: List of compiled insight dicts from baseline.
         blast_radius: Set of node IDs in the blast radius.
-        changed_files: Set of changed file paths (for summary).
+        changed_files: Set of changed file paths (relative).
+        changed_nodes: Optional set of node IDs directly in changed files.
+            If provided, used for precise matching; otherwise falls back
+            to file-path matching via changed_files.
 
     Returns:
         GateResult with pass/fail decision and categorized findings.
@@ -176,18 +197,40 @@ def evaluate_gate(
         category = finding.get("category", "")
         severity = finding.get("severity", "").lower()
 
+        # Determine if finding is directly in changed code
+        if changed_nodes is not None:
+            directly_changed = bool(related.intersection(changed_nodes))
+        else:
+            directly_changed = any(
+                _node_in_changed_files(n, changed_files) for n in related
+            )
+
         if category in BLOCKING_CATEGORIES and severity in BLOCKING_SEVERITIES:
-            blocking.append(finding)
+            if directly_changed:
+                blocking.append(finding)
+            else:
+                # Pre-existing finding in blast radius — downgrade to warning
+                downgraded = dict(finding)
+                downgraded["downgraded_from"] = "blocking"
+                downgraded["downgrade_reason"] = (
+                    "pre-existing finding (not in changed files)"
+                )
+                warnings.append(downgraded)
         elif category in WARN_CATEGORIES or severity not in BLOCKING_SEVERITIES:
             warnings.append(finding)
 
     passed = len(blocking) == 0
+    n_downgraded = sum(
+        1 for w in warnings if w.get("downgraded_from") == "blocking"
+    )
     summary = (
         f"{len(changed_files)} file(s) changed, "
         f"{len(blast_radius)} node(s) in blast radius, "
         f"{len(blocking)} blocking finding(s), "
         f"{len(warnings)} warning(s)"
     )
+    if n_downgraded:
+        summary += f" ({n_downgraded} pre-existing downgraded)"
 
     return GateResult(
         passed=passed,
