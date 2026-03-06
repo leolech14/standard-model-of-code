@@ -703,6 +703,21 @@ def _run_api_drift(ctx: PipelineContext) -> None:
             # Step 4: Inject api_call/api_drift edges into the graph
             drift_edges = generate_api_edges(ctx.api_drift_report)
             if drift_edges:
+                # Normalize edge IDs: strip frontend::/backend:: prefix and
+                # convert absolute paths to relative (matching node ID format).
+                repo_prefix = str(ctx.target).rstrip("/") + "/"
+                for edge in drift_edges:
+                    for key in ("source", "target"):
+                        val = edge.get(key, "")
+                        # Strip domain prefix
+                        for prefix in ("frontend::", "backend::"):
+                            if val.startswith(prefix):
+                                val = val[len(prefix):]
+                                break
+                        # Convert absolute path to relative
+                        if val.startswith(repo_prefix):
+                            val = val[len(repo_prefix):]
+                        edge[key] = val
                 ctx.edges.extend(drift_edges)
 
             summary = ctx.api_drift_report.summary()
