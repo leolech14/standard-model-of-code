@@ -129,12 +129,14 @@ def _run_coherence(ctx: PipelineContext) -> None:
     """Stage 3.7: Purpose Coherence metrics from PurposeField."""
     print("\n🎯 Stage 3.7: Purpose Coherence Metrics...")
     coherence_enriched = 0
-    # Build lookup from purpose_field.nodes by node name
+    # Build lookup: ID-first (reliable), name-fallback (for legacy compat)
+    pf_by_id = {pn.id: pn for pn in ctx.purpose_field.nodes.values()}
     pf_by_name = {pn.name: pn for pn in ctx.purpose_field.nodes.values()}
     for node in ctx.nodes:
+        node_id = node.get('id', '')
         name = node.get('name', '')
-        if name in pf_by_name:
-            pf_node = pf_by_name[name]
+        pf_node = pf_by_id.get(node_id) or pf_by_name.get(name)
+        if pf_node:
             # Transfer coherence metrics
             node['purpose_coherence'] = {
                 'coherence_score': pf_node.coherence_score,

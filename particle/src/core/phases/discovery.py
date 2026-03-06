@@ -143,8 +143,13 @@ def _run_contextome(ctx: PipelineContext) -> None:
                     try:
                         from src.core.adapters.gemini_contextome import GeminiContextomeAdapter
                         llm_adapter = GeminiContextomeAdapter()
-                    except Exception:
-                        pass  # Layer 1 only — still good
+                        _log("   → LLM adapter loaded (Gemini)", ctx.quiet)
+                    except Exception as e:
+                        _log(f"   → LLM adapter skipped: {type(e).__name__}: {e}", ctx.quiet)
+                        ctx.data_ledger.publish(
+                            "contextome_llm", "Stage 0.8 LLM",
+                            status="skipped", summary=f"{type(e).__name__}: {e}",
+                        )
 
                 ctx.contextome_result = run_contextome_intelligence(
                     root_path=str(ctx.target),

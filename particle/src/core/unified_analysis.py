@@ -245,7 +245,7 @@ def create_unified_output(
             "docstring": node.get("docstring", ""),
             "signature": node.get("evidence", node.get("signature", "")),
             "body_source": node.get("body_source", ""),
-            "complexity": node.get("complexity", 0),
+            "complexity": node.get("cyclomatic_complexity", node.get("complexity", 0)),
             "lines_of_code": (node.get("end_line", 0) - node.get("line", 0)) or 0,
             "in_degree": node.get("in_degree", 0),
             "out_degree": node.get("out_degree", 0),
