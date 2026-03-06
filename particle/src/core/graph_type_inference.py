@@ -351,8 +351,8 @@ class GraphTypeInference:
         for node in nodes:
             current_role = node.get('role', node.get('type', 'Unknown'))
 
-            # Only infer for unknown nodes
-            if current_role == 'Unknown':
+            # Infer for unknown/unresolved nodes ('Internal' = enricher's fallback for unknown)
+            if current_role in ('Unknown', 'Internal'):
                 inferred_type, confidence, rule = self.infer_type(node, graph_index)
 
                 if inferred_type != 'Unknown':
@@ -416,7 +416,7 @@ def apply_graph_inference(nodes: List[Dict], edges: List[Dict]) -> Tuple[List[Di
     node_by_name = {n.get('name', ''): n for n in nodes}
 
     for node in nodes:
-        if node.get('role') == 'Unknown' or node.get('type') == 'Unknown':
+        if node.get('role') in ('Unknown', 'Internal') or node.get('type') in ('Unknown', 'Internal'):
             name = node.get('name', '')
             parent_name = node.get('parent', '')
 
@@ -428,7 +428,7 @@ def apply_graph_inference(nodes: List[Dict], edges: List[Dict]) -> Tuple[List[Di
                 parent = node_by_name.get(parent_name)
                 if parent:
                     parent_role = parent.get('role', parent.get('type', 'Unknown'))
-                    if parent_role and parent_role != 'Unknown':
+                    if parent_role and parent_role not in ('Unknown', 'Internal'):
                         node['role'] = parent_role
                         node['type'] = parent_role
                         node['role_confidence'] = parent.get('role_confidence', 70.0) * 0.9  # Slightly lower confidence
