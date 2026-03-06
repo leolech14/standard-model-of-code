@@ -98,7 +98,7 @@ def create_full_pipeline(
         hub: Optional Hub reference for EventBus integration
 
     Returns:
-        PipelineManager configured with all 27 stages
+        PipelineManager configured with all 28 stages
     """
     from .stages import (
         # Phase 1: Extraction
@@ -128,6 +128,7 @@ def create_full_pipeline(
         PerformancePredictionStage,
         ConstraintValidationStage,
         PurposeIntelligenceStage,
+        ConcordanceStage,
         # Phase 5: Output
         RoadmapEvaluationStage,
         TopologyReasoningStage,
@@ -167,6 +168,7 @@ def create_full_pipeline(
         "performance_prediction": PerformancePredictionStage(),
         "constraint_validation": ConstraintValidationStage(),
         "purpose_intelligence": PurposeIntelligenceStage(),
+        "concordance": ConcordanceStage(),
         # Phase 5: Output
         "roadmap_evaluation": RoadmapEvaluationStage(roadmap_name=roadmap),
         "topology_reasoning": TopologyReasoningStage(),

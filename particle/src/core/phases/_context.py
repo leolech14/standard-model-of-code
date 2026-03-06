@@ -59,6 +59,7 @@ class PipelineContext:
     perf_summary: Optional[Dict] = None
     constraint_report: Optional[Dict] = None
     codebase_intelligence: Optional[Dict] = None
+    concordance_result: Optional[Dict] = None
     codome_result: Optional[Dict] = None
     ecosystem_discovery: Any = None
     ecosystem_discovery_status: str = "not_run"

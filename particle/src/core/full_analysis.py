@@ -437,6 +437,10 @@ def _assemble_output(ctx) -> None:
             # Codome boundary KPIs
             'codome_boundary_count': codome_result.get('total_boundaries', 0),
             'codome_inferred_edges': codome_result.get('total_inferred_edges', 0),
+            # Concordance KPIs (Stage 8.7)
+            'concordance_alignment': ctx.concordance_result.get('alignment_score', 0) if ctx.concordance_result else 0,
+            'concordance_health': ctx.concordance_result.get('overall_health', 0) if ctx.concordance_result else 0,
+            'concordance_issues': len(ctx.concordance_result.get('issues', [])) if ctx.concordance_result else 0,
             # Capability status KPIs (optional stages)
             'ecosystem_discovery_status': ctx.ecosystem_discovery_status,
             'ecosystem_discovery_error': ctx.ecosystem_discovery_error,
@@ -467,6 +471,8 @@ def _assemble_output(ctx) -> None:
         },
         # API Drift Detection
         'api_drift': _assemble_api_drift(ctx),
+        # Concordance Analysis (Stage 8.7)
+        'concordance': ctx.concordance_result or {},
     }
 
     # Compute top hubs

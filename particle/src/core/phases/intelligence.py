@@ -16,7 +16,7 @@ def _log(msg: str, quiet: bool = False):
 def run_intelligence(ctx: 'PipelineContext') -> None:
     """Execute all intelligence sub-stages.
 
-    Stages 7, 8, 8.5, 8.6 + color scale application.
+    Stages 7, 8, 8.5, 8.6, 8.7 + color scale application.
     """
     from observability import StageTimer
 
@@ -98,6 +98,57 @@ def run_intelligence(ctx: 'PipelineContext') -> None:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Purpose Intelligence skipped: {e}")
             ctx.data_ledger.publish("purpose_intelligence", "Stage 8.6: Purpose Intelligence", status="skipped", summary=str(e))
+
+    # Stage 8.7: Concordance Analysis (Boundary Alignment + Health)
+    print("\n🔗 Stage 8.7: Concordance Analysis...")
+    ctx.concordance_result = {}
+    with StageTimer(ctx.perf_manager, "Stage 8.7: Concordance Analysis") as timer:
+        try:
+            import subprocess
+            import json
+            analyzer_path = ctx.target / "wave" / "tools" / "ai" / "boundary_analyzer.py"
+            if analyzer_path.exists():
+                proc = subprocess.run(
+                    ["python3", str(analyzer_path), "--json", "--snapshot", "--drift"],
+                    capture_output=True, text=True, timeout=60,
+                    cwd=str(ctx.target),
+                )
+                if proc.returncode == 0:
+                    ctx.concordance_result = json.loads(proc.stdout)
+                    alignment = ctx.concordance_result.get("alignment_score", 0)
+                    health = ctx.concordance_result.get("overall_health", 0)
+                    total_dirs = ctx.concordance_result.get("total_directories", 0)
+                    issues = len(ctx.concordance_result.get("issues", []))
+                    timer.set_output(
+                        alignment_pct=alignment,
+                        health=health,
+                        directories=total_dirs,
+                        issues=issues,
+                    )
+                    _log(f"   → Alignment: {alignment}%", ctx.quiet)
+                    _log(f"   → Health: {health}", ctx.quiet)
+                    _log(f"   → Directories: {total_dirs}", ctx.quiet)
+                    _log(f"   → Issues: {issues}", ctx.quiet)
+                    # Log concordance health per region
+                    for ch in ctx.concordance_result.get("concordance_health", []):
+                        _log(f"   → {ch['name']}: {ch['state']} (health={ch['health']}, σ={ch['sigma']:.4f})", ctx.quiet)
+                    ctx.data_ledger.publish("concordance", "Stage 8.7: Concordance Analysis",
+                        summary=f"alignment={alignment}%, health={health}")
+                else:
+                    timer.set_status("WARN", proc.stderr[:200] if proc.stderr else "non-zero exit")
+                    _log(f"   ⚠️  Concordance analysis failed: {proc.stderr[:200]}", ctx.quiet)
+                    ctx.data_ledger.publish("concordance", "Stage 8.7: Concordance Analysis",
+                        status="failed", summary=proc.stderr[:200] if proc.stderr else "non-zero exit")
+            else:
+                timer.set_status("SKIP", "boundary_analyzer.py not found")
+                _log("   → Skipped (boundary_analyzer.py not found)", ctx.quiet)
+                ctx.data_ledger.publish("concordance", "Stage 8.7: Concordance Analysis",
+                    status="skipped", summary="boundary_analyzer.py not found")
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            _log(f"   ⚠️  Concordance analysis skipped: {e}", ctx.quiet)
+            ctx.data_ledger.publish("concordance", "Stage 8.7: Concordance Analysis",
+                status="skipped", summary=str(e))
 
     # Apply data-driven color scales to nodes (metric_color field)
     try:
