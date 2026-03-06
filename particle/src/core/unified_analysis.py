@@ -216,8 +216,8 @@ def create_unified_output(
             name = node.get("name", "unknown")
             node_id = f"{file}:{name}"
 
-        # Normalize role/type - these are used interchangeably
-        role_value = node.get("type") or node.get("role") or "Unknown"
+        # Normalize role/type — role is canonical (computed later, more accurate)
+        role_value = node.get("role") or node.get("type") or "Unknown"
         # Enforce canonical roles via RoleRegistry
         if _role_registry and role_value:
             role_value = _role_registry.normalize(role_value)
