@@ -1,0 +1,1215 @@
+# Meta-Analysis Factory — Job Specifications v1.0.0
+# The "Recipe Book" of idempotent operations.
+#
+# Created: 2026-03-04
+# Domain: Industry > Factory > Meta-Analysis Factory
+# Depends: meta_analysis.schema.yaml (canonical object model)
+#
+# PRINCIPLES:
+#   1. IDEMPOTENT — same input always yields same output. Safe to retry.
+#   2. SINGLE RESPONSIBILITY — one job, one transformation.
+#   3. OBSERVABLE — every job produces a QualityReport on its output.
+#   4. CONTENT-ADDRESSED — outputs keyed by content_hash, never overwritten.
+#   5. FAIL-SAFE — failure = status update + error record, never corrupt data.
+#
+# DATA CHEMISTRY MAPPING:
+#   Each job maps to a culinary operation family:
+#
+#   ┌─────────────┬──────────────────┬───────────────────────────────────┐
+#   │ Chemistry   │ Job              │ What it does                      │
+#   ├─────────────┼──────────────────┼───────────────────────────────────┤
+#   │ Harvest     │ ResolveWork      │ Discover bibliographic references │
+#   │ Harvest     │ AcquireFullText  │ Get the actual document           │
+#   │ Wash        │ ParseFullText    │ Clean & structure the document    │
+#   │ Cut/Chunk   │ SegmentAndIndex  │ Break into searchable fragments   │
+#   │ Measure     │ ExtractCandidates│ Pull quantitative data points     │
+#   │ Taste       │ QualityGate      │ Validate any object               │
+#   │ Mix/Join    │ ReconcileCandidates│ Cross-validate & harmonize      │
+#   │ Emulsify    │ ComputeEffectSizes│ Transform to common metric       │
+#   │ Heat/Reduce │ RunMetaAnalysis  │ Pool effect sizes                 │
+#   │ Taste       │ DiagnoseAndValidate│ Full diagnostic suite           │
+#   │ Plate       │ UpdateTerrain    │ Map results to knowledge terrain  │
+#   │ Season      │ SeedExpansion    │ Generate new discovery queries    │
+#   └─────────────┴──────────────────┴───────────────────────────────────┘
+#
+# PIPELINE FLOW:
+#
+#   ┌──────────────────── REFINERY (ingredients) ────────────────────┐
+#   │                                                                 │
+#   │  ResolveWork → AcquireFullText → ParseFullText → SegmentAndIndex│
+#   │                                          ↓                      │
+#   │                                  ExtractCandidates              │
+#   │                                          ↓                      │
+#   │                                    QualityGate                  │
+#   │                                                                 │
+#   └─────────────────────────────┬───────────────────────────────────┘
+#                                 │
+#   ┌──────────────────── FACTORY (synthesis) ────────────────────────┐
+#   │                                 ↓                               │
+#   │                      ReconcileCandidates                        │
+#   │                             ↓                                   │
+#   │                      ComputeEffectSizes                         │
+#   │                             ↓                                   │
+#   │                       RunMetaAnalysis                           │
+#   │                             ↓                                   │
+#   │                    DiagnoseAndValidate                           │
+#   │                             ↓                                   │
+#   └─────────────────────────────┬───────────────────────────────────┘
+#                                 │
+#   ┌──────────────────── TERRAIN (map) ──────────────────────────────┐
+#   │                             ↓                                   │
+#   │                       UpdateTerrain                             │
+#   │                             ↓                                   │
+#   │                       SeedExpansion ──→ (loops back to          │
+#   │                                          ResolveWork)           │
+#   └─────────────────────────────────────────────────────────────────┘
+
+schema_version: "1.0.0"
+kind: JobSpecifications
+
+
+# =============================================================================
+#  REFINERY JOBS — Ingredient Preparation
+# =============================================================================
+
+jobs:
+
+  # ---------------------------------------------------------------------------
+  # JOB 1: ResolveWork
+  # ---------------------------------------------------------------------------
+  # Chemistry: HARVEST
+  # The entry point. Seeds enter here as queries, DOIs, or citation lists.
+  # Output is deduplicated, normalized Works.
+  # ---------------------------------------------------------------------------
+  - id: resolve_work
+    name: "ResolveWork"
+    chemistry: harvest
+    domain: refinery
+    description: |
+      Discover and register bibliographic references from external sources.
+      Deduplicates by DOI/PMID. Normalizes metadata. Builds initial citation graph edges.
+
+    trigger:
+      - type: seed_query
+        description: "New topic seed planted (manual or from SeedExpansion)"
+      - type: tile_refresh
+        description: "Stale tile triggers re-query"
+      - type: snowball
+        description: "Citation from/to a known Work"
+
+    input:
+      one_of:
+        - field: query
+          type: string
+          description: "PubMed/Crossref search query"
+        - field: doi_list
+          type: array
+          items: string
+          description: "Specific DOIs to resolve"
+        - field: seed_work_id
+          type: string
+          description: "WORK-ID for citation snowballing"
+      parameters:
+        sources:
+          type: array
+          items:
+            type: string
+            enum: [pubmed, crossref, openalex, semantic_scholar,
+                   europe_pmc, arxiv]
+          default: [pubmed, crossref, openalex]
+          description: "Which APIs to query"
+        max_results_per_source:
+          type: integer
+          default: 100
+        date_range:
+          type: object
+          properties:
+            from_year: { type: integer }
+            to_year: { type: integer }
+        snowball_direction:
+          type: string
+          enum: [forward, backward, both, none]
+          default: none
+        snowball_depth:
+          type: integer
+          default: 1
+          maximum: 3
+
+    output:
+      primary:
+        type: array
+        items: Work
+        description: "Newly discovered or updated Work objects"
+      side_effects:
+        - "Dedup log: which DOIs were already known"
+        - "Citation graph edges added"
+        - "Tile.coverage.works_known incremented"
+
+    quality_criteria:
+      - name: no_duplicates
+        check: "No two output Works share a DOI"
+        severity: error
+      - name: metadata_complete
+        check: "Every Work has title, authors, year, abstract"
+        severity: warning
+        threshold: "95% of Works"
+      - name: source_attribution
+        check: "Every Work has source and discovery_query populated"
+        severity: error
+      - name: doi_format
+        check: "All DOIs match regex ^10\\.\\d{4,}/.*$"
+        severity: warning
+
+    idempotency: |
+      Same query + same date_range + same sources = same Work set.
+      Re-running may find new papers published since last run (new results ≠ non-idempotent,
+      because the input implicitly includes "current date" as a parameter).
+      Existing Works are updated (metadata merge), never duplicated.
+
+    estimated_cost:
+      api_calls: "1-5 per source per query"
+      compute: "< 1 second"
+      storage: "~2 KB per Work"
+
+    error_modes:
+      - condition: "Source API rate-limited"
+        handling: "Exponential backoff, retry up to 5 times"
+      - condition: "Source API down"
+        handling: "Skip source, log warning, proceed with others"
+      - condition: "Zero results"
+        handling: "Log empty result, update Tile.last_explored timestamp"
+
+
+  # ---------------------------------------------------------------------------
+  # JOB 2: AcquireFullText
+  # ---------------------------------------------------------------------------
+  # Chemistry: HARVEST (phase 2)
+  # Gets the actual PDF/HTML. Tries multiple sources in priority order.
+  # ---------------------------------------------------------------------------
+  - id: acquire_full_text
+    name: "AcquireFullText"
+    chemistry: harvest
+    domain: refinery
+    description: |
+      Acquire the full-text document for a Work. Tries Unpaywall (OA), PMC,
+      publisher API, and direct download in priority order. Produces a
+      FullTextAsset with verified content hash.
+
+    trigger:
+      - type: work_status
+        condition: "Work.status == 'screened_in' AND no existing FTA with status='acquired'"
+
+    input:
+      required:
+        - field: work_id
+          type: string
+          description: "WORK-ID to acquire full text for"
+      parameters:
+        acquisition_priority:
+          type: array
+          items:
+            type: string
+            enum: [unpaywall_oa, pmc_oa, publisher_api, direct_download]
+          default: [unpaywall_oa, pmc_oa, direct_download]
+        timeout_seconds:
+          type: integer
+          default: 30
+        max_file_size_mb:
+          type: integer
+          default: 50
+
+    output:
+      primary:
+        type: FullTextAsset
+        description: "Acquired document with verified hash"
+      side_effects:
+        - "Work.status updated to 'acquired'"
+        - "File stored at configured storage path"
+
+    quality_criteria:
+      - name: file_integrity
+        check: "SHA256 hash of downloaded file matches re-computed hash"
+        severity: critical
+      - name: format_valid
+        check: "File opens correctly in its declared format"
+        severity: error
+      - name: not_stub
+        check: "File size > 10 KB (reject paywall stubs)"
+        severity: error
+      - name: page_count_reasonable
+        check: "For PDFs, page_count between 1 and 500"
+        severity: warning
+
+    idempotency: |
+      Same work_id + same file at source = same FullTextAsset (keyed by content_hash).
+      If the publisher updates the PDF (erratum), a new FTA is created, old one kept.
+
+    estimated_cost:
+      api_calls: "1-4 (Unpaywall lookup + download)"
+      compute: "1-10 seconds (download + hash)"
+      storage: "0.5-5 MB per PDF"
+
+    error_modes:
+      - condition: "No OA version available"
+        handling: "Set FTA.status='unavailable', Work stays at 'screened_in'"
+      - condition: "Download timeout"
+        handling: "Retry once, then set status='failed'"
+      - condition: "Paywall stub detected"
+        handling: "Set status='unavailable', flag for manual review"
+
+
+  # ---------------------------------------------------------------------------
+  # JOB 3: ParseFullText
+  # ---------------------------------------------------------------------------
+  # Chemistry: WASH
+  # Converts raw PDF/HTML to clean structured document.
+  # Multiple parsers available — GROBID primary, Nougat fallback.
+  # ---------------------------------------------------------------------------
+  - id: parse_full_text
+    name: "ParseFullText"
+    chemistry: wash
+    domain: refinery
+    description: |
+      Parse a FullTextAsset into a StructuredDocument. Extracts sections, tables,
+      figures, and reference list. Uses GROBID for primary parsing with Nougat
+      as fallback for problematic PDFs.
+
+    trigger:
+      - type: fta_status
+        condition: "FullTextAsset.status == 'acquired'"
+
+    input:
+      required:
+        - field: fta_id
+          type: string
+          description: "FullTextAsset ID to parse"
+      parameters:
+        parser:
+          type: string
+          enum: [grobid, nougat, docling, auto]
+          default: auto
+          description: "auto = try GROBID, fallback to Nougat if quality < 0.6"
+        extract_tables:
+          type: boolean
+          default: true
+        extract_figures:
+          type: boolean
+          default: true
+        extract_references:
+          type: boolean
+          default: true
+        consolidate_references:
+          type: boolean
+          default: true
+          description: "Attempt DOI/PMID resolution for parsed references"
+
+    output:
+      primary:
+        type: StructuredDocument
+        description: "Parsed document with sections, tables, figures, references"
+      side_effects:
+        - "Work.status updated to 'parsed'"
+        - "New Works may be discovered via reference consolidation (triggers ResolveWork)"
+
+    quality_criteria:
+      - name: section_completeness
+        check: "At least 3 of: abstract, methods, results, discussion present"
+        severity: warning
+        threshold: "For research articles (not reviews/letters)"
+      - name: table_extraction
+        check: "Number of extracted tables matches visual inspection count"
+        severity: warning
+      - name: reference_resolution
+        check: "parse_quality.reference_resolve_rate > 0.5"
+        severity: info
+      - name: parse_confidence
+        check: "parse_quality.confidence > 0.6"
+        severity: error
+        action: "If GROBID < 0.6, retry with Nougat"
+      - name: no_garbled_text
+        check: "Less than 2% of text is non-UTF8 or ligature artifacts"
+        severity: warning
+
+    idempotency: |
+      Same FTA (by content_hash) + same parser + same version = same StructuredDocument.
+      Parser version is recorded for reproducibility.
+
+    estimated_cost:
+      api_calls: "1 (GROBID/Nougat service call)"
+      compute: "5-30 seconds per document"
+      storage: "10-100 KB per StructuredDocument"
+
+    error_modes:
+      - condition: "GROBID service unavailable"
+        handling: "Fallback to Nougat, then to Docling"
+      - condition: "Scanned PDF (no text layer)"
+        handling: "Route to Nougat (OCR-capable), flag in parse_quality"
+      - condition: "Encrypted/DRM PDF"
+        handling: "Set status='failed', flag for manual handling"
+
+
+  # ---------------------------------------------------------------------------
+  # JOB 4: SegmentAndIndex
+  # ---------------------------------------------------------------------------
+  # Chemistry: CUT / CHUNK
+  # Breaks structured document into searchable evidence fragments.
+  # Generates vector embeddings for semantic retrieval.
+  # ---------------------------------------------------------------------------
+  - id: segment_and_index
+    name: "SegmentAndIndex"
+    chemistry: cut
+    domain: refinery
+    description: |
+      Segment a StructuredDocument into EvidenceFragments. Each fragment is a
+      semantically coherent unit (paragraph, table row, figure caption) with
+      a vector embedding for retrieval. Indexes fragments for search.
+
+    trigger:
+      - type: sdoc_status
+        condition: "StructuredDocument.status == 'parsed'"
+
+    input:
+      required:
+        - field: sdoc_id
+          type: string
+          description: "StructuredDocument ID to segment"
+      parameters:
+        chunk_strategy:
+          type: string
+          enum: [paragraph, sentence, semantic, table_row, hybrid]
+          default: hybrid
+          description: "hybrid = paragraph for text, row for tables, caption for figures"
+        max_chunk_tokens:
+          type: integer
+          default: 512
+        overlap_tokens:
+          type: integer
+          default: 64
+        embedding_model:
+          type: string
+          default: "all-MiniLM-L6-v2"
+          description: "Sentence transformer model for embeddings"
+        classify_fragments:
+          type: boolean
+          default: true
+          description: "Auto-classify fragment_type (population, outcome, result, etc.)"
+
+    output:
+      primary:
+        type: array
+        items: EvidenceFragment
+        description: "Indexed fragments with embeddings"
+      side_effects:
+        - "Vector index updated"
+        - "Fragment count added to SDOC parse_quality"
+
+    quality_criteria:
+      - name: coverage
+        check: "Sum of fragment lengths >= 90% of source document text"
+        severity: warning
+      - name: no_orphans
+        check: "Every fragment has a valid sdoc_id and work_id"
+        severity: error
+      - name: embedding_dimensionality
+        check: "All embeddings have exactly 384 dimensions"
+        severity: error
+      - name: classification_coverage
+        check: "If classify_fragments=true, >= 80% of fragments have fragment_type != 'other'"
+        severity: info
+
+    idempotency: |
+      Same SDOC (by content_hash) + same parameters = same fragments.
+      Re-indexing overwrites previous fragments for this SDOC.
+
+    estimated_cost:
+      api_calls: "0 (local model)"
+      compute: "2-10 seconds per document"
+      storage: "~1.5 KB per fragment (text + embedding)"
+
+
+  # ---------------------------------------------------------------------------
+  # JOB 5: ExtractCandidates
+  # ---------------------------------------------------------------------------
+  # Chemistry: MEASURE
+  # Pulls quantitative data points from evidence fragments.
+  # Combines rule-based extraction with LLM assistance.
+  # ---------------------------------------------------------------------------
+  - id: extract_candidates
+    name: "ExtractCandidates"
+    chemistry: measure
+    domain: refinery
+    description: |
+      Extract quantitative data points (effect sizes, sample sizes, outcomes)
+      from EvidenceFragments for a given Work. Uses a two-pass approach:
+      Pass 1 = rule-based regex/table parsing. Pass 2 = LLM extraction for
+      complex or ambiguous cases. Each extraction becomes an ExtractionCandidate.
+
+    trigger:
+      - type: fragments_ready
+        condition: "All EvidenceFragments for a Work are indexed"
+
+    input:
+      required:
+        - field: work_id
+          type: string
+          description: "Extract candidates from all fragments of this Work"
+      parameters:
+        extraction_mode:
+          type: string
+          enum: [rule_only, llm_only, hybrid]
+          default: hybrid
+          description: "hybrid = rule-based first, LLM for gaps and validation"
+        target_outcomes:
+          type: array
+          items:
+            type: string
+          description: "Optional filter: only extract these outcome types"
+        llm_model:
+          type: string
+          default: "llama-3.3-70b"
+          description: "Model for LLM extraction pass (Cerebras for speed)"
+        llm_temperature:
+          type: number
+          default: 0.0
+          description: "Zero temperature for deterministic extraction"
+
+    output:
+      primary:
+        type: array
+        items: ExtractionCandidate
+        description: "Extracted data points in PICO format"
+      side_effects:
+        - "Work.status updated to 'extracted'"
+        - "Fragments linked via CAND.fragments[]"
+
+    quality_criteria:
+      - name: outcome_captured
+        check: "At least 1 candidate per Work (unless excluded)"
+        severity: warning
+      - name: effect_size_parseable
+        check: "raw_value is numeric for all candidates"
+        severity: error
+      - name: ci_present
+        check: "raw_ci_lower and raw_ci_upper present, or raw_se present"
+        severity: warning
+        threshold: "80% of candidates"
+      - name: sample_size_present
+        check: "n_total or (n_treatment + n_control) is present"
+        severity: warning
+        threshold: "90% of candidates"
+      - name: dual_pass_agreement
+        check: "If hybrid mode, rule-based and LLM agree on effect_type and raw_value"
+        severity: info
+
+    idempotency: |
+      Same Work fragments + same parameters + same LLM model = same candidates.
+      Candidates are content-addressed by (work_id, outcome, effect_type, raw_value).
+
+    estimated_cost:
+      api_calls: "1-3 LLM calls per Work (Cerebras: ~$0.001 per call)"
+      compute: "2-15 seconds per Work"
+      storage: "~1 KB per candidate"
+
+    error_modes:
+      - condition: "No extractable data in document"
+        handling: "Set Work.status='excluded', exclusion_reason='no_extractable_data'"
+      - condition: "LLM hallucination detected"
+        handling: "Flag candidate with quality_flag='llm_hallucination', keep rule-based only"
+      - condition: "Ambiguous outcome definitions"
+        handling: "Create multiple candidates with extraction_notes, flag for reconciliation"
+
+
+  # ---------------------------------------------------------------------------
+  # JOB 6: QualityGate
+  # ---------------------------------------------------------------------------
+  # Chemistry: TASTE
+  # Polymorphic quality assessment. Can assess any factory object.
+  # Runs after every other job to maintain quality floor.
+  # ---------------------------------------------------------------------------
+  - id: quality_gate
+    name: "QualityGate"
+    chemistry: taste
+    domain: refinery  # Also used by factory
+    description: |
+      Assess the quality of any factory object. Runs a suite of checks specific
+      to the target type. Produces a QualityReport with a letter grade.
+      Objects scoring below threshold are flagged for review or rejection.
+
+    trigger:
+      - type: post_job
+        description: "Automatically runs after any other job completes"
+      - type: manual
+        description: "Explicit quality review request"
+
+    input:
+      required:
+        - field: target_id
+          type: string
+          description: "ID of the object to assess"
+        - field: target_type
+          type: string
+          enum: [work, full_text_asset, structured_document,
+                 evidence_fragment, extraction_candidate,
+                 effect_size_set, meta_analysis_run, tile]
+      parameters:
+        check_suite:
+          type: string
+          enum: [standard, thorough, minimal]
+          default: standard
+        pass_threshold:
+          type: string
+          enum: [A, B, C, D]
+          default: C
+          description: "Minimum grade to pass. Below this = flagged."
+
+    output:
+      primary:
+        type: QualityReport
+        description: "Assessment with checks, grade, and recommendations"
+      side_effects:
+        - "Target object may be flagged or rejected based on grade"
+        - "quality_flags added to target object"
+
+    check_suites:
+      Work:
+        - metadata_complete
+        - doi_valid
+        - no_duplicate
+        - abstract_present
+      FullTextAsset:
+        - file_integrity
+        - format_valid
+        - not_stub
+      StructuredDocument:
+        - section_completeness
+        - table_extraction
+        - parse_confidence
+      EvidenceFragment:
+        - content_not_empty
+        - location_valid
+        - embedding_present
+      ExtractionCandidate:
+        - effect_size_parseable
+        - ci_or_se_present
+        - sample_size_present
+        - no_impossible_values
+        - pico_complete
+      EffectSizeSet:
+        - variance_positive
+        - no_infinite_weights
+        - metric_consistent
+        - k_minimum_met
+      MetaAnalysisRun:
+        - convergence
+        - heterogeneity_assessed
+        - diagnostics_complete
+        - publication_bias_tested
+        - grade_assessment_complete
+      Tile:
+        - coordinates_valid
+        - coverage_consistent
+        - no_orphan_tile
+
+    idempotency: |
+      Same target (by content_hash) + same check_suite = same QualityReport.
+
+    estimated_cost:
+      api_calls: "0"
+      compute: "< 1 second"
+      storage: "~2 KB per report"
+
+
+# =============================================================================
+#  FACTORY JOBS — Synthesis
+# =============================================================================
+
+  # ---------------------------------------------------------------------------
+  # JOB 7: ReconcileCandidates
+  # ---------------------------------------------------------------------------
+  # Chemistry: MIX / JOIN
+  # Cross-validates candidates across multiple works for a given outcome.
+  # Harmonizes units, detects outliers, resolves conflicts.
+  # ---------------------------------------------------------------------------
+  - id: reconcile_candidates
+    name: "ReconcileCandidates"
+    chemistry: mix
+    domain: factory
+    description: |
+      Cross-validate ExtractionCandidates across multiple Works for a specific
+      outcome. Harmonizes units (e.g., mg/dL → mmol/L), detects statistical
+      outliers, resolves conflicting extractions. Produces reconciled candidates
+      ready for effect size computation.
+
+    trigger:
+      - type: candidates_threshold
+        condition: "k >= 3 validated candidates for a (topic, outcome) pair"
+
+    input:
+      required:
+        - field: candidate_ids
+          type: array
+          items: string
+          description: "CAND-IDs to reconcile"
+        - field: outcome
+          type: string
+          description: "The outcome being pooled"
+      parameters:
+        unit_harmonization:
+          type: boolean
+          default: true
+        outlier_detection:
+          type: string
+          enum: [none, iqr, grubbs, studentized_residual]
+          default: studentized_residual
+        outlier_action:
+          type: string
+          enum: [flag, exclude, sensitivity]
+          default: flag
+          description: "flag = keep but mark. exclude = remove. sensitivity = run both."
+
+    output:
+      primary:
+        type: array
+        items: ExtractionCandidate
+        description: "Candidates with status updated to 'reconciled'"
+      side_effects:
+        - "Outliers flagged with quality_flag='outlier'"
+        - "Unit conversions documented in extraction_notes"
+
+    quality_criteria:
+      - name: unit_consistency
+        check: "All candidates express the same outcome in the same unit"
+        severity: error
+      - name: effect_type_consistency
+        check: "All candidates use the same effect_type (or can be converted)"
+        severity: error
+      - name: no_duplicate_studies
+        check: "No two candidates from the same Work for the same outcome"
+        severity: error
+      - name: outlier_ratio
+        check: "Outliers < 30% of total candidates"
+        severity: warning
+        action: "If > 30%, review inclusion criteria"
+
+    idempotency: |
+      Same candidate set (by content hashes) + same parameters = same reconciliation.
+
+    estimated_cost:
+      api_calls: "0"
+      compute: "< 1 second"
+      storage: "Minimal (updates existing candidates)"
+
+
+  # ---------------------------------------------------------------------------
+  # JOB 8: ComputeEffectSizes
+  # ---------------------------------------------------------------------------
+  # Chemistry: EMULSIFY
+  # Transforms raw reported values to a common statistical metric.
+  # The bridge between clinical data and statistical computation.
+  # ---------------------------------------------------------------------------
+  - id: compute_effect_sizes
+    name: "ComputeEffectSizes"
+    chemistry: emulsify
+    domain: factory
+    description: |
+      Transform reconciled ExtractionCandidates into an EffectSizeSet.
+      Converts raw values to a common metric (e.g., RR → log(RR)) and
+      computes sampling variances. Documents all transformations.
+
+      Transformation formulas:
+        RR → yi = log(RR),      vi from CI: [(log(upper) - log(lower)) / 3.92]²
+        OR → yi = log(OR),      vi from CI: [(log(upper) - log(lower)) / 3.92]²
+        HR → yi = log(HR),      vi from CI or SE
+        MD → yi = MD,           vi = SD²_T/n_T + SD²_C/n_C
+        SMD → yi = Hedges' g,   vi = (n_T+n_C)/(n_T*n_C) + g²/(2*(n_T+n_C))
+        r → yi = Fisher's z,    vi = 1/(n-3)
+
+    trigger:
+      - type: reconciliation_complete
+        condition: "ReconcileCandidates produced >= 3 reconciled candidates"
+
+    input:
+      required:
+        - field: candidate_ids
+          type: array
+          items: string
+          description: "Reconciled CAND-IDs"
+        - field: target_metric
+          type: string
+          enum: [log_RR, log_OR, log_HR, MD, SMD, fisher_z, auto]
+          description: "auto = infer from dominant effect_type"
+      parameters:
+        hedges_correction:
+          type: boolean
+          default: true
+          description: "Apply Hedges' g correction for small samples (SMD only)"
+        impute_missing_se:
+          type: boolean
+          default: true
+          description: "Impute SE from CI when SE not directly reported"
+        ci_level:
+          type: number
+          default: 0.95
+          description: "Assumed CI level for SE imputation"
+
+    output:
+      primary:
+        type: EffectSizeSet
+        description: "Transformed effect sizes with variances and audit trail"
+      side_effects:
+        - "transformation_log populated with every conversion step"
+
+    quality_criteria:
+      - name: variance_positive
+        check: "All vi > 0"
+        severity: critical
+      - name: no_infinite_weights
+        check: "No wi = Infinity (would happen if vi = 0)"
+        severity: critical
+      - name: imputation_rate
+        check: "Fraction of entries where SE was imputed"
+        severity: info
+        threshold: "Log warning if > 50%"
+      - name: metric_appropriate
+        check: "Target metric matches the data (e.g., don't use SMD for binary outcomes)"
+        severity: error
+      - name: transformation_documented
+        check: "Every entry has a transformation_log entry"
+        severity: error
+
+    idempotency: |
+      Same candidates (by content hashes) + same target_metric + same parameters = same ESS.
+
+    estimated_cost:
+      api_calls: "0"
+      compute: "< 1 second"
+      storage: "~5 KB per set"
+
+
+  # ---------------------------------------------------------------------------
+  # JOB 9: RunMetaAnalysis
+  # ---------------------------------------------------------------------------
+  # Chemistry: HEAT + REDUCE
+  # The core statistical engine. Pools effect sizes into a single estimate.
+  # Produces the forest plot, heterogeneity stats, and prediction interval.
+  # ---------------------------------------------------------------------------
+  - id: run_meta_analysis
+    name: "RunMetaAnalysis"
+    chemistry: heat
+    domain: factory
+    description: |
+      Execute a meta-analysis on an EffectSizeSet. Fits the chosen model,
+      estimates the pooled effect, computes heterogeneity statistics,
+      and generates forest plot data. This is the central synthesis job.
+
+    trigger:
+      - type: ess_ready
+        condition: "EffectSizeSet exists with k_studies >= 3"
+
+    input:
+      required:
+        - field: ess_id
+          type: string
+          description: "EffectSizeSet ID to analyze"
+        - field: topic
+          type: string
+        - field: question
+          type: string
+          description: "PICO-format research question"
+      parameters:
+        model:
+          type: string
+          enum: [fixed, random, multilevel]
+          default: random
+          description: "random = random-effects (accounts for between-study variance)"
+        method:
+          type: string
+          enum: [REML, DL, PM, HE, EB, ML, FE, MH, Peto]
+          default: REML
+          description: "tau² estimator. REML recommended for most cases."
+        knha:
+          type: boolean
+          default: true
+          description: "Knapp-Hartung adjustment for CI (more conservative, recommended)"
+        subgroup_variable:
+          type: string
+          description: "Optional variable for subgroup analysis"
+        meta_regression_covariates:
+          type: array
+          items: string
+          description: "Optional covariates for meta-regression"
+        prediction_interval:
+          type: boolean
+          default: true
+
+    output:
+      primary:
+        type: MetaAnalysisRun
+        description: "Complete meta-analysis with results, heterogeneity, forest plot"
+      side_effects:
+        - "MRUN linked to EffectSizeSet"
+        - "forest_plot data generated for visualization"
+
+    quality_criteria:
+      - name: convergence
+        check: "Model converged (for iterative methods like REML)"
+        severity: critical
+      - name: k_minimum
+        check: "k_studies >= 3 (absolute minimum for pooling)"
+        severity: error
+      - name: tau2_non_negative
+        check: "tau² >= 0 (truncated to 0 if negative from DL)"
+        severity: warning
+      - name: weights_reasonable
+        check: "No single study contributes > 50% of total weight"
+        severity: warning
+      - name: forest_plot_complete
+        check: "forest_plot has entries for all k studies + pooled summary"
+        severity: error
+
+    idempotency: |
+      Same ESS (by content_hash) + same model + same method + same parameters = same MRUN.
+      MRUNs are immutable after completion. New parameters = new MRUN.
+
+    estimated_cost:
+      api_calls: "0"
+      compute: "1-30 seconds (depends on k and model complexity)"
+      storage: "~10-50 KB per run"
+
+    error_modes:
+      - condition: "Model fails to converge"
+        handling: "Fallback from REML → DL. If DL fails, set status='failed'."
+      - condition: "k < 3"
+        handling: "Refuse to run. Log reason. Suggest narrative synthesis."
+      - condition: "All studies have zero variance"
+        handling: "Use fixed-effect Mantel-Haenszel or Peto method"
+
+
+  # ---------------------------------------------------------------------------
+  # JOB 10: DiagnoseAndValidate
+  # ---------------------------------------------------------------------------
+  # Chemistry: TASTE (deep)
+  # Full diagnostic suite for a completed meta-analysis.
+  # Publication bias, influence analysis, GRADE assessment.
+  # ---------------------------------------------------------------------------
+  - id: diagnose_and_validate
+    name: "DiagnoseAndValidate"
+    chemistry: taste
+    domain: factory
+    description: |
+      Run comprehensive diagnostics on a completed MetaAnalysisRun.
+      Tests for publication bias (funnel plot, Egger's, trim-and-fill),
+      influence (leave-one-out), and assigns GRADE certainty rating.
+      Produces a detailed QualityReport.
+
+    trigger:
+      - type: mrun_complete
+        condition: "MetaAnalysisRun.status == 'completed'"
+
+    input:
+      required:
+        - field: mrun_id
+          type: string
+          description: "MetaAnalysisRun ID to diagnose"
+      parameters:
+        publication_bias_tests:
+          type: array
+          items:
+            type: string
+            enum: [egger, begg, trim_fill, funnel_plot]
+          default: [egger, trim_fill]
+        influence_analysis:
+          type: boolean
+          default: true
+        leave_one_out:
+          type: boolean
+          default: true
+        grade_assessment:
+          type: boolean
+          default: true
+        sensitivity_analyses:
+          type: array
+          items:
+            type: string
+            enum: [exclude_outliers, exclude_high_risk,
+                   fixed_vs_random, different_method]
+          default: [exclude_outliers, fixed_vs_random]
+
+    output:
+      primary:
+        type: QualityReport
+        description: "Comprehensive diagnostic report with GRADE rating"
+      side_effects:
+        - "MRUN.diagnostics populated"
+        - "MRUN.status updated to 'validated' if grade >= C, else stays 'completed'"
+        - "Outlier CAND-IDs recorded in MRUN.diagnostics.outlier_ids"
+
+    quality_criteria:
+      - name: bias_tested
+        check: "At least one publication bias test ran without error"
+        severity: error
+      - name: influence_complete
+        check: "leave-one-out has entries for all k studies"
+        severity: warning
+      - name: grade_complete
+        check: "All 5 GRADE domains assessed"
+        severity: error
+      - name: sensitivity_stable
+        check: "Pooled estimate direction unchanged in all sensitivity analyses"
+        severity: warning
+        action: "If direction changes, flag result as fragile"
+
+    idempotency: |
+      Same MRUN (by content_hash) + same diagnostic parameters = same QualityReport.
+
+    estimated_cost:
+      api_calls: "0"
+      compute: "2-15 seconds"
+      storage: "~5 KB per report"
+
+
+# =============================================================================
+#  TERRAIN JOBS — Map Management
+# =============================================================================
+
+  # ---------------------------------------------------------------------------
+  # JOB 11: UpdateTerrain
+  # ---------------------------------------------------------------------------
+  # Chemistry: PLATE
+  # Maps completed results back to the knowledge terrain.
+  # Updates tile coverage, freshness, and evolution log.
+  # ---------------------------------------------------------------------------
+  - id: update_terrain
+    name: "UpdateTerrain"
+    chemistry: plate
+    domain: terrain
+    description: |
+      Update the knowledge terrain map after any pipeline event.
+      Creates or updates Tiles based on completed meta-analyses,
+      new work discoveries, or periodic freshness checks.
+
+    trigger:
+      - type: mrun_validated
+        condition: "MetaAnalysisRun validated or any pipeline milestone"
+      - type: periodic
+        interval: "daily"
+        description: "Freshness check — mark stale tiles"
+
+    input:
+      required:
+        - field: event_type
+          type: string
+          enum: [meta_completed, works_discovered, freshness_check,
+                 tile_split, tile_merge]
+        - field: tile_id
+          type: string
+          description: "TILE-ID to update (or 'auto' for event-based resolution)"
+      parameters:
+        staleness_threshold_days:
+          type: integer
+          default: 30
+          description: "Days without exploration before a tile is marked stale"
+        auto_split_threshold:
+          type: integer
+          default: 100
+          description: "If works_known exceeds this, suggest tile split"
+
+    output:
+      primary:
+        type: Tile
+        description: "Updated tile with refreshed coverage and evolution log"
+      side_effects:
+        - "Tile.evolution[] appended with event"
+        - "Tile.exploration_priority recalculated"
+        - "Neighbor tiles may be updated"
+
+    quality_criteria:
+      - name: coverage_consistent
+        check: "works_screened <= works_known AND works_extracted <= works_acquired"
+        severity: error
+      - name: coordinates_unique
+        check: "No two tiles share identical coordinates"
+        severity: critical
+      - name: evolution_ordered
+        check: "evolution[] timestamps are monotonically increasing"
+        severity: warning
+
+    idempotency: |
+      Same event applied to same tile state = same result.
+      Events are recorded in evolution log — replaying yields identical state.
+
+    estimated_cost:
+      api_calls: "0"
+      compute: "< 1 second"
+      storage: "~3 KB per tile update"
+
+
+  # ---------------------------------------------------------------------------
+  # JOB 12: SeedExpansion
+  # ---------------------------------------------------------------------------
+  # Chemistry: SEASON
+  # The emergent growth engine. Generates new discovery queries from
+  # existing knowledge. Closes the loop back to ResolveWork.
+  # ---------------------------------------------------------------------------
+  - id: seed_expansion
+    name: "SeedExpansion"
+    chemistry: season
+    domain: terrain
+    description: |
+      Generate new discovery queries for under-explored or high-interest tiles.
+      Uses three strategies:
+        1. Citation snowballing — follow references of known Works
+        2. Query mutation — evolve existing queries (add/remove terms, synonyms)
+        3. Gap detection — find coordinate regions with no tiles
+
+      Multi-armed bandit (UCB1) balances exploration vs exploitation:
+        score = exploitation_value + c * sqrt(log(N) / n_i)
+      where exploitation_value = recent discovery yield, N = total runs, n_i = tile runs.
+
+    trigger:
+      - type: tile_stale
+        condition: "Tile.stale == true AND Tile.exploration_priority > 0.3"
+      - type: tile_high_velocity
+        condition: "Tile.priority_factors.citation_velocity > threshold"
+      - type: periodic
+        interval: "weekly"
+        description: "Background exploration sweep"
+
+    input:
+      required:
+        - field: tile_id
+          type: string
+          description: "TILE-ID to expand"
+      parameters:
+        strategy:
+          type: string
+          enum: [snowball, query_mutation, gap_detection, all]
+          default: all
+        max_new_queries:
+          type: integer
+          default: 5
+        mutation_temperature:
+          type: number
+          default: 0.3
+          minimum: 0
+          maximum: 1
+          description: "How aggressively to mutate queries (0=conservative, 1=wild)"
+        snowball_direction:
+          type: string
+          enum: [forward, backward, both]
+          default: both
+        budget_limit:
+          type: integer
+          default: 50
+          description: "Max new Works to discover per expansion cycle"
+
+    output:
+      primary:
+        type: array
+        items:
+          type: object
+          properties:
+            query:
+              type: string
+            source:
+              type: string
+              enum: [snowball, mutation, gap]
+            parent_query:
+              type: string
+              description: "Query this was derived from (for lineage)"
+            estimated_yield:
+              type: integer
+              description: "Estimated number of new Works"
+        description: "New queries to feed into ResolveWork"
+      side_effects:
+        - "Tile.seed_queries[] extended"
+        - "Tile.active_queries incremented"
+        - "Triggers ResolveWork for each new query"
+
+    quality_criteria:
+      - name: query_diversity
+        check: "New queries have < 0.8 cosine similarity to existing queries"
+        severity: warning
+      - name: not_exhausted
+        check: "Previous runs for this tile yielded > 0 new Works"
+        severity: info
+        action: "If 3 consecutive zero-yield expansions, reduce priority"
+      - name: budget_respected
+        check: "Total new Works from this cycle <= budget_limit"
+        severity: error
+
+    idempotency: |
+      Not strictly idempotent (queries may mutate differently due to randomness).
+      However, output is deterministic given a fixed random seed.
+      The key invariant: running SeedExpansion never DELETES existing data.
+
+    estimated_cost:
+      api_calls: "1-3 per query (for mutation via LLM)"
+      compute: "2-10 seconds"
+      storage: "~1 KB per new query"
+
+    # --- Multi-Armed Bandit Configuration ---
+    bandit:
+      algorithm: UCB1
+      exploration_constant: 1.41  # sqrt(2), standard UCB1
+      reward_signal: "new_works_discovered / max_results_per_source"
+      decay: 0.95  # Slight decay on old rewards to favor fresh tiles
+      min_pulls: 3  # Every tile gets at least 3 expansion attempts
+
+
+# =============================================================================
+#  POLICY ENGINE — The Nervous System
+# =============================================================================
+# Not a job, but the orchestrator that decides WHICH jobs run WHEN.
+# Documented here because it's the glue between the recipe book and
+# the actual execution.
+# =============================================================================
+
+policy_engine:
+  description: |
+    The Policy Engine is the nervous system of the Meta-Analysis Factory.
+    It doesn't transform data — it decides what to do next.
+    Inspired by biological homeostasis: maintain coverage, freshness,
+    and quality across the terrain while respecting resource budgets.
+
+  responsibilities:
+    - name: job_scheduling
+      description: "Decide which jobs to run next based on priority queue"
+    - name: resource_management
+      description: "Track API call budgets, compute time, storage limits"
+    - name: attention_allocation
+      description: "Multi-armed bandit for tile exploration priority"
+    - name: quality_enforcement
+      description: "Block pipeline progression if QualityGate fails"
+    - name: homeostasis
+      description: "Balance exploration (new tiles) vs exploitation (deepen existing)"
+
+  scheduling_rules:
+    - rule: "Refinery jobs before Factory jobs (can't synthesize without ingredients)"
+    - rule: "QualityGate after every job (no unchecked outputs)"
+    - rule: "SeedExpansion only when budget allows (prevent runaway API costs)"
+    - rule: "Stale tiles before new tiles (maintain coverage before expanding)"
+    - rule: "High-citation-velocity tiles get priority (where the science is moving)"
+
+  budget_model:
+    daily_api_calls: 1000
+    daily_llm_tokens: 500000
+    daily_storage_mb: 100
+    description: |
+      Conservative defaults for VPS 24/7 operation.
+      Policy Engine tracks cumulative usage and pauses SeedExpansion
+      when budget is 80% consumed. Refinery jobs always have priority.
+
+  health_metrics:
+    - name: pipeline_throughput
+      unit: "works_extracted_per_day"
+      target: 10
+    - name: terrain_freshness
+      unit: "percent_tiles_not_stale"
+      target: 80
+    - name: quality_floor
+      unit: "percent_objects_grade_C_or_above"
+      target: 95
+    - name: expansion_efficiency
+      unit: "new_works_per_query"
+      target: 5

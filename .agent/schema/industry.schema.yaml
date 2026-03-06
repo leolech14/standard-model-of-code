@@ -1,0 +1,746 @@
+# Industry — Autonomous Production System Schema v1.0.0
+# The factory of factories. Runs 24/7 on VPS. Produces knowledge artifacts.
+#
+# Created: 2026-03-04
+# Domain: Industry (top-level)
+#
+# WHAT THE INDUSTRY IS:
+#   A VPS-resident autonomous production system that runs continuously.
+#   It contains multiple ProductLines, each producing a different kind
+#   of knowledge artifact. All lines share infrastructure: the Policy Engine
+#   (nervous system), resource budgets, quality gates, and terrain mapping.
+#
+# WHAT THE INDUSTRY PRODUCES:
+#   - Meta-analyses (scientific evidence synthesis)
+#   - Images (generated visual assets)
+#   - Videos (generated motion assets)
+#   - Research reports (24/7 investigative agents)
+#   - ... any future product line that follows the contract
+#
+# ANALOGY:
+#   Industry = a real factory complex
+#   ProductLine = an assembly line within the factory
+#   Job = a workstation on the assembly line
+#   Worker = the process executing a job (can be LLM, script, model, human)
+#   Policy Engine = the floor manager + energy grid + nervous system
+#   Refinery = shared ingredient preparation (every line needs clean inputs)
+#   Terrain = the warehouse map (what we've produced, what's missing, what's stale)
+#
+# DATA CHEMISTRY (universal vocabulary):
+#   Every ProductLine uses the same verb families, different noun types:
+#
+#   ┌───────────┬───────────────┬──────────────────┬──────────────────┐
+#   │ Chemistry │ Meta-Analysis │ Image Gen        │ Video Gen        │
+#   ├───────────┼───────────────┼──────────────────┼──────────────────┤
+#   │ Harvest   │ Discover DOIs │ Collect prompts  │ Collect scripts  │
+#   │ Wash      │ Parse PDFs    │ Clean prompts    │ Parse storyboard │
+#   │ Cut       │ Segment text  │ Decompose scene  │ Split into shots │
+#   │ Measure   │ Extract stats │ Extract style    │ Extract timing   │
+#   │ Mix       │ Reconcile     │ Compose layers   │ Sequence shots   │
+#   │ Emulsify  │ Compute ES    │ Style transfer   │ Transition blend │
+#   │ Heat      │ Run MA        │ Render image     │ Render video     │
+#   │ Taste     │ Validate      │ QC visual        │ QC motion        │
+#   │ Plate     │ Publish       │ Export assets     │ Export final     │
+#   │ Season    │ Expand seeds  │ Vary prompts     │ Iterate edits    │
+#   └───────────┴───────────────┴──────────────────┴──────────────────┘
+
+$schema: "http://json-schema.org/draft-07/schema#"
+$id: "https://elements-archive-2026/schema/industry.schema.yaml"
+title: "Industry"
+description: "Autonomous production system — the factory of factories"
+version: "1.0.0"
+
+
+# =============================================================================
+# SHARED DEFINITIONS
+# =============================================================================
+definitions:
+
+  timestamps:
+    type: object
+    required: [created_at, updated_at]
+    properties:
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+
+  confidence_4d:
+    type: object
+    description: "Inherited from Elements ecosystem"
+    properties:
+      factual: { type: integer, minimum: 0, maximum: 100 }
+      alignment: { type: integer, minimum: 0, maximum: 100 }
+      current: { type: integer, minimum: 0, maximum: 100 }
+      onwards: { type: integer, minimum: 0, maximum: 100 }
+      composite: { type: integer, minimum: 0, maximum: 100 }
+
+  resource_usage:
+    type: object
+    properties:
+      api_calls: { type: integer, description: "External API calls consumed" }
+      llm_tokens: { type: integer, description: "LLM tokens consumed" }
+      compute_seconds: { type: number, description: "Wall-clock seconds" }
+      gpu_seconds: { type: number, description: "GPU time (for gen pipelines)" }
+      storage_bytes: { type: integer, description: "New storage consumed" }
+      cost_usd: { type: number, description: "Estimated USD cost" }
+
+
+# =============================================================================
+# INDUSTRY — The top-level entity
+# =============================================================================
+# One per VPS. Singleton. Owns all product lines and the policy engine.
+# =============================================================================
+Industry:
+  type: object
+  required: [id, name, status, product_lines, policy_engine, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^INDUSTRY-[A-Za-z0-9_-]+$"
+      description: "Unique industry ID (typically one per deployment)"
+      examples:
+        - "INDUSTRY-elements-vps"
+
+    name:
+      type: string
+      description: "Human-readable name"
+
+    host:
+      type: object
+      properties:
+        hostname:
+          type: string
+        tailscale_ip:
+          type: string
+        os:
+          type: string
+        resources:
+          type: object
+          properties:
+            cpu_cores: { type: integer }
+            ram_gb: { type: number }
+            disk_gb: { type: number }
+            gpu: { type: string, description: "GPU model or 'none'" }
+
+    status:
+      type: string
+      enum: [booting, running, paused, draining, shutdown, error]
+      description: |
+        booting   = starting up, loading state
+        running   = actively processing jobs
+        paused    = alive but not scheduling new jobs
+        draining  = finishing in-flight jobs, no new ones
+        shutdown  = clean stop
+        error     = unhealthy, needs intervention
+
+    product_lines:
+      type: array
+      items:
+        type: string
+      description: "ProductLine IDs registered in this Industry"
+
+    policy_engine:
+      type: string
+      description: "Reference to the active PolicyEngine config"
+
+    # --- Aggregate health ---
+    health:
+      type: object
+      properties:
+        uptime_hours:
+          type: number
+        total_jobs_completed:
+          type: integer
+        total_jobs_failed:
+          type: integer
+        active_workers:
+          type: integer
+        queue_depth:
+          type: integer
+        quality_floor_pct:
+          type: number
+          description: "% of objects at grade C or above"
+        last_heartbeat:
+          type: string
+          format: date-time
+
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# PRODUCT LINE — An assembly line within the Industry
+# =============================================================================
+# Each ProductLine defines WHAT it produces, WHAT objects it works with,
+# and WHAT jobs constitute its pipeline. The HOW is in the job specs.
+#
+# A ProductLine is a self-contained pipeline with its own:
+#   - Object schemas (what data types it creates)
+#   - Job sequence (what transformations it performs)
+#   - Quality criteria (what "good" means for its outputs)
+#   - Terrain (what its knowledge/output map looks like)
+#   - Workers (what processes execute its jobs)
+#
+# But it SHARES with all other lines:
+#   - Policy Engine (scheduling, budgets)
+#   - Quality Gate pattern (polymorphic assessment)
+#   - Data Chemistry vocabulary (harvest/wash/cut/etc.)
+#   - Resource accounting
+# =============================================================================
+ProductLine:
+  type: object
+  required: [id, name, product_type, status, schema_ref, jobs, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^PLINE-[A-Za-z0-9_-]+$"
+      examples:
+        - "PLINE-meta-analysis"
+        - "PLINE-image-gen"
+        - "PLINE-video-gen"
+        - "PLINE-research-agent"
+
+    name:
+      type: string
+      description: "Human-readable name"
+      examples:
+        - "Meta-Analysis Factory"
+        - "Image Generation Pipeline"
+        - "Video Generation Pipeline"
+        - "24h Research Bureau"
+
+    product_type:
+      type: string
+      enum: [meta_analysis, image, video, research_report, dataset,
+             documentation, code_analysis, custom]
+      description: "Category of output this line produces"
+
+    description:
+      type: string
+
+    status:
+      type: string
+      enum: [active, paused, draining, disabled, developing]
+      description: |
+        active     = accepting and processing jobs
+        paused     = temporarily stopped (manual or budget)
+        draining   = finishing in-flight, no new intake
+        disabled   = turned off (still registered)
+        developing = schema exists but implementation incomplete
+
+    # --- Schema reference ---
+    schema_ref:
+      type: string
+      description: "Path to the line's object schema file"
+      examples:
+        - ".agent/schema/meta_analysis.schema.yaml"
+        - ".agent/schema/image_gen.schema.yaml"
+
+    jobs_ref:
+      type: string
+      description: "Path to the line's job specification file"
+      examples:
+        - ".agent/schema/meta_analysis_jobs.yaml"
+        - ".agent/schema/image_gen_jobs.yaml"
+
+    # --- Pipeline definition ---
+    jobs:
+      type: array
+      items:
+        type: object
+        required: [job_id, chemistry, phase]
+        properties:
+          job_id:
+            type: string
+            description: "References a job in the jobs spec file"
+          chemistry:
+            type: string
+            enum: [harvest, wash, cut, measure, mix, emulsify,
+                   heat, simmer, reduce, taste, plate, season]
+          phase:
+            type: string
+            enum: [refinery, factory, terrain]
+          order:
+            type: integer
+            description: "Execution order within the phase"
+          required:
+            type: boolean
+            default: true
+            description: "If false, job can be skipped without breaking pipeline"
+      description: "Ordered list of jobs in this line's pipeline"
+
+    # --- Workers ---
+    workers:
+      type: array
+      items:
+        $ref: "#/Worker"
+      description: "Worker processes assigned to this line"
+
+    # --- Resource allocation ---
+    budget:
+      type: object
+      properties:
+        daily_api_calls: { type: integer }
+        daily_llm_tokens: { type: integer }
+        daily_gpu_seconds: { type: integer }
+        daily_storage_mb: { type: integer }
+        daily_cost_usd: { type: number }
+        priority:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: "1=highest priority. Policy Engine uses this for scheduling."
+      description: "Per-line resource budget. Policy Engine enforces."
+
+    # --- Terrain reference ---
+    terrain:
+      type: object
+      properties:
+        tile_count:
+          type: integer
+        tiles_active:
+          type: integer
+        tiles_stale:
+          type: integer
+        coverage_pct:
+          type: number
+          description: "Average coverage across all tiles"
+      description: "Summary of this line's knowledge/output terrain"
+
+    # --- Metrics ---
+    metrics:
+      type: object
+      properties:
+        total_inputs:
+          type: integer
+          description: "Total raw inputs ingested (Works, prompts, scripts, etc.)"
+        total_outputs:
+          type: integer
+          description: "Total finished products (MRUNs, images, videos, reports)"
+        quality_avg:
+          type: number
+          description: "Average quality score of outputs (0-100)"
+        throughput_per_day:
+          type: number
+          description: "Average outputs per day (rolling 7-day)"
+        error_rate:
+          type: number
+          description: "Failed jobs / total jobs"
+      description: "Operational metrics for the product line"
+
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# WORKER — A process that executes jobs
+# =============================================================================
+# Workers are the hands of the factory. They can be:
+#   - Python scripts (rule-based extraction, statistical computation)
+#   - LLM agents (research, extraction, quality assessment)
+#   - GPU processes (image/video generation)
+#   - External services (GROBID, Nougat, Cerebras, Ollama)
+#
+# Workers are stateless — they receive a job, execute it, return output.
+# State lives in the objects (Work, SDOC, MRUN, etc.), never in the worker.
+# =============================================================================
+Worker:
+  type: object
+  required: [id, worker_type, status]
+  properties:
+    id:
+      type: string
+      pattern: "^WORKER-[A-Za-z0-9_-]+$"
+      examples:
+        - "WORKER-grobid-parser"
+        - "WORKER-cerebras-extractor"
+        - "WORKER-ollama-qwen32b"
+        - "WORKER-comfyui-renderer"
+        - "WORKER-research-agent-01"
+
+    name:
+      type: string
+
+    worker_type:
+      type: string
+      enum: [script, llm_agent, gpu_process, external_service, human]
+      description: |
+        script           = deterministic Python process
+        llm_agent        = LLM-powered agent (Cerebras, Ollama, Claude)
+        gpu_process      = GPU-bound generation (ComfyUI, Hunyuan, etc.)
+        external_service = remote API (GROBID, PubMed, Unpaywall)
+        human            = manual intervention queue
+
+    # --- Capabilities ---
+    capabilities:
+      type: array
+      items:
+        type: string
+      description: "Job IDs this worker can execute"
+      examples:
+        - ["parse_full_text"]
+        - ["extract_candidates", "quality_gate"]
+        - ["run_meta_analysis", "compute_effect_sizes"]
+
+    # --- Runtime config ---
+    runtime:
+      type: object
+      properties:
+        model:
+          type: string
+          description: "LLM model name (for llm_agent type)"
+          examples:
+            - "llama-3.3-70b"
+            - "qwen2.5:32b"
+            - "claude-opus-4-6"
+        endpoint:
+          type: string
+          description: "API endpoint or service URL"
+        concurrency:
+          type: integer
+          default: 1
+          description: "Max parallel jobs this worker can handle"
+        timeout_seconds:
+          type: integer
+          default: 300
+        retry_max:
+          type: integer
+          default: 3
+        gpu_required:
+          type: boolean
+          default: false
+
+    # --- Status ---
+    status:
+      type: string
+      enum: [idle, busy, error, offline, warming_up]
+
+    # --- Accounting ---
+    stats:
+      type: object
+      properties:
+        jobs_completed: { type: integer }
+        jobs_failed: { type: integer }
+        avg_duration_seconds: { type: number }
+        total_cost_usd: { type: number }
+        last_job_at:
+          type: string
+          format: date-time
+
+
+# =============================================================================
+# JOB RUN — A single execution of a job by a worker
+# =============================================================================
+# Immutable record. One per execution attempt.
+# Links: ProductLine → Job spec → Worker → Input objects → Output objects.
+# =============================================================================
+JobRun:
+  type: object
+  required: [id, product_line_id, job_id, worker_id, status, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^JRUN-[a-f0-9]{8,}$"
+
+    product_line_id:
+      type: string
+      description: "Which ProductLine this run belongs to"
+
+    job_id:
+      type: string
+      description: "Which job spec was executed"
+
+    worker_id:
+      type: string
+      description: "Which Worker executed this run"
+
+    # --- I/O ---
+    input_ids:
+      type: array
+      items:
+        type: string
+      description: "IDs of input objects consumed"
+
+    input_hash:
+      type: string
+      description: "Hash of all input IDs + parameters (for idempotency check)"
+
+    output_ids:
+      type: array
+      items:
+        type: string
+      description: "IDs of output objects produced"
+
+    parameters:
+      type: object
+      additionalProperties: true
+      description: "Job parameters used for this run (for reproducibility)"
+
+    # --- Execution ---
+    status:
+      type: string
+      enum: [queued, running, completed, failed, retrying, cancelled]
+
+    attempt:
+      type: integer
+      default: 1
+      description: "Attempt number (increments on retry)"
+
+    duration_ms:
+      type: integer
+      description: "Wall-clock execution time"
+
+    resources:
+      $ref: "#/definitions/resource_usage"
+
+    # --- Quality ---
+    quality_report_id:
+      type: string
+      description: "QREP-ID of the post-run quality assessment"
+
+    quality_grade:
+      type: string
+      enum: [A, B, C, D, F]
+      description: "Cached from QualityReport for fast filtering"
+
+    # --- Error handling ---
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: "Error classification"
+        message:
+          type: string
+        traceback:
+          type: string
+        recoverable:
+          type: boolean
+
+    # --- Lineage ---
+    triggered_by:
+      type: string
+      description: "JRUN-ID or event that triggered this run"
+
+    triggers:
+      type: array
+      items:
+        type: string
+      description: "JRUN-IDs spawned by this run's completion"
+
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# POLICY ENGINE CONFIG — The Nervous System
+# =============================================================================
+# Singleton per Industry. Governs all scheduling, budgets, and health.
+# =============================================================================
+PolicyEngine:
+  type: object
+  required: [id, status, budgets, scheduling, health_targets]
+  properties:
+    id:
+      type: string
+      pattern: "^POLICY-[A-Za-z0-9_-]+$"
+
+    status:
+      type: string
+      enum: [active, maintenance, emergency_stop]
+
+    # --- Global budgets ---
+    budgets:
+      type: object
+      properties:
+        daily:
+          type: object
+          properties:
+            api_calls: { type: integer, default: 5000 }
+            llm_tokens: { type: integer, default: 2000000 }
+            gpu_seconds: { type: integer, default: 3600 }
+            storage_mb: { type: integer, default: 500 }
+            cost_usd: { type: number, default: 5.00 }
+          description: "Industry-wide daily limits"
+        current_usage:
+          $ref: "#/definitions/resource_usage"
+        usage_pct:
+          type: number
+          description: "current / daily as percentage"
+        pause_threshold:
+          type: number
+          default: 0.8
+          description: "Pause SeedExpansion-type jobs when usage_pct exceeds this"
+        hard_stop_threshold:
+          type: number
+          default: 0.95
+          description: "Stop ALL non-critical jobs when usage_pct exceeds this"
+
+    # --- Scheduling ---
+    scheduling:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          enum: [priority_queue, round_robin, weighted_fair, custom]
+          default: priority_queue
+        max_concurrent_jobs:
+          type: integer
+          default: 4
+        max_concurrent_per_line:
+          type: integer
+          default: 2
+        rules:
+          type: array
+          items:
+            type: object
+            properties:
+              name: { type: string }
+              condition: { type: string }
+              action: { type: string }
+          description: "Scheduling rules (evaluated in order)"
+          examples:
+            - name: "refinery_before_factory"
+              condition: "job.phase == 'refinery' AND queue has factory jobs"
+              action: "prioritize refinery job"
+            - name: "quality_gate_always"
+              condition: "job.id == 'quality_gate'"
+              action: "run immediately after parent job"
+            - name: "seed_expansion_budget"
+              condition: "usage_pct > 0.8 AND job.id == 'seed_expansion'"
+              action: "defer to next budget cycle"
+            - name: "gpu_exclusive"
+              condition: "job requires GPU"
+              action: "serialize (one GPU job at a time)"
+
+    # --- Health targets (homeostasis) ---
+    health_targets:
+      type: array
+      items:
+        type: object
+        required: [metric, target, severity]
+        properties:
+          metric:
+            type: string
+            description: "What to measure"
+          target:
+            type: number
+            description: "Target value"
+          operator:
+            type: string
+            enum: [gte, lte, eq, between]
+            default: gte
+          severity:
+            type: string
+            enum: [info, warning, critical]
+          action:
+            type: string
+            description: "What to do if target is missed"
+      examples:
+        - metric: "quality_floor_pct"
+          target: 95
+          operator: gte
+          severity: critical
+          action: "Pause new intake, prioritize QualityGate reruns"
+        - metric: "terrain_freshness_pct"
+          target: 80
+          operator: gte
+          severity: warning
+          action: "Increase SeedExpansion frequency"
+        - metric: "error_rate"
+          target: 0.05
+          operator: lte
+          severity: critical
+          action: "Alert + pause affected ProductLine"
+        - metric: "queue_depth"
+          target: 100
+          operator: lte
+          severity: warning
+          action: "Scale down SeedExpansion budget_limit"
+
+    # --- Attention (multi-armed bandit) ---
+    attention:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          enum: [UCB1, thompson_sampling, epsilon_greedy, softmax]
+          default: UCB1
+        exploration_constant:
+          type: number
+          default: 1.41
+          description: "c in UCB1 formula. sqrt(2) = standard."
+        reward_decay:
+          type: number
+          default: 0.95
+          description: "Decay factor for historical rewards"
+        rebalance_interval:
+          type: string
+          default: "6h"
+          description: "How often to recalculate priorities"
+      description: |
+        Controls how the Industry allocates attention across tiles and
+        product lines. Higher exploration_constant = more adventurous.
+        Lower = more focused on known-productive areas.
+
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# REGISTRY — Index of all objects in the Industry
+# =============================================================================
+# Not stored as a single file — this schema describes the shape of the
+# registry that the Policy Engine maintains (likely in SQLite or similar).
+# =============================================================================
+Registry:
+  type: object
+  description: |
+    The central index. Every object in the Industry is registered here.
+    Enables cross-line queries ("show me all grade-A outputs from last week")
+    and lineage tracking ("where did this image come from?").
+  properties:
+    entries:
+      type: array
+      items:
+        type: object
+        required: [object_id, object_type, product_line_id, status]
+        properties:
+          object_id:
+            type: string
+            description: "The object's canonical ID (WORK-, FTA-, MRUN-, etc.)"
+          object_type:
+            type: string
+            description: "Schema type name"
+          product_line_id:
+            type: string
+          status:
+            type: string
+          quality_grade:
+            type: string
+            enum: [A, B, C, D, F, ungraded]
+          content_hash:
+            type: string
+          created_at:
+            type: string
+            format: date-time
+          storage_path:
+            type: string
+            description: "Where the full object is stored"
+          lineage:
+            type: object
+            properties:
+              parent_ids:
+                type: array
+                items: { type: string }
+                description: "Objects this was derived from"
+              child_ids:
+                type: array
+                items: { type: string }
+                description: "Objects derived from this"
+              job_run_id:
+                type: string
+                description: "JRUN that produced this object"

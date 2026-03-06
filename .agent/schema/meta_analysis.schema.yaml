@@ -1,0 +1,1369 @@
+# Meta-Analysis Factory — Canonical Data Schemas v1.0.0
+# The object model for autonomous scientific meta-analysis production.
+#
+# Created: 2026-03-04
+# Domain: Industry > Factory > Meta-Analysis Factory
+# Depends: refinery_node.schema.yaml (shared provenance patterns)
+#
+# ARCHITECTURE:
+#   Refinery Domain (ingredients)  →  Factory Domain (products)  →  Terrain Domain (map)
+#   Work → FullTextAsset → StructuredDocument → EvidenceFragment
+#                                                    ↓
+#                                          ExtractionCandidate
+#                                                    ↓
+#                                             EffectSizeSet
+#                                                    ↓
+#                                           MetaAnalysisRun → QualityReport
+#                                                    ↓
+#                                                  Tile (terrain map)
+#
+# DATA CHEMISTRY VOCABULARY:
+#   Harvest   = acquire raw material (ResolveWork, AcquireFullText)
+#   Wash      = clean/normalize (ParseFullText)
+#   Cut/Chunk = segment (SegmentAndIndex)
+#   Measure   = extract quantities (ExtractCandidates)
+#   Mix/Join  = combine across works (ReconcileCandidates)
+#   Heat      = background compute (RunMetaAnalysis)
+#   Taste     = validate (QualityGate, DiagnoseAndValidate)
+#   Plate     = publish results (UpdateTerrain)
+#
+# DESIGN PRINCIPLES:
+#   1. Idempotent — reprocessing same input yields same output
+#   2. Provenance — every object traces to its source(s)
+#   3. Content-addressed — content_hash enables dedup and cache
+#   4. Status-driven — each object has a lifecycle state machine
+#   5. Confidence-aware — inherited 4D scoring from Elements ecosystem
+
+$schema: "http://json-schema.org/draft-07/schema#"
+$id: "https://elements-archive-2026/schema/meta_analysis.schema.yaml"
+title: "MetaAnalysisFactory"
+description: "Canonical object model for the Meta-Analysis Factory system"
+version: "1.0.0"
+
+# =============================================================================
+# SHARED DEFINITIONS
+# =============================================================================
+definitions:
+
+  # ---------------------------------------------------------------------------
+  # Timestamps — standard across all objects
+  # ---------------------------------------------------------------------------
+  timestamps:
+    type: object
+    required: [created_at, updated_at]
+    properties:
+      created_at:
+        type: string
+        format: date-time
+        description: "ISO 8601 creation timestamp"
+      updated_at:
+        type: string
+        format: date-time
+        description: "ISO 8601 last modification timestamp"
+      expires_at:
+        type: string
+        format: date-time
+        description: "Optional TTL for freshness-sensitive data"
+
+  # ---------------------------------------------------------------------------
+  # 4D Confidence — inherited from Elements ecosystem
+  # ---------------------------------------------------------------------------
+  confidence_4d:
+    type: object
+    description: "4D confidence scoring (Factual/Alignment/Current/Onwards)"
+    properties:
+      factual:
+        type: integer
+        minimum: 0
+        maximum: 100
+        description: "Is the extracted/computed data correct?"
+      alignment:
+        type: integer
+        minimum: 0
+        maximum: 100
+        description: "Does this serve the analysis goal?"
+      current:
+        type: integer
+        minimum: 0
+        maximum: 100
+        description: "Is the source data still valid/recent?"
+      onwards:
+        type: integer
+        minimum: 0
+        maximum: 100
+        description: "Will this remain useful as the terrain expands?"
+      composite:
+        type: integer
+        minimum: 0
+        maximum: 100
+        description: "min(factual, alignment, current, onwards)"
+
+  # ---------------------------------------------------------------------------
+  # Author — person or organization
+  # ---------------------------------------------------------------------------
+  author:
+    type: object
+    required: [name]
+    properties:
+      name:
+        type: string
+        description: "Full name or organization name"
+      orcid:
+        type: string
+        pattern: "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$"
+        description: "ORCID identifier if available"
+      affiliation:
+        type: string
+
+# =============================================================================
+# 1. WORK — Bibliographic reference (unit of discovery)
+# =============================================================================
+# Chemistry: HARVEST target. The seed from which everything grows.
+# Lifecycle: discovered → screened_in/screened_out → acquired → parsed → extracted
+#
+# Example:
+#   id: "WORK-10.1001/jama.2024.12345"
+#   title: "Effect of X on Y: A Randomized Controlled Trial"
+#   doi: "10.1001/jama.2024.12345"
+#   status: "acquired"
+# =============================================================================
+Work:
+  type: object
+  required: [id, title, status, source, timestamps]
+  properties:
+    id:
+      type: string
+      description: "Unique ID. Format: WORK-{doi_slug} or WORK-PMID-{pmid}"
+      pattern: "^WORK-[A-Za-z0-9._/-]+$"
+      examples:
+        - "WORK-10.1001/jama.2024.12345"
+        - "WORK-PMID-39182456"
+        - "WORK-arxiv-2401.00001"
+
+    # --- Identifiers ---
+    doi:
+      type: string
+      description: "Digital Object Identifier (canonical dedup key)"
+    pmid:
+      type: string
+      description: "PubMed ID"
+    pmcid:
+      type: string
+      description: "PubMed Central ID (often needed for OA access)"
+    arxiv_id:
+      type: string
+      description: "arXiv identifier (e.g., 2401.00001)"
+
+    # --- Bibliographic metadata ---
+    title:
+      type: string
+      description: "Full title of the work"
+    authors:
+      type: array
+      items:
+        $ref: "#/definitions/author"
+    year:
+      type: integer
+      description: "Publication year"
+    journal:
+      type: string
+      description: "Journal or preprint server name"
+    volume:
+      type: string
+    issue:
+      type: string
+    pages:
+      type: string
+    abstract:
+      type: string
+      description: "Full abstract text"
+    keywords:
+      type: array
+      items:
+        type: string
+      description: "Author or MeSH keywords"
+    study_type:
+      type: string
+      enum: [rct, cohort, case_control, cross_sectional, case_report,
+             systematic_review, meta_analysis, narrative_review,
+             in_vitro, in_vivo, other, unknown]
+      description: "Study design classification"
+
+    # --- Discovery context ---
+    source:
+      type: string
+      enum: [pubmed, crossref, openalex, semantic_scholar, arxiv,
+             europe_pmc, snowball_forward, snowball_backward,
+             seed_manual, query_expansion]
+      description: "How this work was discovered"
+    discovery_query:
+      type: string
+      description: "The query or seed that led to discovery"
+    discovery_tile:
+      type: string
+      description: "TILE-ID of the terrain tile that triggered discovery"
+
+    # --- Citation graph ---
+    citations_out:
+      type: array
+      items:
+        type: string
+      description: "DOIs/IDs this work cites (for backward snowballing)"
+    citations_in:
+      type: array
+      items:
+        type: string
+      description: "DOIs/IDs that cite this work (for forward snowballing)"
+    citation_count:
+      type: integer
+      description: "Total known citation count (from OpenAlex/S2)"
+
+    # --- Lifecycle ---
+    status:
+      type: string
+      enum: [discovered, screened_in, screened_out, acquired, parsed,
+             extracted, excluded]
+      description: "Processing lifecycle state"
+    exclusion_reason:
+      type: string
+      description: "If screened_out or excluded, why"
+
+    # --- Dedup & provenance ---
+    content_hash:
+      type: string
+      description: "SHA256 of normalized metadata for dedup detection"
+    duplicate_of:
+      type: string
+      description: "WORK-ID if this is a detected duplicate"
+
+    confidence:
+      $ref: "#/definitions/confidence_4d"
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# 2. FULL TEXT ASSET — The acquired document file
+# =============================================================================
+# Chemistry: HARVEST result. Raw ingredient before washing.
+# One Work may have multiple assets (PDF + supplementary).
+#
+# Example:
+#   id: "FTA-sha256-a1b2c3d4"
+#   work_id: "WORK-10.1001/jama.2024.12345"
+#   format: "pdf"
+#   status: "acquired"
+# =============================================================================
+FullTextAsset:
+  type: object
+  required: [id, work_id, format, status, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^FTA-[a-f0-9]{8,}$"
+      description: "Content-addressed ID from file hash"
+
+    work_id:
+      type: string
+      description: "Parent WORK-ID"
+
+    format:
+      type: string
+      enum: [pdf, html, xml_jats, xml_tei, txt, docx]
+      description: "File format"
+
+    asset_type:
+      type: string
+      enum: [main, supplementary, appendix, erratum]
+      default: main
+      description: "Role of this asset relative to the Work"
+
+    source_url:
+      type: string
+      format: uri
+      description: "URL from which the file was acquired"
+
+    storage_path:
+      type: string
+      description: "Local filesystem path (relative to data root)"
+
+    acquisition_method:
+      type: string
+      enum: [unpaywall_oa, pmc_oa, publisher_api, direct_download,
+             sci_hub, manual_upload, institutional_access]
+      description: "How the file was obtained"
+
+    content_hash:
+      type: string
+      description: "SHA256 of the binary file content"
+
+    size_bytes:
+      type: integer
+      description: "File size in bytes"
+
+    page_count:
+      type: integer
+      description: "Number of pages (for PDFs)"
+
+    status:
+      type: string
+      enum: [pending, acquired, failed, unavailable, corrupted]
+
+    failure_reason:
+      type: string
+      description: "If failed/unavailable, why"
+
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# 3. STRUCTURED DOCUMENT — Parsed representation of a full text
+# =============================================================================
+# Chemistry: WASH + CUT result. Clean, segmented, ready for measurement.
+# Produced by GROBID, Nougat, Docling, or manual parsing.
+#
+# Example:
+#   id: "SDOC-sha256-e5f6a7b8"
+#   parser: "grobid"
+#   sections: [{heading: "Methods", level: 1, text: "...", pages: [3,4,5]}]
+# =============================================================================
+StructuredDocument:
+  type: object
+  required: [id, fta_id, work_id, parser, status, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^SDOC-[a-f0-9]{8,}$"
+
+    fta_id:
+      type: string
+      description: "Source FullTextAsset ID"
+
+    work_id:
+      type: string
+      description: "Root Work ID (for fast lookup)"
+
+    parser:
+      type: string
+      enum: [grobid, nougat, docling, tei_xml_native, manual]
+      description: "Which parser produced this structure"
+
+    parser_version:
+      type: string
+      description: "Parser version for reproducibility"
+
+    # --- Structural elements ---
+    sections:
+      type: array
+      items:
+        type: object
+        required: [heading, level, text]
+        properties:
+          heading:
+            type: string
+          level:
+            type: integer
+            minimum: 1
+            maximum: 6
+          text:
+            type: string
+            description: "Full text content of the section"
+          pages:
+            type: array
+            items:
+              type: integer
+            description: "Page numbers this section spans"
+          section_type:
+            type: string
+            enum: [title, abstract, introduction, methods, results,
+                   discussion, conclusion, references, supplementary,
+                   acknowledgements, other]
+
+    tables:
+      type: array
+      items:
+        type: object
+        required: [table_id, caption]
+        properties:
+          table_id:
+            type: string
+            description: "Local ID within document (e.g., T1, T2)"
+          caption:
+            type: string
+          headers:
+            type: array
+            items:
+              type: string
+          rows:
+            type: array
+            items:
+              type: array
+              items:
+                type: string
+            description: "2D array of cell values"
+          page:
+            type: integer
+          footnotes:
+            type: string
+
+    figures:
+      type: array
+      items:
+        type: object
+        properties:
+          figure_id:
+            type: string
+          caption:
+            type: string
+          page:
+            type: integer
+          has_forest_plot:
+            type: boolean
+            description: "Flag for automated forest plot extraction"
+
+    references_parsed:
+      type: array
+      items:
+        type: object
+        properties:
+          raw:
+            type: string
+            description: "Original reference string"
+          doi:
+            type: string
+          pmid:
+            type: string
+          resolved_work_id:
+            type: string
+            description: "WORK-ID if resolved in our system"
+
+    # --- Quality assessment ---
+    parse_quality:
+      type: object
+      properties:
+        completeness:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: "Fraction of pages successfully parsed"
+        section_count:
+          type: integer
+        table_count:
+          type: integer
+        figure_count:
+          type: integer
+        reference_count:
+          type: integer
+        reference_resolve_rate:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: "Fraction of references resolved to DOI/PMID"
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: "Parser's own confidence score"
+
+    status:
+      type: string
+      enum: [parsing, parsed, failed, partial]
+
+    content_hash:
+      type: string
+      description: "SHA256 of the structured output"
+
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# 4. EVIDENCE FRAGMENT — Atomic extracted segment
+# =============================================================================
+# Chemistry: MEASURE target. A single observation from the raw material.
+# Granularity: one paragraph, one table cell, one sentence with a number.
+# Multiple fragments may contribute to a single ExtractionCandidate.
+#
+# Example:
+#   id: "EVFR-sha256-c9d0e1f2"
+#   fragment_type: "result"
+#   content: "The treatment group showed RR=0.73 (95% CI 0.58-0.91)"
+# =============================================================================
+EvidenceFragment:
+  type: object
+  required: [id, sdoc_id, work_id, fragment_type, content, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^EVFR-[a-f0-9]{8,}$"
+
+    sdoc_id:
+      type: string
+      description: "Parent StructuredDocument ID"
+
+    work_id:
+      type: string
+      description: "Root Work ID"
+
+    fragment_type:
+      type: string
+      enum: [population, exposure, comparator, outcome, result,
+             method, sample_size, follow_up, adverse_event,
+             table_cell, figure_data, other]
+      description: "Semantic category of this fragment (PICO-aligned)"
+
+    content:
+      type: string
+      description: "The extracted text verbatim"
+
+    # --- Location within document ---
+    location:
+      type: object
+      properties:
+        section:
+          type: string
+          description: "Section heading where found"
+        section_type:
+          type: string
+          enum: [abstract, methods, results, discussion, table, figure, other]
+        page:
+          type: integer
+        paragraph:
+          type: integer
+        table_id:
+          type: string
+          description: "If from a table, which table"
+        row:
+          type: integer
+        column:
+          type: integer
+
+    # --- Extraction metadata ---
+    extractor:
+      type: string
+      enum: [rule_based, llm, table_parser, manual, webplotdigitizer]
+      description: "Method used to extract this fragment"
+
+    extraction_confidence:
+      type: number
+      minimum: 0
+      maximum: 1
+      description: "Extractor's confidence in this fragment"
+
+    # --- Annotations (structured data pulled from the text) ---
+    annotations:
+      type: array
+      items:
+        type: object
+        required: [key, value]
+        properties:
+          key:
+            type: string
+            description: "Annotation type: n, mean, sd, rr, or, hr, ci_lower, ci_upper, p, etc."
+          value:
+            type: string
+            description: "Extracted value (string to preserve original formatting)"
+          numeric:
+            type: number
+            description: "Parsed numeric value (null if non-numeric)"
+          unit:
+            type: string
+            description: "Unit of measurement if applicable"
+
+    # --- Vector embedding for semantic search ---
+    embedding:
+      type: array
+      items:
+        type: number
+      description: "384-dim MiniLM embedding for semantic retrieval"
+
+    content_hash:
+      type: string
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# 5. EXTRACTION CANDIDATE — A potential data point ready for QC
+# =============================================================================
+# Chemistry: MEASURE result. A structured observation ready to be mixed.
+# Bridges evidence fragments to statistical computation.
+# One candidate = one effect from one study (may combine multiple fragments).
+#
+# Example:
+#   id: "CAND-sha256-a3b4c5d6"
+#   outcome: "All-cause mortality"
+#   effect_type: "RR"
+#   raw_value: 0.73
+#   raw_ci_lower: 0.58
+#   raw_ci_upper: 0.91
+# =============================================================================
+ExtractionCandidate:
+  type: object
+  required: [id, work_id, outcome, effect_type, status, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^CAND-[a-f0-9]{8,}$"
+
+    work_id:
+      type: string
+      description: "Source Work ID"
+
+    fragments:
+      type: array
+      items:
+        type: string
+      description: "EVFR-IDs that contributed to this candidate"
+
+    # --- PICO Framework ---
+    population:
+      type: string
+      description: "Study population description"
+    exposure:
+      type: string
+      description: "Intervention or exposure"
+    comparator:
+      type: string
+      description: "Control or comparison group"
+    outcome:
+      type: string
+      description: "Measured outcome"
+    timepoint:
+      type: string
+      description: "Follow-up duration or measurement timepoint"
+
+    # --- Sample sizes ---
+    n_total:
+      type: integer
+    n_treatment:
+      type: integer
+    n_control:
+      type: integer
+
+    # --- Effect estimate (raw as reported) ---
+    effect_type:
+      type: string
+      enum: [RR, OR, HR, MD, SMD, r, proportion, rate, other]
+      description: "Type of effect measure"
+    raw_value:
+      type: number
+      description: "Point estimate as reported"
+    raw_ci_lower:
+      type: number
+      description: "Lower bound of confidence interval"
+    raw_ci_upper:
+      type: number
+      description: "Upper bound of confidence interval"
+    raw_se:
+      type: number
+      description: "Standard error (if reported directly)"
+    raw_sd_treatment:
+      type: number
+      description: "SD in treatment group (for continuous outcomes)"
+    raw_sd_control:
+      type: number
+      description: "SD in control group (for continuous outcomes)"
+    raw_mean_treatment:
+      type: number
+    raw_mean_control:
+      type: number
+    p_value:
+      type: number
+    ci_level:
+      type: number
+      default: 0.95
+      description: "Confidence level (0.95 = 95% CI)"
+
+    # --- Extraction metadata ---
+    extractor:
+      type: string
+      enum: [auto_rule, auto_llm, auto_table, manual, dual_verified]
+    extraction_notes:
+      type: string
+      description: "Free-text notes about extraction decisions"
+
+    # --- QC lifecycle ---
+    status:
+      type: string
+      enum: [draft, reconciled, validated, rejected, flagged]
+    quality_flags:
+      type: array
+      items:
+        type: string
+        enum: [missing_ci, missing_n, imputed_se, unit_mismatch,
+               outlier, duplicate_suspicion, inconsistent_totals,
+               wide_ci, zero_events, small_sample]
+      description: "Quality issues detected during QC"
+    rejection_reason:
+      type: string
+
+    confidence:
+      $ref: "#/definitions/confidence_4d"
+    content_hash:
+      type: string
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# 6. EFFECT SIZE SET — Transformed effect sizes ready for pooling
+# =============================================================================
+# Chemistry: MIX result. Ingredients harmonized and ready for cooking.
+# Converts raw reported values into a common metric with variance.
+# yi = effect size, vi = sampling variance, wi = 1/vi (weight).
+#
+# Key transformations:
+#   RR → log(RR), var via delta method or CI
+#   OR → log(OR), var via delta method or CI
+#   HR → log(HR), var from CI
+#   MD → MD (no transform), var from SD/n
+#   SMD → Hedges' g, var from n and g
+#   r → Fisher's z, var = 1/(n-3)
+# =============================================================================
+EffectSizeSet:
+  type: object
+  required: [id, metric, entries, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^ESS-[a-f0-9]{8,}$"
+
+    run_id:
+      type: string
+      description: "MetaAnalysisRun that requested this set (if any)"
+
+    protocol_id:
+      type: string
+      description: "Protocol that defines the analysis question"
+
+    # --- Metric definition ---
+    metric:
+      type: string
+      enum: [log_RR, log_OR, log_HR, MD, SMD, fisher_z,
+             proportion_logit, rate_log, other]
+      description: "Common metric all entries are expressed in"
+
+    metric_label:
+      type: string
+      description: "Human-readable label (e.g., 'Log Risk Ratio')"
+
+    # --- The data matrix ---
+    entries:
+      type: array
+      items:
+        type: object
+        required: [cand_id, yi, vi, label]
+        properties:
+          cand_id:
+            type: string
+            description: "Source ExtractionCandidate ID"
+          work_id:
+            type: string
+            description: "Source Work ID (for labeling)"
+          label:
+            type: string
+            description: "Study label (e.g., 'Smith 2023')"
+          yi:
+            type: number
+            description: "Effect size on the common metric scale"
+          vi:
+            type: number
+            description: "Sampling variance of yi"
+          sei:
+            type: number
+            description: "Standard error = sqrt(vi)"
+          ni:
+            type: integer
+            description: "Total sample size for this study"
+          wi:
+            type: number
+            description: "Weight = 1/vi (fixed-effect weight)"
+          subgroup:
+            type: string
+            description: "Subgroup label if applicable"
+          moderators:
+            type: object
+            additionalProperties: true
+            description: "Key-value pairs for meta-regression covariates"
+      description: "One entry per study contributing to the meta-analysis"
+
+    # --- Transformation audit trail ---
+    transformation_log:
+      type: array
+      items:
+        type: object
+        properties:
+          cand_id:
+            type: string
+          from_metric:
+            type: string
+            description: "Original metric (e.g., 'RR')"
+          to_metric:
+            type: string
+            description: "Target metric (e.g., 'log_RR')"
+          method:
+            type: string
+            description: "Transformation method used"
+          imputed:
+            type: boolean
+            description: "Was any value imputed (e.g., SE from CI)?"
+          notes:
+            type: string
+      description: "Audit trail of how raw values became yi/vi"
+
+    k_studies:
+      type: integer
+      description: "Number of entries (studies)"
+    n_total:
+      type: integer
+      description: "Sum of ni across all entries"
+
+    content_hash:
+      type: string
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# 7. META-ANALYSIS RUN — A complete pooled analysis
+# =============================================================================
+# Chemistry: HEAT + REDUCE result. The main dish.
+# One run = one forest plot = one pooled estimate.
+# Immutable after completion (new run for different parameters).
+#
+# Example:
+#   id: "MRUN-sha256-f7e8d9c0"
+#   topic: "Statins and all-cause mortality"
+#   model: "random"
+#   method: "REML"
+#   results: {estimate: -0.31, ci_lower: -0.45, ci_upper: -0.17}
+# =============================================================================
+MetaAnalysisRun:
+  type: object
+  required: [id, topic, question, ess_id, model, method, status, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^MRUN-[a-f0-9]{8,}$"
+
+    protocol_id:
+      type: string
+      description: "Protocol that defines the research question"
+
+    tile_id:
+      type: string
+      description: "Terrain tile this run contributes to"
+
+    # --- Research question ---
+    topic:
+      type: string
+      description: "Broad topic area"
+    question:
+      type: string
+      description: "Specific PICO question being answered"
+    outcome_class:
+      type: string
+      description: "Category of outcome (mortality, morbidity, biomarker, etc.)"
+
+    # --- Input data ---
+    ess_id:
+      type: string
+      description: "EffectSizeSet ID used as input"
+    k_studies:
+      type: integer
+      description: "Number of studies included"
+    n_total:
+      type: integer
+      description: "Total participants across all studies"
+
+    # --- Model specification ---
+    model:
+      type: string
+      enum: [fixed, random, multilevel, multivariate]
+      description: "Meta-analytic model type"
+    method:
+      type: string
+      enum: [DL, REML, PM, HE, EB, ML, FE, MH, Peto, SJ, GENQ]
+      description: |
+        Estimation method for tau².
+        DL = DerSimonian-Laird (classic, fast).
+        REML = Restricted Maximum Likelihood (recommended default).
+        PM = Paule-Mandel. HE = Hedges. EB = Empirical Bayes.
+    metric:
+      type: string
+      description: "Effect size metric (from EffectSizeSet)"
+
+    # --- Primary results ---
+    results:
+      type: object
+      required: [estimate, ci_lower, ci_upper]
+      properties:
+        estimate:
+          type: number
+          description: "Pooled effect size on the analysis scale"
+        ci_lower:
+          type: number
+        ci_upper:
+          type: number
+        se:
+          type: number
+          description: "Standard error of the pooled estimate"
+        z:
+          type: number
+          description: "Z-statistic"
+        p:
+          type: number
+          description: "P-value for the pooled estimate"
+        # Back-transformed for interpretation
+        estimate_exp:
+          type: number
+          description: "exp(estimate) — for log-scale metrics (RR, OR, HR)"
+        ci_lower_exp:
+          type: number
+        ci_upper_exp:
+          type: number
+
+    # --- Heterogeneity ---
+    heterogeneity:
+      type: object
+      properties:
+        Q:
+          type: number
+          description: "Cochran's Q statistic"
+        Q_df:
+          type: integer
+          description: "Degrees of freedom for Q (k-1)"
+        Q_p:
+          type: number
+          description: "P-value for Q test"
+        tau2:
+          type: number
+          description: "Between-study variance"
+        tau:
+          type: number
+          description: "sqrt(tau2) — SD of true effects"
+        I2:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: "Percentage of variability due to heterogeneity"
+        H2:
+          type: number
+          description: "H² = Q/df"
+        prediction_interval:
+          type: object
+          properties:
+            lower:
+              type: number
+            upper:
+              type: number
+          description: "95% prediction interval for a new study's true effect"
+
+    # --- Diagnostics ---
+    diagnostics:
+      type: object
+      properties:
+        # Publication bias
+        funnel_asymmetry:
+          type: object
+          properties:
+            egger_z:
+              type: number
+            egger_p:
+              type: number
+            begg_z:
+              type: number
+            begg_p:
+              type: number
+            verdict:
+              type: string
+              enum: [no_evidence, possible, likely]
+        trim_fill:
+          type: object
+          properties:
+            k_imputed:
+              type: integer
+              description: "Number of imputed studies"
+            adjusted_estimate:
+              type: number
+            adjusted_ci_lower:
+              type: number
+            adjusted_ci_upper:
+              type: number
+
+        # Influence analysis
+        influence_leave1out:
+          type: array
+          items:
+            type: object
+            properties:
+              dropped_study:
+                type: string
+                description: "CAND-ID of dropped study"
+              label:
+                type: string
+              estimate:
+                type: number
+              ci_lower:
+                type: number
+              ci_upper:
+                type: number
+              tau2:
+                type: number
+              I2:
+                type: number
+          description: "Leave-one-out sensitivity analysis"
+
+        # GOSH (graphical outlier/heterogeneity detection)
+        outlier_ids:
+          type: array
+          items:
+            type: string
+          description: "CAND-IDs identified as statistical outliers"
+
+    # --- Subgroup & meta-regression ---
+    subgroup_analyses:
+      type: array
+      items:
+        type: object
+        properties:
+          variable:
+            type: string
+            description: "Subgroup variable name"
+          levels:
+            type: array
+            items:
+              type: object
+              properties:
+                level:
+                  type: string
+                k:
+                  type: integer
+                estimate:
+                  type: number
+                ci_lower:
+                  type: number
+                ci_upper:
+                  type: number
+                I2:
+                  type: number
+          Q_between:
+            type: number
+            description: "Q-statistic for between-subgroup differences"
+          Q_between_p:
+            type: number
+
+    meta_regression:
+      type: array
+      items:
+        type: object
+        properties:
+          covariate:
+            type: string
+          coefficient:
+            type: number
+          se:
+            type: number
+          p:
+            type: number
+          R2:
+            type: number
+            description: "Proportion of heterogeneity explained"
+
+    # --- Forest plot data (for visualization) ---
+    forest_plot:
+      type: array
+      items:
+        type: object
+        properties:
+          label:
+            type: string
+          yi:
+            type: number
+          ci_lower:
+            type: number
+          ci_upper:
+            type: number
+          weight_pct:
+            type: number
+            description: "Relative weight as percentage"
+      description: "Pre-computed data for forest plot rendering"
+
+    # --- Lifecycle ---
+    status:
+      type: string
+      enum: [queued, running, completed, failed, validated, superseded]
+
+    superseded_by:
+      type: string
+      description: "MRUN-ID if this run has been replaced"
+
+    confidence:
+      $ref: "#/definitions/confidence_4d"
+    content_hash:
+      type: string
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# 8. QUALITY REPORT — Assessment of any factory object
+# =============================================================================
+# Chemistry: TASTE result. Does the dish pass quality control?
+# Polymorphic: can assess MRUN, CAND, SDOC, or any other object.
+#
+# Quality checks are named, scored, and composited into a letter grade.
+# Grade thresholds: A >= 90, B >= 75, C >= 60, D >= 40, F < 40.
+# =============================================================================
+QualityReport:
+  type: object
+  required: [id, target_id, target_type, checks, overall_grade, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^QREP-[a-f0-9]{8,}$"
+
+    target_id:
+      type: string
+      description: "ID of the assessed object (MRUN, CAND, SDOC, etc.)"
+    target_type:
+      type: string
+      enum: [meta_analysis_run, extraction_candidate, structured_document,
+             effect_size_set, evidence_fragment, full_text_asset, work, tile]
+
+    # --- Individual checks ---
+    checks:
+      type: array
+      items:
+        type: object
+        required: [name, passed, score]
+        properties:
+          name:
+            type: string
+            description: "Check identifier (e.g., 'funnel_symmetry', 'ci_integrity')"
+          category:
+            type: string
+            enum: [completeness, consistency, statistical, bias,
+                   reproducibility, freshness, coverage]
+          passed:
+            type: boolean
+          score:
+            type: number
+            minimum: 0
+            maximum: 100
+          severity:
+            type: string
+            enum: [info, warning, error, critical]
+          details:
+            type: string
+            description: "Explanation of the check result"
+
+    # --- Aggregate ---
+    overall_score:
+      type: number
+      minimum: 0
+      maximum: 100
+      description: "Weighted average of check scores"
+    overall_grade:
+      type: string
+      enum: [A, B, C, D, F]
+      description: "Letter grade. A>=90, B>=75, C>=60, D>=40, F<40."
+
+    # --- Actionable output ---
+    flags:
+      type: array
+      items:
+        type: string
+      description: "Machine-readable quality flags"
+    recommendations:
+      type: array
+      items:
+        type: string
+      description: "Human-readable improvement suggestions"
+
+    # --- GRADE framework (for meta-analysis quality) ---
+    grade_assessment:
+      type: object
+      description: "GRADE certainty of evidence (only for target_type=meta_analysis_run)"
+      properties:
+        risk_of_bias:
+          type: string
+          enum: [not_serious, serious, very_serious]
+        inconsistency:
+          type: string
+          enum: [not_serious, serious, very_serious]
+        indirectness:
+          type: string
+          enum: [not_serious, serious, very_serious]
+        imprecision:
+          type: string
+          enum: [not_serious, serious, very_serious]
+        publication_bias:
+          type: string
+          enum: [undetected, suspected, likely]
+        certainty:
+          type: string
+          enum: [high, moderate, low, very_low]
+          description: "Overall GRADE certainty rating"
+
+    timestamps:
+      $ref: "#/definitions/timestamps"
+
+
+# =============================================================================
+# 9. TILE — Unit of the knowledge terrain map
+# =============================================================================
+# Chemistry: The PLATE. Where the finished dish is served.
+# The terrain is a 2D+ map of scientific knowledge space.
+# Tiles track coverage, freshness, and guide exploration priority.
+#
+# Emergent behavior: tiles with low coverage or high citation influx
+# trigger SeedExpansion jobs, which discover new Works, which eventually
+# fill in the tile. The terrain grows itself.
+#
+# Example:
+#   id: "TILE-cardiology/statins/mortality"
+#   coverage: {works_known: 47, works_extracted: 31, metas_completed: 2}
+#   freshness_days: 14
+# =============================================================================
+Tile:
+  type: object
+  required: [id, coordinates, coverage, timestamps]
+  properties:
+    id:
+      type: string
+      pattern: "^TILE-[A-Za-z0-9/_-]+$"
+      description: "Hierarchical path ID"
+      examples:
+        - "TILE-cardiology/statins/mortality"
+        - "TILE-oncology/immunotherapy/pfs"
+        - "TILE-neurology/ssri/depression-remission"
+
+    # --- Position in the terrain ---
+    coordinates:
+      type: object
+      required: [topic, outcome_class]
+      properties:
+        domain:
+          type: string
+          description: "Top-level domain (e.g., cardiology, oncology)"
+        topic:
+          type: string
+          description: "Specific topic (e.g., statins, immunotherapy)"
+        outcome_class:
+          type: string
+          description: "Outcome category (e.g., mortality, biomarker)"
+        population:
+          type: string
+          description: "Optional population specifier"
+      description: "Multi-dimensional coordinates in knowledge space"
+
+    # --- Coverage metrics ---
+    coverage:
+      type: object
+      properties:
+        works_known:
+          type: integer
+          description: "Total Works discovered for this tile"
+        works_screened:
+          type: integer
+        works_acquired:
+          type: integer
+        works_extracted:
+          type: integer
+          description: "Works with completed ExtractionCandidates"
+        metas_completed:
+          type: integer
+          description: "MetaAnalysisRuns completed for this tile"
+        metas_validated:
+          type: integer
+          description: "Runs that passed quality validation"
+      description: "Pipeline funnel for this tile"
+
+    # --- Freshness tracking ---
+    last_explored:
+      type: string
+      format: date-time
+      description: "Last time a discovery query ran for this tile"
+    last_paper_added:
+      type: string
+      format: date-time
+      description: "Most recent Work discovery for this tile"
+    freshness_days:
+      type: integer
+      description: "Days since last_explored"
+    stale:
+      type: boolean
+      description: "True if freshness_days > staleness_threshold"
+
+    # --- Exploration metadata ---
+    seed_queries:
+      type: array
+      items:
+        type: string
+      description: "Original and evolved queries that feed this tile"
+    active_queries:
+      type: integer
+      description: "Number of currently active discovery queries"
+
+    # --- Terrain topology ---
+    neighbors:
+      type: array
+      items:
+        type: string
+      description: "TILE-IDs of adjacent tiles in the terrain"
+    parent:
+      type: string
+      description: "TILE-ID of the parent tile (coarser granularity)"
+    children:
+      type: array
+      items:
+        type: string
+      description: "TILE-IDs of child tiles (finer granularity)"
+
+    # --- Evolution log ---
+    evolution:
+      type: array
+      items:
+        type: object
+        properties:
+          timestamp:
+            type: string
+            format: date-time
+          event:
+            type: string
+            enum: [created, query_added, works_discovered, meta_completed,
+                   meta_validated, query_mutated, tile_split, tile_merged,
+                   marked_stale, refreshed]
+          delta:
+            type: string
+            description: "What changed (e.g., '+12 works', 'split into 3 sub-tiles')"
+
+    # --- Priority for the Policy Engine ---
+    exploration_priority:
+      type: number
+      minimum: 0
+      maximum: 1
+      description: "Multi-armed bandit score. Higher = explore more."
+    priority_factors:
+      type: object
+      properties:
+        coverage_gap:
+          type: number
+          description: "1 - (works_extracted / works_known)"
+        citation_velocity:
+          type: number
+          description: "New citations per week in this area"
+        user_interest:
+          type: number
+          description: "Explicit user interest signal"
+        novelty:
+          type: number
+          description: "How new/unexplored this area is"
+
+    confidence:
+      $ref: "#/definitions/confidence_4d"
+    timestamps:
+      $ref: "#/definitions/timestamps"
