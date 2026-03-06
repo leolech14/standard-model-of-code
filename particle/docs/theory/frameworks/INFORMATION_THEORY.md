@@ -254,6 +254,7 @@ Good architecture maximizes this channel capacity by making purpose **readable f
 | [CATEGORY_THEORY](./CATEGORY_THEORY.md) | Mutual information is a natural transformation between entropy functors |
 | [TOPOLOGY](./TOPOLOGY.md) | Entropy gradient reveals boundaries between purpose zones |
 | [MATROID_THEORY](./MATROID_THEORY.md) | God class threshold = matroid rank bound violation |
+| [TOTALIZATION](./TOTALIZATION.md) | Coherence score is one of three components of totalization score T(S); entropy measures purpose disorder within totalized subsets |
 
 ---
 

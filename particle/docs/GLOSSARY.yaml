@@ -3337,6 +3337,116 @@ terms:
     related_terms: [hypergraph, emergence_rules, decorator_stack]
 
   # ---------------------------------------------------------------------------
+  # Totalization (added during framework integration 2026-03-06)
+  # ---------------------------------------------------------------------------
+
+  totalization_closure:
+    canonical_name: "Totalization Closure (tau_up)"
+    category: mathematical
+    origin:
+      term: "Closure operator"
+      field: "order theory / universal algebra"
+    introduced:
+      version: "0.9.0"
+      date: "2026-03-06"
+      by: "Leonardo Lech"
+    definition: |
+      The "normalize up" operator on subsets of atoms. Given a subset S of the
+      dependency graph, tau_up(S) is the transitive dependency closure — the
+      smallest superset of S that includes all atoms S depends on (directly or
+      transitively). Forms a monad on P(V). Properties: extensive (S ⊆ tau_up(S)),
+      monotone, idempotent (tau_up(tau_up(S)) = tau_up(S)).
+    related_terms: [totalization_kernel, self_contained_subset, totalization_tower]
+
+  totalization_kernel:
+    canonical_name: "Totalization Kernel (tau_down)"
+    category: mathematical
+    origin:
+      term: "Interior operator / kernel"
+      field: "topology / order theory"
+    introduced:
+      version: "0.9.0"
+      date: "2026-03-06"
+      by: "Leonardo Lech"
+    definition: |
+      The "normalize down" operator on subsets of atoms. Given a subset S,
+      tau_down(S) removes atoms that have no dependents within S (dead weight /
+      orphan atoms). Forms a comonad on P(V). Properties: contractive
+      (tau_down(S) ⊆ S), monotone, idempotent.
+    related_terms: [totalization_closure, self_contained_subset, purpose_coherence]
+
+  self_contained_subset:
+    canonical_name: "Self-Contained Subset"
+    category: mathematical
+    origin:
+      term: "Fixed point"
+      field: "lattice theory"
+    introduced:
+      version: "0.9.0"
+      date: "2026-03-06"
+      by: "Leonardo Lech"
+    definition: |
+      A subset S of atoms where tau_up(S) = S — meaning S already contains all
+      its transitive dependencies. No imports point outside S. Fixed points of
+      the closure operator. Self-contained subsets form a complete lattice under
+      set inclusion (by Tarski's fixed point theorem). A totalized subset is
+      a fixed point of BOTH tau_up and tau_down.
+    related_terms: [totalization_closure, totalization_kernel, totalization_score]
+
+  totalization_score:
+    canonical_name: "Totalization Score T(S)"
+    category: mathematical
+    origin:
+      term: "Composite metric"
+      field: "software metrics"
+    introduced:
+      version: "0.9.0"
+      date: "2026-03-06"
+      by: "Leonardo Lech"
+    definition: |
+      A [0,1] score measuring how close a subset S is to being fully totalized.
+      T(S) = 0.40 * closure_ratio + 0.30 * minimality_ratio + 0.30 * coherence_score.
+      Where closure_ratio = |S| / |tau_up(S)|, minimality_ratio = |tau_down(S)| / |S|,
+      and coherence_score from INFORMATION_THEORY.md. T(S) = 1.0 iff S is a
+      fixed point of both operators with perfect coherence.
+    related_terms: [totalization_closure, totalization_kernel, purpose_coherence, self_contained_subset]
+
+  totalization_tower:
+    canonical_name: "Totalization Tower"
+    category: mathematical
+    origin:
+      term: "Bousfield-Kan tower / filtration"
+      field: "homotopy theory"
+    introduced:
+      version: "0.9.0"
+      date: "2026-03-06"
+      by: "Leonardo Lech"
+    definition: |
+      A nested sequence of totalized subsets at increasing granularity:
+      Tot_function ⊆ Tot_class ⊆ Tot_module ⊆ Tot_package ⊆ Tot_layer ⊆ Tot_system.
+      Each level satisfies self-containment at its own scale. The tower connects
+      to the Collider's 16-level scale hierarchy and measures whether totalization
+      holds at each level.
+    related_terms: [self_contained_subset, totalization_score, scale]
+
+  normalization:
+    canonical_name: "Normalization (Up/Down)"
+    category: original_invention
+    epistemic_status: FRAMEWORK_DEFINITION
+    introduced:
+      version: "0.9.0"
+      date: "2026-03-06"
+      by: "Leonardo Lech"
+    definition: |
+      The dual operations of making a code subset complete:
+      "Normalize up" (tau_up) adds missing dependencies until self-contained.
+      "Normalize down" (tau_down) removes dead weight until minimal.
+      Together they converge to a totalized subset — the smallest self-contained
+      superset that is also minimal. Inspired by normalization in database theory
+      and algebraic topology.
+    related_terms: [totalization_closure, totalization_kernel, self_contained_subset]
+
+  # ---------------------------------------------------------------------------
   # Contextome & Concordance (added during consolidation phase)
   # ---------------------------------------------------------------------------
 

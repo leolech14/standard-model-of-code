@@ -253,6 +253,7 @@ Closing a hypergraph to a simplicial complex loses information about which subse
 | [CATEGORY_THEORY](./CATEGORY_THEORY.md) | Hypergraph = presheaf on the simplex category Delta |
 | [TOPOLOGY](./TOPOLOGY.md) | Simplicial complex is hereditary hypergraph; closure connects them |
 | [MATROID_THEORY](./MATROID_THEORY.md) | Matroid on hyperedges defines which multi-atom dependencies are independent |
+| [TOTALIZATION](./TOTALIZATION.md) | Hyperedge closure under totalization: if a multi-atom dependency hyperedge is partially included, tau_up pulls in all members |
 
 ---
 

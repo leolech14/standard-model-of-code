@@ -208,6 +208,7 @@ These anomaly patterns connect to [L2_PRINCIPLES.md](../foundations/L2_PRINCIPLE
 | [TOPOLOGY](./TOPOLOGY.md) | H_0 of dependency complex corresponds to connected components / communities |
 | [MATROID_THEORY](./MATROID_THEORY.md) | God class detection via bridge analysis complements matroid rank bounds |
 | [HYPERGRAPH_THEORY](./HYPERGRAPH_THEORY.md) | Hyperedges capture multi-node dependencies that pairwise edges miss |
+| [TOTALIZATION](./TOTALIZATION.md) | Closure operators on G determine self-contained subgraphs; tau_up = transitive dependency closure |
 
 ---
 
