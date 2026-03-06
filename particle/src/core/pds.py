@@ -149,10 +149,18 @@ def _node_in_changed_files(node_id: str, changed_files: Set[str]) -> bool:
 
     Node IDs have the form '/full/path/to/file.py:function_name'.
     Changed files are relative paths like 'particle/src/core/pds.py'.
-    We match by checking if the node's file path ends with any changed file.
+    We match using path-separator boundary to prevent suffix collisions
+    (e.g., changed file 'pds.py' must not match '/other/core/pds.py'
+    unless the full suffix matches on a '/' boundary).
     """
     file_part = node_id.split(":")[0] if ":" in node_id else node_id
-    return any(file_part.endswith(cf) for cf in changed_files)
+    return any(
+        file_part.endswith(cf) and (
+            len(file_part) == len(cf)
+            or file_part[-(len(cf) + 1)] in ("/", "\\")
+        )
+        for cf in changed_files
+    )
 
 
 def evaluate_gate(
@@ -164,20 +172,22 @@ def evaluate_gate(
     """Evaluate whether findings in the blast radius should block a push.
 
     Filters findings to those whose related_nodes intersect with the blast
-    radius, then classifies them based on proximity to actual changes:
+    radius, then classifies them based on file proximity:
 
-    - Findings directly in changed files/nodes → blocking (if critical/high
-      in structural categories)
-    - Findings only reachable via blast radius (pre-existing) → downgraded
-      to warnings with annotation
+    - Findings whose related_nodes are in changed files → blocking
+      (if critical/high in structural categories)
+    - Findings only reachable via blast radius (not in changed files) →
+      downgraded to warnings with annotation
 
-    This prevents pre-existing findings from blocking unrelated pushes.
+    Note: "in changed files" is spatial proximity, not temporal. A finding
+    in a changed file may be pre-existing. True new-vs-old detection
+    requires baseline diffing (comparing finding IDs across runs).
 
     Args:
         findings: List of compiled insight dicts from baseline.
         blast_radius: Set of node IDs in the blast radius.
         changed_files: Set of changed file paths (relative).
-        changed_nodes: Optional set of node IDs directly in changed files.
+        changed_nodes: Optional set of node IDs in changed files.
             If provided, used for precise matching; otherwise falls back
             to file-path matching via changed_files.
 
@@ -197,26 +207,32 @@ def evaluate_gate(
         category = finding.get("category", "")
         severity = finding.get("severity", "").lower()
 
-        # Determine if finding is directly in changed code
+        # Determine if finding's related nodes are in changed files
+        # (spatial proximity — not the same as "newly introduced")
         if changed_nodes is not None:
-            directly_changed = bool(related.intersection(changed_nodes))
+            in_changed_files = bool(related.intersection(changed_nodes))
         else:
-            directly_changed = any(
+            in_changed_files = any(
                 _node_in_changed_files(n, changed_files) for n in related
             )
 
         if category in BLOCKING_CATEGORIES and severity in BLOCKING_SEVERITIES:
-            if directly_changed:
+            if in_changed_files:
                 blocking.append(finding)
             else:
-                # Pre-existing finding in blast radius — downgrade to warning
+                # Finding only reachable via blast radius — downgrade
                 downgraded = dict(finding)
                 downgraded["downgraded_from"] = "blocking"
                 downgraded["downgrade_reason"] = (
-                    "pre-existing finding (not in changed files)"
+                    "finding only reachable via blast radius"
+                    " (not in changed files)"
                 )
                 warnings.append(downgraded)
         elif category in WARN_CATEGORIES or severity not in BLOCKING_SEVERITIES:
+            warnings.append(finding)
+        else:
+            # Catch-all: unknown category with blocking severity.
+            # Surface as warning rather than silently dropping.
             warnings.append(finding)
 
     passed = len(blocking) == 0
