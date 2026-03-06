@@ -27,7 +27,7 @@ FIELD_PRODUCERS: Dict[str, str] = {
     "role":                 "Stage 2: Standard Model Enrichment",
     "ring":                 "Stage 2: Standard Model Enrichment",
     "atom":                 "Stage 2: Standard Model Enrichment",
-    "atom_family":          "Stage 2: Standard Model Enrichment",
+    "atom_family":          "Stage 22: Output Generation (normalize_output)",
     "tier":                 "Stage 2: Standard Model Enrichment",
     "dimensions":           "Stage 2: Standard Model Enrichment",
     "rpbl_responsibility":  "Stage 2: Standard Model Enrichment",
@@ -42,7 +42,7 @@ FIELD_PRODUCERS: Dict[str, str] = {
     "detected_atoms":       "Stage 2.10: Pattern Detection",
     "data_flow":            "Stage 2.11: Data Flow Analysis",
     "D6_EFFECT":            "Stage 2.11: Data Flow Analysis",
-    "purpose_vector":       "Stage 3: Purpose Field",
+    # "purpose_vector" removed — planned but never implemented
     "reachable_from_entry":  "Stage 4: Execution Flow",
     "community_id":         "Stage 6.5: Graph Analytics",
     "is_bridge":            "Stage 6.5: Graph Analytics",

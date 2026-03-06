@@ -153,13 +153,14 @@ class ExecutionFlowDetector:
     }
 
     # Layer order for violation detection (lower = higher in architecture)
+    # Supports both TitleCase (canonical LayerType) and lowercase (legacy) conventions
     LAYER_ORDER = {
-        "presentation": 0,
-        "application": 1,
-        "domain": 2,
-        "infrastructure": 3,
-        "testing": 4,
-        "unknown": 99
+        "Interface": 0, "presentation": 0,
+        "Application": 1, "application": 1,
+        "Core": 2, "domain": 2,
+        "Infrastructure": 3, "infrastructure": 3,
+        "Test": 4, "testing": 4,
+        "Unknown": 99, "unknown": 99,
     }
 
     def __init__(self):

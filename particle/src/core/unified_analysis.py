@@ -506,20 +506,42 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
         print(f"   → {resolved_count}/{len(edges)} edges resolved internally")
 
     # =========================================================================
-    # STAGE 5: GRAPH INFERENCE → Infer unknowns from structure
+    # STAGE 5: STRUCTURAL INFERENCE ONLY (topology rules deferred to Stage 2.1)
     # =========================================================================
-    print("\n🧠 Stage 5: Graph-Based Type Inference...")
+    # NOTE: Graph-topology rules (calls_repository, called_by_controller, etc.)
+    # are intentionally NOT run here. At this point neighbor roles are raw
+    # pre-enrichment types (e.g. "Unknown", "RepositoryImpl"), so topology
+    # signals are too weak. Stage 2.1 in phases/extraction.py runs the full
+    # apply_graph_inference() AFTER enrich_with_standard_model() assigns
+    # canonical roles to all neighbors, making topology rules far more effective.
+    # Running topology inference here would consume signals early and leave
+    # Stage 2.1 with nothing to resolve.
+    print("\n🧠 Stage 5: Structural Inference (topology deferred to Stage 2.1)...")
     graph_inference_report = {"total_inferred": 0, "analysis_status": "not_applied"}
 
-    if edges:
-        try:
-            from graph_type_inference import apply_graph_inference
-            particles, graph_inference_report = apply_graph_inference(particles, edges)
-            print(f"   → {graph_inference_report.get('total_inferred', 0)} types inferred from graph")
-        except ImportError as e:
-            print(f"   ⚠️  Graph inference not available: {e}")
-    else:
-        print("   ⚠️  No edges - skipping graph inference")
+    try:
+        from graph_type_inference import infer_from_structure
+        structural_count = 0
+        for particle in particles:
+            result = infer_from_structure(particle)
+            if result:
+                inferred_type, confidence, rule = result
+                current_conf = particle.get('role_confidence', 0)
+                if particle.get('role') in ('Unknown', 'Internal') or confidence > current_conf:
+                    particle['role'] = inferred_type
+                    particle['type'] = inferred_type
+                    particle['role_confidence'] = confidence
+                    particle['discovery_method'] = f'structural:{rule}'
+                    structural_count += 1
+        graph_inference_report = {
+            "total_inferred": structural_count,
+            "structural_boosted": structural_count,
+            "rules_applied": 0,
+            "analysis_status": "structural_only",
+        }
+        print(f"   → {structural_count} types inferred from structure")
+    except ImportError as e:
+        print(f"   ⚠️  Structural inference not available: {e}")
 
     # =========================================================================
     # STAGE 5.5: PURPOSE FIELD → Assign layers to particles
@@ -533,12 +555,25 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
         particle_by_id = {p['id']: p for p in particles if 'id' in p and p['id']}
         particle_by_name = {p['name']: p for p in particles if 'name' in p and p['name']}
 
+        # Normalize purpose_field Layer enum values to LayerType convention (TitleCase).
+        # purpose_field uses: presentation, application, domain, infrastructure, testing
+        # LayerType uses:     Interface,    Application, Core,   Infrastructure, Test
+        _LAYER_NORMALIZE = {
+            "presentation": "Interface",
+            "application": "Application",
+            "domain": "Core",
+            "infrastructure": "Infrastructure",
+            "testing": "Test",
+            "unknown": "Unknown",
+        }
+
         # Assign layers using multiple matching strategies
         for pf_node in purpose_field.nodes.values():
             layer_val = pf_node.layer.value if hasattr(pf_node.layer, 'value') else str(pf_node.layer)
+            layer_val = _LAYER_NORMALIZE.get(layer_val, layer_val)
 
             # Skip unknown layers to avoid overwriting with garbage
-            if layer_val == 'unknown':
+            if layer_val == 'Unknown':
                 continue
 
             # Strategy 1: Match by exact ID
@@ -554,7 +589,7 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
                         particle['layer'] = layer_val
                         break
 
-        layer_count = sum(1 for p in particles if p.get('layer') and p.get('layer') != 'unknown')
+        layer_count = sum(1 for p in particles if p.get('layer') and p.get('layer') not in ('unknown', 'Unknown'))
         print(f"   → {layer_count} particles assigned layers")
     except Exception as e:
         print(f"   ⚠️  Purpose field detection skipped: {e}")

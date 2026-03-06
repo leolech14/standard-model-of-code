@@ -420,6 +420,15 @@ def _run_graph_analytics(ctx: PipelineContext) -> None:
                 bottlenecks = [asdict(b) if hasattr(b, '__dataclass_fields__') else b for b in bottlenecks_raw]
                 pagerank_top = [asdict(p) if hasattr(p, '__dataclass_fields__') else p for p in pagerank_raw]
 
+                # Write community_id back to individual nodes so downstream
+                # consumers (Chemistry node convergence, color encoding) can read it.
+                if communities:
+                    node_by_id = {n.get('id', ''): n for n in ctx.nodes}
+                    for comm_id, members in communities.items():
+                        for member_id in members:
+                            if member_id in node_by_id:
+                                node_by_id[member_id]['community_id'] = int(comm_id) if isinstance(comm_id, (int, str)) else comm_id
+
                 ctx.graph_analytics = {
                     'bottlenecks': bottlenecks,
                     'pagerank_top': pagerank_top,

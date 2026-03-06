@@ -416,7 +416,13 @@ def apply_graph_inference(nodes: List[Dict], edges: List[Dict]) -> Tuple[List[Di
     node_by_name = {n.get('name', ''): n for n in nodes}
 
     for node in nodes:
-        if node.get('role') in ('Unknown', 'Internal') or node.get('type') in ('Unknown', 'Internal'):
+        # Gate: only inherit from parent if THIS node is still unresolved.
+        # Use the 'role' field as the primary signal -- infer_all always sets it.
+        # Fall back to 'type' only when 'role' is absent (legacy nodes).
+        # Important: use 'and' for the type-check branch so topology-inferred
+        # roles ('role' already upgraded) are never overwritten by this pass.
+        _eff_role = node.get('role') or node.get('type') or 'Unknown'
+        if _eff_role in ('Unknown', 'Internal'):
             name = node.get('name', '')
             parent_name = node.get('parent', '')
 
