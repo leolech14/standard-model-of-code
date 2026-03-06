@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COLLIDER ARCHITECTURE MAP -- Standard Model of Code</title>
+<style>
+/* ============================================================
+   ROOT & VARIABLES
+   ============================================================ */
+:root {
+  --bg-primary: hsl(240 30% 4%);
+  --bg-secondary: hsl(240 20% 8%);
+  --bg-tertiary: hsl(240 15% 12%);
+  --glass-bg: hsla(0 0% 100% / 0.03);
+  --glass-bg-hover: hsla(0 0% 100% / 0.06);
+  --glass-border: hsla(0 0% 100% / 0.08);
+  --glass-border-hover: hsla(0 0% 100% / 0.15);
+
+  /* Phase colors -- HSL for glow/transparency manipulation */
+  --color-discovery: hsl(185 100% 50%);
+  --color-extraction: hsl(215 90% 60%);
+  --color-enrichment: hsl(250 70% 60%);
+  --color-analysis: hsl(275 70% 60%);
+  --color-intelligence: hsl(310 80% 60%);
+  --color-synthesis: hsl(30 95% 55%);
+  --color-output: hsl(155 80% 50%);
+
+  --text-primary: hsl(0 0% 95%);
+  --text-secondary: hsl(240 5% 60%);
+  --text-muted: hsl(240 5% 40%);
+  --bus-color: hsl(50 90% 55%);
+
+  --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Cascadia Code', monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-med: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Subtle grid pattern overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(hsla(0 0% 100% / 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, hsla(0 0% 100% / 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Radial glow behind pipeline */
+body::after {
+  content: '';
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  width: 120%;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, hsla(240 60% 30% / 0.15) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: hsla(240 30% 4% / 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, hsl(185 100% 50%), hsl(275 70% 60%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 8px hsla(0 0% 0% / 0.3);
+}
+
+.header h1 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, hsl(185 100% 70%), hsl(275 70% 75%), hsl(30 95% 70%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header .subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.zoom-btn {
+  width: 32px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoom-btn:hover {
+  background: var(--glass-bg-hover);
+  color: var(--text-primary);
+}
+
+.zoom-level {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  min-width: 40px;
+  text-align: center;
+}
+
+.reset-btn {
+  padding: 5px 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  font-family: var(--font-mono);
+}
+
+.reset-btn:hover {
+  background: var(--glass-bg-hover);
+  color: var(--text-primary);
+  border-color: var(--glass-border-hover);
+}
+
+/* ============================================================
+   CANVAS CONTAINER (pannable, zoomable)
+   ============================================================ */
+.canvas-container {
+  position: fixed;
+  inset: 0;
+  top: 56px;
+  overflow: hidden;
+  cursor: grab;
+  z-index: 1;
+}
+
+.canvas-container:active { cursor: grabbing; }
+
+.canvas {
+  position: absolute;
+  width: 2400px;
+  height: 1500px;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* ============================================================
+   GLASS CARD MIXIN
+   ============================================================ */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  transition: var(--transition-med);
+}
+
+.glass:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+}
+
+/* ============================================================
+   PHASE COLUMNS
+   ============================================================ */
+.phase {
+  position: absolute;
+  border-radius: 14px;
+  padding: 14px 12px 12px;
+  cursor: pointer;
+  transition: var(--transition-med);
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+}
+
+.phase::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 14px;
+  opacity: 0;
+  transition: opacity var(--transition-med);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.phase:hover::before { opacity: 1; }
+
+.phase.expanded {
+  z-index: 10;
+}
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  user-select: none;
+}
+
+.phase-number {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.phase-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.phase-stage-range {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.phase-expand-icon {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  transition: transform var(--transition-fast);
+  margin-left: 4px;
+}
+
+.phase.expanded .phase-expand-icon {
+  transform: rotate(180deg);
+}
+
+/* Stage list inside phases */
+.stage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.phase.expanded .stage-list {
+  max-height: 600px;
+}
+
+.stage-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  transition: var(--transition-fast);
+  cursor: default;
+  position: relative;
+}
+
+.stage-item:hover {
+  background: hsla(0 0% 100% / 0.04);
+}
+
+.stage-number {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  min-width: 32px;
+  text-align: right;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.stage-label {
+  flex: 1;
+  line-height: 1.3;
+}
+
+.stage-detail {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Phase color variants */
+.phase--discovery { border-color: hsla(185 100% 50% / 0.25); }
+.phase--discovery::before { box-shadow: 0 0 30px hsla(185 100% 50% / 0.12), inset 0 0 30px hsla(185 100% 50% / 0.04); }
+.phase--discovery .phase-number { background: hsla(185 100% 50% / 0.15); color: var(--color-discovery); }
+.phase--discovery .phase-title { color: var(--color-discovery); }
+.phase--discovery .stage-number { color: var(--color-discovery); }
+.phase--discovery.expanded { border-color: hsla(185 100% 50% / 0.4); box-shadow: 0 0 40px hsla(185 100% 50% / 0.08); }
+
+.phase--extraction { border-color: hsla(215 90% 60% / 0.25); }
+.phase--extraction::before { box-shadow: 0 0 30px hsla(215 90% 60% / 0.12), inset 0 0 30px hsla(215 90% 60% / 0.04); }
+.phase--extraction .phase-number { background: hsla(215 90% 60% / 0.15); color: var(--color-extraction); }
+.phase--extraction .phase-title { color: var(--color-extraction); }
+.phase--extraction .stage-number { color: var(--color-extraction); }
+.phase--extraction.expanded { border-color: hsla(215 90% 60% / 0.4); box-shadow: 0 0 40px hsla(215 90% 60% / 0.08); }
+
+.phase--enrichment { border-color: hsla(250 70% 60% / 0.25); }
+.phase--enrichment::before { box-shadow: 0 0 30px hsla(250 70% 60% / 0.12), inset 0 0 30px hsla(250 70% 60% / 0.04); }
+.phase--enrichment .phase-number { background: hsla(250 70% 60% / 0.15); color: var(--color-enrichment); }
+.phase--enrichment .phase-title { color: var(--color-enrichment); }
+.phase--enrichment .stage-number { color: var(--color-enrichment); }
+.phase--enrichment.expanded { border-color: hsla(250 70% 60% / 0.4); box-shadow: 0 0 40px hsla(250 70% 60% / 0.08); }
+
+.phase--analysis { border-color: hsla(275 70% 60% / 0.25); }
+.phase--analysis::before { box-shadow: 0 0 30px hsla(275 70% 60% / 0.12), inset 0 0 30px hsla(275 70% 60% / 0.04); }
+.phase--analysis .phase-number { background: hsla(275 70% 60% / 0.15); color: var(--color-analysis); }
+.phase--analysis .phase-title { color: var(--color-analysis); }
+.phase--analysis .stage-number { color: var(--color-analysis); }
+.phase--analysis.expanded { border-color: hsla(275 70% 60% / 0.4); box-shadow: 0 0 40px hsla(275 70% 60% / 0.08); }
+
+.phase--intelligence { border-color: hsla(310 80% 60% / 0.25); }
+.phase--intelligence::before { box-shadow: 0 0 30px hsla(310 80% 60% / 0.12), inset 0 0 30px hsla(310 80% 60% / 0.04); }
+.phase--intelligence .phase-number { background: hsla(310 80% 60% / 0.15); color: var(--color-intelligence); }
+.phase--intelligence .phase-title { color: var(--color-intelligence); }
+.phase--intelligence .stage-number { color: var(--color-intelligence); }
+.phase--intelligence.expanded { border-color: hsla(310 80% 60% / 0.4); box-shadow: 0 0 40px hsla(310 80% 60% / 0.08); }
+
+.phase--synthesis { border-color: hsla(30 95% 55% / 0.25); }
+.phase--synthesis::before { box-shadow: 0 0 30px hsla(30 95% 55% / 0.12), inset 0 0 30px hsla(30 95% 55% / 0.04); }
+.phase--synthesis .phase-number { background: hsla(30 95% 55% / 0.15); color: var(--color-synthesis); }
+.phase--synthesis .phase-title { color: var(--color-synthesis); }
+.phase--synthesis .stage-number { color: var(--color-synthesis); }
+.phase--synthesis.expanded { border-color: hsla(30 95% 55% / 0.4); box-shadow: 0 0 40px hsla(30 95% 55% / 0.08); }
+
+.phase--output { border-color: hsla(155 80% 50% / 0.25); }
+.phase--output::before { box-shadow: 0 0 30px hsla(155 80% 50% / 0.12), inset 0 0 30px hsla(155 80% 50% / 0.04); }
+.phase--output .phase-number { background: hsla(155 80% 50% / 0.15); color: var(--color-output); }
+.phase--output .phase-title { color: var(--color-output); }
+.phase--output .stage-number { color: var(--color-output); }
+.phase--output.expanded { border-color: hsla(155 80% 50% / 0.4); box-shadow: 0 0 40px hsla(155 80% 50% / 0.08); }
+
+/* ============================================================
+   PIPELINE CONTEXT BUS
+   ============================================================ */
+.pipeline-bus {
+  position: absolute;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: 1px solid hsla(50 90% 55% / 0.25);
+  background: hsla(50 90% 55% / 0.04);
+  color: var(--bus-color);
+  overflow: hidden;
+}
+
+.pipeline-bus::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, hsla(50 90% 55% / 0.08), transparent);
+  animation: busFlow 4s linear infinite;
+}
+
+@keyframes busFlow {
+  0% { left: -50%; }
+  100% { left: 100%; }
+}
+
+/* ============================================================
+   ENTRY POINTS (left side)
+   ============================================================ */
+.entry-group {
+  position: absolute;
+}
+
+.entry-group-title {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+
+.entry-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  margin-bottom: 4px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  transition: var(--transition-fast);
+  cursor: default;
+  position: relative;
+}
+
+.entry-node:hover {
+  background: var(--glass-bg-hover);
+  border-color: hsla(185 100% 50% / 0.3);
+}
+
+.entry-icon {
+  font-size: 0.7rem;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: hsla(185 100% 50% / 0.1);
+  color: var(--color-discovery);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.entry-label {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.entry-path {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+}
+
+.entry-badge {
+  font-size: 0.55rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-left: auto;
+}
+
+.entry-badge--primary {
+  background: hsla(185 100% 50% / 0.15);
+  color: var(--color-discovery);
+}
+
+.entry-badge--secondary {
+  background: hsla(0 0% 100% / 0.05);
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   OUTPUT ARTIFACTS (right side)
+   ============================================================ */
+.output-group {
+  position: absolute;
+}
+
+.output-group-title {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+
+.output-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  margin-bottom: 3px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  transition: var(--transition-fast);
+  cursor: default;
+}
+
+.output-node:hover {
+  background: var(--glass-bg-hover);
+  border-color: hsla(155 80% 50% / 0.3);
+}
+
+.output-icon {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.output-name {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--color-output);
+}
+
+.output-desc {
+  color: var(--text-muted);
+  font-size: 0.6rem;
+}
+
+/* ============================================================
+   WAVE CONSUMERS (bottom)
+   ============================================================ */
+.wave-section {
+  position: absolute;
+}
+
+.wave-title {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wave-title-badge {
+  font-size: 0.55rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: hsla(275 70% 60% / 0.15);
+  color: hsl(275 70% 70%);
+  font-weight: 600;
+}
+
+.wave-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.wave-node {
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 0.66rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  transition: var(--transition-fast);
+  cursor: default;
+}
+
+.wave-node:hover {
+  background: var(--glass-bg-hover);
+  border-color: hsla(275 70% 60% / 0.3);
+}
+
+.wave-node-name {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: hsl(275 70% 75%);
+  font-size: 0.64rem;
+}
+
+.wave-node-desc {
+  color: var(--text-muted);
+  font-size: 0.58rem;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+/* ============================================================
+   EXTERNAL DEPENDENCIES (floating badges)
+   ============================================================ */
+.ext-deps {
+  position: absolute;
+}
+
+.ext-deps-title {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.ext-badge-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ext-badge {
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  background: hsla(0 0% 100% / 0.03);
+  border: 1px solid hsla(0 0% 100% / 0.06);
+  color: var(--text-secondary);
+  transition: var(--transition-fast);
+  cursor: default;
+}
+
+.ext-badge:hover {
+  border-color: hsla(0 0% 100% / 0.15);
+  color: var(--text-primary);
+}
+
+.ext-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* ============================================================
+   CONNECTION LINES (SVG)
+   ============================================================ */
+.connections-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.conn-line {
+  fill: none;
+  stroke-width: 1.5;
+  opacity: 0.35;
+  transition: opacity var(--transition-fast);
+}
+
+.conn-line--active {
+  opacity: 0.7;
+  stroke-width: 2;
+}
+
+.conn-arrowhead {
+  opacity: 0.5;
+}
+
+/* ============================================================
+   LEGEND
+   ============================================================ */
+.legend {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 100;
+  padding: 12px 16px;
+  background: hsla(240 30% 4% / 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.62rem;
+  color: var(--text-secondary);
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend-separator {
+  width: 1px;
+  height: 16px;
+  background: var(--glass-border);
+}
+
+/* ============================================================
+   TOOLTIP
+   ============================================================ */
+.tooltip {
+  position: fixed;
+  z-index: 200;
+  max-width: 320px;
+  padding: 10px 14px;
+  background: hsla(240 20% 8% / 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border-hover);
+  border-radius: 8px;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+  box-shadow: 0 8px 32px hsla(0 0% 0% / 0.5);
+}
+
+.tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tooltip-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 0.78rem;
+}
+
+.tooltip-stage {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  opacity: 0.6;
+}
+
+.tooltip-body {
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+}
+
+/* ============================================================
+   MINI-MAP
+   ============================================================ */
+.minimap {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 100;
+  width: 180px;
+  height: 110px;
+  background: hsla(240 30% 4% / 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.minimap-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.minimap-viewport {
+  position: absolute;
+  border: 1px solid hsla(185 100% 50% / 0.5);
+  background: hsla(185 100% 50% / 0.05);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.minimap-dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 1px;
+}
+
+/* ============================================================
+   PHASE CONNECTOR ARROWS (between phases)
+   ============================================================ */
+.phase-connector {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.phase-connector-arrow {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.4;
+  animation: pulseArrow 2s ease-in-out infinite;
+}
+
+@keyframes pulseArrow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* ============================================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================================ */
+@media (max-width: 1200px) {
+  .legend { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .legend-separator { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="header-icon">C</div>
+    <div>
+      <h1>Collider Architecture Map</h1>
+      <div class="subtitle">Standard Model of Code -- Pipeline v4.0</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="zoom-controls">
+      <button class="zoom-btn" id="zoomOut" title="Zoom Out">-</button>
+      <span class="zoom-level" id="zoomLevel">100%</span>
+      <button class="zoom-btn" id="zoomIn" title="Zoom In">+</button>
+    </div>
+    <button class="reset-btn" id="resetView" title="Reset View">RESET</button>
+  </div>
+</header>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip">
+  <div class="tooltip-title" id="tooltipTitle"></div>
+  <div class="tooltip-stage" id="tooltipStage"></div>
+  <div class="tooltip-body" id="tooltipBody"></div>
+</div>
+
+<!-- CANVAS -->
+<div class="canvas-container" id="canvasContainer">
+  <div class="canvas" id="canvas">
+
+    <!-- SVG CONNECTIONS -->
+    <svg class="connections-svg" id="connectionsSvg"></svg>
+
+    <!-- The content is rendered by JavaScript -->
+
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-dot" style="background: var(--color-discovery);"></div>
+    <span>Discovery</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background: var(--color-extraction);"></div>
+    <span>Extraction</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background: var(--color-enrichment);"></div>
+    <span>Enrichment</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background: var(--color-analysis);"></div>
+    <span>Analysis</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background: var(--color-intelligence);"></div>
+    <span>Intelligence</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background: var(--color-synthesis);"></div>
+    <span>Synthesis</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background: var(--color-output);"></div>
+    <span>Output</span>
+  </div>
+  <div class="legend-separator"></div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background: var(--bus-color);"></div>
+    <span>PipelineContext Bus</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background: hsl(275 70% 60%);"></div>
+    <span>Wave Consumers</span>
+  </div>
+</div>
+
+<!-- MINIMAP -->
+<div class="minimap" id="minimap">
+  <div class="minimap-content" id="minimapContent">
+    <div class="minimap-viewport" id="minimapViewport"></div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// DATA MODEL -- sourced from actual codebase inspection
+// ================================================================
+
+const PHASES = [
+  {
+    id: 'discovery',
+    label: 'Discovery',
+    stageRange: '-1 .. 0',
+    color: 'hsl(185 100% 50%)',
+    colorAlpha: (a) => `hsla(185 100% 50% / ${a})`,
+    stages: [
+      { num: '-1', label: 'SmartIgnore', detail: 'Sequential directory exclusion discovery', file: 'smart_ignore.py' },
+      { num: '0', label: 'Survey', detail: 'Pre-analysis intelligence -- file scanning, vendor detection', file: 'survey.py' },
+      { num: '0.5', label: 'Contextome', detail: 'Projectome classification (Codome vs Contextome)', file: 'contextome_analyzer.py' },
+      { num: '0.8', label: 'Incremental Detection', detail: 'Delta tracking -- detect changed files since last run', file: 'database/incremental.py' },
+    ]
+  },
+  {
+    id: 'extraction',
+    label: 'Extraction',
+    stageRange: '1 .. 2.7',
+    color: 'hsl(215 90% 60%)',
+    colorAlpha: (a) => `hsla(215 90% 60% / ${a})`,
+    stages: [
+      { num: '1', label: 'Base Analysis', detail: 'Language detection, AST parsing (tree-sitter), node/edge extraction', file: 'unified_analysis.py' },
+      { num: '2', label: 'Standard Model Enrichment', detail: 'Atom classification (167 types), RPBL dimension scoring', file: 'standard_model_enricher.py' },
+      { num: '2.5', label: 'Ecosystem Discovery', detail: 'Hybrid T2 pattern detection for unknown ecosystem patterns', file: 'discovery_engine.py' },
+      { num: '2.6', label: 'Level Classification', detail: 'Holarchy levels (L-3..L12), package inference', file: 'level_classifier.py' },
+      { num: '2.7', label: 'Dimension Classification', detail: 'Octahedral 8-dimension coordinates (D1-D8)', file: 'dimension_classifier.py' },
+    ]
+  },
+  {
+    id: 'enrichment',
+    label: 'Enrichment',
+    stageRange: '2.8 .. 2.9',
+    color: 'hsl(250 70% 60%)',
+    colorAlpha: (a) => `hsla(250 70% 60% / ${a})`,
+    stages: [
+      { num: '2.8', label: 'Scope Analysis', detail: 'Definitions, references, unused code, variable shadowing', file: 'scope_analyzer.py' },
+      { num: '2.9', label: 'Control Flow Metrics', detail: 'Cyclomatic complexity, cognitive complexity, nesting depth', file: 'control_flow_analyzer.py' },
+      { num: '2.95', label: 'Pattern Detection', detail: 'Design patterns and anti-patterns in AST structure', file: 'pattern_detector.py' },
+    ]
+  },
+  {
+    id: 'analysis',
+    label: 'Analysis',
+    stageRange: '3 .. 6.9',
+    color: 'hsl(275 70% 60%)',
+    colorAlpha: (a) => `hsla(275 70% 60% / ${a})`,
+    stages: [
+      { num: '3', label: 'Purpose Field', detail: 'Purpose vector detection per node -- intent classification', file: 'purpose_field.py' },
+      { num: '3.5', label: 'Organelle Purpose', detail: 'Container-level purpose emergence (class/module)', file: 'purpose_emergence.py' },
+      { num: '3.6', label: 'System Purpose', detail: 'File-level purpose inference from child atoms', file: 'purpose_emergence.py' },
+      { num: '3.7', label: 'Coherence Metrics', detail: 'Purpose alignment scoring across hierarchy', file: 'purpose_emergence.py' },
+      { num: '4', label: 'Execution Flow', detail: 'Entry points, orphan detection, dead code analysis', file: 'execution_flow.py' },
+      { num: '5', label: 'Markov Transitions', detail: 'Transition probability matrix between node types', file: 'topology_analysis.py' },
+      { num: '6', label: 'Knot / Cycle Detection', detail: 'Circular dependency detection, knot scoring', file: 'topology_analysis.py' },
+      { num: '6.5', label: 'Graph Analytics', detail: 'Degree centrality, betweenness, topology role classification', file: 'graph_framework.py' },
+      { num: '6.6', label: 'Statistical Metrics', detail: 'Information entropy, Halstead metrics, complexity distributions', file: 'graph_metrics.py' },
+      { num: '6.7', label: 'Semantic Analysis', detail: 'Entry point context propagation, critical node identification', file: 'intent_extractor.py' },
+      { num: '6.8', label: 'Codome Boundaries', detail: 'Boundary node generation for architectural zones', file: 'codome_boundary.py' },
+      { num: '6.9', label: 'API Drift Detection', detail: 'Endpoint catalog + consumer report for drift scoring', file: 'api_drift.py' },
+    ]
+  },
+  {
+    id: 'intelligence',
+    label: 'Intelligence',
+    stageRange: '7 .. 8.7',
+    color: 'hsl(310 80% 60%)',
+    colorAlpha: (a) => `hsla(310 80% 60% / ${a})`,
+    stages: [
+      { num: '7', label: 'Data Flow Analysis', detail: 'Source/sink identification, data lineage tracking', file: 'topology_analysis.py' },
+      { num: '8', label: 'Performance Prediction', detail: 'Hotspot detection, bottleneck inference from graph', file: 'performance_predictor.py' },
+      { num: '8.5', label: 'Constraint Validation', detail: 'Antimatter (Tier A), policy violations (Tier B), signals (Tier C)', file: 'constraint_engine.py' },
+      { num: '8.6', label: 'Purpose Intelligence', detail: 'Q-Score computation -- per-node intelligence rating', file: 'purpose_intelligence.py' },
+      { num: '8.7', label: 'Concordance Analysis', detail: 'Boundary alignment + health scoring across regions', file: 'boundary_analyzer.py' },
+    ]
+  },
+  {
+    id: 'synthesis',
+    label: 'Synthesis',
+    stageRange: '9 .. 20',
+    color: 'hsl(30 95% 55%)',
+    colorAlpha: (a) => `hsla(30 95% 55% / ${a})`,
+    stages: [
+      { num: '9', label: 'Roadmap Evaluation', detail: 'Feature readiness scoring against roadmap JSON', file: 'roadmap_evaluator.py' },
+      { num: '10', label: 'Visual Topology', detail: 'Shape classification (star, mesh, tree, etc.)', file: 'topology_reasoning.py' },
+      { num: '11', label: 'Semantic Cortex', detail: 'Concept extraction, domain inference, term frequency', file: 'semantic_cortex.py' },
+      { num: '12', label: 'AI Insights', detail: 'Vertex AI / Gemini classification (optional)', file: 'analyze.py' },
+      { num: '13', label: 'Manifest Writer', detail: 'Provenance, Merkle root, waybill generation', file: 'merkle_utils.py' },
+      { num: '14', label: 'IGT Metrics', detail: 'Directory stability index, type-aware orphan classification', file: 'igt_metrics.py' },
+      { num: '14.5', label: 'Git Context', detail: 'Commit history, branch info, recent changes', file: 'git_context.py' },
+      { num: '15', label: 'Database Persistence', detail: 'SQLite storage, schema migrations, delta tracking', file: 'database/' },
+      { num: '16', label: 'Vectorization', detail: 'Embedding generation for semantic search', file: 'vectorizer.py' },
+      { num: '17', label: 'Trinity Analysis', detail: 'Three-factor quality decomposition', file: 'trinity.py' },
+      { num: '18', label: 'Temporal Analysis', detail: 'Time-series evolution tracking across runs', file: 'temporal.py' },
+      { num: '19', label: 'Ideome Extraction', detail: 'Idea/concept density mapping', file: 'ideome.py' },
+      { num: '20', label: 'Data Chemistry', detail: 'Convergence tagging, element bonding analysis', file: 'chemistry.py' },
+      { num: '20.5', label: 'Color Encoding', detail: 'Multi-channel OKLCH color mapping to metrics', file: 'color_science.py' },
+    ]
+  },
+  {
+    id: 'output',
+    label: 'Output',
+    stageRange: '21 .. 22',
+    color: 'hsl(155 80% 50%)',
+    colorAlpha: (a) => `hsla(155 80% 50% / ${a})`,
+    stages: [
+      { num: '21', label: 'Insights Compilation', detail: 'Health grade, findings aggregation, report compilation', file: 'insights_compiler.py' },
+      { num: '21.5', label: 'Meta-Envelope', detail: 'Cross-run identity (repo_id, run_id) for longitudinal analysis', file: 'meta_envelope.py' },
+      { num: '22', label: 'Output Generation', detail: 'Tiered output: raw JSON, briefing, HTML report, graph', file: 'output_generator.py' },
+      { num: '22.5', label: 'Pipeline Report', detail: 'Stage-by-stage timing and data availability ledger', file: 'full_analysis.py' },
+    ]
+  }
+];
+
+const ENTRY_POINTS = [
+  { label: 'CLI', path: 'particle/cli.py', badge: 'PRIMARY', icon: '>' },
+  { label: 'Collider Hub', path: 'particle/collider_hub.py', badge: 'ORCHESTRATED', icon: 'H' },
+  { label: 'PE Script', path: './pe', badge: 'WRAPPER', icon: 'P' },
+  { label: 'MCP Servers', path: 'wave/tools/ai/mcp_servers/', badge: 'AI', icon: 'M' },
+  { label: 'Python API', path: 'from particle import full_analysis', badge: '', icon: 'A' },
+  { label: 'Docker', path: 'Dockerfile', badge: '', icon: 'D' },
+];
+
+const OUTPUT_ARTIFACTS = [
+  { name: 'collider_raw.json', desc: 'Complete analysis data', color: 'hsl(155 80% 50%)' },
+  { name: 'collider_briefing.json', desc: 'Structured executive summary', color: 'hsl(155 80% 55%)' },
+  { name: 'collider_report.html', desc: 'Interactive visual report', color: 'hsl(155 80% 60%)' },
+  { name: 'collider_output.json', desc: 'LLM-optimized bundle', color: 'hsl(155 80% 45%)' },
+  { name: 'collider_insights.json', desc: 'Key findings for AI tools', color: 'hsl(155 80% 50%)' },
+  { name: 'collider_insights.md', desc: 'Markdown insights report', color: 'hsl(155 80% 55%)' },
+  { name: 'collider.db', desc: 'SQLite database', color: 'hsl(155 80% 45%)' },
+  { name: 'pipeline_report.json', desc: 'Stage metrics + timing', color: 'hsl(155 80% 50%)' },
+  { name: 'unified_analysis.json', desc: 'Unified graph data', color: 'hsl(155 80% 55%)' },
+  { name: 'meta_index.jsonl', desc: 'Streaming index', color: 'hsl(155 80% 40%)' },
+];
+
+const WAVE_CONSUMERS = [
+  { name: 'collider_bridge.py', desc: 'Central adapter -- loads Collider insights into Wave tools' },
+  { name: 'sonar_deep.py', desc: 'Deep research with injected Collider context' },
+  { name: 'cerebras_rapid_intel.py', desc: 'Fast AI queries with codebase awareness' },
+  { name: 'analyze.py (ACI)', desc: 'Smart model routing with Collider context injection' },
+  { name: 'boundary_analyzer.py', desc: 'Architecture boundary + concordance analysis' },
+  { name: 'perplexity_research.py', desc: 'External research enriched with project context' },
+  { name: 'decision_deck/', desc: '31 certified action cards for governed AI moves' },
+  { name: 'cerebras_tagger.py', desc: 'Batch file tagging with Standard Model atoms' },
+];
+
+const EXT_DEPS = [
+  { name: 'Tree-Sitter', color: 'hsl(185 100% 50%)', phase: 'extraction' },
+  { name: 'NetworkX', color: 'hsl(275 70% 60%)', phase: 'analysis' },
+  { name: 'Vertex AI', color: 'hsl(30 95% 55%)', phase: 'synthesis' },
+  { name: 'Doppler', color: 'hsl(310 80% 60%)', phase: 'intelligence' },
+  { name: 'SQLite', color: 'hsl(155 80% 50%)', phase: 'synthesis' },
+];
+
+// ================================================================
+// LAYOUT CONSTANTS
+// ================================================================
+
+const LAYOUT = {
+  // Phase column positions (x, y, width)
+  phases: {
+    discovery:     { x: 340, y: 60,  w: 220 },
+    extraction:    { x: 590, y: 60,  w: 230 },
+    enrichment:    { x: 850, y: 60,  w: 230 },
+    analysis:      { x: 1110, y: 60, w: 250 },
+    intelligence:  { x: 1390, y: 60, w: 240 },
+    synthesis:     { x: 1660, y: 60, w: 230 },
+    output:        { x: 1920, y: 60, w: 230 },
+  },
+  entryPoints:   { x: 30,   y: 80 },
+  outputArtifacts: { x: 2180, y: 80 },
+  pipelineBus:   { x: 340,  y: 46, w: 1810 },
+  waveSection:   { x: 340,  y: 620 },
+  extDeps:       { x: 340,  y: 560 },
+};
+
+// ================================================================
+// RENDERING
+// ================================================================
+
+const canvas = document.getElementById('canvas');
+const svgEl = document.getElementById('connectionsSvg');
+const tooltipEl = document.getElementById('tooltip');
+const tooltipTitle = document.getElementById('tooltipTitle');
+const tooltipStage = document.getElementById('tooltipStage');
+const tooltipBody = document.getElementById('tooltipBody');
+
+function renderAll() {
+  renderPipelineBus();
+  renderEntryPoints();
+  renderPhases();
+  renderOutputArtifacts();
+  renderExtDeps();
+  renderWaveConsumers();
+  renderConnections();
+  renderMinimap();
+}
+
+// ---- Pipeline Bus ----
+function renderPipelineBus() {
+  const bus = document.createElement('div');
+  bus.className = 'pipeline-bus';
+  bus.style.left = LAYOUT.pipelineBus.x + 'px';
+  bus.style.top = LAYOUT.pipelineBus.y + 'px';
+  bus.style.width = LAYOUT.pipelineBus.w + 'px';
+  bus.textContent = 'PipelineContext -- Shared Mutable State Bus';
+  canvas.appendChild(bus);
+}
+
+// ---- Entry Points ----
+function renderEntryPoints() {
+  const group = document.createElement('div');
+  group.className = 'entry-group';
+  group.style.left = LAYOUT.entryPoints.x + 'px';
+  group.style.top = LAYOUT.entryPoints.y + 'px';
+  group.style.width = '270px';
+
+  const title = document.createElement('div');
+  title.className = 'entry-group-title';
+  title.textContent = 'Entry Points';
+  group.appendChild(title);
+
+  ENTRY_POINTS.forEach(ep => {
+    const node = document.createElement('div');
+    node.className = 'entry-node';
+    node.setAttribute('data-tooltip', `Entry: ${ep.label}`);
+    node.setAttribute('data-tooltip-body', ep.path);
+    node.innerHTML = `
+      <div class="entry-icon">${ep.icon}</div>
+      <div>
+        <div class="entry-label">${ep.label}</div>
+        <div class="entry-path">${ep.path}</div>
+      </div>
+      ${ep.badge ? `<span class="entry-badge ${ep.badge === 'PRIMARY' ? 'entry-badge--primary' : 'entry-badge--secondary'}">${ep.badge}</span>` : ''}
+    `;
+    group.appendChild(node);
+  });
+
+  canvas.appendChild(group);
+}
+
+// ---- Phase columns ----
+function renderPhases() {
+  PHASES.forEach(phase => {
+    const pos = LAYOUT.phases[phase.id];
+    const el = document.createElement('div');
+    el.className = `phase phase--${phase.id}`;
+    el.id = `phase-${phase.id}`;
+    el.style.left = pos.x + 'px';
+    el.style.top = pos.y + 'px';
+    el.style.width = pos.w + 'px';
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'phase-header';
+    header.innerHTML = `
+      <span class="phase-number">${phase.id === 'discovery' ? '1' : phase.id === 'extraction' ? '2' : phase.id === 'enrichment' ? '3' : phase.id === 'analysis' ? '4' : phase.id === 'intelligence' ? '5' : phase.id === 'synthesis' ? '6' : '7'}</span>
+      <span class="phase-title">${phase.label}</span>
+      <span class="phase-stage-range">${phase.stageRange}</span>
+      <span class="phase-expand-icon">&#9662;</span>
+    `;
+    el.appendChild(header);
+
+    // Stage list
+    const stageList = document.createElement('div');
+    stageList.className = 'stage-list';
+
+    phase.stages.forEach(stage => {
+      const item = document.createElement('div');
+      item.className = 'stage-item';
+      item.setAttribute('data-tooltip', `Stage ${stage.num}: ${stage.label}`);
+      item.setAttribute('data-tooltip-stage', `Stage ${stage.num}  |  ${stage.file}`);
+      item.setAttribute('data-tooltip-body', stage.detail);
+      item.innerHTML = `
+        <span class="stage-number">${stage.num}</span>
+        <span class="stage-label">${stage.label}</span>
+      `;
+      stageList.appendChild(item);
+    });
+
+    el.appendChild(stageList);
+
+    // Click to expand
+    header.addEventListener('click', () => {
+      const wasExpanded = el.classList.contains('expanded');
+      // Collapse others
+      document.querySelectorAll('.phase.expanded').forEach(p => p.classList.remove('expanded'));
+      if (!wasExpanded) {
+        el.classList.add('expanded');
+      }
+    });
+
+    canvas.appendChild(el);
+  });
+}
+
+// ---- Output Artifacts ----
+function renderOutputArtifacts() {
+  const group = document.createElement('div');
+  group.className = 'output-group';
+  group.style.left = LAYOUT.outputArtifacts.x + 'px';
+  group.style.top = LAYOUT.outputArtifacts.y + 'px';
+  group.style.width = '210px';
+
+  const title = document.createElement('div');
+  title.className = 'output-group-title';
+  title.textContent = 'Output Artifacts';
+  group.appendChild(title);
+
+  OUTPUT_ARTIFACTS.forEach(art => {
+    const node = document.createElement('div');
+    node.className = 'output-node';
+    node.setAttribute('data-tooltip', art.name);
+    node.setAttribute('data-tooltip-body', art.desc);
+    node.innerHTML = `
+      <div class="output-icon" style="background: ${art.color};"></div>
+      <div>
+        <div class="output-name">${art.name}</div>
+        <div class="output-desc">${art.desc}</div>
+      </div>
+    `;
+    group.appendChild(node);
+  });
+
+  canvas.appendChild(group);
+}
+
+// ---- External Dependencies ----
+function renderExtDeps() {
+  const group = document.createElement('div');
+  group.className = 'ext-deps';
+  group.style.left = LAYOUT.extDeps.x + 'px';
+  group.style.top = LAYOUT.extDeps.y + 'px';
+
+  const title = document.createElement('div');
+  title.className = 'ext-deps-title';
+  title.textContent = 'External Dependencies';
+  group.appendChild(title);
+
+  const grid = document.createElement('div');
+  grid.className = 'ext-badge-grid';
+
+  EXT_DEPS.forEach(dep => {
+    const badge = document.createElement('div');
+    badge.className = 'ext-badge';
+    badge.setAttribute('data-tooltip', dep.name);
+    badge.setAttribute('data-tooltip-body', `Used in ${dep.phase} phase`);
+    badge.innerHTML = `<span class="ext-dot" style="background: ${dep.color};"></span>${dep.name}`;
+    grid.appendChild(badge);
+  });
+
+  group.appendChild(grid);
+  canvas.appendChild(group);
+}
+
+// ---- Wave Consumers ----
+function renderWaveConsumers() {
+  const section = document.createElement('div');
+  section.className = 'wave-section';
+  section.style.left = LAYOUT.waveSection.x + 'px';
+  section.style.top = LAYOUT.waveSection.y + 'px';
+
+  const title = document.createElement('div');
+  title.className = 'wave-title';
+  title.innerHTML = `Wave Hemisphere Consumers <span class="wave-title-badge">BRAIN</span>`;
+  section.appendChild(title);
+
+  const grid = document.createElement('div');
+  grid.className = 'wave-grid';
+  grid.style.width = '1000px';
+
+  WAVE_CONSUMERS.forEach(wc => {
+    const node = document.createElement('div');
+    node.className = 'wave-node';
+    node.setAttribute('data-tooltip', wc.name);
+    node.setAttribute('data-tooltip-body', wc.desc);
+    node.innerHTML = `
+      <div class="wave-node-name">${wc.name}</div>
+      <div class="wave-node-desc">${wc.desc}</div>
+    `;
+    grid.appendChild(node);
+  });
+
+  section.appendChild(grid);
+  canvas.appendChild(section);
+}
+
+// ---- SVG Connections ----
+function renderConnections() {
+  const ns = 'http://www.w3.org/2000/svg';
+  svgEl.innerHTML = '';
+
+  // Defs for arrowheads
+  const defs = document.createElementNS(ns, 'defs');
+
+  const colors = {
+    entry: 'hsl(185, 100%, 50%)',
+    phase: 'hsl(0, 0%, 40%)',
+    output: 'hsl(155, 80%, 50%)',
+    wave: 'hsl(275, 70%, 60%)',
+    bus: 'hsl(50, 90%, 55%)',
+  };
+
+  Object.entries(colors).forEach(([id, color]) => {
+    const marker = document.createElementNS(ns, 'marker');
+    marker.setAttribute('id', `arrow-${id}`);
+    marker.setAttribute('viewBox', '0 0 10 6');
+    marker.setAttribute('refX', '10');
+    marker.setAttribute('refY', '3');
+    marker.setAttribute('markerWidth', '8');
+    marker.setAttribute('markerHeight', '6');
+    marker.setAttribute('orient', 'auto');
+    const poly = document.createElementNS(ns, 'polygon');
+    poly.setAttribute('points', '0,0 10,3 0,6');
+    poly.setAttribute('fill', color);
+    poly.setAttribute('class', 'conn-arrowhead');
+    marker.appendChild(poly);
+    defs.appendChild(marker);
+  });
+
+  svgEl.appendChild(defs);
+
+  // Entry points -> first phase
+  const entryX = LAYOUT.entryPoints.x + 270;
+  const firstPhaseX = LAYOUT.phases.discovery.x;
+  ENTRY_POINTS.forEach((_, i) => {
+    const y = LAYOUT.entryPoints.y + 30 + i * 43;
+    const targetY = LAYOUT.pipelineBus.y + 16;
+    drawCurve(ns, entryX, y, firstPhaseX - 10, targetY, colors.entry, 'arrow-entry');
+  });
+
+  // Phase-to-phase arrows (along the bus)
+  const phaseIds = ['discovery', 'extraction', 'enrichment', 'analysis', 'intelligence', 'synthesis', 'output'];
+  for (let i = 0; i < phaseIds.length - 1; i++) {
+    const from = LAYOUT.phases[phaseIds[i]];
+    const to = LAYOUT.phases[phaseIds[i + 1]];
+    const y = LAYOUT.pipelineBus.y + 16;
+    drawArrow(ns, from.x + from.w + 2, y, to.x - 2, y, colors.phase, 'arrow-phase');
+  }
+
+  // Bus drop-down lines to each phase
+  phaseIds.forEach(pid => {
+    const p = LAYOUT.phases[pid];
+    const busY = LAYOUT.pipelineBus.y + 32;
+    const phaseY = p.y;
+    const cx = p.x + p.w / 2;
+    drawLine(ns, cx, busY, cx, phaseY, colors.bus, 0.15);
+  });
+
+  // Last phase -> output artifacts
+  const lastPhase = LAYOUT.phases.output;
+  const outX = LAYOUT.outputArtifacts.x;
+  OUTPUT_ARTIFACTS.forEach((_, i) => {
+    const y = LAYOUT.outputArtifacts.y + 30 + i * 32;
+    const fromX = lastPhase.x + lastPhase.w;
+    const fromY = lastPhase.y + 40;
+    drawCurve(ns, fromX, fromY, outX, y, colors.output, 'arrow-output');
+  });
+
+  // Wave consumer connections from bus
+  const waveY = LAYOUT.waveSection.y;
+  const busBottom = LAYOUT.pipelineBus.y + 32;
+  for (let i = 0; i < 4; i++) {
+    const x = LAYOUT.waveSection.x + 125 + i * 250;
+    drawLine(ns, x, busBottom + 480, x, waveY, colors.wave, 0.12);
+  }
+}
+
+function drawLine(ns, x1, y1, x2, y2, color, opacity) {
+  const line = document.createElementNS(ns, 'line');
+  line.setAttribute('x1', x1);
+  line.setAttribute('y1', y1);
+  line.setAttribute('x2', x2);
+  line.setAttribute('y2', y2);
+  line.setAttribute('stroke', color);
+  line.setAttribute('stroke-width', '1');
+  line.setAttribute('opacity', opacity || 0.3);
+  line.setAttribute('stroke-dasharray', '4,4');
+  svgEl.appendChild(line);
+}
+
+function drawArrow(ns, x1, y1, x2, y2, color, markerEnd) {
+  const line = document.createElementNS(ns, 'line');
+  line.setAttribute('x1', x1);
+  line.setAttribute('y1', y1);
+  line.setAttribute('x2', x2);
+  line.setAttribute('y2', y2);
+  line.setAttribute('stroke', color);
+  line.setAttribute('class', 'conn-line');
+  if (markerEnd) line.setAttribute('marker-end', `url(#${markerEnd})`);
+  svgEl.appendChild(line);
+}
+
+function drawCurve(ns, x1, y1, x2, y2, color, markerEnd) {
+  const path = document.createElementNS(ns, 'path');
+  const dx = (x2 - x1) * 0.4;
+  const d = `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`;
+  path.setAttribute('d', d);
+  path.setAttribute('stroke', color);
+  path.setAttribute('class', 'conn-line');
+  if (markerEnd) path.setAttribute('marker-end', `url(#${markerEnd})`);
+  svgEl.appendChild(path);
+}
+
+// ================================================================
+// TOOLTIP SYSTEM
+// ================================================================
+
+canvas.addEventListener('mouseover', (e) => {
+  const target = e.target.closest('[data-tooltip]');
+  if (!target) return;
+
+  tooltipTitle.textContent = target.getAttribute('data-tooltip') || '';
+  tooltipStage.textContent = target.getAttribute('data-tooltip-stage') || '';
+  tooltipBody.textContent = target.getAttribute('data-tooltip-body') || '';
+  tooltipEl.classList.add('visible');
+});
+
+canvas.addEventListener('mousemove', (e) => {
+  if (!tooltipEl.classList.contains('visible')) return;
+  const pad = 16;
+  let x = e.clientX + pad;
+  let y = e.clientY + pad;
+  const rect = tooltipEl.getBoundingClientRect();
+  if (x + rect.width > window.innerWidth) x = e.clientX - rect.width - pad;
+  if (y + rect.height > window.innerHeight) y = e.clientY - rect.height - pad;
+  tooltipEl.style.left = x + 'px';
+  tooltipEl.style.top = y + 'px';
+});
+
+canvas.addEventListener('mouseout', (e) => {
+  const target = e.target.closest('[data-tooltip]');
+  if (!target) return;
+  // Check if we moved to a child of the same tooltip target
+  if (target.contains(e.relatedTarget)) return;
+  tooltipEl.classList.remove('visible');
+});
+
+// ================================================================
+// PAN & ZOOM
+// ================================================================
+
+let scale = 0.68;
+let panX = 0;
+let panY = 0;
+let isPanning = false;
+let panStartX, panStartY;
+
+const container = document.getElementById('canvasContainer');
+
+function applyTransform() {
+  canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+  document.getElementById('zoomLevel').textContent = Math.round(scale * 100) + '%';
+  updateMinimap();
+}
+
+// Mouse wheel zoom
+container.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? -0.05 : 0.05;
+  const newScale = Math.max(0.25, Math.min(2, scale + delta));
+
+  // Zoom toward mouse position
+  const rect = container.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+
+  panX = mx - (mx - panX) * (newScale / scale);
+  panY = my - (my - panY) * (newScale / scale);
+  scale = newScale;
+
+  applyTransform();
+}, { passive: false });
+
+// Pan
+container.addEventListener('mousedown', (e) => {
+  if (e.target.closest('.phase, .entry-node, .output-node, .wave-node, .ext-badge')) return;
+  isPanning = true;
+  panStartX = e.clientX - panX;
+  panStartY = e.clientY - panY;
+});
+
+window.addEventListener('mousemove', (e) => {
+  if (!isPanning) return;
+  panX = e.clientX - panStartX;
+  panY = e.clientY - panStartY;
+  applyTransform();
+});
+
+window.addEventListener('mouseup', () => { isPanning = false; });
+
+// Zoom buttons
+document.getElementById('zoomIn').addEventListener('click', () => {
+  scale = Math.min(2, scale + 0.1);
+  applyTransform();
+});
+
+document.getElementById('zoomOut').addEventListener('click', () => {
+  scale = Math.max(0.25, scale - 0.1);
+  applyTransform();
+});
+
+document.getElementById('resetView').addEventListener('click', () => {
+  scale = 0.68;
+  panX = 0;
+  panY = 0;
+  applyTransform();
+  document.querySelectorAll('.phase.expanded').forEach(p => p.classList.remove('expanded'));
+});
+
+// ================================================================
+// MINIMAP
+// ================================================================
+
+function renderMinimap() {
+  const content = document.getElementById('minimapContent');
+  // Clear existing dots
+  content.querySelectorAll('.minimap-dot').forEach(d => d.remove());
+
+  const canvasW = 2400;
+  const canvasH = 1500;
+  const mapW = 180;
+  const mapH = 110;
+
+  // Place dots for each phase
+  PHASES.forEach(phase => {
+    const pos = LAYOUT.phases[phase.id];
+    const dot = document.createElement('div');
+    dot.className = 'minimap-dot';
+    dot.style.left = (pos.x / canvasW * mapW) + 'px';
+    dot.style.top = (pos.y / canvasH * mapH) + 'px';
+    dot.style.width = (pos.w / canvasW * mapW) + 'px';
+    dot.style.height = '8px';
+    dot.style.background = phase.colorAlpha(0.5);
+    dot.style.borderRadius = '2px';
+    content.appendChild(dot);
+  });
+
+  updateMinimap();
+}
+
+function updateMinimap() {
+  const viewport = document.getElementById('minimapViewport');
+  const containerRect = container.getBoundingClientRect();
+  const canvasW = 2400;
+  const canvasH = 1500;
+  const mapW = 180;
+  const mapH = 110;
+
+  // Visible area in canvas coordinates
+  const visX = -panX / scale;
+  const visY = -panY / scale;
+  const visW = containerRect.width / scale;
+  const visH = containerRect.height / scale;
+
+  viewport.style.left = (visX / canvasW * mapW) + 'px';
+  viewport.style.top = (visY / canvasH * mapH) + 'px';
+  viewport.style.width = Math.min(mapW, visW / canvasW * mapW) + 'px';
+  viewport.style.height = Math.min(mapH, visH / canvasH * mapH) + 'px';
+}
+
+// ================================================================
+// KEYBOARD SHORTCUTS
+// ================================================================
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.phase.expanded').forEach(p => p.classList.remove('expanded'));
+  }
+  if (e.key === '+' || e.key === '=') {
+    scale = Math.min(2, scale + 0.1);
+    applyTransform();
+  }
+  if (e.key === '-') {
+    scale = Math.max(0.25, scale - 0.1);
+    applyTransform();
+  }
+  if (e.key === '0') {
+    scale = 0.68;
+    panX = 0;
+    panY = 0;
+    applyTransform();
+  }
+  // Number keys 1-7 expand corresponding phase
+  const num = parseInt(e.key);
+  if (num >= 1 && num <= 7) {
+    const phaseIds = ['discovery', 'extraction', 'enrichment', 'analysis', 'intelligence', 'synthesis', 'output'];
+    const targetPhase = document.getElementById(`phase-${phaseIds[num - 1]}`);
+    if (targetPhase) {
+      document.querySelectorAll('.phase.expanded').forEach(p => p.classList.remove('expanded'));
+      targetPhase.classList.add('expanded');
+
+      // Pan to center the phase
+      const pos = LAYOUT.phases[phaseIds[num - 1]];
+      const containerRect = container.getBoundingClientRect();
+      panX = containerRect.width / 2 - (pos.x + pos.w / 2) * scale;
+      panY = containerRect.height / 2 - (pos.y + 100) * scale;
+      applyTransform();
+    }
+  }
+});
+
+// ================================================================
+// INITIALIZATION
+// ================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderAll();
+  applyTransform();
+
+  // Auto-expand discovery on load after a moment
+  setTimeout(() => {
+    const disc = document.getElementById('phase-discovery');
+    if (disc) disc.classList.add('expanded');
+  }, 600);
+});
+</script>
+</body>
+</html>
