@@ -3,11 +3,15 @@
 import React, { startTransition, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  MACHINE_THEME_ID,
   SHELL_GRID_ROW_CLASS,
   THEME_BLUEPRINT,
   TOKEN_REFS,
+  createThemeMachineGenome,
   createThemeCssVars,
+  describeThemeMachine,
   deriveLayoutVars,
+  mutateThemeMachineGenome,
   resolveDomains,
   resolveRuntimeItems,
   resolveShellColumnClass,
@@ -156,6 +160,18 @@ function VellumThemeGlyph(props) {
   );
 }
 
+function ThemeMachineGlyph(props) {
+  return (
+    <IconBase {...props}>
+      <circle cx="5.2" cy="5.2" r="1.2" />
+      <circle cx="10.8" cy="5.2" r="1.2" />
+      <circle cx="8" cy="10.8" r="1.2" />
+      <path d="M6.2 5.2h3.6M6 6.1l1.6 3.2M10 6.1L8.4 9.3" />
+      <path d="M2 12.8h2.4M11.6 12.8H14" />
+    </IconBase>
+  );
+}
+
 function TreeGlyph(props) {
   return (
     <IconBase {...props}>
@@ -266,12 +282,21 @@ const THEME_ICON_REGISTRY = {
   paper: PaperThemeGlyph,
   midnight: MidnightThemeGlyph,
   vellum: VellumThemeGlyph,
+  [MACHINE_THEME_ID]: ThemeMachineGlyph,
 };
 
-const THEME_CHOICES = Object.values(THEME_BLUEPRINT).map((theme) => ({
-  ...theme,
-  icon: THEME_ICON_REGISTRY[theme.iconKey],
-}));
+const THEME_CHOICES = [
+  ...Object.values(THEME_BLUEPRINT).map((theme) => ({
+    ...theme,
+    icon: THEME_ICON_REGISTRY[theme.iconKey],
+  })),
+  {
+    id: MACHINE_THEME_ID,
+    label: "Machine",
+    iconKey: MACHINE_THEME_ID,
+    icon: THEME_ICON_REGISTRY[MACHINE_THEME_ID],
+  },
+];
 
 const SCREENS = {
   overview: {
@@ -1171,16 +1196,19 @@ export default function RainmakerConsoleUIPrototype() {
   const [inspectorOpen, setInspectorOpen] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [themeId, setThemeId] = useState("paper");
+  const [themeMachineGenome, setThemeMachineGenome] = useState(() => createThemeMachineGenome("rainmaker-machine-root"));
 
   const viewport = useVirtualViewportArea();
   const domain = useMemo(() => DOMAINS.find((item) => item.id === domainId) || DOMAINS[0], [domainId]);
   const screenGroup = SCREENS[domain.id] || {};
   const safeNode = screenGroup[node] ? node : domain.nodes[0];
   const screen = screenGroup[safeNode];
-  const theme = resolveTheme(themeId);
+  const theme = useMemo(() => resolveTheme(themeId, themeMachineGenome), [themeId, themeMachineGenome]);
+  const machineStats = useMemo(() => describeThemeMachine(themeMachineGenome), [themeMachineGenome]);
   const themeVars = useMemo(() => createThemeCssVars(theme), [theme]);
   const layoutVars = useMemo(() => deriveLayoutVars(viewport), [viewport]);
   const configErrors = useMemo(() => validateDomainScreens(DOMAINS, SCREENS), []);
+  const machineActive = themeId === MACHINE_THEME_ID;
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -1214,6 +1242,31 @@ export default function RainmakerConsoleUIPrototype() {
     setDomainId(next.id);
     setNode(nextNode || next.nodes[0]);
     setCommandOpen(false);
+  };
+
+  const createLiveSeed = () => {
+    if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+      return crypto.randomUUID();
+    }
+    return `${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+  };
+
+  const activateThemeMachine = () => {
+    setThemeId(MACHINE_THEME_ID);
+  };
+
+  const randomizeThemeMachine = () => {
+    startTransition(() => {
+      setThemeId(MACHINE_THEME_ID);
+      setThemeMachineGenome(createThemeMachineGenome(createLiveSeed()));
+    });
+  };
+
+  const mutateThemeMachine = (intensity = 0.38) => {
+    startTransition(() => {
+      setThemeId(MACHINE_THEME_ID);
+      setThemeMachineGenome((previous) => mutateThemeMachineGenome(previous, intensity, createLiveSeed()));
+    });
   };
 
   return (
@@ -1288,7 +1341,13 @@ export default function RainmakerConsoleUIPrototype() {
                     key={item.id}
                     whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => setThemeId(item.id)}
+                    onClick={() => {
+                      if (item.id === MACHINE_THEME_ID) {
+                        activateThemeMachine();
+                        return;
+                      }
+                      setThemeId(item.id);
+                    }}
                     title={item.label}
                     className="flex h-8 w-8 items-center justify-center rounded-full border"
                     style={{ borderColor: active ? domain.tint : "transparent", background: active ? domain.soft : "transparent", color: active ? domain.tint : TOKENS.ink2 }}
@@ -1298,6 +1357,17 @@ export default function RainmakerConsoleUIPrototype() {
                 );
               })}
             </div>
+            {machineActive ? (
+              <div className="rounded-full border px-3 py-2 text-[10px] uppercase tracking-[0.18em]" style={{ borderColor: domain.tint, background: domain.soft, color: domain.tint }}>
+                machine {machineStats.polarity} / h{machineStats.hue} / c{machineStats.contrast}
+              </div>
+            ) : null}
+            <button onClick={() => mutateThemeMachine(0.38)} className="rounded-full border px-3 py-2 text-xs font-medium" style={{ borderColor: machineActive ? domain.tint : TOKENS.line, background: machineActive ? domain.soft : TOKENS.bg1, color: machineActive ? domain.tint : TOKENS.ink2 }}>
+              mutate theme
+            </button>
+            <button onClick={randomizeThemeMachine} className="rounded-full border px-3 py-2 text-xs font-medium" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink2 }}>
+              random theme
+            </button>
             <button onClick={() => setSidebarOpen((value) => !value)} className="rounded-full border px-3 py-2 text-xs font-medium" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink2 }}>
               {sidebarOpen ? "hide sidebar" : "show sidebar"}
             </button>
@@ -1512,6 +1582,12 @@ export default function RainmakerConsoleUIPrototype() {
 
                   <div className="grid gap-3">
                     <div className="text-[10px] uppercase tracking-[0.22em]" style={{ color: TOKENS.ink3 }}>Actions</div>
+                    <button onClick={() => { activateThemeMachine(); setCommandOpen(false); }} className="rounded-2xl border px-4 py-3 text-left text-sm" style={{ borderColor: machineActive ? domain.tint : TOKENS.line, background: machineActive ? domain.soft : TOKENS.bg1, color: TOKENS.ink1 }}>
+                      Use theme machine ({machineStats.polarity})
+                    </button>
+                    <button onClick={() => { mutateThemeMachine(0.45); setCommandOpen(false); }} className="rounded-2xl border px-4 py-3 text-left text-sm" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink1 }}>
+                      Mutate theme machine (infinite variants)
+                    </button>
                     <button onClick={() => { setSidebarOpen((value) => !value); setCommandOpen(false); }} className="rounded-2xl border px-4 py-3 text-left text-sm" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink1 }}>{sidebarOpen ? "Hide sidebar" : "Show sidebar"}</button>
                     <button onClick={() => { setInspectorOpen((value) => !value); setCommandOpen(false); }} className="rounded-2xl border px-4 py-3 text-left text-sm" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink1 }}>{inspectorOpen ? "Hide inspector" : "Show inspector"}</button>
                     <button onClick={() => jumpTo("runtime", "Runs")} className="rounded-2xl border px-4 py-3 text-left text-sm" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink1 }}>Open live runs</button>
