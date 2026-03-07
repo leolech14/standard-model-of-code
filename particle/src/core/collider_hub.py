@@ -25,6 +25,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
+from .run_history import RunHistoryManager
+
 _THIS = Path(__file__).resolve()
 _PARTICLE_ROOT = _THIS.parents[2]
 _ELEMENTS_ROOT = _THIS.parents[3]
@@ -892,6 +894,26 @@ def _run_feedback_pipeline(args: argparse.Namespace, repo: Path, output_dir: Pat
     provider = llm_meta.get("provider", "unknown")
     reason = llm_meta.get("reason", "")
     print(f"   - llm: provider={provider} reason={reason}")
+
+    # Run history: index this run and enforce retention
+    try:
+        latest_auto = Path(result["latest_auto_feedback_json"])
+        if latest_auto.is_file():
+            auto_payload = json.loads(latest_auto.read_text(encoding="utf-8"))
+            manager = RunHistoryManager(_CENTRAL_FEEDBACK_ROOT)
+            prune_result = manager.record_and_prune(
+                auto_feedback=auto_payload,
+                feedback_dir=feedback_dir,
+                collider_dir=output_dir,
+            )
+            pruned = prune_result.get("pruned_count", 0)
+            if pruned > 0:
+                print(f"  history: indexed run, pruned {pruned} old artifact(s)")
+            else:
+                print("  history: indexed run")
+    except Exception as e:
+        print(f"  history: warning: {e}")
+
     return 0
 
 
@@ -1060,6 +1082,27 @@ def cmd_audit_doc(args: argparse.Namespace) -> int:
     return _run(cmd)
 
 
+def cmd_history(args: argparse.Namespace) -> int:
+    """Show Collider run history trend for a repo."""
+    manager = RunHistoryManager(_CENTRAL_FEEDBACK_ROOT)
+
+    if args.backfill:
+        added = manager.backfill_index()
+        print(f"Collider Hub History: backfilled {added} run(s) into index")
+        if added == 0 and not manager._index_path.is_file():
+            return 0
+
+    repo_slug = None
+    if args.repo and args.repo != ".":
+        repo_slug = args.repo.lower().replace(" ", "-").replace("_", "-")
+
+    print("Collider Hub History")
+    if repo_slug:
+        print(f"  repo: {repo_slug}")
+    manager.print_trend(repo_slug=repo_slug, last_n=args.last)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         description="Canonical Collider wrapper for cross-agent ecosystem usage."
@@ -1201,6 +1244,24 @@ def build_parser() -> argparse.ArgumentParser:
     )
     audit_doc.add_argument("--dry-run", action="store_true", help="No API calls")
     audit_doc.set_defaults(func=cmd_audit_doc)
+
+    history = sub.add_parser(
+        "history",
+        help="Show Collider run history and score trends",
+    )
+    history.add_argument(
+        "--repo", default=None,
+        help="Filter by repo slug (e.g. project-openclaw). Omit for all repos.",
+    )
+    history.add_argument(
+        "--last", type=int, default=10,
+        help="Number of recent runs to show (default: 10)",
+    )
+    history.add_argument(
+        "--backfill", action="store_true",
+        help="Index existing feedback files before showing trend",
+    )
+    history.set_defaults(func=cmd_history)
 
     return p
 

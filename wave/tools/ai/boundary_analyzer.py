@@ -810,6 +810,15 @@ def save_snapshot(report: BoundaryReport, project_root: Path):
     with open(snapshot_path, 'w') as f:
         json.dump(snapshot, f, indent=2)
 
+    # Prune old snapshots (keep last 3; drift only needs 1 previous)
+    _max_snapshots = 3
+    snapshots = sorted(history_dir.glob("snapshot_*.json"))
+    for old in snapshots[:-_max_snapshots]:
+        try:
+            old.unlink()
+        except OSError:
+            pass
+
     return snapshot_path
 
 
