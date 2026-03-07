@@ -1,7 +1,19 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { startTransition, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  SHELL_GRID_ROW_CLASS,
+  THEME_BLUEPRINT,
+  TOKEN_REFS,
+  createThemeCssVars,
+  deriveLayoutVars,
+  resolveDomains,
+  resolveRuntimeItems,
+  resolveShellColumnClass,
+  resolveTheme,
+  validateDomainScreens,
+} from "./blueprint/consoleBlueprint";
 
 function IconBase({ className = "h-4 w-4", style, children, viewBox = "0 0 16 16" }) {
   return (
@@ -239,123 +251,27 @@ function BoltGlyph(props) {
   );
 }
 
-const THEMES = {
-  paper: {
-    id: "paper",
-    label: "Paper",
-    icon: PaperThemeGlyph,
-    bg0: "oklch(98.6% 0.002 250)",
-    bg1: "oklch(97.2% 0.003 250)",
-    bg2: "oklch(94.8% 0.004 250)",
-    line: "oklch(89% 0.004 250)",
-    ink0: "oklch(18% 0.01 250)",
-    ink1: "oklch(28% 0.008 250)",
-    ink2: "oklch(52% 0.006 250)",
-    ink3: "oklch(72% 0.004 250)",
-    blue: "oklch(62% 0.16 252)",
-    blueSoft: "oklch(96.5% 0.018 252)",
-    teal: "oklch(70% 0.13 190)",
-    tealSoft: "oklch(96.7% 0.018 190)",
-    green: "oklch(74% 0.14 145)",
-    greenSoft: "oklch(97% 0.02 145)",
-    amber: "oklch(80% 0.14 85)",
-    amberSoft: "oklch(97% 0.022 85)",
-    red: "oklch(64% 0.18 25)",
-    redSoft: "oklch(96.5% 0.02 25)",
-    violet: "oklch(60% 0.16 305)",
-    violetSoft: "oklch(96% 0.018 305)",
-    overlay: "rgba(255,255,255,0.55)",
-    shadow: "rgba(0,0,0,0.08)",
-  },
-  midnight: {
-    id: "midnight",
-    label: "Midnight",
-    icon: MidnightThemeGlyph,
-    bg0: "oklch(21% 0.012 255)",
-    bg1: "oklch(25% 0.012 255)",
-    bg2: "oklch(17% 0.01 255)",
-    line: "oklch(34% 0.01 255)",
-    ink0: "oklch(95% 0.004 255)",
-    ink1: "oklch(88% 0.005 255)",
-    ink2: "oklch(71% 0.006 255)",
-    ink3: "oklch(56% 0.006 255)",
-    blue: "oklch(74% 0.13 252)",
-    blueSoft: "oklch(28% 0.03 252)",
-    teal: "oklch(80% 0.11 190)",
-    tealSoft: "oklch(30% 0.03 190)",
-    green: "oklch(82% 0.12 145)",
-    greenSoft: "oklch(30% 0.03 145)",
-    amber: "oklch(86% 0.12 85)",
-    amberSoft: "oklch(31% 0.03 85)",
-    red: "oklch(76% 0.14 25)",
-    redSoft: "oklch(29% 0.03 25)",
-    violet: "oklch(78% 0.12 305)",
-    violetSoft: "oklch(29% 0.03 305)",
-    overlay: "rgba(8,10,14,0.55)",
-    shadow: "rgba(0,0,0,0.28)",
-  },
-  vellum: {
-    id: "vellum",
-    label: "Vellum",
-    icon: VellumThemeGlyph,
-    bg0: "oklch(97.5% 0.01 80)",
-    bg1: "oklch(95.8% 0.012 80)",
-    bg2: "oklch(92.8% 0.014 80)",
-    line: "oklch(86% 0.01 80)",
-    ink0: "oklch(22% 0.012 55)",
-    ink1: "oklch(34% 0.01 55)",
-    ink2: "oklch(52% 0.008 55)",
-    ink3: "oklch(70% 0.006 55)",
-    blue: "oklch(60% 0.14 252)",
-    blueSoft: "oklch(93.8% 0.02 252)",
-    teal: "oklch(66% 0.11 190)",
-    tealSoft: "oklch(94.2% 0.02 190)",
-    green: "oklch(71% 0.11 145)",
-    greenSoft: "oklch(94.8% 0.02 145)",
-    amber: "oklch(78% 0.11 85)",
-    amberSoft: "oklch(95.4% 0.02 85)",
-    red: "oklch(62% 0.15 25)",
-    redSoft: "oklch(94.5% 0.02 25)",
-    violet: "oklch(58% 0.13 305)",
-    violetSoft: "oklch(94.0% 0.02 305)",
-    overlay: "rgba(247,240,228,0.58)",
-    shadow: "rgba(72,52,26,0.10)",
-  },
+const TOKENS = TOKEN_REFS;
+
+const ICON_REGISTRY = {
+  overview: OverviewGlyph,
+  work: WorkGlyph,
+  intelligence: IntelligenceGlyph,
+  runtime: RuntimeGlyph,
+  finance: FinanceGlyph,
+  system: SystemGlyph,
 };
 
-const TOKENS = {
-  bg0: "var(--bg-0)",
-  bg1: "var(--bg-1)",
-  bg2: "var(--bg-2)",
-  line: "var(--line)",
-  ink0: "var(--ink-0)",
-  ink1: "var(--ink-1)",
-  ink2: "var(--ink-2)",
-  ink3: "var(--ink-3)",
-  blue: "var(--blue)",
-  blueSoft: "var(--blue-soft)",
-  teal: "var(--teal)",
-  tealSoft: "var(--teal-soft)",
-  green: "var(--green)",
-  greenSoft: "var(--green-soft)",
-  amber: "var(--amber)",
-  amberSoft: "var(--amber-soft)",
-  red: "var(--red)",
-  redSoft: "var(--red-soft)",
-  violet: "var(--violet)",
-  violetSoft: "var(--violet-soft)",
-  overlay: "var(--overlay-color)",
-  shadow: "var(--shadow-color)",
+const THEME_ICON_REGISTRY = {
+  paper: PaperThemeGlyph,
+  midnight: MidnightThemeGlyph,
+  vellum: VellumThemeGlyph,
 };
 
-const DOMAINS = [
-  { id: "overview", label: "Overview", icon: OverviewGlyph, tint: TOKENS.blue, soft: TOKENS.blueSoft, nodes: ["Today", "Priority", "Live", "Connections"] },
-  { id: "work", label: "Work", icon: WorkGlyph, tint: TOKENS.teal, soft: TOKENS.tealSoft, nodes: ["Projects", "Files", "Calendar", "Map"] },
-  { id: "intelligence", label: "Intelligence", icon: IntelligenceGlyph, tint: TOKENS.violet, soft: TOKENS.violetSoft, nodes: ["Rainmaker", "Refinery", "Automations", "Memory"] },
-  { id: "runtime", label: "Runtime", icon: RuntimeGlyph, tint: TOKENS.green, soft: TOKENS.greenSoft, nodes: ["Runs", "Queues", "Logs", "Approvals"] },
-  { id: "finance", label: "Finance", icon: FinanceGlyph, tint: TOKENS.amber, soft: TOKENS.amberSoft, nodes: ["Spend", "Burn", "Forecast", "Anomalies"] },
-  { id: "system", label: "System", icon: SystemGlyph, tint: TOKENS.ink1, soft: TOKENS.bg2, nodes: ["Integrations", "Environments", "Observability", "Access"] },
-];
+const THEME_CHOICES = Object.values(THEME_BLUEPRINT).map((theme) => ({
+  ...theme,
+  icon: THEME_ICON_REGISTRY[theme.iconKey],
+}));
 
 const SCREENS = {
   overview: {
@@ -962,44 +878,32 @@ const SCREENS = {
   },
 };
 
-const RUNTIME_ITEMS = [
-  { label: "Refinery #2471", state: "Running", tone: TOKENS.greenSoft, ink: TOKENS.green },
-  { label: "Drive index", state: "Queued", tone: TOKENS.blueSoft, ink: TOKENS.blue },
-  { label: "Burn rate", state: "$7.12 / h", tone: TOKENS.amberSoft, ink: TOKENS.amber },
-  { label: "Approvals", state: "3 pending", tone: TOKENS.redSoft, ink: TOKENS.red },
-  { label: "Gateway", state: "Live", tone: TOKENS.tealSoft, ink: TOKENS.teal },
-];
+const DOMAINS = resolveDomains(ICON_REGISTRY, TOKENS);
+const RUNTIME_ITEMS = resolveRuntimeItems(TOKENS);
 
 function cx(...parts) {
   return parts.filter(Boolean).join(" ");
 }
 
-function validateConfig(domains, screens) {
-  const errors = [];
+function useVirtualViewportArea() {
+  const [viewport, setViewport] = useState({ width: 1440, height: 900 });
 
-  domains.forEach((domain) => {
-    if (!screens[domain.id]) {
-      errors.push(`Missing screen group for domain: ${domain.id}`);
-      return;
-    }
+  useEffect(() => {
+    const syncViewport = () => {
+      startTransition(() => {
+        setViewport({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      });
+    };
 
-    domain.nodes.forEach((node) => {
-      const screen = screens[domain.id][node];
-      if (!screen) {
-        errors.push(`Missing screen config for ${domain.id}.${node}`);
-        return;
-      }
+    syncViewport();
+    window.addEventListener("resize", syncViewport);
+    return () => window.removeEventListener("resize", syncViewport);
+  }, []);
 
-      if (!Array.isArray(screen.status)) errors.push(`status must be an array for ${domain.id}.${node}`);
-      if (!Array.isArray(screen.metrics)) errors.push(`metrics must be an array for ${domain.id}.${node}`);
-      if (!Array.isArray(screen.sections)) errors.push(`sections must be an array for ${domain.id}.${node}`);
-      if (!screen.inspector || !Array.isArray(screen.inspector.facts)) {
-        errors.push(`inspector.facts must be an array for ${domain.id}.${node}`);
-      }
-    });
-  });
-
-  return errors;
+  return viewport;
 }
 
 function getMetricMeta(delta, accent) {
@@ -1200,8 +1104,8 @@ function ScreenSection({ section, tint }) {
 
   if (section.type === "map") {
     return (
-      <div className="relative min-h-[260px] overflow-hidden rounded-[28px] border" style={{ borderColor: TOKENS.line, background: `linear-gradient(180deg, ${TOKENS.bg1} 0%, ${TOKENS.bg0} 100%)` }}>
-        <div className="absolute inset-0 opacity-60" style={{ backgroundImage: `linear-gradient(${TOKENS.line} 1px, transparent 1px), linear-gradient(90deg, ${TOKENS.line} 1px, transparent 1px)`, backgroundSize: "48px 48px" }} />
+      <div className="relative min-h-[var(--map-min-h)] overflow-hidden rounded-[var(--surface-radius)] border" style={{ borderColor: TOKENS.line, background: `linear-gradient(180deg, ${TOKENS.bg1} 0%, ${TOKENS.bg0} 100%)` }}>
+        <div className="absolute inset-0 opacity-60" style={{ backgroundImage: `linear-gradient(${TOKENS.line} 1px, transparent 1px), linear-gradient(90deg, ${TOKENS.line} 1px, transparent 1px)`, backgroundSize: "var(--map-grid-size) var(--map-grid-size)" }} />
         {section.items.map(([label, pos]) => (
           <motion.div
             key={label}
@@ -1268,12 +1172,15 @@ export default function RainmakerConsoleUIPrototype() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [themeId, setThemeId] = useState("paper");
 
+  const viewport = useVirtualViewportArea();
   const domain = useMemo(() => DOMAINS.find((item) => item.id === domainId) || DOMAINS[0], [domainId]);
   const screenGroup = SCREENS[domain.id] || {};
   const safeNode = screenGroup[node] ? node : domain.nodes[0];
   const screen = screenGroup[safeNode];
-  const theme = THEMES[themeId] || THEMES.paper;
-  const configErrors = useMemo(() => validateConfig(DOMAINS, SCREENS), []);
+  const theme = resolveTheme(themeId);
+  const themeVars = useMemo(() => createThemeCssVars(theme), [theme]);
+  const layoutVars = useMemo(() => deriveLayoutVars(viewport), [viewport]);
+  const configErrors = useMemo(() => validateDomainScreens(DOMAINS, SCREENS), []);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -1289,10 +1196,6 @@ export default function RainmakerConsoleUIPrototype() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
-
-  useEffect(() => {
-    if (safeNode !== node) setNode(safeNode);
-  }, [node, safeNode]);
 
   useEffect(() => {
     if (configErrors.length) {
@@ -1317,43 +1220,18 @@ export default function RainmakerConsoleUIPrototype() {
     <div
       className="min-h-screen w-full p-3 sm:p-4 lg:p-6"
       style={{
-        "--bg-0": theme.bg0,
-        "--bg-1": theme.bg1,
-        "--bg-2": theme.bg2,
-        "--line": theme.line,
-        "--ink-0": theme.ink0,
-        "--ink-1": theme.ink1,
-        "--ink-2": theme.ink2,
-        "--ink-3": theme.ink3,
-        "--blue": theme.blue,
-        "--blue-soft": theme.blueSoft,
-        "--teal": theme.teal,
-        "--teal-soft": theme.tealSoft,
-        "--green": theme.green,
-        "--green-soft": theme.greenSoft,
-        "--amber": theme.amber,
-        "--amber-soft": theme.amberSoft,
-        "--red": theme.red,
-        "--red-soft": theme.redSoft,
-        "--violet": theme.violet,
-        "--violet-soft": theme.violetSoft,
-        "--overlay-color": theme.overlay,
-        "--shadow-color": theme.shadow,
+        ...themeVars,
+        ...layoutVars,
         background: TOKENS.bg2,
         color: TOKENS.ink0,
       }}
     >
       <div
         className={cx(
-          "relative mx-auto grid h-auto min-h-[88vh] max-w-[1680px] overflow-hidden rounded-[28px] border lg:h-[88vh]",
+          "relative mx-auto grid h-auto min-h-[var(--shell-min-h)] max-w-[var(--shell-max-w)] overflow-hidden rounded-[var(--shell-radius)] border lg:h-[var(--shell-min-h)]",
           "grid-cols-1 grid-rows-[auto_auto_auto_minmax(0,1fr)_auto_auto]",
-          sidebarOpen
-            ? inspectorOpen
-              ? "lg:grid-rows-[56px_minmax(0,1fr)_40px] lg:[grid-template-columns:72px_minmax(220px,248px)_minmax(0,1fr)_minmax(280px,336px)]"
-              : "lg:grid-rows-[56px_minmax(0,1fr)_40px] lg:[grid-template-columns:72px_minmax(220px,248px)_minmax(0,1fr)]"
-            : inspectorOpen
-              ? "lg:grid-rows-[56px_minmax(0,1fr)_40px] lg:[grid-template-columns:minmax(0,1fr)_minmax(280px,336px)]"
-              : "lg:grid-rows-[56px_minmax(0,1fr)_40px] lg:[grid-template-columns:minmax(0,1fr)]"
+          SHELL_GRID_ROW_CLASS,
+          resolveShellColumnClass(sidebarOpen, inspectorOpen)
         )}
         style={{ background: TOKENS.bg0, borderColor: TOKENS.line, boxShadow: `0 24px 80px ${TOKENS.shadow}` }}
       >
@@ -1373,8 +1251,8 @@ export default function RainmakerConsoleUIPrototype() {
         />
 
         <header
-          className="grid grid-cols-1 gap-3 border-b px-3 py-3 sm:px-4 lg:grid-cols-[220px_minmax(0,1fr)_minmax(300px,auto)] lg:items-center lg:py-0"
-          style={{ gridColumn: "1 / -1", borderColor: TOKENS.line, background: TOKENS.bg0 }}
+          className="grid grid-cols-1 gap-3 border-b px-3 py-3 sm:px-4 lg:grid-cols-[var(--brand-w)_minmax(0,1fr)_minmax(var(--toolbar-min),auto)] lg:items-center lg:py-0"
+          style={{ gridColumn: "1 / -1", borderColor: TOKENS.line, background: TOKENS.bg0, minHeight: "var(--header-h)" }}
         >
           <div className="flex items-center gap-3 pl-1">
             <div className="flex h-9 w-9 items-center justify-center rounded-2xl border" style={{ borderColor: TOKENS.line, background: TOKENS.bg1 }}>
@@ -1402,7 +1280,7 @@ export default function RainmakerConsoleUIPrototype() {
             <div className="rounded-full border px-3 py-2 text-xs font-medium" style={{ borderColor: TOKENS.line, background: TOKENS.bg1 }}>cloud / primary</div>
             <div className="rounded-full border px-3 py-2 text-xs font-medium" style={{ borderColor: TOKENS.line, background: domain.soft, color: domain.tint }}>sync / live</div>
             <div className="flex items-center gap-1 rounded-full border p-1" style={{ borderColor: TOKENS.line, background: TOKENS.bg1 }}>
-              {Object.values(THEMES).map((item) => {
+              {THEME_CHOICES.map((item) => {
                 const Icon = item.icon;
                 const active = item.id === themeId;
                 return (
@@ -1540,12 +1418,12 @@ export default function RainmakerConsoleUIPrototype() {
                 <div className="text-lg font-semibold tracking-tight">{screen.inspector.title}</div>
               </div>
 
-              <div className="rounded-[24px] border p-4" style={{ borderColor: TOKENS.line, background: TOKENS.bg0 }}>
+              <div className="rounded-[var(--panel-radius)] border p-4" style={{ borderColor: TOKENS.line, background: TOKENS.bg0 }}>
                 <div className="mb-1 text-sm font-medium" style={{ color: TOKENS.ink1 }}>{screen.inspector.subtitle}</div>
                 <div className="text-xs leading-6" style={{ color: TOKENS.ink3 }}>Context, relations, cost and action live here.</div>
               </div>
 
-              <div className="rounded-[24px] border p-4" style={{ borderColor: TOKENS.line, background: TOKENS.bg0 }}>
+              <div className="rounded-[var(--panel-radius)] border p-4" style={{ borderColor: TOKENS.line, background: TOKENS.bg0 }}>
                 <div className="mb-4 flex items-center gap-2 text-sm font-medium" style={{ color: TOKENS.ink1 }}>
                   {domain.id === "work" ? <StorageGlyph className="h-4 w-4" /> : null}
                   {domain.id === "intelligence" ? <AgentGlyph className="h-4 w-4" /> : null}
@@ -1565,7 +1443,7 @@ export default function RainmakerConsoleUIPrototype() {
                 </div>
               </div>
 
-              <div className="rounded-[24px] border p-4" style={{ borderColor: TOKENS.line, background: domain.soft }}>
+              <div className="rounded-[var(--panel-radius)] border p-4" style={{ borderColor: TOKENS.line, background: domain.soft }}>
                 <div className="mb-2 text-[10px] uppercase tracking-[0.22em]" style={{ color: TOKENS.ink3 }}>Actions</div>
                 <div className="grid gap-2">
                   {["Inspect relations", "Open audit trail", "Compare state", "Export snapshot"].map((action) => (
@@ -1577,7 +1455,7 @@ export default function RainmakerConsoleUIPrototype() {
           </aside>
         ) : null}
 
-        <footer className="flex flex-wrap items-center gap-2 border-t px-3 py-2 lg:py-0" style={{ gridColumn: "1 / -1", borderColor: TOKENS.line, background: TOKENS.bg0 }}>
+        <footer className="flex flex-wrap items-center gap-2 border-t px-3 py-2 lg:py-0" style={{ gridColumn: "1 / -1", borderColor: TOKENS.line, background: TOKENS.bg0, minHeight: "var(--footer-h)" }}>
           <div className="mr-2 text-[10px] uppercase tracking-[0.22em]" style={{ color: TOKENS.ink3 }}>Runtime strip</div>
           <div className="flex min-w-0 flex-1 flex-wrap gap-2 overflow-x-auto pb-1 pt-1 lg:flex-nowrap">
             {RUNTIME_ITEMS.map((item) => (
@@ -1598,8 +1476,8 @@ export default function RainmakerConsoleUIPrototype() {
 
         <AnimatePresence>
           {commandOpen ? (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-50 flex items-start justify-center p-8 backdrop-blur-sm" style={{ background: TOKENS.overlay }}>
-              <motion.div initial={{ opacity: 0, y: 14, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -8, scale: 0.99 }} transition={{ duration: 0.16 }} className="mt-12 w-full max-w-[860px] overflow-hidden rounded-[28px] border" style={{ borderColor: TOKENS.line, background: TOKENS.bg0, boxShadow: `0 28px 90px ${TOKENS.shadow}` }}>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-50 flex items-start justify-center backdrop-blur-sm" style={{ padding: "var(--command-overlay-pad)", background: TOKENS.overlay }}>
+              <motion.div initial={{ opacity: 0, y: 14, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -8, scale: 0.99 }} transition={{ duration: 0.16 }} className="w-full overflow-hidden rounded-[var(--surface-radius)] border" style={{ marginTop: "var(--command-top)", maxWidth: "var(--command-max-w)", borderColor: TOKENS.line, background: TOKENS.bg0, boxShadow: `0 28px 90px ${TOKENS.shadow}` }}>
                 <div className="border-b p-4" style={{ borderColor: TOKENS.line }}>
                   <div className="flex items-center gap-3 rounded-full border px-4 py-3" style={{ borderColor: TOKENS.line, background: TOKENS.bg1 }}>
                     <SearchGlyph className="h-4 w-4" style={{ color: TOKENS.ink3 }} />
