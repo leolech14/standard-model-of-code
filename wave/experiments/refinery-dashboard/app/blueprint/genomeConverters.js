@@ -4,7 +4,7 @@ import {
   TOKEN_REFS,
   createThemeMachineGenome,
   resolveTheme,
-} from "./consoleBlueprint";
+} from "./consoleBlueprint.js";
 
 const CSS_VAR_REF_PATTERN = /^var\((--[^)]+)\)$/;
 

@@ -1,0 +1,43 @@
+{
+  "palette": {
+    "mode": "dark",
+    "background": {
+      "default": "oklch(16.0% 0.010 16.9)",
+      "paper": "oklch(19.6% 0.009 15.4)"
+    },
+    "text": {
+      "primary": "oklch(93.9% 0.019 12.4)",
+      "secondary": "oklch(66.9% 0.012 17.4)",
+      "disabled": "oklch(49.9% 0.010 18.4)"
+    },
+    "divider": "oklch(24.8% 0.012 15.4)",
+    "primary": {
+      "main": "oklch(67.0% 0.115 5.0)",
+      "light": "oklch(27.9% 0.021 5.0)"
+    },
+    "secondary": {
+      "main": "oklch(65.0% 0.113 258.0)",
+      "light": "oklch(26.9% 0.019 258.0)"
+    },
+    "success": {
+      "main": "oklch(79.0% 0.112 98.9)",
+      "light": "oklch(27.9% 0.021 98.9)"
+    },
+    "warning": {
+      "main": "oklch(82.0% 0.127 164.1)",
+      "light": "oklch(26.9% 0.019 164.1)"
+    },
+    "error": {
+      "main": "oklch(75.0% 0.129 192.8)",
+      "light": "oklch(27.9% 0.021 192.8)"
+    },
+    "info": {
+      "main": "oklch(73.0% 0.120 70.2)",
+      "light": "oklch(26.9% 0.019 70.2)"
+    }
+  },
+  "custom": {
+    "overlay": "rgba(5,8,12,0.577)",
+    "shadow": "rgba(0,0,0,0.257)"
+  }
+}

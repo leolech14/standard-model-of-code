@@ -1,0 +1,473 @@
+{
+  "metadata": {
+    "generatedAt": "2026-03-07T07:05:00.527Z",
+    "seed": "n/a",
+    "themeId": "paper",
+    "themeLabel": "Paper",
+    "polarity": "light",
+    "collection": "Rainmaker Console Theme Machine",
+    "mode": "Paper"
+  },
+  "genome": null,
+  "theme": {
+    "id": "paper",
+    "label": "Paper",
+    "iconKey": "paper",
+    "bg0": "oklch(98.6% 0.002 250)",
+    "bg1": "oklch(97.2% 0.003 250)",
+    "bg2": "oklch(94.8% 0.004 250)",
+    "line": "oklch(89% 0.004 250)",
+    "ink0": "oklch(18% 0.01 250)",
+    "ink1": "oklch(28% 0.008 250)",
+    "ink2": "oklch(52% 0.006 250)",
+    "ink3": "oklch(72% 0.004 250)",
+    "blue": "oklch(62% 0.16 252)",
+    "blueSoft": "oklch(96.5% 0.018 252)",
+    "teal": "oklch(70% 0.13 190)",
+    "tealSoft": "oklch(96.7% 0.018 190)",
+    "green": "oklch(74% 0.14 145)",
+    "greenSoft": "oklch(97% 0.02 145)",
+    "amber": "oklch(80% 0.14 85)",
+    "amberSoft": "oklch(97% 0.022 85)",
+    "red": "oklch(64% 0.18 25)",
+    "redSoft": "oklch(96.5% 0.02 25)",
+    "violet": "oklch(60% 0.16 305)",
+    "violetSoft": "oklch(96% 0.018 305)",
+    "overlay": "rgba(255,255,255,0.55)",
+    "shadow": "rgba(0,0,0,0.08)"
+  },
+  "outputs": {
+    "css-vars": {
+      "variables": {
+        "--bg-0": "oklch(98.6% 0.002 250)",
+        "--bg-1": "oklch(97.2% 0.003 250)",
+        "--bg-2": "oklch(94.8% 0.004 250)",
+        "--line": "oklch(89% 0.004 250)",
+        "--ink-0": "oklch(18% 0.01 250)",
+        "--ink-1": "oklch(28% 0.008 250)",
+        "--ink-2": "oklch(52% 0.006 250)",
+        "--ink-3": "oklch(72% 0.004 250)",
+        "--blue": "oklch(62% 0.16 252)",
+        "--blue-soft": "oklch(96.5% 0.018 252)",
+        "--teal": "oklch(70% 0.13 190)",
+        "--teal-soft": "oklch(96.7% 0.018 190)",
+        "--green": "oklch(74% 0.14 145)",
+        "--green-soft": "oklch(97% 0.02 145)",
+        "--amber": "oklch(80% 0.14 85)",
+        "--amber-soft": "oklch(97% 0.022 85)",
+        "--red": "oklch(64% 0.18 25)",
+        "--red-soft": "oklch(96.5% 0.02 25)",
+        "--violet": "oklch(60% 0.16 305)",
+        "--violet-soft": "oklch(96% 0.018 305)",
+        "--overlay-color": "rgba(255,255,255,0.55)",
+        "--shadow-color": "rgba(0,0,0,0.08)"
+      },
+      "cssText": ":root {\n  --bg-0: oklch(98.6% 0.002 250);\n  --bg-1: oklch(97.2% 0.003 250);\n  --bg-2: oklch(94.8% 0.004 250);\n  --line: oklch(89% 0.004 250);\n  --ink-0: oklch(18% 0.01 250);\n  --ink-1: oklch(28% 0.008 250);\n  --ink-2: oklch(52% 0.006 250);\n  --ink-3: oklch(72% 0.004 250);\n  --blue: oklch(62% 0.16 252);\n  --blue-soft: oklch(96.5% 0.018 252);\n  --teal: oklch(70% 0.13 190);\n  --teal-soft: oklch(96.7% 0.018 190);\n  --green: oklch(74% 0.14 145);\n  --green-soft: oklch(97% 0.02 145);\n  --amber: oklch(80% 0.14 85);\n  --amber-soft: oklch(97% 0.022 85);\n  --red: oklch(64% 0.18 25);\n  --red-soft: oklch(96.5% 0.02 25);\n  --violet: oklch(60% 0.16 305);\n  --violet-soft: oklch(96% 0.018 305);\n  --overlay-color: rgba(255,255,255,0.55);\n  --shadow-color: rgba(0,0,0,0.08);\n}"
+    },
+    "figma-variables": {
+      "collection": "Rainmaker Console Theme Machine",
+      "mode": "Paper",
+      "variables": [
+        {
+          "name": "background/base",
+          "resolvedType": "COLOR",
+          "value": "oklch(98.6% 0.002 250)",
+          "codeSyntax": {
+            "WEB": "var(--bg-0)"
+          }
+        },
+        {
+          "name": "background/surface",
+          "resolvedType": "COLOR",
+          "value": "oklch(97.2% 0.003 250)",
+          "codeSyntax": {
+            "WEB": "var(--bg-1)"
+          }
+        },
+        {
+          "name": "background/elevated",
+          "resolvedType": "COLOR",
+          "value": "oklch(94.8% 0.004 250)",
+          "codeSyntax": {
+            "WEB": "var(--bg-2)"
+          }
+        },
+        {
+          "name": "stroke/default",
+          "resolvedType": "COLOR",
+          "value": "oklch(89% 0.004 250)",
+          "codeSyntax": {
+            "WEB": "var(--line)"
+          }
+        },
+        {
+          "name": "text/primary",
+          "resolvedType": "COLOR",
+          "value": "oklch(18% 0.01 250)",
+          "codeSyntax": {
+            "WEB": "var(--ink-0)"
+          }
+        },
+        {
+          "name": "text/strong",
+          "resolvedType": "COLOR",
+          "value": "oklch(28% 0.008 250)",
+          "codeSyntax": {
+            "WEB": "var(--ink-1)"
+          }
+        },
+        {
+          "name": "text/muted",
+          "resolvedType": "COLOR",
+          "value": "oklch(52% 0.006 250)",
+          "codeSyntax": {
+            "WEB": "var(--ink-2)"
+          }
+        },
+        {
+          "name": "text/subtle",
+          "resolvedType": "COLOR",
+          "value": "oklch(72% 0.004 250)",
+          "codeSyntax": {
+            "WEB": "var(--ink-3)"
+          }
+        },
+        {
+          "name": "accent/blue/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(62% 0.16 252)",
+          "codeSyntax": {
+            "WEB": "var(--blue)"
+          }
+        },
+        {
+          "name": "accent/blue/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(96.5% 0.018 252)",
+          "codeSyntax": {
+            "WEB": "var(--blue-soft)"
+          }
+        },
+        {
+          "name": "accent/teal/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(70% 0.13 190)",
+          "codeSyntax": {
+            "WEB": "var(--teal)"
+          }
+        },
+        {
+          "name": "accent/teal/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(96.7% 0.018 190)",
+          "codeSyntax": {
+            "WEB": "var(--teal-soft)"
+          }
+        },
+        {
+          "name": "accent/green/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(74% 0.14 145)",
+          "codeSyntax": {
+            "WEB": "var(--green)"
+          }
+        },
+        {
+          "name": "accent/green/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(97% 0.02 145)",
+          "codeSyntax": {
+            "WEB": "var(--green-soft)"
+          }
+        },
+        {
+          "name": "accent/amber/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(80% 0.14 85)",
+          "codeSyntax": {
+            "WEB": "var(--amber)"
+          }
+        },
+        {
+          "name": "accent/amber/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(97% 0.022 85)",
+          "codeSyntax": {
+            "WEB": "var(--amber-soft)"
+          }
+        },
+        {
+          "name": "accent/red/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(64% 0.18 25)",
+          "codeSyntax": {
+            "WEB": "var(--red)"
+          }
+        },
+        {
+          "name": "accent/red/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(96.5% 0.02 25)",
+          "codeSyntax": {
+            "WEB": "var(--red-soft)"
+          }
+        },
+        {
+          "name": "accent/violet/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(60% 0.16 305)",
+          "codeSyntax": {
+            "WEB": "var(--violet)"
+          }
+        },
+        {
+          "name": "accent/violet/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(96% 0.018 305)",
+          "codeSyntax": {
+            "WEB": "var(--violet-soft)"
+          }
+        },
+        {
+          "name": "effect/overlay",
+          "resolvedType": "COLOR",
+          "value": "rgba(255,255,255,0.55)",
+          "codeSyntax": {
+            "WEB": "var(--overlay-color)"
+          }
+        },
+        {
+          "name": "effect/shadow",
+          "resolvedType": "COLOR",
+          "value": "rgba(0,0,0,0.08)",
+          "codeSyntax": {
+            "WEB": "var(--shadow-color)"
+          }
+        }
+      ]
+    },
+    "design-tokens": {
+      "$schema": "https://tr.designtokens.org/format/schema.json",
+      "$description": "Theme tokens generated from genome seed n/a",
+      "color": {
+        "background": {
+          "base": {
+            "$type": "color",
+            "$value": "oklch(98.6% 0.002 250)"
+          },
+          "surface": {
+            "$type": "color",
+            "$value": "oklch(97.2% 0.003 250)"
+          },
+          "elevated": {
+            "$type": "color",
+            "$value": "oklch(94.8% 0.004 250)"
+          }
+        },
+        "stroke": {
+          "default": {
+            "$type": "color",
+            "$value": "oklch(89% 0.004 250)"
+          }
+        },
+        "text": {
+          "primary": {
+            "$type": "color",
+            "$value": "oklch(18% 0.01 250)"
+          },
+          "strong": {
+            "$type": "color",
+            "$value": "oklch(28% 0.008 250)"
+          },
+          "muted": {
+            "$type": "color",
+            "$value": "oklch(52% 0.006 250)"
+          },
+          "subtle": {
+            "$type": "color",
+            "$value": "oklch(72% 0.004 250)"
+          }
+        },
+        "accent": {
+          "blue": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(62% 0.16 252)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(96.5% 0.018 252)"
+            }
+          },
+          "teal": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(70% 0.13 190)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(96.7% 0.018 190)"
+            }
+          },
+          "green": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(74% 0.14 145)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(97% 0.02 145)"
+            }
+          },
+          "amber": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(80% 0.14 85)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(97% 0.022 85)"
+            }
+          },
+          "red": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(64% 0.18 25)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(96.5% 0.02 25)"
+            }
+          },
+          "violet": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(60% 0.16 305)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(96% 0.018 305)"
+            }
+          }
+        },
+        "effect": {
+          "overlay": {
+            "$type": "color",
+            "$value": "rgba(255,255,255,0.55)"
+          },
+          "shadow": {
+            "$type": "color",
+            "$value": "rgba(0,0,0,0.08)"
+          }
+        }
+      }
+    },
+    "tailwind": {
+      "theme": {
+        "extend": {
+          "colors": {
+            "rm-bg0": "oklch(98.6% 0.002 250)",
+            "rm-bg1": "oklch(97.2% 0.003 250)",
+            "rm-bg2": "oklch(94.8% 0.004 250)",
+            "rm-line": "oklch(89% 0.004 250)",
+            "rm-ink0": "oklch(18% 0.01 250)",
+            "rm-ink1": "oklch(28% 0.008 250)",
+            "rm-ink2": "oklch(52% 0.006 250)",
+            "rm-ink3": "oklch(72% 0.004 250)",
+            "rm-blue": "oklch(62% 0.16 252)",
+            "rm-blueSoft": "oklch(96.5% 0.018 252)",
+            "rm-teal": "oklch(70% 0.13 190)",
+            "rm-tealSoft": "oklch(96.7% 0.018 190)",
+            "rm-green": "oklch(74% 0.14 145)",
+            "rm-greenSoft": "oklch(97% 0.02 145)",
+            "rm-amber": "oklch(80% 0.14 85)",
+            "rm-amberSoft": "oklch(97% 0.022 85)",
+            "rm-red": "oklch(64% 0.18 25)",
+            "rm-redSoft": "oklch(96.5% 0.02 25)",
+            "rm-violet": "oklch(60% 0.16 305)",
+            "rm-violetSoft": "oklch(96% 0.018 305)",
+            "rm-overlay": "rgba(255,255,255,0.55)",
+            "rm-shadow": "rgba(0,0,0,0.08)"
+          },
+          "boxShadow": {
+            "rm-shell": "0 24px 80px rgba(0,0,0,0.08)"
+          }
+        }
+      }
+    },
+    "mui": {
+      "palette": {
+        "mode": "light",
+        "background": {
+          "default": "oklch(94.8% 0.004 250)",
+          "paper": "oklch(98.6% 0.002 250)"
+        },
+        "text": {
+          "primary": "oklch(18% 0.01 250)",
+          "secondary": "oklch(52% 0.006 250)",
+          "disabled": "oklch(72% 0.004 250)"
+        },
+        "divider": "oklch(89% 0.004 250)",
+        "primary": {
+          "main": "oklch(62% 0.16 252)",
+          "light": "oklch(96.5% 0.018 252)"
+        },
+        "secondary": {
+          "main": "oklch(60% 0.16 305)",
+          "light": "oklch(96% 0.018 305)"
+        },
+        "success": {
+          "main": "oklch(74% 0.14 145)",
+          "light": "oklch(97% 0.02 145)"
+        },
+        "warning": {
+          "main": "oklch(80% 0.14 85)",
+          "light": "oklch(97% 0.022 85)"
+        },
+        "error": {
+          "main": "oklch(64% 0.18 25)",
+          "light": "oklch(96.5% 0.02 25)"
+        },
+        "info": {
+          "main": "oklch(70% 0.13 190)",
+          "light": "oklch(96.7% 0.018 190)"
+        }
+      },
+      "custom": {
+        "overlay": "rgba(255,255,255,0.55)",
+        "shadow": "rgba(0,0,0,0.08)"
+      }
+    },
+    "chakra": {
+      "semanticTokens": {
+        "colors": {
+          "background/base": "oklch(98.6% 0.002 250)",
+          "background/surface": "oklch(97.2% 0.003 250)",
+          "background/elevated": "oklch(94.8% 0.004 250)",
+          "stroke/default": "oklch(89% 0.004 250)",
+          "text/primary": "oklch(18% 0.01 250)",
+          "text/strong": "oklch(28% 0.008 250)",
+          "text/muted": "oklch(52% 0.006 250)",
+          "text/subtle": "oklch(72% 0.004 250)",
+          "accent/blue/main": "oklch(62% 0.16 252)",
+          "accent/blue/soft": "oklch(96.5% 0.018 252)",
+          "accent/teal/main": "oklch(70% 0.13 190)",
+          "accent/teal/soft": "oklch(96.7% 0.018 190)",
+          "accent/green/main": "oklch(74% 0.14 145)",
+          "accent/green/soft": "oklch(97% 0.02 145)",
+          "accent/amber/main": "oklch(80% 0.14 85)",
+          "accent/amber/soft": "oklch(97% 0.022 85)",
+          "accent/red/main": "oklch(64% 0.18 25)",
+          "accent/red/soft": "oklch(96.5% 0.02 25)",
+          "accent/violet/main": "oklch(60% 0.16 305)",
+          "accent/violet/soft": "oklch(96% 0.018 305)",
+          "effect/overlay": "rgba(255,255,255,0.55)",
+          "effect/shadow": "rgba(0,0,0,0.08)"
+        }
+      },
+      "shadows": {
+        "shell": "0 24px 80px rgba(0,0,0,0.08)"
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "generatedAt": "2026-03-07T07:05:00.543Z",
+  "targets": [
+    "css-vars",
+    "figma-variables",
+    "design-tokens",
+    "tailwind",
+    "mui",
+    "chakra"
+  ],
+  "sets": [
+    {
+      "id": "paper",
+      "themeId": "paper",
+      "seed": null,
+      "mode": "Paper",
+      "outputDir": "assets/theme-source-snapshots/paper"
+    },
+    {
+      "id": "midnight",
+      "themeId": "midnight",
+      "seed": null,
+      "mode": "Midnight",
+      "outputDir": "assets/theme-source-snapshots/midnight"
+    },
+    {
+      "id": "vellum",
+      "themeId": "vellum",
+      "seed": null,
+      "mode": "Vellum",
+      "outputDir": "assets/theme-source-snapshots/vellum"
+    },
+    {
+      "id": "machine-alpha",
+      "themeId": "machine",
+      "seed": "rainmaker-machine-alpha",
+      "mode": "Machine Alpha",
+      "outputDir": "assets/theme-source-snapshots/machine-alpha"
+    },
+    {
+      "id": "machine-beta",
+      "themeId": "machine",
+      "seed": "rainmaker-machine-beta",
+      "mode": "Machine Beta",
+      "outputDir": "assets/theme-source-snapshots/machine-beta"
+    },
+    {
+      "id": "machine-gamma",
+      "themeId": "machine",
+      "seed": "rainmaker-machine-gamma",
+      "mode": "Machine Gamma",
+      "outputDir": "assets/theme-source-snapshots/machine-gamma"
+    }
+  ]
+}

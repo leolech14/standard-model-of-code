@@ -1,0 +1,31 @@
+{
+  "semanticTokens": {
+    "colors": {
+      "background/base": "oklch(97.5% 0.01 80)",
+      "background/surface": "oklch(95.8% 0.012 80)",
+      "background/elevated": "oklch(92.8% 0.014 80)",
+      "stroke/default": "oklch(86% 0.01 80)",
+      "text/primary": "oklch(22% 0.012 55)",
+      "text/strong": "oklch(34% 0.01 55)",
+      "text/muted": "oklch(52% 0.008 55)",
+      "text/subtle": "oklch(70% 0.006 55)",
+      "accent/blue/main": "oklch(60% 0.14 252)",
+      "accent/blue/soft": "oklch(93.8% 0.02 252)",
+      "accent/teal/main": "oklch(66% 0.11 190)",
+      "accent/teal/soft": "oklch(94.2% 0.02 190)",
+      "accent/green/main": "oklch(71% 0.11 145)",
+      "accent/green/soft": "oklch(94.8% 0.02 145)",
+      "accent/amber/main": "oklch(78% 0.11 85)",
+      "accent/amber/soft": "oklch(95.4% 0.02 85)",
+      "accent/red/main": "oklch(62% 0.15 25)",
+      "accent/red/soft": "oklch(94.5% 0.02 25)",
+      "accent/violet/main": "oklch(58% 0.13 305)",
+      "accent/violet/soft": "oklch(94.0% 0.02 305)",
+      "effect/overlay": "rgba(247,240,228,0.58)",
+      "effect/shadow": "rgba(72,52,26,0.10)"
+    }
+  },
+  "shadows": {
+    "shell": "0 24px 80px rgba(72,52,26,0.10)"
+  }
+}

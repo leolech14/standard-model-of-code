@@ -1,0 +1,24 @@
+:root {
+  --bg-0: oklch(97.5% 0.01 80);
+  --bg-1: oklch(95.8% 0.012 80);
+  --bg-2: oklch(92.8% 0.014 80);
+  --line: oklch(86% 0.01 80);
+  --ink-0: oklch(22% 0.012 55);
+  --ink-1: oklch(34% 0.01 55);
+  --ink-2: oklch(52% 0.008 55);
+  --ink-3: oklch(70% 0.006 55);
+  --blue: oklch(60% 0.14 252);
+  --blue-soft: oklch(93.8% 0.02 252);
+  --teal: oklch(66% 0.11 190);
+  --teal-soft: oklch(94.2% 0.02 190);
+  --green: oklch(71% 0.11 145);
+  --green-soft: oklch(94.8% 0.02 145);
+  --amber: oklch(78% 0.11 85);
+  --amber-soft: oklch(95.4% 0.02 85);
+  --red: oklch(62% 0.15 25);
+  --red-soft: oklch(94.5% 0.02 25);
+  --violet: oklch(58% 0.13 305);
+  --violet-soft: oklch(94.0% 0.02 305);
+  --overlay-color: rgba(247,240,228,0.58);
+  --shadow-color: rgba(72,52,26,0.10);
+}

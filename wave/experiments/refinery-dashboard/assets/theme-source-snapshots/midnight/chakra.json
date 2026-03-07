@@ -1,0 +1,31 @@
+{
+  "semanticTokens": {
+    "colors": {
+      "background/base": "oklch(21% 0.012 255)",
+      "background/surface": "oklch(25% 0.012 255)",
+      "background/elevated": "oklch(17% 0.01 255)",
+      "stroke/default": "oklch(34% 0.01 255)",
+      "text/primary": "oklch(95% 0.004 255)",
+      "text/strong": "oklch(88% 0.005 255)",
+      "text/muted": "oklch(71% 0.006 255)",
+      "text/subtle": "oklch(56% 0.006 255)",
+      "accent/blue/main": "oklch(74% 0.13 252)",
+      "accent/blue/soft": "oklch(28% 0.03 252)",
+      "accent/teal/main": "oklch(80% 0.11 190)",
+      "accent/teal/soft": "oklch(30% 0.03 190)",
+      "accent/green/main": "oklch(82% 0.12 145)",
+      "accent/green/soft": "oklch(30% 0.03 145)",
+      "accent/amber/main": "oklch(86% 0.12 85)",
+      "accent/amber/soft": "oklch(31% 0.03 85)",
+      "accent/red/main": "oklch(76% 0.14 25)",
+      "accent/red/soft": "oklch(29% 0.03 25)",
+      "accent/violet/main": "oklch(78% 0.12 305)",
+      "accent/violet/soft": "oklch(29% 0.03 305)",
+      "effect/overlay": "rgba(8,10,14,0.55)",
+      "effect/shadow": "rgba(0,0,0,0.28)"
+    }
+  },
+  "shadows": {
+    "shell": "0 24px 80px rgba(0,0,0,0.28)"
+  }
+}

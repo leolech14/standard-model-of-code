@@ -1,0 +1,182 @@
+{
+  "collection": "Rainmaker Console Theme Machine",
+  "mode": "Paper",
+  "variables": [
+    {
+      "name": "background/base",
+      "resolvedType": "COLOR",
+      "value": "oklch(98.6% 0.002 250)",
+      "codeSyntax": {
+        "WEB": "var(--bg-0)"
+      }
+    },
+    {
+      "name": "background/surface",
+      "resolvedType": "COLOR",
+      "value": "oklch(97.2% 0.003 250)",
+      "codeSyntax": {
+        "WEB": "var(--bg-1)"
+      }
+    },
+    {
+      "name": "background/elevated",
+      "resolvedType": "COLOR",
+      "value": "oklch(94.8% 0.004 250)",
+      "codeSyntax": {
+        "WEB": "var(--bg-2)"
+      }
+    },
+    {
+      "name": "stroke/default",
+      "resolvedType": "COLOR",
+      "value": "oklch(89% 0.004 250)",
+      "codeSyntax": {
+        "WEB": "var(--line)"
+      }
+    },
+    {
+      "name": "text/primary",
+      "resolvedType": "COLOR",
+      "value": "oklch(18% 0.01 250)",
+      "codeSyntax": {
+        "WEB": "var(--ink-0)"
+      }
+    },
+    {
+      "name": "text/strong",
+      "resolvedType": "COLOR",
+      "value": "oklch(28% 0.008 250)",
+      "codeSyntax": {
+        "WEB": "var(--ink-1)"
+      }
+    },
+    {
+      "name": "text/muted",
+      "resolvedType": "COLOR",
+      "value": "oklch(52% 0.006 250)",
+      "codeSyntax": {
+        "WEB": "var(--ink-2)"
+      }
+    },
+    {
+      "name": "text/subtle",
+      "resolvedType": "COLOR",
+      "value": "oklch(72% 0.004 250)",
+      "codeSyntax": {
+        "WEB": "var(--ink-3)"
+      }
+    },
+    {
+      "name": "accent/blue/main",
+      "resolvedType": "COLOR",
+      "value": "oklch(62% 0.16 252)",
+      "codeSyntax": {
+        "WEB": "var(--blue)"
+      }
+    },
+    {
+      "name": "accent/blue/soft",
+      "resolvedType": "COLOR",
+      "value": "oklch(96.5% 0.018 252)",
+      "codeSyntax": {
+        "WEB": "var(--blue-soft)"
+      }
+    },
+    {
+      "name": "accent/teal/main",
+      "resolvedType": "COLOR",
+      "value": "oklch(70% 0.13 190)",
+      "codeSyntax": {
+        "WEB": "var(--teal)"
+      }
+    },
+    {
+      "name": "accent/teal/soft",
+      "resolvedType": "COLOR",
+      "value": "oklch(96.7% 0.018 190)",
+      "codeSyntax": {
+        "WEB": "var(--teal-soft)"
+      }
+    },
+    {
+      "name": "accent/green/main",
+      "resolvedType": "COLOR",
+      "value": "oklch(74% 0.14 145)",
+      "codeSyntax": {
+        "WEB": "var(--green)"
+      }
+    },
+    {
+      "name": "accent/green/soft",
+      "resolvedType": "COLOR",
+      "value": "oklch(97% 0.02 145)",
+      "codeSyntax": {
+        "WEB": "var(--green-soft)"
+      }
+    },
+    {
+      "name": "accent/amber/main",
+      "resolvedType": "COLOR",
+      "value": "oklch(80% 0.14 85)",
+      "codeSyntax": {
+        "WEB": "var(--amber)"
+      }
+    },
+    {
+      "name": "accent/amber/soft",
+      "resolvedType": "COLOR",
+      "value": "oklch(97% 0.022 85)",
+      "codeSyntax": {
+        "WEB": "var(--amber-soft)"
+      }
+    },
+    {
+      "name": "accent/red/main",
+      "resolvedType": "COLOR",
+      "value": "oklch(64% 0.18 25)",
+      "codeSyntax": {
+        "WEB": "var(--red)"
+      }
+    },
+    {
+      "name": "accent/red/soft",
+      "resolvedType": "COLOR",
+      "value": "oklch(96.5% 0.02 25)",
+      "codeSyntax": {
+        "WEB": "var(--red-soft)"
+      }
+    },
+    {
+      "name": "accent/violet/main",
+      "resolvedType": "COLOR",
+      "value": "oklch(60% 0.16 305)",
+      "codeSyntax": {
+        "WEB": "var(--violet)"
+      }
+    },
+    {
+      "name": "accent/violet/soft",
+      "resolvedType": "COLOR",
+      "value": "oklch(96% 0.018 305)",
+      "codeSyntax": {
+        "WEB": "var(--violet-soft)"
+      }
+    },
+    {
+      "name": "effect/overlay",
+      "resolvedType": "COLOR",
+      "value": "rgba(255,255,255,0.55)",
+      "codeSyntax": {
+        "WEB": "var(--overlay-color)"
+      }
+    },
+    {
+      "name": "effect/shadow",
+      "resolvedType": "COLOR",
+      "value": "rgba(0,0,0,0.08)",
+      "codeSyntax": {
+        "WEB": "var(--shadow-color)"
+      }
+    }
+  ]
+}

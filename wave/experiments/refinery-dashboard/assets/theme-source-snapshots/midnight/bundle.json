@@ -1,0 +1,473 @@
+{
+  "metadata": {
+    "generatedAt": "2026-03-07T07:05:00.532Z",
+    "seed": "n/a",
+    "themeId": "midnight",
+    "themeLabel": "Midnight",
+    "polarity": "dark",
+    "collection": "Rainmaker Console Theme Machine",
+    "mode": "Midnight"
+  },
+  "genome": null,
+  "theme": {
+    "id": "midnight",
+    "label": "Midnight",
+    "iconKey": "midnight",
+    "bg0": "oklch(21% 0.012 255)",
+    "bg1": "oklch(25% 0.012 255)",
+    "bg2": "oklch(17% 0.01 255)",
+    "line": "oklch(34% 0.01 255)",
+    "ink0": "oklch(95% 0.004 255)",
+    "ink1": "oklch(88% 0.005 255)",
+    "ink2": "oklch(71% 0.006 255)",
+    "ink3": "oklch(56% 0.006 255)",
+    "blue": "oklch(74% 0.13 252)",
+    "blueSoft": "oklch(28% 0.03 252)",
+    "teal": "oklch(80% 0.11 190)",
+    "tealSoft": "oklch(30% 0.03 190)",
+    "green": "oklch(82% 0.12 145)",
+    "greenSoft": "oklch(30% 0.03 145)",
+    "amber": "oklch(86% 0.12 85)",
+    "amberSoft": "oklch(31% 0.03 85)",
+    "red": "oklch(76% 0.14 25)",
+    "redSoft": "oklch(29% 0.03 25)",
+    "violet": "oklch(78% 0.12 305)",
+    "violetSoft": "oklch(29% 0.03 305)",
+    "overlay": "rgba(8,10,14,0.55)",
+    "shadow": "rgba(0,0,0,0.28)"
+  },
+  "outputs": {
+    "css-vars": {
+      "variables": {
+        "--bg-0": "oklch(21% 0.012 255)",
+        "--bg-1": "oklch(25% 0.012 255)",
+        "--bg-2": "oklch(17% 0.01 255)",
+        "--line": "oklch(34% 0.01 255)",
+        "--ink-0": "oklch(95% 0.004 255)",
+        "--ink-1": "oklch(88% 0.005 255)",
+        "--ink-2": "oklch(71% 0.006 255)",
+        "--ink-3": "oklch(56% 0.006 255)",
+        "--blue": "oklch(74% 0.13 252)",
+        "--blue-soft": "oklch(28% 0.03 252)",
+        "--teal": "oklch(80% 0.11 190)",
+        "--teal-soft": "oklch(30% 0.03 190)",
+        "--green": "oklch(82% 0.12 145)",
+        "--green-soft": "oklch(30% 0.03 145)",
+        "--amber": "oklch(86% 0.12 85)",
+        "--amber-soft": "oklch(31% 0.03 85)",
+        "--red": "oklch(76% 0.14 25)",
+        "--red-soft": "oklch(29% 0.03 25)",
+        "--violet": "oklch(78% 0.12 305)",
+        "--violet-soft": "oklch(29% 0.03 305)",
+        "--overlay-color": "rgba(8,10,14,0.55)",
+        "--shadow-color": "rgba(0,0,0,0.28)"
+      },
+      "cssText": ":root {\n  --bg-0: oklch(21% 0.012 255);\n  --bg-1: oklch(25% 0.012 255);\n  --bg-2: oklch(17% 0.01 255);\n  --line: oklch(34% 0.01 255);\n  --ink-0: oklch(95% 0.004 255);\n  --ink-1: oklch(88% 0.005 255);\n  --ink-2: oklch(71% 0.006 255);\n  --ink-3: oklch(56% 0.006 255);\n  --blue: oklch(74% 0.13 252);\n  --blue-soft: oklch(28% 0.03 252);\n  --teal: oklch(80% 0.11 190);\n  --teal-soft: oklch(30% 0.03 190);\n  --green: oklch(82% 0.12 145);\n  --green-soft: oklch(30% 0.03 145);\n  --amber: oklch(86% 0.12 85);\n  --amber-soft: oklch(31% 0.03 85);\n  --red: oklch(76% 0.14 25);\n  --red-soft: oklch(29% 0.03 25);\n  --violet: oklch(78% 0.12 305);\n  --violet-soft: oklch(29% 0.03 305);\n  --overlay-color: rgba(8,10,14,0.55);\n  --shadow-color: rgba(0,0,0,0.28);\n}"
+    },
+    "figma-variables": {
+      "collection": "Rainmaker Console Theme Machine",
+      "mode": "Midnight",
+      "variables": [
+        {
+          "name": "background/base",
+          "resolvedType": "COLOR",
+          "value": "oklch(21% 0.012 255)",
+          "codeSyntax": {
+            "WEB": "var(--bg-0)"
+          }
+        },
+        {
+          "name": "background/surface",
+          "resolvedType": "COLOR",
+          "value": "oklch(25% 0.012 255)",
+          "codeSyntax": {
+            "WEB": "var(--bg-1)"
+          }
+        },
+        {
+          "name": "background/elevated",
+          "resolvedType": "COLOR",
+          "value": "oklch(17% 0.01 255)",
+          "codeSyntax": {
+            "WEB": "var(--bg-2)"
+          }
+        },
+        {
+          "name": "stroke/default",
+          "resolvedType": "COLOR",
+          "value": "oklch(34% 0.01 255)",
+          "codeSyntax": {
+            "WEB": "var(--line)"
+          }
+        },
+        {
+          "name": "text/primary",
+          "resolvedType": "COLOR",
+          "value": "oklch(95% 0.004 255)",
+          "codeSyntax": {
+            "WEB": "var(--ink-0)"
+          }
+        },
+        {
+          "name": "text/strong",
+          "resolvedType": "COLOR",
+          "value": "oklch(88% 0.005 255)",
+          "codeSyntax": {
+            "WEB": "var(--ink-1)"
+          }
+        },
+        {
+          "name": "text/muted",
+          "resolvedType": "COLOR",
+          "value": "oklch(71% 0.006 255)",
+          "codeSyntax": {
+            "WEB": "var(--ink-2)"
+          }
+        },
+        {
+          "name": "text/subtle",
+          "resolvedType": "COLOR",
+          "value": "oklch(56% 0.006 255)",
+          "codeSyntax": {
+            "WEB": "var(--ink-3)"
+          }
+        },
+        {
+          "name": "accent/blue/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(74% 0.13 252)",
+          "codeSyntax": {
+            "WEB": "var(--blue)"
+          }
+        },
+        {
+          "name": "accent/blue/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(28% 0.03 252)",
+          "codeSyntax": {
+            "WEB": "var(--blue-soft)"
+          }
+        },
+        {
+          "name": "accent/teal/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(80% 0.11 190)",
+          "codeSyntax": {
+            "WEB": "var(--teal)"
+          }
+        },
+        {
+          "name": "accent/teal/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(30% 0.03 190)",
+          "codeSyntax": {
+            "WEB": "var(--teal-soft)"
+          }
+        },
+        {
+          "name": "accent/green/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(82% 0.12 145)",
+          "codeSyntax": {
+            "WEB": "var(--green)"
+          }
+        },
+        {
+          "name": "accent/green/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(30% 0.03 145)",
+          "codeSyntax": {
+            "WEB": "var(--green-soft)"
+          }
+        },
+        {
+          "name": "accent/amber/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(86% 0.12 85)",
+          "codeSyntax": {
+            "WEB": "var(--amber)"
+          }
+        },
+        {
+          "name": "accent/amber/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(31% 0.03 85)",
+          "codeSyntax": {
+            "WEB": "var(--amber-soft)"
+          }
+        },
+        {
+          "name": "accent/red/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(76% 0.14 25)",
+          "codeSyntax": {
+            "WEB": "var(--red)"
+          }
+        },
+        {
+          "name": "accent/red/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(29% 0.03 25)",
+          "codeSyntax": {
+            "WEB": "var(--red-soft)"
+          }
+        },
+        {
+          "name": "accent/violet/main",
+          "resolvedType": "COLOR",
+          "value": "oklch(78% 0.12 305)",
+          "codeSyntax": {
+            "WEB": "var(--violet)"
+          }
+        },
+        {
+          "name": "accent/violet/soft",
+          "resolvedType": "COLOR",
+          "value": "oklch(29% 0.03 305)",
+          "codeSyntax": {
+            "WEB": "var(--violet-soft)"
+          }
+        },
+        {
+          "name": "effect/overlay",
+          "resolvedType": "COLOR",
+          "value": "rgba(8,10,14,0.55)",
+          "codeSyntax": {
+            "WEB": "var(--overlay-color)"
+          }
+        },
+        {
+          "name": "effect/shadow",
+          "resolvedType": "COLOR",
+          "value": "rgba(0,0,0,0.28)",
+          "codeSyntax": {
+            "WEB": "var(--shadow-color)"
+          }
+        }
+      ]
+    },
+    "design-tokens": {
+      "$schema": "https://tr.designtokens.org/format/schema.json",
+      "$description": "Theme tokens generated from genome seed n/a",
+      "color": {
+        "background": {
+          "base": {
+            "$type": "color",
+            "$value": "oklch(21% 0.012 255)"
+          },
+          "surface": {
+            "$type": "color",
+            "$value": "oklch(25% 0.012 255)"
+          },
+          "elevated": {
+            "$type": "color",
+            "$value": "oklch(17% 0.01 255)"
+          }
+        },
+        "stroke": {
+          "default": {
+            "$type": "color",
+            "$value": "oklch(34% 0.01 255)"
+          }
+        },
+        "text": {
+          "primary": {
+            "$type": "color",
+            "$value": "oklch(95% 0.004 255)"
+          },
+          "strong": {
+            "$type": "color",
+            "$value": "oklch(88% 0.005 255)"
+          },
+          "muted": {
+            "$type": "color",
+            "$value": "oklch(71% 0.006 255)"
+          },
+          "subtle": {
+            "$type": "color",
+            "$value": "oklch(56% 0.006 255)"
+          }
+        },
+        "accent": {
+          "blue": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(74% 0.13 252)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(28% 0.03 252)"
+            }
+          },
+          "teal": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(80% 0.11 190)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(30% 0.03 190)"
+            }
+          },
+          "green": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(82% 0.12 145)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(30% 0.03 145)"
+            }
+          },
+          "amber": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(86% 0.12 85)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(31% 0.03 85)"
+            }
+          },
+          "red": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(76% 0.14 25)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(29% 0.03 25)"
+            }
+          },
+          "violet": {
+            "main": {
+              "$type": "color",
+              "$value": "oklch(78% 0.12 305)"
+            },
+            "soft": {
+              "$type": "color",
+              "$value": "oklch(29% 0.03 305)"
+            }
+          }
+        },
+        "effect": {
+          "overlay": {
+            "$type": "color",
+            "$value": "rgba(8,10,14,0.55)"
+          },
+          "shadow": {
+            "$type": "color",
+            "$value": "rgba(0,0,0,0.28)"
+          }
+        }
+      }
+    },
+    "tailwind": {
+      "theme": {
+        "extend": {
+          "colors": {
+            "rm-bg0": "oklch(21% 0.012 255)",
+            "rm-bg1": "oklch(25% 0.012 255)",
+            "rm-bg2": "oklch(17% 0.01 255)",
+            "rm-line": "oklch(34% 0.01 255)",
+            "rm-ink0": "oklch(95% 0.004 255)",
+            "rm-ink1": "oklch(88% 0.005 255)",
+            "rm-ink2": "oklch(71% 0.006 255)",
+            "rm-ink3": "oklch(56% 0.006 255)",
+            "rm-blue": "oklch(74% 0.13 252)",
+            "rm-blueSoft": "oklch(28% 0.03 252)",
+            "rm-teal": "oklch(80% 0.11 190)",
+            "rm-tealSoft": "oklch(30% 0.03 190)",
+            "rm-green": "oklch(82% 0.12 145)",
+            "rm-greenSoft": "oklch(30% 0.03 145)",
+            "rm-amber": "oklch(86% 0.12 85)",
+            "rm-amberSoft": "oklch(31% 0.03 85)",
+            "rm-red": "oklch(76% 0.14 25)",
+            "rm-redSoft": "oklch(29% 0.03 25)",
+            "rm-violet": "oklch(78% 0.12 305)",
+            "rm-violetSoft": "oklch(29% 0.03 305)",
+            "rm-overlay": "rgba(8,10,14,0.55)",
+            "rm-shadow": "rgba(0,0,0,0.28)"
+          },
+          "boxShadow": {
+            "rm-shell": "0 24px 80px rgba(0,0,0,0.28)"
+          }
+        }
+      }
+    },
+    "mui": {
+      "palette": {
+        "mode": "dark",
+        "background": {
+          "default": "oklch(17% 0.01 255)",
+          "paper": "oklch(21% 0.012 255)"
+        },
+        "text": {
+          "primary": "oklch(95% 0.004 255)",
+          "secondary": "oklch(71% 0.006 255)",
+          "disabled": "oklch(56% 0.006 255)"
+        },
+        "divider": "oklch(34% 0.01 255)",
+        "primary": {
+          "main": "oklch(74% 0.13 252)",
+          "light": "oklch(28% 0.03 252)"
+        },
+        "secondary": {
+          "main": "oklch(78% 0.12 305)",
+          "light": "oklch(29% 0.03 305)"
+        },
+        "success": {
+          "main": "oklch(82% 0.12 145)",
+          "light": "oklch(30% 0.03 145)"
+        },
+        "warning": {
+          "main": "oklch(86% 0.12 85)",
+          "light": "oklch(31% 0.03 85)"
+        },
+        "error": {
+          "main": "oklch(76% 0.14 25)",
+          "light": "oklch(29% 0.03 25)"
+        },
+        "info": {
+          "main": "oklch(80% 0.11 190)",
+          "light": "oklch(30% 0.03 190)"
+        }
+      },
+      "custom": {
+        "overlay": "rgba(8,10,14,0.55)",
+        "shadow": "rgba(0,0,0,0.28)"
+      }
+    },
+    "chakra": {
+      "semanticTokens": {
+        "colors": {
+          "background/base": "oklch(21% 0.012 255)",
+          "background/surface": "oklch(25% 0.012 255)",
+          "background/elevated": "oklch(17% 0.01 255)",
+          "stroke/default": "oklch(34% 0.01 255)",
+          "text/primary": "oklch(95% 0.004 255)",
+          "text/strong": "oklch(88% 0.005 255)",
+          "text/muted": "oklch(71% 0.006 255)",
+          "text/subtle": "oklch(56% 0.006 255)",
+          "accent/blue/main": "oklch(74% 0.13 252)",
+          "accent/blue/soft": "oklch(28% 0.03 252)",
+          "accent/teal/main": "oklch(80% 0.11 190)",
+          "accent/teal/soft": "oklch(30% 0.03 190)",
+          "accent/green/main": "oklch(82% 0.12 145)",
+          "accent/green/soft": "oklch(30% 0.03 145)",
+          "accent/amber/main": "oklch(86% 0.12 85)",
+          "accent/amber/soft": "oklch(31% 0.03 85)",
+          "accent/red/main": "oklch(76% 0.14 25)",
+          "accent/red/soft": "oklch(29% 0.03 25)",
+          "accent/violet/main": "oklch(78% 0.12 305)",
+          "accent/violet/soft": "oklch(29% 0.03 305)",
+          "effect/overlay": "rgba(8,10,14,0.55)",
+          "effect/shadow": "rgba(0,0,0,0.28)"
+        }
+      },
+      "shadows": {
+        "shell": "0 24px 80px rgba(0,0,0,0.28)"
+      }
+    }
+  }
+}

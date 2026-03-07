@@ -1,0 +1,33 @@
+{
+  "theme": {
+    "extend": {
+      "colors": {
+        "rm-bg0": "oklch(26.6% 0.017 26.3)",
+        "rm-bg1": "oklch(30.1% 0.018 30.6)",
+        "rm-bg2": "oklch(23.4% 0.019 21.3)",
+        "rm-line": "oklch(31.2% 0.023 26.3)",
+        "rm-ink0": "oklch(94.1% 0.037 23.3)",
+        "rm-ink1": "oklch(85.1% 0.030 24.3)",
+        "rm-ink2": "oklch(67.1% 0.024 28.3)",
+        "rm-ink3": "oklch(50.1% 0.020 29.3)",
+        "rm-blue": "oklch(70.5% 0.135 10.2)",
+        "rm-blueSoft": "oklch(37.5% 0.025 10.2)",
+        "rm-teal": "oklch(76.5% 0.140 158.6)",
+        "rm-tealSoft": "oklch(36.5% 0.022 158.6)",
+        "rm-green": "oklch(82.5% 0.131 225.3)",
+        "rm-greenSoft": "oklch(37.5% 0.025 225.3)",
+        "rm-amber": "oklch(85.5% 0.149 13.8)",
+        "rm-amberSoft": "oklch(36.5% 0.022 13.8)",
+        "rm-red": "oklch(78.5% 0.151 80.5)",
+        "rm-redSoft": "oklch(37.5% 0.025 80.5)",
+        "rm-violet": "oklch(68.5% 0.132 228.9)",
+        "rm-violetSoft": "oklch(36.5% 0.022 228.9)",
+        "rm-overlay": "rgba(5,8,12,0.565)",
+        "rm-shadow": "rgba(0,0,0,0.251)"
+      },
+      "boxShadow": {
+        "rm-shell": "0 24px 80px rgba(0,0,0,0.251)"
+      }
+    }
+  }
+}

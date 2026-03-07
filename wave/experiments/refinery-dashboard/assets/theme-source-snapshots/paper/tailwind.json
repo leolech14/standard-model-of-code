@@ -1,0 +1,33 @@
+{
+  "theme": {
+    "extend": {
+      "colors": {
+        "rm-bg0": "oklch(98.6% 0.002 250)",
+        "rm-bg1": "oklch(97.2% 0.003 250)",
+        "rm-bg2": "oklch(94.8% 0.004 250)",
+        "rm-line": "oklch(89% 0.004 250)",
+        "rm-ink0": "oklch(18% 0.01 250)",
+        "rm-ink1": "oklch(28% 0.008 250)",
+        "rm-ink2": "oklch(52% 0.006 250)",
+        "rm-ink3": "oklch(72% 0.004 250)",
+        "rm-blue": "oklch(62% 0.16 252)",
+        "rm-blueSoft": "oklch(96.5% 0.018 252)",
+        "rm-teal": "oklch(70% 0.13 190)",
+        "rm-tealSoft": "oklch(96.7% 0.018 190)",
+        "rm-green": "oklch(74% 0.14 145)",
+        "rm-greenSoft": "oklch(97% 0.02 145)",
+        "rm-amber": "oklch(80% 0.14 85)",
+        "rm-amberSoft": "oklch(97% 0.022 85)",
+        "rm-red": "oklch(64% 0.18 25)",
+        "rm-redSoft": "oklch(96.5% 0.02 25)",
+        "rm-violet": "oklch(60% 0.16 305)",
+        "rm-violetSoft": "oklch(96% 0.018 305)",
+        "rm-overlay": "rgba(255,255,255,0.55)",
+        "rm-shadow": "rgba(0,0,0,0.08)"
+      },
+      "boxShadow": {
+        "rm-shell": "0 24px 80px rgba(0,0,0,0.08)"
+      }
+    }
+  }
+}

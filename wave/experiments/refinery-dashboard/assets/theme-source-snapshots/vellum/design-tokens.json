@@ -1,0 +1,116 @@
+{
+  "$schema": "https://tr.designtokens.org/format/schema.json",
+  "$description": "Theme tokens generated from genome seed n/a",
+  "color": {
+    "background": {
+      "base": {
+        "$type": "color",
+        "$value": "oklch(97.5% 0.01 80)"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "oklch(95.8% 0.012 80)"
+      },
+      "elevated": {
+        "$type": "color",
+        "$value": "oklch(92.8% 0.014 80)"
+      }
+    },
+    "stroke": {
+      "default": {
+        "$type": "color",
+        "$value": "oklch(86% 0.01 80)"
+      }
+    },
+    "text": {
+      "primary": {
+        "$type": "color",
+        "$value": "oklch(22% 0.012 55)"
+      },
+      "strong": {
+        "$type": "color",
+        "$value": "oklch(34% 0.01 55)"
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "oklch(52% 0.008 55)"
+      },
+      "subtle": {
+        "$type": "color",
+        "$value": "oklch(70% 0.006 55)"
+      }
+    },
+    "accent": {
+      "blue": {
+        "main": {
+          "$type": "color",
+          "$value": "oklch(60% 0.14 252)"
+        },
+        "soft": {
+          "$type": "color",
+          "$value": "oklch(93.8% 0.02 252)"
+        }
+      },
+      "teal": {
+        "main": {
+          "$type": "color",
+          "$value": "oklch(66% 0.11 190)"
+        },
+        "soft": {
+          "$type": "color",
+          "$value": "oklch(94.2% 0.02 190)"
+        }
+      },
+      "green": {
+        "main": {
+          "$type": "color",
+          "$value": "oklch(71% 0.11 145)"
+        },
+        "soft": {
+          "$type": "color",
+          "$value": "oklch(94.8% 0.02 145)"
+        }
+      },
+      "amber": {
+        "main": {
+          "$type": "color",
+          "$value": "oklch(78% 0.11 85)"
+        },
+        "soft": {
+          "$type": "color",
+          "$value": "oklch(95.4% 0.02 85)"
+        }
+      },
+      "red": {
+        "main": {
+          "$type": "color",
+          "$value": "oklch(62% 0.15 25)"
+        },
+        "soft": {
+          "$type": "color",
+          "$value": "oklch(94.5% 0.02 25)"
+        }
+      },
+      "violet": {
+        "main": {
+          "$type": "color",
+          "$value": "oklch(58% 0.13 305)"
+        },
+        "soft": {
+          "$type": "color",
+          "$value": "oklch(94.0% 0.02 305)"
+        }
+      }
+    },
+    "effect": {
+      "overlay": {
+        "$type": "color",
+        "$value": "rgba(247,240,228,0.58)"
+      },
+      "shadow": {
+        "$type": "color",
+        "$value": "rgba(72,52,26,0.10)"
+      }
+    }
+  }
+}
