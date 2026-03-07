@@ -135,6 +135,13 @@ def _run_coherence(ctx: PipelineContext) -> None:
     """Stage 3.7: Purpose Coherence metrics from PurposeField."""
     print("\n🎯 Stage 3.7: Purpose Coherence Metrics...")
     coherence_enriched = 0
+    layer_wrote = 0
+    # Normalize lowercase Layer enum values to TitleCase convention
+    _LAYER_NORM = {
+        "presentation": "Interface", "application": "Application",
+        "domain": "Core", "infrastructure": "Infrastructure",
+        "testing": "Test", "unknown": "Unknown",
+    }
     # Build lookup: ID-first (reliable), name-fallback (for legacy compat)
     pf_by_id = {pn.id: pn for pn in ctx.purpose_field.nodes.values()}
     pf_by_name = {pn.name: pn for pn in ctx.purpose_field.nodes.values()}
@@ -159,7 +166,14 @@ def _run_coherence(ctx: PipelineContext) -> None:
             node['purpose_entropy'] = pf_node.purpose_entropy
             if pf_node.is_god_class:
                 node['is_god_class'] = True
+            # Write layer to flat node field if not already set by enrichment
+            if pf_node.layer and (not node.get('layer') or node['layer'] in ('Unknown', 'unknown')):
+                raw = pf_node.layer.value if hasattr(pf_node.layer, 'value') else str(pf_node.layer)
+                node['layer'] = _LAYER_NORM.get(raw, raw)
+                layer_wrote += 1
             coherence_enriched += 1
+    if layer_wrote > 0:
+        _log(f"   → {layer_wrote} nodes got layer from purpose field", ctx.quiet)
     _log(f"   → {coherence_enriched} nodes enriched with coherence metrics", ctx.quiet)
     # Count god classes
     god_class_count = sum(1 for n in ctx.nodes if n.get('is_god_class', False))

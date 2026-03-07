@@ -167,27 +167,41 @@ def _extract_noise_ratio(full_output: dict) -> Optional[float]:
     si = full_output.get('smart_ignore', {})
     if not si:
         return None
+    # Primary: nested estimates.skip_ratio (actual SmartIgnore output structure)
+    estimates = si.get('estimates', {})
+    if isinstance(estimates, dict):
+        ratio = estimates.get('skip_ratio')
+        if ratio is not None:
+            return float(ratio)
+        skipped = estimates.get('files_skipped', 0)
+        total = estimates.get('files_to_analyze', 0) + skipped
+        if total > 0:
+            return skipped / total
+    # Legacy fallback: flat keys
     ratio = si.get('noise_ratio')
     if ratio is not None:
         return float(ratio)
-    total = si.get('total_files', 0)
-    ignored = si.get('ignored_count', 0) or len(si.get('ignored_paths', []))
-    if total and total > 0:
-        return ignored / total
     return None
 
 
 def _extract_classification_coverage(full_output: dict) -> Optional[float]:
-    """Extract classification coverage as fraction [0,1]."""
+    """Extract classification coverage as fraction [0,1].
+
+    Classification output uses {by_role: {Service: 45, Unknown: 12, ...}}.
+    Coverage = nodes with known role / total nodes.
+    """
     cls = full_output.get('classification', {})
     if not cls or not isinstance(cls, dict):
         return None
-    classified = cls.get('classified', 0) or 0
-    unclassified = cls.get('unclassified', 0) or 0
-    total = classified + unclassified
+    by_role = cls.get('by_role', {})
+    if not by_role or not isinstance(by_role, dict):
+        return None
+    total = sum(v for v in by_role.values() if isinstance(v, (int, float)))
     if total == 0:
         return None
-    return classified / total
+    unknown = sum(v for k, v in by_role.items()
+                  if isinstance(v, (int, float)) and k in ('Unknown', 'unknown', 'Internal'))
+    return (total - unknown) / total
 
 
 def _extract_edge_diversity(full_output: dict) -> Optional[Tuple[int, float]]:

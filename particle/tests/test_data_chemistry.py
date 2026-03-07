@@ -61,8 +61,8 @@ from data_chemistry import (
 def _make_full_output(**overrides) -> dict:
     """Build a minimal full_output dict with sensible defaults."""
     base = {
-        'smart_ignore': {'noise_ratio': 0.1, 'total_files': 100, 'ignored_count': 10},
-        'classification': {'classified': 90, 'unclassified': 10},
+        'smart_ignore': {'estimates': {'skip_ratio': 0.1, 'files_skipped': 10, 'files_to_analyze': 90}},
+        'classification': {'by_role': {'Service': 50, 'Query': 30, 'Unknown': 10, 'Internal': 10}},
         'edge_types': {'import': 60, 'call': 30, 'inherit': 10},
         'codome_boundaries': {'total_boundaries': 5},
         'kpis': {
@@ -92,8 +92,8 @@ def _make_full_output(**overrides) -> dict:
 def _make_distressed_output() -> dict:
     """Build a full_output that triggers multiple syndromes."""
     return _make_full_output(
-        smart_ignore={'noise_ratio': 0.55, 'total_files': 200, 'ignored_count': 110},
-        classification={'classified': 30, 'unclassified': 70},
+        smart_ignore={'estimates': {'skip_ratio': 0.55, 'files_skipped': 110, 'files_to_analyze': 90}},
+        classification={'by_role': {'Unknown': 70, 'Service': 20, 'Query': 10}},
         codome_boundaries={'total_boundaries': 50},
         kpis={
             'nodes_total': 100,
@@ -115,17 +115,17 @@ def _make_distressed_output() -> dict:
 
 
 class TestExtractNoiseRatio:
-    def test_direct_ratio(self):
-        out = {'smart_ignore': {'noise_ratio': 0.42}}
+    def test_from_skip_ratio(self):
+        out = {'smart_ignore': {'estimates': {'skip_ratio': 0.42}}}
         assert _extract_noise_ratio(out) == pytest.approx(0.42)
 
-    def test_computed_ratio(self):
-        out = {'smart_ignore': {'total_files': 200, 'ignored_count': 60}}
+    def test_computed_from_estimates(self):
+        out = {'smart_ignore': {'estimates': {'files_skipped': 60, 'files_to_analyze': 140}}}
         assert _extract_noise_ratio(out) == pytest.approx(0.30)
 
-    def test_from_ignored_paths(self):
-        out = {'smart_ignore': {'total_files': 100, 'ignored_paths': ['a', 'b', 'c']}}
-        assert _extract_noise_ratio(out) == pytest.approx(0.03)
+    def test_legacy_flat_key(self):
+        out = {'smart_ignore': {'noise_ratio': 0.15}}
+        assert _extract_noise_ratio(out) == pytest.approx(0.15)
 
     def test_empty_returns_none(self):
         assert _extract_noise_ratio({}) is None
@@ -134,15 +134,19 @@ class TestExtractNoiseRatio:
 
 class TestExtractClassificationCoverage:
     def test_normal(self):
-        out = {'classification': {'classified': 80, 'unclassified': 20}}
+        out = {'classification': {'by_role': {'Service': 60, 'Query': 20, 'Unknown': 20}}}
         assert _extract_classification_coverage(out) == pytest.approx(0.80)
 
     def test_perfect(self):
-        out = {'classification': {'classified': 50, 'unclassified': 0}}
+        out = {'classification': {'by_role': {'Service': 30, 'Query': 20}}}
         assert _extract_classification_coverage(out) == pytest.approx(1.0)
 
+    def test_all_unknown(self):
+        out = {'classification': {'by_role': {'Unknown': 50, 'Internal': 50}}}
+        assert _extract_classification_coverage(out) == pytest.approx(0.0)
+
     def test_zero_total_returns_none(self):
-        out = {'classification': {'classified': 0, 'unclassified': 0}}
+        out = {'classification': {'by_role': {}}}
         assert _extract_classification_coverage(out) is None
 
     def test_missing_returns_none(self):

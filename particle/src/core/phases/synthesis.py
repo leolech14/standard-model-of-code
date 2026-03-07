@@ -545,12 +545,12 @@ def _run_color_encoding(ctx: 'PipelineContext') -> None:
     """Post-Stage 20: Multi-channel OKLCH color encoding."""
     try:
         from src.core.viz.color_encoding import (
-            encode_all, encode_nodes, encode_edges, VIEW_DEFAULT, PRESET_VIEWS,
+            encode_all, encode_nodes, encode_edges, VIEW_ARCHITECTURE, PRESET_VIEWS,
             get_view_registry, rank_views,
         )
         chem_result_obj = ctx.full_output.get('_chemistry_lab', None)
         chemistry = chem_result_obj.get_result() if chem_result_obj else None
-        enc_report = encode_all(ctx.full_output, view=VIEW_DEFAULT, chemistry=chemistry)
+        enc_report = encode_all(ctx.full_output, view=VIEW_ARCHITECTURE, chemistry=chemistry)
         ctx.full_output['encoding_report'] = enc_report.__dict__
         _log(f"   → Encoded {enc_report.nodes_encoded} nodes, "
              f"{enc_report.edges_encoded} edges, "
