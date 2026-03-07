@@ -138,6 +138,10 @@ class RunHistoryManager:
         repo_raw = auto_feedback.get("repo", "")
         repo_slug = _slug(Path(repo_raw).name) if repo_raw else "unknown"
 
+        # Auto-backfill on first use (no index yet)
+        if not self._index_path.is_file():
+            self.backfill_index()
+
         self.record_run(auto_feedback)
 
         pruned: dict[str, list[str]] = {}
