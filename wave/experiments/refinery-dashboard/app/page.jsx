@@ -18,6 +18,10 @@ import {
   resolveTheme,
   validateDomainScreens,
 } from "./blueprint/consoleBlueprint";
+import {
+  convertGenomeSchemaToUiSources,
+  listGenomeConverterTargets,
+} from "./blueprint/genomeConverters";
 
 function IconBase({ className = "h-4 w-4", style, children, viewBox = "0 0 16 16" }) {
   return (
@@ -297,6 +301,8 @@ const THEME_CHOICES = [
     icon: THEME_ICON_REGISTRY[MACHINE_THEME_ID],
   },
 ];
+
+const CONVERTER_TARGETS = listGenomeConverterTargets();
 
 const SCREENS = {
   overview: {
@@ -1197,6 +1203,7 @@ export default function RainmakerConsoleUIPrototype() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [themeId, setThemeId] = useState("paper");
   const [themeMachineGenome, setThemeMachineGenome] = useState(() => createThemeMachineGenome("rainmaker-machine-root"));
+  const [themeExportNotice, setThemeExportNotice] = useState("");
 
   const viewport = useVirtualViewportArea();
   const domain = useMemo(() => DOMAINS.find((item) => item.id === domainId) || DOMAINS[0], [domainId]);
@@ -1267,6 +1274,31 @@ export default function RainmakerConsoleUIPrototype() {
       setThemeId(MACHINE_THEME_ID);
       setThemeMachineGenome((previous) => mutateThemeMachineGenome(previous, intensity, createLiveSeed()));
     });
+  };
+
+  const exportThemeSources = () => {
+    const conversion = convertGenomeSchemaToUiSources({
+      themeId,
+      seed: themeMachineGenome.seed,
+      genome: machineActive ? themeMachineGenome : undefined,
+      targets: CONVERTER_TARGETS,
+      collection: "Rainmaker Console Theme Machine",
+      mode: theme.label,
+    });
+
+    const payload = JSON.stringify(conversion, null, 2);
+    const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const fileName = `rainmaker-theme-${themeId}-${stamp}.json`;
+    const blob = new Blob([payload], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    setThemeExportNotice(`exported ${fileName}`);
   };
 
   return (
@@ -1368,6 +1400,14 @@ export default function RainmakerConsoleUIPrototype() {
             <button onClick={randomizeThemeMachine} className="rounded-full border px-3 py-2 text-xs font-medium" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink2 }}>
               random theme
             </button>
+            <button onClick={exportThemeSources} className="rounded-full border px-3 py-2 text-xs font-medium" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink2 }}>
+              export ui sources
+            </button>
+            {themeExportNotice ? (
+              <div className="rounded-full border px-3 py-2 text-[10px] uppercase tracking-[0.16em]" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink3 }}>
+                {themeExportNotice}
+              </div>
+            ) : null}
             <button onClick={() => setSidebarOpen((value) => !value)} className="rounded-full border px-3 py-2 text-xs font-medium" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink2 }}>
               {sidebarOpen ? "hide sidebar" : "show sidebar"}
             </button>
@@ -1587,6 +1627,9 @@ export default function RainmakerConsoleUIPrototype() {
                     </button>
                     <button onClick={() => { mutateThemeMachine(0.45); setCommandOpen(false); }} className="rounded-2xl border px-4 py-3 text-left text-sm" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink1 }}>
                       Mutate theme machine (infinite variants)
+                    </button>
+                    <button onClick={() => { exportThemeSources(); setCommandOpen(false); }} className="rounded-2xl border px-4 py-3 text-left text-sm" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink1 }}>
+                      Export genome to figma + frameworks
                     </button>
                     <button onClick={() => { setSidebarOpen((value) => !value); setCommandOpen(false); }} className="rounded-2xl border px-4 py-3 text-left text-sm" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink1 }}>{sidebarOpen ? "Hide sidebar" : "Show sidebar"}</button>
                     <button onClick={() => { setInspectorOpen((value) => !value); setCommandOpen(false); }} className="rounded-2xl border px-4 py-3 text-left text-sm" style={{ borderColor: TOKENS.line, background: TOKENS.bg1, color: TOKENS.ink1 }}>{inspectorOpen ? "Hide inspector" : "Show inspector"}</button>
