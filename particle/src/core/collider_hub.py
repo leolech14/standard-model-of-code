@@ -25,7 +25,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
-from .run_history import RunHistoryManager
+from .run_history import RunHistoryManager, slug as _slug
 
 _THIS = Path(__file__).resolve()
 _PARTICLE_ROOT = _THIS.parents[2]
@@ -96,15 +96,6 @@ def _utc_iso() -> str:
 def _utc_stamp() -> str:
     return datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
-
-def _slug(value: str) -> str:
-    safe = []
-    for ch in value.lower():
-        safe.append(ch if ch.isalnum() else "-")
-    text = "".join(safe).strip("-")
-    while "--" in text:
-        text = text.replace("--", "-")
-    return text or "unknown"
 
 
 def _resolve_output_dir(repo: Path, output_dir: str | None) -> Path:
@@ -1094,7 +1085,7 @@ def cmd_history(args: argparse.Namespace) -> int:
 
     repo_slug = None
     if args.repo and args.repo != ".":
-        repo_slug = args.repo.lower().replace(" ", "-").replace("_", "-")
+        repo_slug = _slug(args.repo)
 
     print("Collider Hub History")
     if repo_slug:

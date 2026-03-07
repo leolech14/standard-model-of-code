@@ -13,6 +13,7 @@ This module handles *filesystem* artifact retention -- the part that was missing
 
 from __future__ import annotations
 
+import fcntl
 import json
 import os
 from datetime import datetime, timezone
@@ -69,7 +70,7 @@ class RunHistoryManager:
         findings = auto_feedback.get("findings_by_severity", {})
         counts = auto_feedback.get("counts", {})
         repo_raw = auto_feedback.get("repo", "")
-        repo_slug = _slug(Path(repo_raw).name) if repo_raw else "unknown"
+        repo_slug = slug(Path(repo_raw).name) if repo_raw else "unknown"
 
         entry = {
             "ts": auto_feedback.get("ts", _utc_iso()),
@@ -86,8 +87,7 @@ class RunHistoryManager:
         }
 
         self.central_sink.mkdir(parents=True, exist_ok=True)
-        with open(self._index_path, "a", encoding="utf-8") as f:
-            f.write(json.dumps(entry, separators=(",", ":")) + "\n")
+        _append_locked(self._index_path, json.dumps(entry, separators=(",", ":")) + "\n")
 
     # ── Retention ────────────────────────────────────────────
 
@@ -136,13 +136,18 @@ class RunHistoryManager:
     ) -> dict[str, Any]:
         """Full lifecycle: record run to index + enforce all retention policies."""
         repo_raw = auto_feedback.get("repo", "")
-        repo_slug = _slug(Path(repo_raw).name) if repo_raw else "unknown"
+        repo_slug = slug(Path(repo_raw).name) if repo_raw else "unknown"
 
         # Auto-backfill on first use (no index yet)
+        backfilled_keys: set[str] | None = None
         if not self._index_path.is_file():
-            self.backfill_index()
+            backfilled_keys = self._backfill_index_returning_keys()
 
-        self.record_run(auto_feedback)
+        # Deduplicate: skip record if backfill already indexed this run
+        ts = auto_feedback.get("ts", "")
+        run_key = f"{repo_slug}:{ts}"
+        if backfilled_keys is None or run_key not in backfilled_keys:
+            self.record_run(auto_feedback)
 
         pruned: dict[str, list[str]] = {}
         pruned["local_feedback"] = self.prune_local_feedback(feedback_dir)
@@ -181,8 +186,6 @@ class RunHistoryManager:
         entries = self.get_trend(repo_slug, last_n)
         if not entries:
             print("  No run history found.")
-            if not self._index_path.is_file():
-                print("  Run `collider-hub history --backfill` to index existing feedback files.")
             return
 
         # Header
@@ -218,8 +221,12 @@ class RunHistoryManager:
 
     def backfill_index(self) -> int:
         """Scan existing central sink feedback files and populate index for any not yet indexed."""
+        return len(self._backfill_index_returning_keys())
+
+    def _backfill_index_returning_keys(self) -> set[str]:
+        """Backfill and return the set of all indexed keys (repo:ts) for dedup."""
         if not self.central_sink.is_dir():
-            return 0
+            return set()
 
         # Load already-indexed timestamps to avoid duplicates
         indexed_keys: set[str] = set()
@@ -237,7 +244,6 @@ class RunHistoryManager:
 
         # Find all auto_feedback files in central sink
         feedback_files = sorted(self.central_sink.glob("*_auto_feedback_*.json"))
-        added = 0
 
         for fpath in feedback_files:
             try:
@@ -247,7 +253,7 @@ class RunHistoryManager:
                 continue
 
             repo_raw = data.get("repo", "")
-            repo_slug = _slug(Path(repo_raw).name) if repo_raw else _slug_from_filename(fpath.name)
+            repo_slug = slug(Path(repo_raw).name) if repo_raw else _slug_from_filename(fpath.name)
             ts = data.get("ts", "")
             key = f"{repo_slug}:{ts}"
 
@@ -256,17 +262,27 @@ class RunHistoryManager:
 
             self.record_run(data)
             indexed_keys.add(key)
-            added += 1
 
-        return added
+        return indexed_keys
 
 
 # ── Helpers ──────────────────────────────────────────────────
 
 
-def _slug(name: str) -> str:
-    """Convert repo/dir name to slug for filename matching."""
-    return name.lower().replace(" ", "-").replace("_", "-")
+def slug(name: str) -> str:
+    """Convert repo/dir name to a stable slug for filename matching.
+
+    Canonical slug function -- used by both run_history and collider_hub.
+    Replaces any non-alphanumeric character with '-', collapses runs,
+    strips leading/trailing hyphens.
+    """
+    safe = []
+    for ch in name.lower():
+        safe.append(ch if ch.isalnum() else "-")
+    text = "".join(safe).strip("-")
+    while "--" in text:
+        text = text.replace("--", "-")
+    return text or "unknown"
 
 
 def _slug_from_filename(filename: str) -> str:
@@ -280,6 +296,16 @@ def _slug_from_filename(filename: str) -> str:
 
 def _utc_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _append_locked(path: Path, data: str) -> None:
+    """Append data to file with advisory file lock to prevent concurrent corruption."""
+    with open(path, "a", encoding="utf-8") as f:
+        fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+        try:
+            f.write(data)
+        finally:
+            fcntl.flock(f.fileno(), fcntl.LOCK_UN)
 
 
 def _prune_timestamped_groups(
