@@ -666,6 +666,55 @@ class TestDetectGaps:
         circumscribed_count = sum(1 for g in report.gaps if g.circumscribed)
         assert report.unknown_count == circumscribed_count
 
+    def test_entry_points_exempt_from_decomposition_gaps(self):
+        """Entry points should be excluded from missing_required gaps."""
+        dr = _make_decomposition(node_id="main_func", missing=["Command", "Query"])
+        report = detect_gaps({}, [dr], entry_points={"main_func"})
+        # Entry point gaps should be filtered out
+        missing_req = [g for g in report.gaps if g.gap_type == "missing_required"]
+        assert len(missing_req) == 0
+
+    def test_non_entry_points_still_flagged(self):
+        """Non-entry-point nodes should still produce gaps normally."""
+        dr_entry = _make_decomposition(node_id="main_func", missing=["Command"])
+        dr_normal = _make_decomposition(node_id="service", missing=["Query"])
+        report = detect_gaps({}, [dr_entry, dr_normal], entry_points={"main_func"})
+        # Only service should have a gap, not main_func
+        missing_req = [g for g in report.gaps if g.gap_type == "missing_required"]
+        assert len(missing_req) == 1
+        assert missing_req[0].location == "service"
+
+    def test_entry_points_none_backward_compat(self):
+        """When entry_points is None (default), all gaps fire (backward compat)."""
+        dr = _make_decomposition(node_id="main_func", missing=["Command"])
+        report = detect_gaps({}, [dr])  # no entry_points arg
+        missing_req = [g for g in report.gaps if g.gap_type == "missing_required"]
+        assert len(missing_req) == 1
+
+    def test_entry_points_empty_set(self):
+        """Empty set of entry points = all gaps fire."""
+        dr = _make_decomposition(node_id="main_func", missing=["Command"])
+        report = detect_gaps({}, [dr], entry_points=set())
+        missing_req = [g for g in report.gaps if g.gap_type == "missing_required"]
+        assert len(missing_req) == 1
+
+    def test_entry_points_dont_affect_other_strategies(self):
+        """Entry point exemption only applies to decomposition, not disconnections."""
+        dr = _make_decomposition(node_id="main_func", missing=["Command"])
+        # main_func is also a disconnected node
+        nodes = [_make_node("main_func"), _make_node("a")]
+        edges = [{"source": "a", "target": "a"}]
+        report = detect_gaps(
+            {"nodes": nodes, "edges": edges}, [dr],
+            entry_points={"main_func"},
+        )
+        # Decomposition gap should be filtered...
+        missing_req = [g for g in report.gaps if g.gap_type == "missing_required"]
+        assert len(missing_req) == 0
+        # ...but disconnection should still fire
+        disconnections = [g for g in report.gaps if g.gap_type == "disconnection"]
+        assert any(g.location == "main_func" for g in disconnections)
+
     def test_with_real_collider_output(self):
         """Test against actual Collider output if available."""
         import json

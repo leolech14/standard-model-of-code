@@ -25,6 +25,7 @@ from src.core.api_drift_analyzer import (
     DriftItem,
     generate_api_edges,
     generate_api_insights,
+    _is_excluded_path,
 )
 
 
@@ -738,3 +739,104 @@ def lerp(a, b, t):
         assert isinstance(drift, APIDriftReport)
         assert drift.drift_score == 0.0
         assert len(drift.drift_items) == 0
+
+
+# =============================================================================
+# EXTERNAL EXCLUSION PATTERN TESTS
+# =============================================================================
+
+
+class TestExternalExclusionPatterns:
+    """Verify that _is_excluded_path correctly filters external SDK paths."""
+
+    # ── Original patterns (should still work) ────────────────────────
+
+    def test_absolute_http_url(self):
+        assert _is_excluded_path("https://api.openai.com/v1/chat/completions")
+
+    def test_absolute_wss_url(self):
+        assert _is_excluded_path("wss://stream.example.com/ws")
+
+    def test_health_endpoint(self):
+        assert _is_excluded_path("/healthcheck")
+        assert _is_excluded_path("/health")
+        assert _is_excluded_path("/healthz")
+
+    def test_readiness_endpoint(self):
+        assert _is_excluded_path("/ready")
+
+    def test_metrics_endpoint(self):
+        assert _is_excluded_path("/metrics")
+
+    def test_static_files(self):
+        assert _is_excluded_path("/static/bundle.js")
+
+    def test_favicon(self):
+        assert _is_excluded_path("/favicon.ico")
+
+    def test_api_docs(self):
+        assert _is_excluded_path("/docs")
+        assert _is_excluded_path("/redoc")
+
+    # ── New SDK-style external API patterns ──────────────────────────
+
+    def test_chat_completions(self):
+        """OpenAI / LLM provider chat completions endpoint."""
+        assert _is_excluded_path("/chat/completions")
+        assert _is_excluded_path("/v1/chat/completions")
+
+    def test_completions(self):
+        assert _is_excluded_path("/completions")
+
+    def test_embeddings(self):
+        assert _is_excluded_path("/embeddings")
+
+    def test_models(self):
+        assert _is_excluded_path("/models")
+
+    def test_graphql(self):
+        assert _is_excluded_path("/graphql")
+        assert _is_excluded_path("/GRAPHQL")
+
+    def test_versioned_sdk_paths(self):
+        """Versioned SDK paths with known external sub-paths."""
+        assert _is_excluded_path("/v1/models")
+        assert _is_excluded_path("/v1/chat/completions")
+        assert _is_excluded_path("/v1/completions")
+        assert _is_excluded_path("/v1/embeddings")
+        assert _is_excluded_path("/v2/audio/transcriptions")
+        assert _is_excluded_path("/v1/images/generations")
+
+    def test_versioned_internal_api_not_excluded(self):
+        """Versioned internal API paths should NOT be excluded."""
+        assert not _is_excluded_path("/v1/users")
+        assert not _is_excluded_path("/v2/orders")
+        assert not _is_excluded_path("/v3/something")
+
+    def test_audio_speech(self):
+        """Audio/speech endpoints (ElevenLabs, OpenAI TTS)."""
+        assert _is_excluded_path("/audio/transcriptions")
+        assert _is_excluded_path("/speech")
+
+    # ── Paths that should NOT be excluded ────────────────────────────
+
+    def test_internal_api_not_excluded(self):
+        """Normal internal API paths must NOT be excluded."""
+        assert not _is_excluded_path("/api/users")
+        assert not _is_excluded_path("/api/tasks/123")
+        assert not _is_excluded_path("/auth/login")
+        assert not _is_excluded_path("/dashboard")
+
+    def test_internal_crud_not_excluded(self):
+        assert not _is_excluded_path("/users/create")
+        assert not _is_excluded_path("/orders/list")
+        assert not _is_excluded_path("/settings")
+
+    def test_similar_but_internal(self):
+        """Paths that look similar to external patterns but are internal."""
+        # /model (singular) is NOT /models
+        assert not _is_excluded_path("/model/train")
+        # /complete is NOT /completions
+        assert not _is_excluded_path("/complete")
+        # /graph is NOT /graphql
+        assert not _is_excluded_path("/graph/nodes")

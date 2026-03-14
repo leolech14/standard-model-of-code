@@ -424,7 +424,11 @@ def _run_trinity(ctx: 'PipelineContext') -> None:
         decomposition_results = decompose_purposes(ctx.full_output)
         ctx.full_output['purpose_decomposition'] = [r.to_dict() for r in decomposition_results]
 
-        gap_report = detect_gaps(ctx.full_output, decomposition_results)
+        # Entry points (main(), CLI handlers) are exempt from gap detection --
+        # they orchestrate external behavior, not internal sub-structure.
+        ep_set = set(getattr(ctx.exec_flow, 'entry_points', []))
+        gap_report = detect_gaps(ctx.full_output, decomposition_results,
+                                 entry_points=ep_set)
         ctx.full_output['gap_report'] = gap_report.to_dict()
 
         _log(f"   → Incoherence: I={incoherence_result.i_total:.3f}  Health={incoherence_result.health_10:.1f}/10", ctx.quiet)
