@@ -197,6 +197,9 @@ PROJECT ELEMENTS - Unified CLI
 
 EXPLICIT COMMANDS:
   ./pe status              System health overview
+  ./pe scorecard           Collider health scorecard (grade, scores, pipeline)
+  ./pe scorecard --json    Machine-readable JSON (aggregation-ready schema)
+  ./pe scorecard --history N  Include N recent runs (longitudinal view)
   ./pe wire                Full pipeline (LOL→TDJ→Collider→SMoC→Unify)
   ./pe wire --quick        Skip Collider (use cached)
   ./pe wire --dashboard    Show health dashboard only
@@ -445,6 +448,9 @@ case "${1:-help}" in
         ;;
     status)
         cmd_status
+        ;;
+    scorecard)
+        python3 "$COLLIDER/scripts/collider_scorecard.py" "${@:2}"
         ;;
     ask)
         shift
