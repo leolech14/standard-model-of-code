@@ -127,3 +127,33 @@ def test_feedback_sync_targets_single_project_elements_folder(tmp_path, monkeypa
     central_paths = synced.get("central", [])
     assert len(central_paths) == 3
     assert all(str(path).startswith(str(central)) for path in central_paths)
+
+
+def test_build_full_cmd_ecosystem_profile_excludes_repo_archives(tmp_path):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    output_dir = tmp_path / "analysis"
+
+    cmd = hub._build_full_cmd(
+        collider_bin="collider",
+        repo=repo,
+        output_dir=output_dir,
+        profile="ecosystem",
+        no_default_excludes=False,
+        extra_excludes=[],
+        passthrough=[],
+        html=False,
+        no_timing=False,
+    )
+
+    excludes = [
+        cmd[idx + 1]
+        for idx, token in enumerate(cmd[:-1])
+        if token == "--exclude"
+    ]
+
+    assert ".claude/worktrees" in excludes
+    assert ".agent/intelligence" in excludes
+    assert "research/gemini" in excludes
+    assert "research/perplexity" in excludes
+    assert "wave/intelligence" in excludes
