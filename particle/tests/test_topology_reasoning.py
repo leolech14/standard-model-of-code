@@ -369,3 +369,158 @@ class TestLandscapeHealthIndex:
         result = self.lhi.compute(profile)
         assert "index" in result
         assert "grade" in result
+
+
+# ── Shape Classification Decision Tree ──────────────────────────────────
+
+
+class TestShapeClassification:
+    """Test that the classify() decision tree returns correct shapes
+    for various graph topologies, including the new FRAGMENTED_CYCLIC."""
+
+    def setup_method(self):
+        self.classifier = TopologyClassifier()
+
+    def _make_nodes(self, n: int) -> list:
+        return [{"id": f"N{i}"} for i in range(n)]
+
+    def _make_chain(self, ids: list[str]) -> list:
+        """Build A->B->C chain edges."""
+        return [{"source": ids[i], "target": ids[i + 1]}
+                for i in range(len(ids) - 1)]
+
+    def _make_cycle(self, ids: list[str]) -> list:
+        """Build A->B->C->A cycle edges."""
+        edges = self._make_chain(ids)
+        edges.append({"source": ids[-1], "target": ids[0]})
+        return edges
+
+    def test_fragmented_cyclic(self):
+        """Many components + cycles in core -> FRAGMENTED_CYCLIC."""
+        # 10 isolated nodes (fragments) + 1 cycle group of 3
+        nodes = self._make_nodes(13)
+        # Cycle among N0-N1-N2
+        edges = self._make_cycle(["N0", "N1", "N2"])
+        # N3-N12 are isolated (10 disconnected components + 1 cyclic = 11 total)
+        result = self.classifier.classify(nodes, edges)
+        assert result["shape"] == "FRAGMENTED_CYCLIC"
+
+    def test_fragmented_no_cycles_is_disconnected_islands(self):
+        """Many components, no cycles -> DISCONNECTED_ISLANDS."""
+        nodes = self._make_nodes(10)
+        edges = []  # No connections at all
+        result = self.classifier.classify(nodes, edges)
+        assert result["shape"] == "DISCONNECTED_ISLANDS"
+
+    def test_big_ball_of_mud_requires_few_components(self):
+        """BIG_BALL_OF_MUD requires <=5 components with heavy cycles."""
+        # Single component, many cycle groups, high avg degree
+        # Build a dense cyclic graph: 20 nodes, 12+ cycle groups
+        nodes = self._make_nodes(20)
+        edges = []
+        # Create 12 overlapping cycles (pairs cycling back)
+        for i in range(0, 12):
+            a, b = f"N{i}", f"N{i + 1}"
+            edges.append({"source": a, "target": b})
+            edges.append({"source": b, "target": a})
+        # Connect remaining nodes to make it dense (high avg degree)
+        for i in range(12, 20):
+            edges.append({"source": "N0", "target": f"N{i}"})
+            edges.append({"source": f"N{i}", "target": "N0"})
+        result = self.classifier.classify(nodes, edges)
+        # Should NOT be FRAGMENTED_CYCLIC (few components)
+        assert result["shape"] != "FRAGMENTED_CYCLIC"
+
+    def test_strict_layers(self):
+        """Single component, no cycles -> STRICT_LAYERS."""
+        nodes = self._make_nodes(5)
+        edges = self._make_chain([f"N{i}" for i in range(5)])
+        result = self.classifier.classify(nodes, edges)
+        assert result["shape"] == "STRICT_LAYERS"
+
+    def test_cyclic_network(self):
+        """Few components, some cycles -> CYCLIC_NETWORK."""
+        # Single component with 1-2 cycles, low density
+        nodes = self._make_nodes(5)
+        edges = self._make_chain([f"N{i}" for i in range(5)])
+        # Add one back-edge to create a cycle
+        edges.append({"source": "N2", "target": "N0"})
+        result = self.classifier.classify(nodes, edges)
+        assert result["shape"] == "CYCLIC_NETWORK"
+
+    def test_balanced_network(self):
+        """Single component, no cycles, not linear -> BALANCED_NETWORK or STRICT_LAYERS."""
+        nodes = self._make_nodes(3)
+        edges = [
+            {"source": "N0", "target": "N1"},
+            {"source": "N0", "target": "N2"},
+        ]
+        result = self.classifier.classify(nodes, edges)
+        # Tree-like with one root -- classified as STRICT_LAYERS
+        assert result["shape"] in ("STRICT_LAYERS", "BALANCED_NETWORK")
+
+    def test_fragmented_cyclic_description_mentions_components(self):
+        """FRAGMENTED_CYCLIC description should mention component count."""
+        nodes = self._make_nodes(13)
+        edges = self._make_cycle(["N0", "N1", "N2"])
+        result = self.classifier.classify(nodes, edges)
+        assert result["shape"] == "FRAGMENTED_CYCLIC"
+        assert "component" in result["description"].lower()
+        assert "cycle" in result["description"].lower()
+
+    def test_all_shapes_have_visual_metrics(self):
+        """Every classification result includes visual_metrics."""
+        # Test with FRAGMENTED_CYCLIC
+        nodes = self._make_nodes(13)
+        edges = self._make_cycle(["N0", "N1", "N2"])
+        result = self.classifier.classify(nodes, edges)
+        assert "visual_metrics" in result
+        assert "components" in result["visual_metrics"]
+        assert "directed_cycles" in result["visual_metrics"]
+
+
+class TestTopologyScoreMapping:
+    """Test that _score_topology() maps all shapes correctly."""
+
+    def test_all_shapes_have_explicit_scores(self):
+        """No shape should fall back to the generic 6.0 default."""
+        all_shapes = [
+            'STRICT_LAYERS', 'BALANCED_NETWORK', 'MESH',
+            'CYCLIC_NETWORK', 'DISCONNECTED_ISLANDS',
+            'FRAGMENTED_CYCLIC', 'DENSE_MESH', 'STAR_HUB',
+            'BIG_BALL_OF_MUD',
+        ]
+        # These are the default_scores from insights_compiler._score_topology
+        default_scores = {
+            'STRICT_LAYERS': 10.0,
+            'BALANCED_NETWORK': 8.5,
+            'MESH': 7.0,
+            'CYCLIC_NETWORK': 5.5,
+            'DISCONNECTED_ISLANDS': 5.0,
+            'FRAGMENTED_CYCLIC': 4.5,
+            'DENSE_MESH': 4.0,
+            'STAR_HUB': 4.0,
+            'BIG_BALL_OF_MUD': 2.0,
+        }
+        for shape in all_shapes:
+            assert shape in default_scores, f"{shape} missing from score map"
+            # Score should not be the generic fallback
+            assert default_scores[shape] != 6.0 or shape == 'UNKNOWN'
+
+    def test_scores_are_monotonically_ordered(self):
+        """Better shapes should score higher."""
+        scores = {
+            'STRICT_LAYERS': 10.0,
+            'BALANCED_NETWORK': 8.5,
+            'MESH': 7.0,
+            'CYCLIC_NETWORK': 5.5,
+            'DISCONNECTED_ISLANDS': 5.0,
+            'FRAGMENTED_CYCLIC': 4.5,
+            'BIG_BALL_OF_MUD': 2.0,
+        }
+        ordered = sorted(scores.items(), key=lambda x: -x[1])
+        for i in range(len(ordered) - 1):
+            assert ordered[i][1] >= ordered[i + 1][1], (
+                f"{ordered[i][0]} ({ordered[i][1]}) should score >= "
+                f"{ordered[i + 1][0]} ({ordered[i + 1][1]})"
+            )

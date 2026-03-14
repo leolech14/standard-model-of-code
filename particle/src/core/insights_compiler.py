@@ -1629,10 +1629,16 @@ class InsightsCompiler:
 
     def _score_topology(self) -> float:
         shape = self.kpis.get('topology_shape', 'UNKNOWN')
+        # Complete mapping of all TopologyClassifier shapes to health scores.
+        # Missing shapes previously fell back to 6.0 (generic default).
         default_scores = {
             'STRICT_LAYERS': 10.0,
+            'BALANCED_NETWORK': 8.5,
             'MESH': 7.0,
+            'CYCLIC_NETWORK': 5.5,
             'DISCONNECTED_ISLANDS': 5.0,
+            'FRAGMENTED_CYCLIC': 4.5,
+            'DENSE_MESH': 4.0,
             'STAR_HUB': 4.0,
             'BIG_BALL_OF_MUD': 2.0,
         }

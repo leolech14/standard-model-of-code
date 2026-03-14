@@ -458,19 +458,43 @@ class TopologyClassifier:
 
         # 4. Classification Logic
         # Uses directed cycle groups (SCCs > 1), NOT b1 (undirected topological holes).
+        #
+        # Decision tree priority:
+        #   1. STRICT_LAYERS  -- single component, no cycles (ideal)
+        #   2. DISCONNECTED_ISLANDS -- many components, no significant cycles
+        #   3. FRAGMENTED_CYCLIC -- many components AND cycles (multi-package repo)
+        #   4. BIG_BALL_OF_MUD -- few components but heavy cycles (true monolith)
+        #   5. STAR_HUB -- one dominant hub node
+        #   6. DENSE_MESH -- high avg degree
+        #   7. CYCLIC_NETWORK -- some cycles
+        #   8. BALANCED_NETWORK -- default (healthy)
         shape = "UNKNOWN"
         description = "Undefined structure"
+
+        is_fragmented = num_components > 5
+        has_significant_cycles = num_cycle_groups > 0
 
         # Check STRICT_LAYERS first (ideal state: connected, no directed cycles)
         if num_cycle_groups == 0 and num_components == 1:
             shape = "STRICT_LAYERS"
             description = "Acyclic layered architecture. Clean dependency flow."
 
-        elif num_components > 5 and percent_in_largest < 50:
+        elif is_fragmented and not has_significant_cycles:
             shape = "DISCONNECTED_ISLANDS"
             description = f"Fragmented into {num_components} separate clusters."
 
-        elif num_cycle_groups > 10 and avg_degree > 5:
+        elif is_fragmented and has_significant_cycles:
+            # Multi-package repo: independent islands plus some cyclic coupling
+            # in the core.  NOT a monolith -- the cycles are localized.
+            shape = "FRAGMENTED_CYCLIC"
+            description = (
+                f"{num_components} components with {num_cycle_groups} "
+                f"localized cycle groups ({num_cyclic_nodes} cyclic nodes). "
+                f"Multi-package repo with some internal coupling."
+            )
+
+        elif num_cycle_groups > 10 and avg_degree > 5 and num_components <= 5:
+            # True monolith: few components but dense cyclic coupling
             shape = "BIG_BALL_OF_MUD"
             description = (
                 f"High coupling with {num_cycle_groups} dependency cycle groups "

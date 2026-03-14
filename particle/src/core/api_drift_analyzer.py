@@ -184,6 +184,23 @@ _EXTERNAL_EXCLUSION_PATTERNS: List[re.Pattern] = [
     re.compile(r"^/manifest\.json$", re.IGNORECASE),
     # API documentation endpoints (FastAPI/Swagger auto-generated)
     re.compile(r"^/docs$|^/redoc$|^/openapi", re.IGNORECASE),
+    # ── External SDK-style API paths ─────────────────────────────────────
+    # These are relative paths that target third-party APIs (OpenAI, Anthropic,
+    # ElevenLabs, etc.) via SDK proxy patterns.  They appear as frontend calls
+    # but are NOT internal routes.
+    # LLM provider endpoints (OpenAI, Anthropic, local model servers)
+    re.compile(r"/chat/completions$", re.IGNORECASE),
+    re.compile(r"/completions$", re.IGNORECASE),
+    re.compile(r"/embeddings$", re.IGNORECASE),
+    re.compile(r"/models$", re.IGNORECASE),
+    # GraphQL (typically external gateway or third-party)
+    re.compile(r"^/graphql$", re.IGNORECASE),
+    # Versioned SDK paths with known external sub-paths
+    # (NOT a blanket /v\d+/ -- that would exclude internal versioned APIs)
+    re.compile(r"^/v\d+/(?:chat/completions|completions|embeddings|models|audio|images)", re.IGNORECASE),
+    # Audio / speech (ElevenLabs, OpenAI TTS/STT)
+    re.compile(r"/audio/", re.IGNORECASE),
+    re.compile(r"/speech$", re.IGNORECASE),
 ]
 
 

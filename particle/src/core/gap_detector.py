@@ -12,7 +12,7 @@ Theory: docs/essentials/LAGRANGIAN.md (I_telic term)
 from __future__ import annotations
 
 from dataclasses import dataclass, field, asdict
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set
 
 from purpose_decomposition import DecompositionResult
 
@@ -98,6 +98,7 @@ def _count_by_severity(gaps: List[Gap]) -> Dict[str, int]:
 
 def _gaps_from_decomposition(
     decomposition_results: List[DecompositionResult],
+    entry_points: Optional[Set[str]] = None,
 ) -> List[Gap]:
     """Extract gaps from purpose decomposition results.
 
@@ -105,11 +106,21 @@ def _gaps_from_decomposition(
     - missing_required: required sub-purpose absent (critical)
     - missing_expected: expected sub-purpose absent (medium)
     - forbidden_present: forbidden sub-purpose present (high)
+
+    Entry points (standalone script main(), CLI entry functions) are exempt
+    from missing_required/missing_expected checks because they orchestrate
+    external behavior rather than containing internal sub-structure.
     """
     gaps: List[Gap] = []
+    _entry_points = entry_points or set()
 
     for dr in decomposition_results:
         node_path = dr.node_id
+
+        # Entry points are terminal nodes -- they orchestrate external
+        # behavior, not internal structure.  Skip decomposition gap checks.
+        if node_path in _entry_points:
+            continue
 
         # Missing required sub-compartments
         for missing in dr.missing:
@@ -431,6 +442,7 @@ def _compute_coverage(decomposition_results: List[DecompositionResult]) -> float
 def detect_gaps(
     full_output: dict,
     decomposition_results: List[DecompositionResult],
+    entry_points: Optional[Set[str]] = None,
 ) -> GapReport:
     """Detect all gaps in the codebase.
 
@@ -443,14 +455,19 @@ def detect_gaps(
     Args:
         full_output: The unified analysis dict from Collider.
         decomposition_results: Results from decompose_purposes().
+        entry_points: Node IDs that are entry points (main(), CLI handlers).
+            These are exempt from decomposition gap checks because they
+            orchestrate external behavior, not internal sub-structure.
 
     Returns:
         GapReport with all detected gaps and LLM query targets.
     """
     all_gaps: List[Gap] = []
 
-    # Strategy 1: From decomposition
-    all_gaps.extend(_gaps_from_decomposition(decomposition_results))
+    # Strategy 1: From decomposition (entry points exempt)
+    all_gaps.extend(_gaps_from_decomposition(
+        decomposition_results, entry_points=entry_points,
+    ))
 
     # Strategy 2: Disconnections
     all_gaps.extend(_detect_disconnections(full_output))
