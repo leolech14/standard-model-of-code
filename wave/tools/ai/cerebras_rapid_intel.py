@@ -77,7 +77,7 @@ INTEL_DIR = PROJECT_ROOT / "wave" / "data" / "intel"
 INTEL_DIR.mkdir(parents=True, exist_ok=True)
 
 CEREBRAS_API_URL = "https://api.cerebras.ai/v1/chat/completions"
-CEREBRAS_MODEL = os.getenv("CEREBRAS_MODEL", "llama-3.3-70b")
+CEREBRAS_MODEL = os.getenv("CEREBRAS_MODEL", "gpt-oss-120b")
 
 # Rate limiting - 7 req/sec safe, 50/sec burst limit
 MIN_REQUEST_INTERVAL = 0.15
@@ -208,7 +208,8 @@ def cerebras_query(prompt: str, system: str = "", max_tokens: int = 1000) -> str
             return ""
 
         response.raise_for_status()
-        return response.json()["choices"][0]["message"]["content"]
+        msg = response.json()["choices"][0]["message"]
+        return msg.get("content") or msg.get("reasoning", "")
 
     except Exception as e:
         print(f"Cerebras error: {e}", file=sys.stderr)
