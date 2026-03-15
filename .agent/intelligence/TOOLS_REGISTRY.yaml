@@ -967,6 +967,134 @@ tools:
       Next: P2 (gap filling) to raise confidence to 75-85%.
 
   # ---------------------------------------------------------------------------
+  # REH (Repository Evolution History) - Git + Session Archaeology
+  # ---------------------------------------------------------------------------
+  reh_mcp_server:
+    id: T059
+    name: "REH MCP Server v3"
+    subsystem: WAVE
+    realm: wave
+    type: mcp_server
+    ecosystem_id: ECO-051
+
+    description: |
+      Git-powered codebase archaeology + Claude Code session mining.
+      11 MCP tools across 3 layers:
+        Tools 1-5: Git archaeology (timeline, pickaxe, file history, capabilities, dir activity)
+        Tools 6-8: UX layer (3-tier evolution reports, briefings, velocity)
+        Tools 9-11: Session archaeology (search sessions, session timeline, feature genealogy)
+
+    invoke:
+      method: mcp_stdio
+      command: "uv run python wave/tools/mcp/mcp_history_server.py"
+      cwd: "${PROJECT_ROOT}"
+
+    tools:
+      - get_repo_history
+      - search_code_changes
+      - get_file_history
+      - detect_capability_changes
+      - get_directory_activity
+      - generate_evolution_report
+      - get_evolution_briefing
+      - get_velocity_metrics
+      - search_session_history
+      - get_session_timeline
+      - trace_feature_genealogy
+
+    inputs:
+      - name: repo_path
+        type: path
+        description: "Git repository to analyze"
+      - name: project_path
+        type: path
+        description: "Claude project path (for session tools)"
+
+    outputs:
+      - name: json_result
+        type: text
+        format: json
+
+    requires: []
+
+    connects_to:
+      - collider
+      - temporal_observer
+
+    status: working
+
+    files:
+      - wave/tools/mcp/mcp_history_server.py
+      - wave/tools/mcp/reh_session_parser.py
+      - wave/tools/mcp/reh_session_archaeology.py
+      - wave/tools/mcp/reh_evolution.py
+      - wave/tools/mcp/reh_tier2_briefing.py
+      - wave/tools/mcp/reh_tier3_report.py
+      - particle/src/core/reh_core.py
+
+    note: |
+      v3 adds session archaeology (Tools 9-11): mines Claude Code JSONL logs
+      to trace the creative genealogy of code — from human vision to git commit.
+      No API keys needed. Stream-parses files up to 95MB.
+
+  # ---------------------------------------------------------------------------
+  # CEREBRAS INTELLIGENCE MCP SERVER
+  # ---------------------------------------------------------------------------
+  cerebras_intelligence_mcp:
+    id: T060
+    name: "Cerebras Intelligence MCP Server"
+    subsystem: WAVE
+    realm: wave
+    type: mcp_server
+    ecosystem_id: ECO-047
+
+    description: |
+      Fast intelligence tools powered by Cerebras (3000 t/s), Perplexity
+      (web research), and local utilities. 10 MCP tools: cerebras_query,
+      cerebras_analyze_file, cerebras_tag_file, cerebras_sweep_directory,
+      cerebras_detect_gaps, perplexity_research, estimate_tokens,
+      check_token_budget, get_project_health, get_project_context.
+
+    invoke:
+      method: mcp_stdio
+      command: "doppler run -- .venv/bin/python3 wave/tools/ai/mcp_servers/cerebras_intelligence_mcp.py"
+      cwd: "${PROJECT_ROOT}"
+
+    requires:
+      - fastmcp
+      - cerebras-cloud-sdk
+
+    status: working
+
+  # ---------------------------------------------------------------------------
+  # REDDIT INTELLIGENCE MCP SERVER
+  # ---------------------------------------------------------------------------
+  reddit_intelligence_mcp:
+    id: T061
+    name: "Reddit Intelligence MCP Server"
+    subsystem: WAVE
+    realm: wave
+    type: mcp_server
+    ecosystem_id: ECO-059
+
+    description: |
+      Community intelligence via Reddit's public JSON API. 6 read-only tools:
+      reddit_search (with advanced operators), reddit_top_posts, reddit_subreddit_info,
+      reddit_post_detail, reddit_user_profile, reddit_user_comments.
+      No auth required. Rate limited ~10 req/min. Cursor-based pagination.
+
+    invoke:
+      method: mcp_stdio
+      command: ".venv/bin/python3 wave/tools/ai/mcp_servers/reddit_intelligence_mcp.py"
+      cwd: "${PROJECT_ROOT}"
+
+    requires:
+      - requests
+      - fastmcp
+
+    status: working
+
+  # ---------------------------------------------------------------------------
   # DOCUMENT PROCESSING (Academic Papers)
   # ---------------------------------------------------------------------------
   docling_granite:
@@ -1225,7 +1353,7 @@ connections:
 # STATUS SUMMARY
 # =============================================================================
 status_summary:
-  working: [purpose_field, pom, analyze, flash-ui, collider, trellis_2, docsintel, cerebras_enricher, cerebras_tagger, repo_mapper, spiral_intel, docling_granite]
+  working: [purpose_field, pom, analyze, flash-ui, collider, trellis_2, docsintel, cerebras_enricher, cerebras_tagger, repo_mapper, spiral_intel, docling_granite, reh_mcp_server, cerebras_intelligence_mcp, reddit_intelligence_mcp]
   not_implemented: [charts]
   blockers: {}
 

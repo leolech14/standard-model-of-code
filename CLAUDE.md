@@ -29,7 +29,7 @@ Zone 3 backed up via `scripts/archive-to-gcs.sh`. Zone 4 is transient (Syncthing
 ```
 particle/           Collider engine (Python, v2.3.0)
 wave/tools/ai/      AI intelligence toolkit (Cerebras, ACI, Perplexity, Decision Deck)
-wave/tools/ai/mcp_servers/  MCP server wrappers (3 servers)
+wave/tools/ai/mcp_servers/  MCP server wrappers (see MCP Servers section)
 wave/config/        Analysis sets, model config
 wave/experiments/refinery-platform/  Ecosystem dashboard (Next.js 15, has own .claude/CLAUDE.md)
 .agent/             Governance, decision deck cards, task registry
@@ -101,7 +101,7 @@ cd wave/experiments/refinery-platform && npm run dev  # Refinery :3001
 | Analyze a repo | `particle/cli.py` (entry), `particle/full_analysis.py` |
 | AI query (fast) | `wave/tools/ai/cerebras_rapid_intel.py` |
 | AI query (smart routing) | `wave/tools/ai/analyze.py --aci` |
-| MCP servers | `wave/tools/ai/mcp_servers/` (3 servers) |
+| MCP servers | `wave/tools/ai/mcp_servers/` + `wave/tools/mcp/` (see MCP Servers section) |
 | REH (temporal) | `particle/src/core/reh_core.py` (core), `temporal_analysis.py` (engine), `wave/tools/mcp/mcp_history_server.py` (MCP) |
 | Decision deck cards | `.agent/deck/` + `wave/tools/ai/deck/` |
 | Atom taxonomy | `particle/data/atoms/` (3,610 atoms) |
@@ -112,6 +112,22 @@ cd wave/experiments/refinery-platform && npm run dev  # Refinery :3001
 | Refinery Platform (dashboard) | `wave/experiments/refinery-platform/` (has own `.claude/CLAUDE.md`) |
 | Refinery design system | `wave/experiments/refinery-platform/app/globals.css` (parametric OKLCH engine) |
 | Refinery master plan | `~/.claude/plans/keen-wondering-puddle.md` (474-line implementation spec) |
+
+## MCP Servers
+
+3+ activated MCP servers registered in `~/.claude.json`. Full inventory in `.ecoroot/TOOLS_REGISTRY.yaml` (SSOT).
+
+| Server | ECO-ID | Tools | Secrets | Key Capability |
+|--------|--------|-------|---------|----------------|
+| **cerebras-intelligence** | ECO-047 | 10 | Doppler (CEREBRAS_API_KEY) | Fast LLM queries, Perplexity research, token estimation |
+| **reh** | ECO-051 | 11 | None | Git archaeology, session history, evolution reports |
+| **reddit-intelligence** | ECO-059 | 6 | None | Community search, post threads, subreddit stats |
+
+Additional servers implemented but not yet activated: `aci_system_mcp` (8 tools), `decision_deck_mcp` (6 tools).
+
+**Locations:** `wave/tools/ai/mcp_servers/` (AI servers) + `wave/tools/mcp/` (REH, Perplexity)
+**Transport:** All stdio (JSON-RPC). Registered per-project in `~/.claude.json`.
+**Pattern:** `doppler run -- .venv/bin/python3 <server>.py` (if secrets needed) or direct `.venv/bin/python3 <server>.py`
 
 ## Rules
 
