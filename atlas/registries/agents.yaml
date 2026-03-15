@@ -1,0 +1,277 @@
+# ============================================================================
+# AGENTS REGISTRY — Live Ecosystem Data
+# ============================================================================
+
+agents:
+
+  - id: AGT-001
+    kind: agent
+    name: claude-web
+    display_name: Claude (Web/App)
+    version: "1.0.0"
+    purpose: "Primary conversational AI for research, architecture, writing, and strategic reasoning."
+    owner: leo
+    ups_layer: B
+    stage: P2
+    status: active
+    created: "2024-01-01"
+    risk:
+      data_sensitivity: confidential
+      autonomy_level: ai_assisted
+      consequence: reversible_high
+      regulatory: unregulated
+    aliases: ["claude", "claude chat", "the main claude", "web claude", "claude.ai"]
+    tags: ["provider:anthropic", "type:conversational", "tier:primary"]
+    agent:
+      explanation: "Claude on claude.ai — the primary AI interface for strategic thinking, architecture design, research, and document production. Has access to web search, Google Drive, Notion, Gmail, and file creation. Cannot execute code on local machines or access the VPS directly."
+      context_priority: 0.95
+      affordances:
+        can_query: true
+        can_test: false
+        can_modify: false
+        can_create_similar: false
+        can_decommission: false
+      related:
+        - ref: agent:AGT-002
+          why: "Claude Code is the execution counterpart — what this agent designs, AGT-002 builds."
+          when: "always"
+        - ref: agent:AGT-004
+          why: "ChatGPT agents provide second opinions and parallel reasoning on architecture."
+          when: "if_comparing_approaches"
+
+    type: llm_conversational
+    runtime:
+      provider: anthropic
+      model: claude-opus-4-6
+      context_window: 1000000
+      speed: standard
+      cost_tier: very_high
+    interface:
+      primary: chat
+      channels: ["claude.ai", "claude-mobile-app"]
+      mcp_servers: ["notion", "google-calendar", "gmail", "huggingface", "figma"]
+    capabilities:
+      features_accessible: []   # Does not invoke ecosystem features directly — designs them
+      connections_usable: ["connection:CON-020", "connection:CON-021", "connection:CON-022"]
+      strengths:
+        - multi_step_reasoning
+        - architecture_design
+        - research
+        - creative_writing
+        - analysis
+        - planning
+        - document_production
+      limitations:
+        - no_local_code_execution
+        - no_file_system_access
+        - no_ssh
+        - no_vps_access
+        - session_memory_only
+    governance:
+      delegation:
+        can_read: ["architecture", "schemas", "documentation", "research", "web"]
+        can_write: ["documents", "schemas", "analysis", "artifacts"]
+        can_execute: ["web_search", "drive_search", "notion_query", "file_creation"]
+        cannot: ["deploy", "modify_infrastructure", "access_production_data", "execute_code_on_servers"]
+      escalation:
+        triggers: ["needs_code_execution", "needs_vps_access", "needs_deployment"]
+        target: "agent:AGT-002"
+        method: "artifact_handoff"
+      audit:
+        logs_decisions: false
+        logs_actions: false
+        log_destination: "none"
+        retention: "session"
+    memory:
+      type: cloud_managed
+      location: "anthropic:memory_system"
+      shared_with: []
+    identity:
+      auth_method: none
+      credential_ref: null
+      can_assume: []
+
+
+  - id: AGT-002
+    kind: agent
+    name: claude-code
+    display_name: Claude Code
+    version: "2.1.76"
+    purpose: "Primary agentic coding and infrastructure agent — builds, deploys, and manages the ecosystem."
+    owner: leo
+    ups_layer: B
+    stage: P2
+    status: active
+    created: "2024-06-01"
+    risk:
+      data_sensitivity: confidential
+      autonomy_level: ai_supervised
+      consequence: irreversible_low
+      regulatory: unregulated
+    aliases: ["claude code", "code agent", "the builder", "CC", "cli claude"]
+    tags: ["provider:anthropic", "type:agentic", "tier:primary", "has:filesystem", "has:shell"]
+    agent:
+      explanation: "Claude Code — the CLI agentic agent that writes code, manages files, runs shell commands, and orchestrates the ecosystem. Has direct access to the local filesystem, SSH to VPS, Doppler secrets, and all MCP servers. The primary executor for anything that needs to be built, deployed, or fixed."
+      context_priority: 0.95
+      affordances:
+        can_query: true
+        can_test: true
+        can_modify: true
+        can_create_similar: false
+        can_decommission: false
+      related:
+        - ref: agent:AGT-001
+          why: "Claude Web is the strategic counterpart — what AGT-001 designs, this agent builds."
+          when: "always"
+        - ref: connection:CON-001
+          why: "Primary AI inference for code generation tasks."
+          when: "if_generating_code"
+
+    type: llm_agentic
+    runtime:
+      provider: anthropic
+      model: claude-opus-4-6
+      context_window: 1000000
+      speed: standard
+      cost_tier: very_high
+    interface:
+      primary: cli
+      channels: ["claude-code-cli"]
+      mcp_servers:
+        - cerebras-code
+        - cerebras-intelligence
+        - doppler
+        - github
+        - notion
+        - desktop-commander
+        - filesystem
+        - browser
+        - mobile-mcp
+        - memory
+        - sequential-thinking
+        - context7
+    capabilities:
+      features_accessible: ["component:CMP-001", "component:CMP-002", "component:CMP-003"]
+      connections_usable:
+        - "connection:CON-001"   # Cerebras
+        - "connection:CON-002"   # Anthropic
+        - "connection:CON-003"   # SSH to VPS
+        - "connection:CON-004"   # Syncthing
+        - "connection:CON-005"   # Doppler
+        - "connection:CON-006"   # GitHub
+      strengths:
+        - code_generation
+        - debugging
+        - tool_orchestration
+        - infrastructure_management
+        - file_operations
+        - multi_step_reasoning
+        - data_transformation
+      limitations:
+        - no_web_browsing
+        - cost_high_per_session
+        - context_can_fill_on_large_repos
+    governance:
+      delegation:
+        can_read: ["code", "configs", "secrets_names", "logs", "documentation", "schemas"]
+        can_write: ["code", "configs", "documentation", "schemas", "scripts"]
+        can_execute: ["shell_commands", "deploy_staging", "run_tests", "install_packages", "git_operations", "mcp_tool_calls"]
+        cannot: ["deploy_production_without_approval", "delete_production_data", "modify_billing", "share_credentials_in_output"]
+      escalation:
+        triggers: ["production_deployment", "data_deletion", "cost_above_threshold", "unfamiliar_infrastructure"]
+        target: "owner:leo"
+        method: "pause_and_ask"
+      audit:
+        logs_decisions: true
+        logs_actions: true
+        log_destination: "file:~/.claude/projects/*/MEMORY.md"
+        retention: "indefinite"
+    memory:
+      type: persistent_file
+      location: "~/.claude/MEMORY.md + project MEMORY.md files"
+      shared_with: []
+    identity:
+      auth_method: inherited
+      credential_ref: "doppler:ai-tools/prd/ANTHROPIC_API_KEY"
+      can_assume: []
+
+
+  - id: AGT-003
+    kind: agent
+    name: n8n-orchestrator
+    display_name: n8n Workflow Engine
+    version: "1.0.0"
+    purpose: "Automated workflow orchestration — syncs data between Notion, APIs, and ecosystem tools on schedule."
+    owner: leo
+    ups_layer: B
+    stage: P2
+    status: active
+    created: "2024-03-01"
+    risk:
+      data_sensitivity: internal
+      autonomy_level: ai_supervised
+      consequence: reversible_low
+      regulatory: unregulated
+    aliases: ["n8n", "workflow engine", "automation", "the orchestrator"]
+    tags: ["type:workflow", "self_hosted:true", "domain:orchestration"]
+    agent:
+      explanation: "n8n workflow engine running on the VPS. Handles scheduled automations like Notion database syncing, webhook processing, and data pipeline orchestration. Deterministic flows with AI agent nodes for intelligent routing."
+      context_priority: 0.6
+      affordances:
+        can_query: true
+        can_test: true
+        can_modify: false
+        can_create_similar: false
+        can_decommission: false
+      related:
+        - ref: connection:CON-010
+          why: "n8n triggers Notion sync workflows through this connection."
+          when: "if_debugging_sync"
+
+    type: workflow_runner
+    runtime:
+      provider: self_hosted
+      model: null
+      context_window: null
+      speed: fast
+      cost_tier: low
+    interface:
+      primary: webhook
+      channels: ["https://vps:5678"]
+      mcp_servers: []
+    capabilities:
+      features_accessible: ["component:CMP-010", "component:CMP-011"]
+      connections_usable: ["connection:CON-010", "connection:CON-011"]
+      strengths:
+        - workflow_orchestration
+        - scheduled_automation
+        - webhook_processing
+        - data_sync
+      limitations:
+        - no_reasoning
+        - no_code_generation
+        - deterministic_only
+        - requires_predefined_flows
+    governance:
+      delegation:
+        can_read: ["notion_databases", "api_responses", "webhooks"]
+        can_write: ["notion_pages", "task_status"]
+        can_execute: ["sync_notion", "process_webhook", "trigger_downstream"]
+        cannot: ["modify_workflows_autonomously", "access_financial_data", "send_external_emails"]
+      escalation:
+        triggers: ["workflow_failure_3x", "unknown_webhook_source", "rate_limit_hit"]
+        target: "owner:leo"
+        method: "notify_and_continue"
+      audit:
+        logs_decisions: false
+        logs_actions: true
+        log_destination: "system:n8n_execution_log"
+        retention: "30d"
+    memory:
+      type: none
+      location: null
+      shared_with: []
+    identity:
+      auth_method: service_account
+      credential_ref: null
+      can_assume: []

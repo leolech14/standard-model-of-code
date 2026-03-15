@@ -1,0 +1,471 @@
+# ============================================================================
+# CONNECTIONS REGISTRY — Live Ecosystem Data
+# ============================================================================
+
+connections:
+
+  - id: CON-001
+    kind: connection
+    name: cerebras-inference
+    display_name: Cerebras AI Inference
+    version: "1.0.0"
+    purpose: "Fast inference for code generation and rapid intelligence tasks via Cerebras cloud API."
+    owner: leo
+    ups_layer: B
+    stage: P1
+    status: active
+    created: "2024-09-01"
+    risk:
+      data_sensitivity: internal
+      autonomy_level: ai_assisted
+      consequence: reversible_low
+      regulatory: unregulated
+    aliases: ["cerebras", "cerebras api", "fast inference", "cerebras connection"]
+    tags: ["provider:cerebras", "domain:ai", "protocol:http"]
+    agent:
+      explanation: "Connection to Cerebras cloud inference API. Used by 8+ Python tools and 2 MCP servers for fast code generation and intelligence analysis. If this goes down, rapid intel and fast code generation degrade to slower providers."
+      context_priority: 0.8
+      affordances:
+        can_query: true
+        can_test: true
+        can_modify: false
+        can_create_similar: true
+        can_decommission: false
+      related:
+        - ref: external:cerebras
+          why: "This is the API provider. Check their status page if connection degrades."
+          when: "if_debugging"
+        - ref: connection:CON-002
+          why: "Anthropic is the fallback provider if Cerebras is unavailable."
+          when: "if_broken"
+
+    source: agent:AGT-002
+    target: external:cerebras
+
+    relationship: depends_on
+
+    transport:
+      protocol: http_rest
+      endpoint: "https://api.cerebras.ai/v1"
+      direction: pull
+      alternatives:
+        - protocol: mcp_stdio
+          endpoint: null
+          note: "cerebras-code MCP server wraps this API. Use if direct HTTP is problematic."
+
+    auth:
+      method: bearer_token
+      credentials:
+        - ref: "doppler:ai-tools/prd/CEREBRAS_API_KEY"
+          role: api_key
+      rotation:
+        policy: manual
+        last_rotated: "2024-09-01"
+        expires: null
+
+    health:
+      status: active
+      last_verified: "2026-03-15"
+      verification:
+        method: automated_ping
+        command: "curl -s -o /dev/null -w '%{http_code}' -H 'Authorization: Bearer $CEREBRAS_API_KEY' https://api.cerebras.ai/v1/models"
+        interpretation: "200=healthy, 401=credential expired, 429=rate limited, timeout=endpoint down"
+      failure_count_90d: 1
+      mttr_avg: "PT30M"
+
+    impact:
+      data_flows: non_sensitive
+      consequence: degraded_ux
+      human_impact: "Fast code generation and rapid intelligence tools become unavailable. Workflows fall back to Anthropic (slower, more expensive) or queue for retry."
+      blast_radius: ["component:CMP-001", "component:CMP-002", "component:CMP-003"]
+      recovery_action: "Check Cerebras status page. If provider issue, switch tools to Anthropic fallback. If credential issue, rotate via Doppler."
+
+    operational:
+      rate_limit: "30/min"
+      cost_model: per_token
+      unit_cost: "$0.0002/1k tokens"
+      monthly_budget: 50
+      sla: "best_effort"
+      docs_url: "https://docs.cerebras.ai"
+
+
+  - id: CON-002
+    kind: connection
+    name: anthropic-inference
+    display_name: Anthropic API
+    version: "1.0.0"
+    purpose: "Primary AI inference for complex reasoning, architecture, and production-quality outputs."
+    owner: leo
+    ups_layer: B
+    stage: P1
+    status: active
+    created: "2024-01-01"
+    risk:
+      data_sensitivity: confidential
+      autonomy_level: ai_supervised
+      consequence: lost_capability
+      regulatory: unregulated
+    aliases: ["anthropic", "claude api", "anthropic api"]
+    tags: ["provider:anthropic", "domain:ai", "protocol:http", "tier:critical"]
+    agent:
+      explanation: "Connection to Anthropic API. Powers Claude Code (AGT-002) and direct API calls from Python tools. This is the most critical AI connection — if it goes down, the primary builder agent loses inference capability."
+      context_priority: 0.95
+      affordances:
+        can_query: true
+        can_test: true
+        can_modify: false
+        can_create_similar: false
+        can_decommission: false
+      related:
+        - ref: agent:AGT-002
+          why: "Claude Code depends on this connection for all inference."
+          when: "always"
+        - ref: connection:CON-001
+          why: "Cerebras is a partial fallback for code-generation tasks."
+          when: "if_broken"
+
+    source: agent:AGT-002
+    target: external:anthropic
+
+    relationship: depends_on
+
+    transport:
+      protocol: http_rest
+      endpoint: "https://api.anthropic.com/v1"
+      direction: pull
+      alternatives: []
+
+    auth:
+      method: api_key_header
+      credentials:
+        - ref: "doppler:ai-tools/prd/ANTHROPIC_API_KEY"
+          role: api_key
+      rotation:
+        policy: manual
+        last_rotated: "2024-01-01"
+        expires: null
+
+    health:
+      status: active
+      last_verified: "2026-03-15"
+      verification:
+        method: manual
+        command: "curl -s -H 'x-api-key: $ANTHROPIC_API_KEY' -H 'anthropic-version: 2023-06-01' https://api.anthropic.com/v1/models"
+        interpretation: "200=healthy, 401=key invalid, 429=rate limited, 529=overloaded"
+      failure_count_90d: 0
+      mttr_avg: null
+
+    impact:
+      data_flows: confidential
+      consequence: lost_capability
+      human_impact: "Claude Code loses inference. All agentic coding, infrastructure management, and ecosystem maintenance stops until restored. Critical."
+      blast_radius: ["agent:AGT-002"]
+      recovery_action: "Check Anthropic status page. If billing issue, check account. No alternative provider covers full Claude Code capability."
+
+    operational:
+      rate_limit: "4000/min"
+      cost_model: per_token
+      unit_cost: "$0.015/1k input, $0.075/1k output (Opus)"
+      monthly_budget: 500
+      sla: "99.9%"
+      docs_url: "https://docs.anthropic.com"
+
+
+  - id: CON-003
+    kind: connection
+    name: vps-ssh
+    display_name: VPS SSH Access
+    version: "1.0.0"
+    purpose: "Secure shell access to production VPS for deployment, monitoring, and infrastructure management."
+    owner: leo
+    ups_layer: B
+    stage: P1
+    status: active
+    created: "2024-01-01"
+    risk:
+      data_sensitivity: confidential
+      autonomy_level: human_operated
+      consequence: irreversible_low
+      regulatory: unregulated
+    aliases: ["vps", "ssh", "server access", "the server"]
+    tags: ["protocol:ssh", "domain:infrastructure", "tier:critical"]
+    agent:
+      explanation: "SSH tunnel to the production VPS via Tailscale VPN mesh. Used for deployments, log inspection, service management, and direct infrastructure work. Tailscale provides the network layer; SSH provides the shell."
+      context_priority: 0.7
+      affordances:
+        can_query: true
+        can_test: true
+        can_modify: false
+        can_create_similar: false
+        can_decommission: false
+      related:
+        - ref: connection:CON-004
+          why: "Syncthing uses the same Tailscale network layer for file replication."
+          when: "if_debugging_network"
+
+    source: agent:AGT-002
+    target: "system:vps-openclaw"
+
+    relationship: depends_on
+
+    transport:
+      protocol: ssh
+      endpoint: "openclaw-vps:22"
+      direction: bidi_asymmetric
+      alternatives: []
+
+    auth:
+      method: ssh_key
+      credentials:
+        - ref: "local:~/.ssh/id_ed25519"
+          role: ssh_private_key
+      rotation:
+        policy: on_compromise
+        last_rotated: "2024-01-01"
+        expires: null
+
+    health:
+      status: active
+      last_verified: "2026-03-15"
+      verification:
+        method: automated_ping
+        command: "ssh -o ConnectTimeout=5 openclaw-vps 'echo ok'"
+        interpretation: "ok=healthy, timeout=tailscale down or VPS unreachable, permission denied=key issue"
+      failure_count_90d: 0
+      mttr_avg: null
+
+    impact:
+      data_flows: confidential
+      consequence: lost_capability
+      human_impact: "Cannot deploy, monitor, or manage production services. OpenClaw, n8n, and all VPS-hosted services become unmanageable remotely."
+      blast_radius: ["agent:AGT-003", "component:CMP-010", "component:CMP-011"]
+      recovery_action: "Check Tailscale status. If VPS unreachable, check hosting provider (Hostinger). If key issue, regenerate SSH keypair."
+
+    operational:
+      rate_limit: unlimited
+      cost_model: included_in_plan
+      unit_cost: null
+      monthly_budget: null
+      sla: "best_effort"
+      docs_url: null
+
+
+  - id: CON-004
+    kind: connection
+    name: syncthing-replication
+    display_name: Syncthing Mac↔VPS
+    version: "1.0.0"
+    purpose: "Bidirectional file synchronization between local development machine and production VPS."
+    owner: leo
+    ups_layer: B
+    stage: P1
+    status: active
+    created: "2024-02-01"
+    risk:
+      data_sensitivity: internal
+      autonomy_level: human_operated
+      consequence: reversible_low
+      regulatory: unregulated
+    aliases: ["syncthing", "file sync", "sync"]
+    tags: ["protocol:sync", "domain:infrastructure", "direction:bidirectional"]
+    agent:
+      explanation: "Syncthing bidirectional file sync between the local Mac and the VPS. Keeps project files, configs, and tool scripts synchronized. Runs over Tailscale. If it breaks, local and remote filesystems drift apart — not immediately critical but causes confusion over time."
+      context_priority: 0.4
+      affordances:
+        can_query: true
+        can_test: true
+        can_modify: false
+        can_create_similar: false
+        can_decommission: false
+      related:
+        - ref: connection:CON-003
+          why: "Both use the Tailscale network layer. If Tailscale is down, both break."
+          when: "if_debugging_network"
+
+    source: "system:mac-local"
+    target: "system:vps-openclaw"
+
+    relationship: replicates
+
+    transport:
+      protocol: sync_bidirectional
+      endpoint: "tailscale:syncthing"
+      direction: bidi_symmetric
+      alternatives: []
+
+    auth:
+      method: api_key
+      credentials:
+        - ref: "doppler:ai-tools/prd/SYNCTHING_API_KEY"
+          role: api_key
+        - ref: "doppler:ai-tools/prd/SYNCTHING_VPS_API_KEY"
+          role: api_key
+      rotation:
+        policy: manual
+        last_rotated: "2024-02-01"
+        expires: null
+
+    health:
+      status: active
+      last_verified: "2026-03-10"
+      verification:
+        method: manual
+        command: "curl -s -H 'X-API-Key: $SYNCTHING_API_KEY' http://localhost:8384/rest/system/status | jq .myID"
+        interpretation: "Returns device ID = healthy. Connection refused = Syncthing not running."
+      failure_count_90d: 0
+      mttr_avg: null
+
+    impact:
+      data_flows: internal
+      consequence: degraded_ux
+      human_impact: "Local and VPS file systems drift apart. Not immediately breaking but causes version confusion. Manual rsync as workaround."
+      blast_radius: []
+      recovery_action: "Restart Syncthing on both ends. Check Tailscale connectivity. If persistent, re-pair devices."
+
+    operational:
+      rate_limit: unlimited
+      cost_model: free
+      unit_cost: null
+      monthly_budget: null
+      sla: "best_effort"
+      docs_url: null
+
+
+  - id: CON-005
+    kind: connection
+    name: doppler-secrets
+    display_name: Doppler Secrets Manager
+    version: "1.0.0"
+    purpose: "Centralized credential management — the bootstrap layer that all other authenticated connections depend on."
+    owner: leo
+    ups_layer: B
+    stage: P0
+    status: active
+    created: "2024-01-01"
+    risk:
+      data_sensitivity: restricted
+      autonomy_level: human_operated
+      consequence: irreversible_high
+      regulatory: unregulated
+    aliases: ["doppler", "secrets", "credentials", "the vault"]
+    tags: ["domain:secrets", "tier:critical", "bootstrap:true"]
+    agent:
+      explanation: "Doppler is the credential backbone. Every authenticated connection in the ecosystem resolves its secrets through Doppler. If Doppler is unreachable, no new authenticated connections can be established. Existing sessions with cached credentials continue until they expire. This is the ONE bootstrap dependency — Doppler's own config token is the only hardcoded credential."
+      context_priority: 0.99
+      affordances:
+        can_query: true
+        can_test: true
+        can_modify: false
+        can_create_similar: false
+        can_decommission: false
+      related:
+        - ref: connection:CON-001
+          why: "Cerebras API key is stored in Doppler."
+          when: "if_debugging_auth"
+        - ref: connection:CON-002
+          why: "Anthropic API key is stored in Doppler."
+          when: "if_debugging_auth"
+
+    source: "system:ecosystem"
+    target: external:doppler
+
+    relationship: depends_on
+
+    transport:
+      protocol: http_rest
+      endpoint: "https://api.doppler.com/v3"
+      direction: pull
+      alternatives:
+        - protocol: cli_subprocess
+          endpoint: "doppler run --"
+          note: "CLI wraps the API. Preferred for local execution. Caches credentials."
+
+    auth:
+      method: service_account
+      credentials:
+        - ref: "local:~/.doppler/.dp.ct.*"
+          role: config_token
+      rotation:
+        policy: on_compromise
+        last_rotated: "2024-01-01"
+        expires: null
+
+    health:
+      status: active
+      last_verified: "2026-03-15"
+      verification:
+        method: automated_ping
+        command: "doppler secrets --only-names --project ai-tools --config prd 2>/dev/null | head -1"
+        interpretation: "Returns secret name = healthy. Error 401 = token expired. Timeout = Doppler down."
+      failure_count_90d: 0
+      mttr_avg: null
+
+    impact:
+      data_flows: restricted
+      consequence: lost_capability
+      human_impact: "No new authenticated connections can be established. All tools requiring fresh credentials fail. Existing cached sessions survive temporarily. The ecosystem is effectively frozen."
+      blast_radius: ["connection:CON-001", "connection:CON-002", "connection:CON-006"]
+      recovery_action: "Check Doppler status page. If config token expired, regenerate at doppler.com. This is the ONE manual intervention point."
+
+    operational:
+      rate_limit: "120/min"
+      cost_model: free
+      unit_cost: null
+      monthly_budget: null
+      sla: "99.99%"
+      docs_url: "https://docs.doppler.com"
+
+
+# ============================================================================
+# EXTERNAL PROVIDERS INDEX
+# ============================================================================
+
+external_providers:
+
+  - id: cerebras
+    display_name: Cerebras
+    domain: ai_provider
+    base_url: "https://api.cerebras.ai/v1"
+    status_page: null
+    docs_url: "https://docs.cerebras.ai"
+    notes: "Fastest inference. Primary for code gen and rapid intel. Quota limits can trigger 429s."
+
+  - id: anthropic
+    display_name: Anthropic
+    domain: ai_provider
+    base_url: "https://api.anthropic.com/v1"
+    status_page: "https://status.anthropic.com"
+    docs_url: "https://docs.anthropic.com"
+    notes: "Primary reasoning provider. Powers both Claude Web and Claude Code. Most expensive per token."
+
+  - id: doppler
+    display_name: Doppler
+    domain: dev_tools
+    base_url: "https://api.doppler.com/v3"
+    status_page: "https://status.doppler.com"
+    docs_url: "https://docs.doppler.com"
+    notes: "Bootstrap dependency. The only hardcoded credential in the ecosystem is Doppler's own config token."
+
+  - id: notion
+    display_name: Notion
+    domain: productivity
+    base_url: "https://api.notion.com/v1"
+    status_page: null
+    docs_url: "https://developers.notion.com"
+    notes: "Used for task management, knowledge base, and database sync via n8n. Triple-connected (plugin + 2 MCP connectors) — deduplicate."
+
+  - id: github
+    display_name: GitHub
+    domain: dev_tools
+    base_url: "https://api.github.com"
+    status_page: "https://www.githubstatus.com"
+    docs_url: "https://docs.github.com"
+    notes: "Source control, CI/CD, MCP server for agentic git operations."
+
+  - id: telegram
+    display_name: Telegram
+    domain: social_comms
+    base_url: "https://api.telegram.org"
+    status_page: null
+    docs_url: "https://core.telegram.org/bots/api"
+    notes: "Bot API for notifications and automation triggers."

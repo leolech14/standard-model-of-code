@@ -1,0 +1,847 @@
+# ============================================================================
+# ATLAS.yaml — The Ecosystem on One File
+# Load this FIRST. Everything else follows.
+#
+# FIVE NODE TYPES (closed macro):
+#   component  — software that transforms (passive, does not exercise discretionary judgment)
+#   agent      — software with judgment (active, nondeterministic, governed)
+#   resource   — governed infrastructure (databases, secrets, queues, buckets)
+#   external   — providers outside the ecosystem boundary
+#   connection — first-class data flow edges between any two nodes
+#
+# NINE CANONICAL RELATIONSHIPS (closed macro):
+#   depends_on | integrates | orchestrates | replicates | delegates |
+#   publishes | authenticates_via | observes | mediates
+#
+#   Qualifiers are open leaf: relationship.qualifier: x_lbl.scrape_metrics
+#
+# GRAPH:
+#   Graph = (Components ∪ Agents ∪ Resources ∪ Externals, Connections)
+#   Every ecosystem question is a graph traversal on this file.
+#
+# RULES:
+#   Only present fields exist. No nulls. No placeholders.
+#   Stage is a ratchet. P0 = exists. P5 = revenue depends on it.
+#   Agents load this file at session start. It IS the ecosystem context.
+# ============================================================================
+
+
+# =====================
+# EXTERNAL PROVIDERS
+# =====================
+
+externals:
+
+  - id: EXT-001
+    name: cerebras
+    display_name: Cerebras
+    domain: ai_provider
+    base_url: https://api.cerebras.ai/v1
+    docs_url: https://docs.cerebras.ai
+    notes: Fastest inference. Primary for code gen and rapid intel.
+
+  - id: EXT-002
+    name: anthropic
+    display_name: Anthropic
+    domain: ai_provider
+    base_url: https://api.anthropic.com/v1
+    status_page: https://status.anthropic.com
+    docs_url: https://docs.anthropic.com
+    notes: Primary reasoning provider. Powers Claude Web and Claude Code. Most expensive per token.
+
+  - id: EXT-003
+    name: doppler
+    display_name: Doppler
+    domain: dev_tools
+    base_url: https://api.doppler.com/v3
+    status_page: https://status.doppler.com
+    docs_url: https://docs.doppler.com
+    notes: Bootstrap dependency. The ONLY hardcoded credential is Doppler's own config token.
+
+  - id: EXT-004
+    name: notion
+    display_name: Notion
+    domain: productivity
+    base_url: https://api.notion.com/v1
+    docs_url: https://developers.notion.com
+    notes: Task management, knowledge base, database sync via n8n. Triple-connected (plugin + 2 MCP connectors).
+
+  - id: EXT-005
+    name: github
+    display_name: GitHub
+    domain: dev_tools
+    base_url: https://api.github.com
+    status_page: https://www.githubstatus.com
+    docs_url: https://docs.github.com
+    notes: Source control, CI/CD, MCP server for agentic git operations.
+
+  - id: EXT-006
+    name: telegram
+    display_name: Telegram
+    domain: social_comms
+    base_url: https://api.telegram.org
+    docs_url: https://core.telegram.org/bots/api
+    notes: Bot API for notifications and automation triggers.
+
+  - id: EXT-007
+    name: openai
+    display_name: OpenAI
+    domain: ai_provider
+    base_url: https://api.openai.com/v1
+    docs_url: https://platform.openai.com/docs
+    notes: Powers ChatGPT agents. GPT-4.1 and o-series.
+
+  - id: EXT-008
+    name: google-ai
+    display_name: Google AI
+    domain: ai_provider
+    base_url: https://generativelanguage.googleapis.com/v1
+    docs_url: https://ai.google.dev/docs
+    notes: Gemini models. Used via AI Studio and Vertex. Also powers embeddings for LanceDB memory.
+
+  - id: EXT-009
+    name: elevenlabs
+    display_name: ElevenLabs
+    domain: media_creative
+    base_url: https://api.elevenlabs.io/v1
+    docs_url: https://docs.elevenlabs.io
+    notes: Voice synthesis for WhatsApp Rainmaker voice pipeline. Fragile dependency. MCP server configured.
+
+  - id: EXT-010
+    name: replicate
+    display_name: Replicate
+    domain: ai_provider
+    base_url: https://api.replicate.com/v1
+    docs_url: https://replicate.com/docs
+    notes: Model hosting. Image/video generation tasks.
+
+  - id: EXT-011
+    name: hostinger
+    display_name: Hostinger
+    domain: cloud_infra
+    notes: VPS hosting provider. Hosts the production ecosystem (OpenClaw).
+
+  - id: EXT-012
+    name: huggingface
+    display_name: Hugging Face
+    domain: ai_provider
+    base_url: https://huggingface.co
+    docs_url: https://huggingface.co/docs
+    notes: Model hub, Spaces, datasets. MCP server connected.
+
+
+# =====================
+# AGENTS
+# =====================
+
+agents:
+
+  - id: AGT-001
+    kind: agent
+    name: claude-web
+    display_name: Claude (Web/App)
+    purpose: Primary conversational AI for research, architecture, writing, and strategic reasoning.
+    owner: leo
+    stage: P2
+    status: active
+    type: llm_conversational
+    runtime:
+      provider: anthropic
+      model: claude-opus-4-6
+      context_window: 1000000
+      cost_tier: very_high
+    interface:
+      primary: chat
+      channels: [claude.ai, claude-mobile-app]
+      mcp_servers: [notion, google-calendar, gmail, huggingface, figma]
+    capabilities:
+      strengths: [multi_step_reasoning, architecture_design, research, creative_writing, analysis, planning, document_production]
+      limitations: [no_local_code_execution, no_file_system_access, no_ssh, no_vps_access]
+    governance:
+      delegation:
+        can_read: [architecture, schemas, documentation, research, web]
+        can_write: [documents, schemas, analysis, artifacts]
+        can_execute: [web_search, drive_search, notion_query, file_creation]
+        cannot: [deploy, modify_infrastructure, access_production_data, execute_code_on_servers]
+      escalation:
+        triggers: [needs_code_execution, needs_vps_access, needs_deployment]
+        target: agent:AGT-002
+        method: artifact_handoff
+    agent:
+      explanation: "Claude on claude.ai — the primary AI for strategic thinking, architecture, research, and documents. Has web search, Google Drive, Notion, Gmail, Desktop Commander for filesystem. Cannot execute code on local machines or access the VPS."
+      context_priority: 0.95
+      related:
+        - ref: agent:AGT-002
+          why: Claude Code is the execution counterpart — what this agent designs, AGT-002 builds.
+          when: always
+
+  - id: AGT-002
+    kind: agent
+    name: claude-code
+    display_name: Claude Code (Rainmaker)
+    purpose: Primary agentic coding and infrastructure agent — builds, deploys, and manages the ecosystem.
+    owner: leo
+    stage: P2
+    status: active
+    type: llm_agentic
+    runtime:
+      provider: anthropic
+      model: claude-opus-4-6
+      context_window: 1000000
+      cost_tier: very_high
+    interface:
+      primary: cli
+      channels: [claude-code-cli]
+      mcp_servers: [cerebras-code, cerebras-intelligence, doppler, github, notion, desktop-commander, filesystem, browser, mobile-mcp, memory, sequential-thinking, context7]
+    capabilities:
+      components_accessible: [CMP-001, CMP-002, CMP-003, CMP-010]
+      connections_usable: [CON-001, CON-002, CON-003, CON-004, CON-005, CON-006]
+      strengths: [code_generation, debugging, tool_orchestration, infrastructure_management, file_operations, multi_step_reasoning, data_transformation]
+      limitations: [no_web_browsing, cost_high_per_session, context_fills_on_large_repos]
+    governance:
+      delegation:
+        can_read: [code, configs, secrets_names, logs, documentation, schemas]
+        can_write: [code, configs, documentation, schemas, scripts]
+        can_execute: [shell_commands, deploy_staging, run_tests, install_packages, git_operations, mcp_tool_calls]
+        cannot: [deploy_production_without_approval, delete_production_data, modify_billing, share_credentials_in_output]
+      escalation:
+        triggers: [production_deployment, data_deletion, cost_above_threshold, unfamiliar_infrastructure]
+        target: owner:leo
+        method: pause_and_ask
+      audit:
+        logs_decisions: true
+        logs_actions: true
+        log_destination: "~/.claude/projects/*/MEMORY.md"
+    memory:
+      type: persistent_file
+      location: "~/.claude/MEMORY.md + project MEMORY.md files"
+    agent:
+      explanation: "Claude Code (Rainmaker) — the CLI agentic agent. Writes code, manages files, runs shell commands, orchestrates the ecosystem. Direct access to filesystem, SSH, Doppler, all MCP servers. The primary executor."
+      context_priority: 0.95
+      related:
+        - ref: agent:AGT-001
+          why: Claude Web is the strategic counterpart — what AGT-001 designs, this agent builds.
+          when: always
+        - ref: connection:CON-001
+          why: Primary AI inference for code generation tasks.
+          when: if_generating_code
+        - ref: connection:CON-005
+          why: All credentials flow through Doppler. If auth fails, check this first.
+          when: if_debugging_auth
+
+  - id: AGT-003
+    kind: agent
+    name: n8n-orchestrator
+    display_name: n8n Workflow Engine
+    purpose: Automated workflow orchestration — syncs Notion, processes webhooks, runs scheduled data pipelines.
+    owner: leo
+    stage: P2
+    status: active
+    type: workflow_runner
+    runtime:
+      provider: self_hosted
+      model: null
+      cost_tier: low
+    interface:
+      primary: webhook
+      channels: [vps:5678]
+    capabilities:
+      strengths: [workflow_orchestration, scheduled_automation, webhook_processing, data_sync]
+      limitations: [no_reasoning, no_code_generation, deterministic_only, requires_predefined_flows]
+    governance:
+      cannot: [modify_workflows_autonomously, access_financial_data, send_external_emails]
+      escalation:
+        triggers: [workflow_failure_3x, unknown_webhook_source, rate_limit_hit]
+        target: owner:leo
+        method: notify_and_continue
+    agent:
+      explanation: "n8n on the VPS. Handles Notion sync, webhook processing, scheduled pipelines. Deterministic flows with occasional AI agent nodes. If sync is broken, check this agent and its connections."
+      context_priority: 0.6
+      related:
+        - ref: connection:CON-010
+          why: n8n triggers Notion sync workflows through this connection.
+          when: if_debugging_sync
+
+  - id: AGT-004
+    kind: agent
+    name: chatgpt-agents
+    display_name: ChatGPT Agents
+    purpose: Parallel reasoning, second opinions, adversarial auditing, and extended research via OpenAI models.
+    owner: leo
+    stage: P1
+    status: active
+    type: llm_conversational
+    runtime:
+      provider: openai
+      model: gpt-4.1
+      context_window: 1000000
+      cost_tier: high
+    interface:
+      primary: chat
+      channels: [chatgpt.com]
+    capabilities:
+      strengths: [research, adversarial_thinking, parallel_reasoning, long_context]
+      limitations: [no_ecosystem_access, no_file_system, no_code_execution, separate_context_per_session]
+    governance:
+      cannot: [access_ecosystem_directly, execute_commands, modify_files]
+    agent:
+      explanation: "ChatGPT agents for second opinions, adversarial audits, and parallel research. No direct ecosystem access — work transferred via copy/paste or file upload. Valuable for stress-testing architecture decisions."
+      context_priority: 0.4
+
+
+# =====================
+# COMPONENTS
+# =====================
+
+components:
+
+  - id: CMP-001
+    kind: component
+    name: cerebras-rapid-intel
+    display_name: Cerebras Rapid Intelligence
+    purpose: Fast AI-powered research and analysis using Cerebras inference for speed-critical tasks.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/cerebras_rapid_intel.py"
+      environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    inputs:
+      - name: query
+        type: string
+        required: true
+        description: Research question or analysis prompt.
+    outputs:
+      - name: analysis
+        type: json
+        description: Structured analysis with findings and confidence scores.
+    requires_connections: [CON-001]
+    feeds_into: [CMP-002]
+    agent:
+      explanation: "Fast intelligence tool on Cerebras. Takes a research query, returns structured analysis at high speed. Use when speed matters more than depth."
+      context_priority: 0.6
+
+  - id: CMP-002
+    kind: component
+    name: collider
+    display_name: Collider Code Analyzer
+    purpose: Deep code analysis using algebraic topology — extracts structural patterns and architectural health.
+    owner: leo
+    application: wave-ai-tools
+    stage: P3
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "./collider full {input_path} --output {output_dir}"
+      environment: []
+    inputs:
+      - name: target_path
+        type: string
+        required: true
+        description: Path to the codebase to analyze.
+    outputs:
+      - name: analysis_report
+        type: file:json
+        description: Full structural analysis with Betti numbers, incoherence scores, particle decomposition.
+      - name: brain_download
+        type: file:md
+        description: Human/LLM-readable summary of findings.
+    requires_connections: []
+    feeds_into: [CMP-003]
+    fed_by: [CMP-001]
+    agent:
+      explanation: "The Collider — code analysis engine based on SMoC. Applies algebraic topology (Betti numbers), 16-level holarchy, and 5-dimensional incoherence decomposition. Produces Brain Downloads for LLM consumption."
+      context_priority: 0.7
+
+  - id: CMP-003
+    kind: component
+    name: briefing-generator
+    display_name: Briefing Generator
+    purpose: Compresses Collider analysis output into dense, actionable briefings for AI agents and humans.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: transformation
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/collider/briefing.py"
+    inputs:
+      - name: collider_output
+        type: file:json
+        required: true
+    outputs:
+      - name: briefing
+        type: file:md
+    fed_by: [CMP-002]
+    agent:
+      explanation: "Takes raw Collider output and compresses it into actionable briefings. The 'so what' layer on top of deep analysis."
+      context_priority: 0.5
+
+  - id: CMP-010
+    kind: component
+    name: notion-sync
+    display_name: Notion Database Sync
+    purpose: Automated synchronization of Notion databases (Tasks, Events, Runs to TimeView) via n8n.
+    owner: leo
+    application: ecosystem-platform
+    stage: P2
+    status: active
+    category: orchestration
+    delivery: scheduled_job
+    invoke:
+      method: webhook:n8n/notion-sync
+      environment: [doppler:ai-tools/prd/NOTION_API_KEY]
+    requires_connections: [CON-010]
+    agent:
+      explanation: "Notion database sync running on n8n. Keeps Tasks, Events, and Runs in sync with TimeView. If TimeView shows stale data, check this component and AGT-003."
+      context_priority: 0.5
+
+  - id: CMP-052
+    kind: component
+    name: ai-analyze
+    display_name: AI Analysis Tool
+    purpose: Smart-routed AI queries with mode selection (standard, forensic, architect) via Gemini.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/analyze.py {query} --mode {mode}"
+      environment: [doppler:ai-tools/prd/GEMINI_API_KEY]
+    inputs:
+      - name: query
+        type: string
+        required: true
+      - name: mode
+        type: enum
+        values: [standard, forensic, architect]
+    outputs:
+      - name: analysis_result
+        type: text:md
+    agent:
+      explanation: "AI analysis tool with smart routing. Modes: standard (general), forensic (deep investigation), architect (structural reasoning). Uses Gemini."
+      context_priority: 0.5
+
+  - id: CMP-056
+    kind: component
+    name: cerebras-spiral-intel
+    display_name: Cerebras Spiral Intelligence
+    purpose: Multi-pass iterative codebase understanding — spirals upward in confidence across 5 passes.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/cerebras_spiral_intel.py spiral --parallel -w 20"
+      environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    requires_connections: [CON-001]
+    feeds_into: [CMP-002]
+    agent:
+      explanation: "Spiral Intelligence — multi-pass codebase understanding using Cerebras (3000 t/s). P1 surface scan → P2 gap filling → P3 dependency resolution → P4 subsystem synthesis → P5 unified model. 5,455 files analyzed in 5.4 minutes."
+      context_priority: 0.5
+
+  - id: CMP-060
+    kind: component
+    name: reh-mcp-server
+    display_name: REH MCP Server
+    purpose: Git-powered codebase archaeology and Claude Code session mining — 11 MCP tools across 3 layers.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: analysis
+    delivery: mcp_tool
+    invoke:
+      method: "uv run python wave/tools/mcp/mcp_history_server.py"
+    agent:
+      explanation: "REH — Repository Evolution History. Git archaeology + session mining via MCP. 11 tools: timeline, pickaxe, file history, capability changes, directory activity, evolution reports, briefings, velocity metrics, session search."
+      context_priority: 0.5
+
+  - id: CMP-061
+    kind: component
+    name: cerebras-intelligence-mcp
+    display_name: Cerebras Intelligence MCP Server
+    purpose: Fast LLM queries, Perplexity research, token estimation via Cerebras — 10 MCP tools.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: analysis
+    delivery: mcp_tool
+    invoke:
+      method: "doppler run -- python wave/tools/ai/mcp_servers/cerebras_intelligence_mcp.py"
+      environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    requires_connections: [CON-001]
+    agent:
+      explanation: "Cerebras Intelligence MCP — 10 tools for fast LLM queries, Perplexity research, and token estimation. Registered as ECO-047 in TOOLS_REGISTRY."
+      context_priority: 0.5
+
+
+# =====================
+# CONNECTIONS
+# =====================
+
+connections:
+
+  - id: CON-001
+    kind: connection
+    name: cerebras-inference
+    display_name: Cerebras AI Inference
+    purpose: Fast inference for code generation and rapid intelligence via Cerebras cloud API.
+    owner: leo
+    stage: P1
+    status: active
+    source: agent:AGT-002
+    target: external:EXT-001
+    relationship:
+      canonical: depends_on
+    transport:
+      protocol: http_rest
+      endpoint: https://api.cerebras.ai/v1
+      direction: pull
+      alternatives:
+        - protocol: mcp_stdio
+          note: cerebras-code MCP server wraps this API.
+    auth:
+      method: bearer_token
+      credentials:
+        - ref: doppler:ai-tools/prd/CEREBRAS_API_KEY
+          role: api_key
+    health:
+      status: active
+      last_verified: "2026-03-15"
+      verification:
+        command: "curl -s -o /dev/null -w '%{http_code}' -H 'Authorization: Bearer $CEREBRAS_API_KEY' https://api.cerebras.ai/v1/models"
+        interpretation: "200=healthy, 401=credential expired, 429=rate limited, timeout=down"
+    impact:
+      consequence: degraded_ux
+      human_impact: Fast code gen and rapid intel unavailable. Falls back to Anthropic (slower, pricier).
+      blast_radius: [CMP-001, CMP-056, CMP-061]
+      recovery_action: Check Cerebras status. If credential, rotate in Doppler. If provider, use Anthropic fallback.
+    operational:
+      rate_limit: "30/min"
+      cost_model: per_token
+      unit_cost: "$0.0002/1k tokens"
+      monthly_budget: 50
+    agent:
+      explanation: "Cerebras API connection. Used by rapid intel, spiral intel, and MCP tools. If this goes down, those features degrade to slower providers."
+      context_priority: 0.8
+
+  - id: CON-002
+    kind: connection
+    name: anthropic-inference
+    display_name: Anthropic API
+    purpose: Primary AI inference for complex reasoning, architecture, and production-quality outputs.
+    owner: leo
+    stage: P1
+    status: active
+    source: agent:AGT-002
+    target: external:EXT-002
+    relationship:
+      canonical: depends_on
+    transport:
+      protocol: http_rest
+      endpoint: https://api.anthropic.com/v1
+      direction: pull
+    auth:
+      method: api_key_header
+      credentials:
+        - ref: doppler:ai-tools/prd/ANTHROPIC_API_KEY
+          role: api_key
+    health:
+      status: active
+      last_verified: "2026-03-15"
+      verification:
+        command: "curl -s -H 'x-api-key: $ANTHROPIC_API_KEY' -H 'anthropic-version: 2023-06-01' https://api.anthropic.com/v1/models"
+        interpretation: "200=healthy, 401=key invalid, 429=rate limited, 529=overloaded"
+    impact:
+      consequence: lost_capability
+      human_impact: "Claude Code loses inference. All agentic coding, infrastructure management stops. Critical."
+      blast_radius: [agent:AGT-002]
+      recovery_action: Check Anthropic status. If billing issue, check account. No full alternative.
+    operational:
+      rate_limit: "4000/min"
+      cost_model: per_token
+      unit_cost: "$0.015/1k input, $0.075/1k output (Opus)"
+      monthly_budget: 500
+    agent:
+      explanation: "Anthropic API — powers Claude Code. If this dies, the primary builder agent goes offline. Most critical connection in the ecosystem."
+      context_priority: 0.99
+
+  - id: CON-003
+    kind: connection
+    name: vps-ssh
+    display_name: VPS SSH Access
+    purpose: Secure shell access to production VPS for deployment, monitoring, and infrastructure management.
+    owner: leo
+    stage: P1
+    status: active
+    source: agent:AGT-002
+    target: resource:RES-001
+    relationship:
+      canonical: depends_on
+    transport:
+      protocol: ssh
+      endpoint: openclaw-vps:22
+      direction: bidi_asymmetric
+    auth:
+      method: ssh_key
+      credentials:
+        - ref: "local:~/.ssh/id_ed25519"
+          role: ssh_private_key
+    health:
+      status: active
+      last_verified: "2026-03-15"
+      verification:
+        command: "ssh -o ConnectTimeout=5 openclaw-vps 'echo ok'"
+        interpretation: "ok=healthy, timeout=tailscale down, permission denied=key issue"
+    impact:
+      consequence: lost_capability
+      human_impact: Cannot deploy, monitor, or manage production. OpenClaw and n8n unmanageable remotely.
+      blast_radius: [agent:AGT-003, CMP-010]
+      recovery_action: Check Tailscale. If VPS unreachable, check Hostinger. If key issue, regenerate SSH keypair.
+    agent:
+      explanation: "SSH to the VPS via Tailscale. If this breaks, no remote server management. Check Tailscale first, then Hostinger, then SSH keys."
+      context_priority: 0.7
+
+  - id: CON-004
+    kind: connection
+    name: syncthing-replication
+    display_name: Syncthing Mac-VPS
+    purpose: Bidirectional file sync between local dev machine and production VPS.
+    owner: leo
+    stage: P1
+    status: active
+    source: resource:RES-002
+    target: resource:RES-001
+    relationship:
+      canonical: replicates
+    transport:
+      protocol: sync_bidirectional
+      endpoint: tailscale:syncthing
+      direction: bidi_symmetric
+    auth:
+      method: api_key
+      credentials:
+        - ref: doppler:ai-tools/prd/SYNCTHING_API_KEY
+          role: api_key
+        - ref: doppler:ai-tools/prd/SYNCTHING_VPS_API_KEY
+          role: api_key
+    health:
+      status: active
+      last_verified: "2026-03-10"
+    impact:
+      consequence: degraded_ux
+      human_impact: Local and VPS files drift apart. Not immediately breaking but causes version confusion.
+      recovery_action: Restart Syncthing both ends. Check Tailscale. If persistent, re-pair devices.
+    agent:
+      explanation: "Syncthing file sync over Tailscale. If local and VPS are out of sync, check this connection first."
+      context_priority: 0.4
+
+  - id: CON-005
+    kind: connection
+    name: doppler-secrets
+    display_name: Doppler Secrets Manager
+    purpose: Centralized credential management — the bootstrap layer all other authenticated connections depend on.
+    owner: leo
+    stage: P0
+    status: active
+    source: system:ecosystem
+    target: external:EXT-003
+    relationship:
+      canonical: depends_on
+    transport:
+      protocol: http_rest
+      endpoint: https://api.doppler.com/v3
+      direction: pull
+      alternatives:
+        - protocol: cli_subprocess
+          note: "doppler run -- wraps the API. Preferred for local execution."
+    auth:
+      method: service_account
+      credentials:
+        - ref: "local:~/.doppler/.dp.ct.*"
+          role: config_token
+    health:
+      status: active
+      last_verified: "2026-03-15"
+      verification:
+        command: "doppler secrets --only-names --project ai-tools --config prd 2>/dev/null | head -1"
+        interpretation: "Returns secret name=healthy. 401=token expired. Timeout=Doppler down."
+    impact:
+      consequence: lost_capability
+      human_impact: "No new authenticated connections. All tools needing fresh credentials fail. Ecosystem frozen."
+      blast_radius: [CON-001, CON-002, CON-006]
+      recovery_action: Check Doppler status. If config token expired, regenerate at doppler.com. ONE manual intervention point.
+    operational:
+      rate_limit: "120/min"
+      cost_model: free
+    agent:
+      explanation: "Doppler — the credential backbone. If auth fails anywhere, check this FIRST. Every other authenticated connection resolves through Doppler. The one bootstrap dependency."
+      context_priority: 0.99
+
+  - id: CON-006
+    kind: connection
+    name: github-api
+    display_name: GitHub API
+    purpose: Source control, CI/CD, and agentic git operations via MCP server.
+    owner: leo
+    stage: P1
+    status: active
+    source: agent:AGT-002
+    target: external:EXT-005
+    relationship:
+      canonical: depends_on
+    transport:
+      protocol: http_rest
+      endpoint: https://api.github.com
+      direction: pull
+      alternatives:
+        - protocol: mcp_stdio
+          note: github MCP server wraps git operations.
+    auth:
+      method: bearer_token
+      credentials:
+        - ref: doppler:ai-tools/prd/GITHUB_TOKEN
+          role: api_key
+    impact:
+      consequence: degraded_ux
+      human_impact: Cannot push code, create PRs, or run CI. Local git still works. Deployment pipeline blocked.
+      recovery_action: Check GitHub status. If token expired, rotate in Doppler.
+    agent:
+      explanation: "GitHub API for source control and CI. If deploys are stuck, check this connection and GitHub status."
+      context_priority: 0.6
+
+  - id: CON-010
+    kind: connection
+    name: n8n-to-notion
+    display_name: n8n Notion Sync
+    purpose: n8n workflow connection to Notion API for database synchronization.
+    owner: leo
+    stage: P2
+    status: active
+    source: agent:AGT-003
+    target: external:EXT-004
+    relationship:
+      canonical: orchestrates
+    transport:
+      protocol: http_rest
+      endpoint: https://api.notion.com/v1
+      direction: bidi_asymmetric
+    auth:
+      method: bearer_token
+      credentials:
+        - ref: doppler:ai-tools/prd/NOTION_API_KEY
+          role: api_key
+    impact:
+      consequence: degraded_ux
+      human_impact: Notion databases stop syncing. TimeView shows stale data. Manual sync possible.
+      blast_radius: [CMP-010]
+      recovery_action: Check n8n workflow logs on VPS. Check Notion API status. Verify token in Doppler.
+    agent:
+      explanation: "n8n's connection to Notion for database sync. If TimeView is stale, check this connection, then AGT-003, then CMP-010."
+      context_priority: 0.5
+
+
+# =====================
+# RESOURCES
+# =====================
+
+resources:
+
+  - id: RES-001
+    kind: resource
+    name: vps-openclaw
+    display_name: OpenClaw VPS
+    purpose: Production VPS hosting all deployed services — n8n, OpenClaw gateway, APIs.
+    owner: leo
+    stage: P2
+    status: active
+    type: compute
+    provider: external:EXT-011
+    location: hostinger
+    details:
+      ip: "82.25.77.221"
+      tailscale_ip: "100.119.234.42"
+      domain: centralmcp.ai
+    agent:
+      explanation: "The production VPS. Hosts n8n, OpenClaw gateway, Rainmaker dashboard, and all deployed services. Accessed via SSH over Tailscale."
+      context_priority: 0.7
+
+  - id: RES-002
+    kind: resource
+    name: mac-local
+    display_name: Local Development Machine
+    purpose: Primary development environment — all code, configs, and local MCP servers run here.
+    owner: leo
+    stage: P2
+    status: active
+    type: compute
+    location: local
+    agent:
+      explanation: "Leo's Mac. Where all development happens. Syncs to VPS via Syncthing. Runs Claude Code, all MCP servers, and local tools."
+      context_priority: 0.5
+
+  - id: RES-003
+    kind: resource
+    name: doppler-vault
+    display_name: Doppler Secret Store
+    purpose: "Centralized secrets: 105 credentials across 8 projects and 22 configs."
+    owner: leo
+    stage: P2
+    status: active
+    type: secret_store
+    provider: external:EXT-003
+    details:
+      projects: [ai-tools, project-openclaw, atman, lechworld, gcloud-ops, remote-controller, profilepro, project_maps]
+      total_secrets: 105
+    agent:
+      explanation: "Doppler vault — 105 secrets across 8 projects. Every credential ref in this atlas resolves here."
+      context_priority: 0.8
+
+
+# ============================================================================
+# ATLAS NAVIGATION GUIDE
+# (for agents loading this file)
+#
+# 1. Read this file at session start. It IS the ecosystem context.
+#
+# 2. To answer "what connects to X?" — search connections by target.
+#
+# 3. To answer "what breaks if X goes down?" — find connections to X,
+#    read blast_radius, follow feeds_into chains in components.
+#
+# 4. To answer "can agent X do Y?" — read agent's governance.cannot.
+#    If Y is listed, the answer is no.
+#
+# 5. To answer "what does component X need?" — read requires_connections,
+#    then load those connections for transport, auth, and health.
+#
+# 6. To answer "is connection X healthy?" — read health block.
+#    If verification.command exists, offer to run it.
+#
+# 7. When something fails, trace the dependency chain:
+#    symptom → component → requires_connections → connection health
+#    → if auth failure → check CON-005 (Doppler) first
+#
+# 8. context_priority guides what to pay attention to:
+#    0.99 = always relevant (CON-002 Anthropic, CON-005 Doppler)
+#    0.7-0.9 = important context
+#    0.3-0.5 = load if specifically relevant
+#
+# 9. agent.explanation on every entity is written FOR YOU TO SAY.
+#    When a human asks about an entity, you can relay it verbatim.
+#
+# 10. This file grows. New entities get added as they're built.
+#     If something exists in the ecosystem but not in this file,
+#     that's a gap — register it.
+# ============================================================================

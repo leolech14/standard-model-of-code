@@ -1,0 +1,120 @@
+# ============================================================================
+# COMPONENTS REGISTRY SCHEMA v1.0
+# Defines WHAT the ecosystem IS MADE OF.
+#
+# A component is an atomic, reusable unit of software that delivers capabilities — an action that produces valuable artifacts.
+# Components belong to applications. Applications belong to the ecosystem.
+#
+# Hierarchy:  Ecosystem → Application → Component → Action → Artifact
+# UPS mapping: Component delivers capabilities (B.1), Action = task/run (B.1), Artifact = asset (B.1)
+#
+# INHERITS: ENTITY_IDENTITY (id, kind:"component", name, purpose, owner, stage, risk, agent, ...)
+# ============================================================================
+
+component:
+  _identity: ENTITY_IDENTITY   # All fields from the universal identity block. kind = "component"
+
+  # === WHAT IT DOES ===
+
+  application:    string        # Which application this component belongs to.
+                                # Maps to UPS Layer D product instance.
+
+  category:       enum          # Functional domain.
+                                # analysis | generation | transformation | integration |
+                                # orchestration | monitoring | communication | storage | auth
+                                #
+                                # Closed enum. If something doesn't fit, the taxonomy is wrong.
+
+  delivery:       enum          # How the component is invoked. Maps to UPS Axis 2 delivery pattern.
+                                # cli_tool | api_endpoint | mcp_tool | mcp_resource | mcp_prompt |
+                                # web_ui | agent_skill | webhook_handler | scheduled_job | library
+
+  # === INPUTS / OUTPUTS CONTRACT ===
+  # This is the component's API from the agent's perspective.
+  # An agent reading this knows exactly what to feed in and what comes out.
+
+  inputs:
+    - name:       string        # Parameter name
+      type:       string        # Primitive or reference: string | number | boolean | file | json | ref:{kind}
+      required:   boolean
+      description: string       # One sentence. What this input controls.
+      example:    any           # A concrete example value. Agents use this for invocation.
+
+  outputs:
+    - name:       string        # Output name
+      type:       string        # What comes out: string | json | file:{format} | stream | event | artifact
+      description: string       # One sentence. What the agent receives.
+
+  # === INVOCATION ===
+  # How to actually run this component. Pre-computed command so agents don't guess.
+
+  invoke:
+    method:       string        # The actual command, endpoint, or tool name.
+                                # CLI: "python wave/tools/ai/cerebras_rapid_intel.py"
+                                # MCP: "mcp:cerebras-code:generate"
+                                # API: "POST /api/v1/analyze"
+                                # Agent: "skill:audio-stem-split"
+    environment:  string[]      # Required env vars or Doppler refs.
+                                # ["doppler:ai-tools/prd/CEREBRAS_API_KEY"]
+    prerequisites: string[]     # Feature IDs that must run first: ["component:CMP-010"]
+
+  # === DEPENDENCIES ===
+  # What this component needs to function. Expressed as connection refs.
+  # The full connection details live in CONNECTIONS_REGISTRY.
+
+  requires_connections: string[]  # Connection IDs: ["connection:CON-007", "connection:CON-012"]
+
+  # === COMPOSITION (structural containment) ===
+  # Components can contain sub-components and belong to parent components.
+  # Models recursive structure: Application → Component → Sub-component.
+
+  contains:       string[]      # Sub-component IDs: ["component:CMP-043"]. Empty = leaf (atomic).
+  part_of:        string | null # Parent: "component:CMP-010" | "app:wave-ai-tools". Null = root.
+
+  # === COMPOSITION (data flow) ===
+  # How this component relates to others in workflows.
+
+  feeds_into:     string[]      # Component IDs that consume this component's output: ["component:CMP-043"]
+  fed_by:         string[]      # Component IDs whose output this component consumes: ["component:CMP-041"]
+
+  # === METRICS ===
+  # How we measure this component. Maps to UPS B.4 event taxonomy.
+
+  metrics:
+    usage_event:    string      # Event name: "{app}.{component}.invoked" per B.4 taxonomy
+    success_event:  string      # "{app}.{component}.completed"
+    failure_event:  string      # "{app}.{component}.failed"
+    cost_metric:    string | null  # What to track for FinOps: "tokens_consumed", "api_calls", "compute_seconds"
+
+  # === COMMERCIAL ===
+  # Only relevant for components exposed to external consumers.
+  # Null for internal-only components (P0–P3).
+
+  commercial:
+    visibility:     enum        # internal | design_partner | public | deprecated
+    entitlement:    string | null  # Which plan/tier grants access to this component
+    metering:       string | null  # What unit is metered: "per_call", "per_token", "per_minute", "unlimited"
+
+
+# ============================================================================
+# QUERY PATTERNS — Pre-computed traversals for agent navigation
+# ============================================================================
+#
+# "What can the ecosystem do with audio?"
+#   → filter components by tags containing "domain:audio"
+#
+# "What does CMP-042 need to run?"
+#   → load CMP-042.requires_connections → load each connection → check health
+#
+# "What happens after the collider runs?"
+#   → load collider component → follow feeds_into chain → list downstream components
+#
+# "What components are ready for external release?"
+#   → filter components where stage >= P4 AND commercial.visibility != internal
+#
+# "How much does component X cost per use?"
+#   → load component.metrics.cost_metric → follow requires_connections → sum connection operational.cost_model
+#
+# "What breaks if connection CON-007 goes down?"
+#   → filter components where requires_connections contains CON-007 → list affected components
+#     → follow feeds_into chains → compute full blast radius

@@ -1,0 +1,210 @@
+# ============================================================================
+# CONNECTIONS REGISTRY SCHEMA v1.0
+# Defines HOW things in the ecosystem connect.
+#
+# A connection is a first-class entity — not a property of the things it links.
+# It has its own identity, its own lifecycle, its own risk profile, its own health.
+# Principle from SPDX 3.0: edges deserve the same ontological status as nodes.
+#
+# INHERITS: ENTITY_IDENTITY (id, kind:"connection", name, purpose, owner, stage, risk, agent, ...)
+# ============================================================================
+
+connection:
+  _identity: ENTITY_IDENTITY   # All fields from universal identity block. kind = "connection"
+
+  # === TIER 1: THE EDGE (who talks to whom) ===
+
+  source:         ref           # What initiates. Format: "component:CMP-042" | "agent:AGT-003" | "system:n8n"
+  target:         ref           # What is consumed. Format: "component:CMP-010" | "external:cerebras" | "system:notion"
+
+  # === TIER 2: RELATIONSHIP (why they connect) ===
+
+  relationship:   enum          # Closed taxonomy. No "other".
+                                #
+                                # depends_on    — Source cannot function without target.
+                                #                 Failure propagates. Critical path.
+                                #
+                                # integrates    — Source enhanced by target, works without it.
+                                #                 Graceful degradation possible.
+                                #
+                                # orchestrates  — Source triggers target in a workflow.
+                                #                 Temporal coupling. Ordering matters.
+                                #
+                                # replicates    — Source and target maintain synchronized state.
+                                #                 Bidirectional. Consistency requirements.
+                                #
+                                # delegates     — Source grants target authority to act on its behalf.
+                                #                 Trust boundary. Governance applies (UPS D.4).
+                                #
+                                # publishes     — Source emits events/data target consumes.
+                                #                 Decoupled. Async. No return channel.
+                                #
+                                # authenticates_via — Source uses target for identity verification.
+                                #                    Credential dependency. OAuth, SSO, key exchange.
+                                #
+                                # observes       — Source monitors target's state without modifying it.
+                                #                  Read-only. Telemetry, health checks, dashboards.
+                                #
+                                # mediates       — Source acts as intermediary between target and other nodes.
+                                #                  Proxy, gateway, adapter. Trust broker.
+
+  # === TIER 3: TRANSPORT (how bits travel) ===
+
+  transport:
+    protocol:     enum          # http_rest | http_graphql | grpc |
+                                # mcp_stdio | mcp_sse | mcp_streamable_http |
+                                # ssh | websocket | webhook |
+                                # sync_bidirectional | event_bus | file_system | cli_subprocess
+
+    endpoint:     string | null # URL, host:port, socket path, or null for implicit (e.g., stdio)
+
+    direction:    enum          # push              — Source sends, target receives. No response expected.
+                                # pull              — Source requests, target responds.
+                                # bidi_symmetric    — Both send and receive equally (WebSocket chat, Syncthing).
+                                # bidi_asymmetric   — Both directions, but roles differ (OAuth: request→redirect→callback).
+                                # event_driven      — Pub/sub. No persistent channel.
+
+    # Multi-protocol access: some features are reachable via multiple transports.
+    # If so, list alternatives. The primary transport is the one above.
+    # Alternatives are fallback paths — if primary fails, agent can try these.
+    alternatives:
+      - protocol: enum
+        endpoint:  string | null
+        note:      string       # When to use this alternative: "if MCP server is down, use HTTP directly"
+
+  # === TIER 4: AUTHENTICATION (who is allowed) ===
+
+  auth:
+    method:       enum          # bearer_token | api_key | api_key_header | api_key_query |
+                                # oauth2_client_credentials | oauth2_authorization_code |
+                                # ssh_key | mtls | service_account | basic_auth | none
+
+    credentials:                # Doppler references. Array because some auth needs multiple secrets.
+      - ref:      string        # "doppler:ai-tools/prd/CEREBRAS_API_KEY"
+        role:     string        # What this credential does: "api_key", "client_id", "client_secret",
+                                # "refresh_token", "ssh_private_key", "webhook_secret"
+
+    rotation:
+      policy:     enum          # manual | quarterly | annual | on_compromise | automated
+      last_rotated: date | null
+      expires:    date | null   # Null = no expiry. Date = hard deadline.
+
+  # === TIER 5: HEALTH (is it working) ===
+
+  health:
+    status:       enum          # active | degraded | broken | dormant | deprecated | unknown
+                                #
+                                # active     — verified working within verification window
+                                # degraded   — partially working (e.g., rate limited, slow)
+                                # broken     — confirmed not working
+                                # dormant    — intentionally inactive, can be reactivated
+                                # deprecated — scheduled for removal, successor exists
+                                # unknown    — no verification data. HONEST DEFAULT.
+
+    last_verified:    datetime | null  # When was this connection last confirmed working?
+    verification:
+      method:     enum          # manual | automated_ping | heartbeat | log_parse | none
+      command:    string | null # Executable check. Agent can run this directly.
+                                # "curl -s -o /dev/null -w '%{http_code}' {endpoint}/health"
+                                # "doppler run --project {project} -- python check.py"
+      interpretation: string | null  # How to read the result: "200=healthy, 401=credential expired, timeout=down"
+
+    failure_count_90d: integer  # How many failures in 90 days. 0 = rock solid. 5+ = fragile.
+    mttr_avg:     duration | null  # Mean time to recovery. "PT2H" = 2 hours average.
+
+  # === TIER 6: IMPACT (what breaks) ===
+
+  impact:
+    data_flows:       enum      # What kind of data crosses this connection.
+                                # metadata_only | non_sensitive | sensitive | pii | financial | health
+
+    consequence:      enum      # What happens if this connection is severed.
+                                # negligible        — No user-visible effect.
+                                # degraded_ux       — Some features unavailable, core works.
+                                # lost_capability   — A user-facing capability goes offline.
+                                # data_loss         — Data may be lost or corrupted.
+                                # security_breach   — Unauthorized access possible.
+
+    human_impact:     string    # Plain English for the agent to relay to humans.
+                                # "Audio analysis features become unavailable. Dashboards still work."
+
+    blast_radius:     string[]  # Feature IDs affected: ["component:CMP-042", "component:CMP-043"]
+                                # Manually declared. Agent can compute transitive closure
+                                # by following feeds_into chains from affected features.
+
+    recovery_action:  string    # What to do: "Switch to fallback provider" | "Rotate credential" | "Wait"
+
+  # === TIER 7: OPERATIONAL (practical, not foundational) ===
+
+  operational:
+    rate_limit:       string | null   # "100/min" | "10k/day" | "1M/month" | "unlimited"
+    cost_model:       enum            # free | per_call | per_token | per_byte | per_minute |
+                                      # subscription | included_in_plan
+    unit_cost:        string | null   # "$0.0001/token" | "$0.01/call" | "$29/month"
+    monthly_budget:   number | null   # USD cap. Null = no budget set.
+    sla:              string | null   # "99.9%" | "best_effort" | "business_hours"
+    docs_url:         string | null   # Link to provider documentation.
+
+
+# ============================================================================
+# EXTERNAL PROVIDERS INDEX
+# Connections reference external targets by "external:{provider_id}".
+# This index defines what those provider IDs resolve to.
+# ============================================================================
+
+external_providers:
+  # Each provider is a target node in the connection graph.
+  # Providers don't inherit ENTITY_IDENTITY — they're outside the ecosystem.
+  # They get a minimal record.
+
+  provider:
+    id:           string        # Lowercase, hyphenated. "cerebras", "anthropic", "notion"
+    display_name: string        # "Cerebras", "Anthropic", "Notion"
+    domain:       enum          # ai_provider | media_creative | social_comms | finance |
+                                # cloud_infra | identity | data_storage | dev_tools |
+                                # productivity | monitoring | analytics
+    base_url:     string        # "https://api.cerebras.ai/v1"
+    status_page:  string | null # "https://status.cerebras.ai"
+    docs_url:     string | null # "https://docs.cerebras.ai"
+    notes:        string | null # Anything the agent should know: "Quota exhaustion common. Check billing."
+
+
+# ============================================================================
+# QUERY PATTERNS — Pre-computed traversals for agent navigation
+# ============================================================================
+#
+# "What connects to Cerebras?"
+#   → filter connections where target = "external:cerebras"
+#   → return list with health.status and impact.human_impact
+#
+# "What breaks if Anthropic goes down?"
+#   → find connections where target = "external:anthropic"
+#   → collect impact.blast_radius from each
+#   → for each affected component, follow feeds_into chains transitively
+#   → report full cascade
+#
+# "Is the Telegram bot healthy?"
+#   → find connection where target = "external:telegram" OR aliases contain "telegram"
+#   → return health block
+#   → if health.verification.command exists, offer to run it
+#
+# "What credentials need rotation?"
+#   → filter connections where auth.rotation.last_rotated + policy_interval < today
+#   → OR where auth.rotation.expires is within 30 days
+#   → return list sorted by expiry urgency
+#
+# "What connections are required for P4 promotion of product X?"
+#   → find all features belonging to product X
+#   → collect their requires_connections
+#   → filter connections where stage <= P4
+#   → check health.status != broken for each
+#   → report gaps
+#
+# "What undocumented connections exist?"
+#   → run scanner (compare registry vs actual configs)
+#   → report connections in configs but not in registry
+#
+# "What's our monthly API spend exposure?"
+#   → filter connections where operational.cost_model != free AND health.status = active
+#   → sum operational.monthly_budget
+#   → flag connections with cost_model != free AND monthly_budget = null (unknown exposure)

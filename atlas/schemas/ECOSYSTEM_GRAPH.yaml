@@ -1,0 +1,222 @@
+# ============================================================================
+# ECOSYSTEM GRAPH SPECIFICATION v1.0
+# The master schema that unifies Components, Connections, and Agents
+# into a single navigable knowledge structure.
+#
+# This document is the cognitive substrate for AI agents operating
+# in the ecosystem. It pre-computes architectural reasoning so that
+# runtime inference focuses on novel problems, not structural navigation.
+#
+# FIVE NODE TYPES, ONE GRAPH:
+#
+#   COMPONENTS_REGISTRY  → NODES type 1: What the ecosystem CAN DO (passive, deterministic)
+#   AGENTS_REGISTRY      → NODES type 2: Who ACTS with judgment (active, governed)
+#   RESOURCES            → NODES type 3: Governed infrastructure (databases, secrets, queues)
+#   EXTERNALS            → NODES type 4: Providers outside the ecosystem boundary
+#   CONNECTIONS_REGISTRY  → EDGES: How nodes REACH each other (first-class entities)
+#
+#   Graph = (Components ∪ Agents ∪ Resources ∪ Externals, Connections)
+#
+# Every question about the ecosystem is a graph traversal.
+#
+# ONTOLOGY PRINCIPLE: Closed macro, open leaf.
+#   5 entity kinds are FROZEN algebra. Agents reason over them deterministically.
+#   Subtypes are open, namespaced (x_lbl.feature_flag_store), governed via
+#   extension registry with stage-based promotion.
+#
+# 9 CANONICAL RELATIONSHIP TYPES (closed):
+#   depends_on | integrates | orchestrates | replicates | delegates |
+#   publishes | authenticates_via | observes | mediates
+#
+#   Qualifiers are open: relationship.qualifier: x_lbl.scrape_metrics
+#   qualifier_status: enum[approved, provisional, deprecated]
+# ============================================================================
+
+
+# === THE GRAPH ===
+#
+#                    ┌──────────────┐
+#                    │   FEATURE    │ "What can be done"
+#                    │   CMP-042      │
+#                    └──────┬───────┘
+#                           │
+#                    ┌──────┴───────┐
+#                    │  CONNECTION  │ "How they reach each other"
+#                    │  CON-007     │
+#                    └──────┬───────┘
+#                           │
+#              ┌────────────┴────────────┐
+#              │                         │
+#       ┌──────┴───────┐          ┌──────┴───────┐
+#       │    AGENT     │          │   EXTERNAL   │
+#       │   AGT-003    │          │  PROVIDER    │
+#       │ "Who acts"   │          │ "Outside"    │
+#       └──────────────┘          └──────────────┘
+#
+#
+# Traversal examples:
+#
+#   "What can Agent X do?"
+#   AGT-003 → capabilities.features_accessible → [CMP-042, CMP-043]
+#           → capabilities.connections_usable  → [CON-007, CON-012]
+#           → for each connection, resolve target → [external:cerebras, component:CMP-010]
+#
+#   "What breaks if Cerebras goes down?"
+#   external:cerebras ← connections where target = cerebras → [CON-007, CON-008]
+#     → for each, impact.blast_radius → [CMP-042, CMP-043, CMP-044]
+#       → for each component, feeds_into → [CMP-050, CMP-051]  (cascade)
+#     → agents where connections_usable contains [CON-007, CON-008] → [AGT-003]
+#   RESULT: Components CMP-042–CMP-051 degraded. Agent AGT-003 loses capabilities.
+#
+#   "Is the ecosystem healthy?"
+#   Load all connections → group by health.status
+#     active: N, degraded: N, broken: N, unknown: N
+#   Flag: connections with unknown status (no verification)
+#   Flag: connections with failure_count_90d > 3 (fragile)
+#   Flag: credentials expiring within 30 days
+
+
+# === UPS INTEGRATION MAP ===
+#
+# How these registries implement UPS v4.1 Layer B:
+#
+# UPS B.1 Shared Nouns:
+#   component  → COMPONENTS_REGISTRY entries
+#   connection → CONNECTIONS_REGISTRY entries  (NEW noun added to B.1)
+#   agent      → AGENTS_REGISTRY entries       (NEW noun added to B.1)
+#   event      → flows THROUGH connections (connection.impact.data_flows)
+#   task/run   → executed BY agents (agent.governance.delegation.can_execute)
+#   asset      → produced BY components (component.outputs)
+#   source     → referenced BY connections (connection.source/target)
+#   model      → powers agents (agent.runtime.model)
+#   policy     → encoded IN agent governance (agent.governance.delegation)
+#
+# UPS B.2 Shared Systems:
+#   Service Catalog    → COMPONENTS_REGISTRY + AGENTS_REGISTRY (the nodes)
+#   Dependency Graph   → CONNECTIONS_REGISTRY (the edges)
+#   Secrets Management → connection.auth.credentials[].ref → Doppler
+#   Identity           → agent.identity + connection.auth
+#   Telemetry          → component.metrics.usage_event → B.4 event taxonomy
+#   Audit Log          → agent.governance.audit
+#   Feature Flags      → component.commercial.entitlement
+#   Eval Registry      → agent.runtime.model → B.6 model inventory
+#
+# UPS C Stage Gates:
+#   Each entity has a stage field (P0–P7).
+#   Connections declare stage_required — when they must exist.
+#   Validator rule: product at P(n) must have all connections with stage_required ≤ P(n).
+#
+# UPS D.4 Governance:
+#   agent.governance.delegation  → Delegation of Authority
+#   agent.governance.escalation  → Escalation Protocol
+#   agent.governance.audit       → Decision Logging
+#   connection.impact            → Outcome Verification (consequence + recovery)
+
+
+# === COGNITIVE DENSITY PRINCIPLES ===
+#
+# These registries are designed for LLM consumption. Every design decision
+# follows one rule: MAXIMIZE INFERENCE ELIMINATION PER TOKEN LOADED.
+#
+# 1. PURPOSE FIELD FIRST
+#    Every entity has a `purpose` field — one sentence, max 20 words.
+#    If an agent can only load one field, this is it.
+#    The purpose must answer: "What does this do and why does it matter?"
+#
+# 2. CLOSED ENUMS OVER OPEN STRINGS
+#    Every classification is a finite enum. No "other", no "custom".
+#    Enums are pre-computed categories. The LLM doesn't waste tokens
+#    figuring out what category something belongs to — it's declared.
+#
+# 3. TRAVERSAL HINTS ARE INSTRUCTIONS, NOT DESCRIPTIONS
+#    agent.related[].when = "if_debugging" tells the LLM WHEN to follow an edge.
+#    Without this, the LLM must infer traversal strategy from structure — expensive.
+#
+# 4. HUMAN_IMPACT IS SPEECH, NOT DOCUMENTATION
+#    connection.impact.human_impact is written FOR the agent TO SAY.
+#    "Audio analysis becomes unavailable" — the agent passes this through verbatim.
+#    No interpretation needed. Zero inference cost for human communication.
+#
+# 5. AFFORDANCES ARE PERMISSION BOUNDARIES
+#    agent.agent.affordances tells the LLM what it CAN and CANNOT do.
+#    Without this, the LLM must reason about permissions from context — risky.
+#
+# 6. QUERY PATTERNS ARE PRE-COMPUTED ALGORITHMS
+#    Each registry ends with query_patterns — explicit traversal recipes.
+#    The LLM doesn't invent graph algorithms. It follows instructions.
+#
+# 7. CONTEXT_PRIORITY IS TRIAGE
+#    When context window is limited, load entities with high context_priority first.
+#    0.9+ = always relevant. 0.5 = situationally relevant. 0.2 = deep detail.
+#
+# 8. EXPLANATION IS PRE-AUTHORED SPEECH
+#    entity.agent.explanation is a paragraph the LLM can say to a human.
+#    It's not the LLM's interpretation — it's the schema author's intent,
+#    delivered through the LLM as a communication channel.
+
+
+# === FILE STRUCTURE ===
+#
+# ecosystem-schemas/
+# ├── schemas/
+# │   ├── ENTITY_IDENTITY.yaml          ← Universal identity protocol
+# │   ├── COMPONENTS_REGISTRY.schema.yaml ← Feature schema definition
+# │   ├── CONNECTIONS_REGISTRY.schema.yaml ← Connection schema definition
+# │   ├── AGENTS_REGISTRY.schema.yaml   ← Agent schema definition
+# │   └── ECOSYSTEM_GRAPH.yaml          ← THIS FILE. Master specification.
+# │
+# ├── registries/                        ← LIVE DATA (actual ecosystem state)
+# │   ├── components.yaml               ← All component entries
+# │   ├── connections.yaml              ← All connection entries
+# │   ├── agents.yaml                   ← All agent entries
+# │   └── external-providers.yaml       ← External provider index
+# │
+# └── validators/                        ← Validation rules and scanner specs
+#     ├── validate.ts                    ← Schema validation + cross-reference checks
+#     └── scanner.ts                     ← Reality vs registry drift detection
+
+
+# === VALIDATION RULES ===
+#
+# Cross-registry integrity constraints:
+#
+# 1. REFERENTIAL INTEGRITY
+#    Every ref in any registry must resolve to an existing entity.
+#    component:CMP-042 must exist in components.yaml.
+#    connection:CON-007 must exist in connections.yaml.
+#    agent:AGT-003 must exist in agents.yaml.
+#    external:cerebras must exist in external-providers.yaml.
+#    doppler:{project}/{config}/{secret} must exist in Doppler.
+#
+# 2. BIDIRECTIONAL CONSISTENCY
+#    If component CMP-042 lists requires_connections: [CON-007],
+#    then CON-007 must have source or target referencing CMP-042.
+#    If agent AGT-003 lists connections_usable: [CON-007],
+#    then CON-007 must be accessible to AGT-003.
+#
+# 3. STAGE GATE COHERENCE
+#    If product X is at stage P4:
+#      All components of X must have stage ≤ P4 or be explicitly deferred.
+#      All connections with stage_required ≤ P4 must have status ≠ broken.
+#      All agents serving X must have governance appropriate to P4 requirements.
+#
+# 4. PERMISSION CONSISTENCY
+#    If agent AGT-003 lists component:CMP-042 in features_accessible,
+#    then CMP-042's requires_connections must be a subset of AGT-003's connections_usable.
+#    An agent cannot access a component without access to its dependencies.
+#
+# 5. CREDENTIAL COVERAGE
+#    Every connection with auth.method ≠ none must have at least one credential_ref.
+#    Every credential_ref must resolve to a live Doppler secret.
+#    Every connection with data_sensitivity ≥ confidential must have auth.method ≠ none.
+#
+# 6. HEALTH HONESTY
+#    Connections with status = active must have last_verified within 30 days.
+#    Connections with last_verified = null must have status = unknown, not active.
+#    Agents with status = active must have at least one reachable connection.
+#
+# 7. NO ORPHANS
+#    Every component must be accessible by at least one agent.
+#    Every connection must be referenced by at least one component or agent.
+#    Every agent must have at least one feature_accessible.
+#    Orphaned entities are dead weight — flag for review or removal.

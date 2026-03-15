@@ -1,0 +1,322 @@
+# ============================================================================
+# PROGRESSIVE REQUIREMENTS v1.0
+# Governs which fields are ENFORCED vs FREE at each maturity stage.
+#
+# DESIGN: Based on empirical observation of what information NATURALLY EXISTS
+# when a component/connection/agent is created vs what must be deliberately added.
+#
+# THREE FIELD CATEGORIES:
+#   ENFORCED  — Must be present at this stage. Validator rejects without it.
+#   FREE      — May appear at any stage. Never rejected, never required.
+#   LOCKED    — Cannot appear BELOW this stage (prevents premature claims).
+#
+# WHY LOCKED EXISTS:
+#   Some fields are dangerous to declare early. A P0 entity claiming
+#   commercial.entitlement or operational.sla makes promises the system
+#   can't keep. Locked fields prevent premature commitment, not premature
+#   knowledge. (Health checks are FREE because knowing is always good.
+#   SLAs are LOCKED because promising is only good when you can deliver.)
+#
+# SPARSE MODEL: Only present fields exist in YAML. No nulls. No placeholders.
+# Stage is a ratchet: setting stage:P3 enforces P0+P1+P2+P3 required fields.
+# ============================================================================
+
+
+# ===========================================
+# ENTITY IDENTITY (shared across all kinds)
+# ===========================================
+
+identity_fields:
+
+  # --- ENFORCED from P0 (the atom — what the code already tells you) ---
+  P0_enforced:
+    - id                    # Generated on creation.
+    - kind                  # component | connection | agent. Known at birth.
+    - name                  # The filename, script name, or service name.
+    - purpose               # One sentence. If you can't say what it does, it shouldn't exist.
+    - owner                 # Who wrote it. Always known.
+    - stage                 # Self-declared maturity.
+    - status                # draft | active. Known at birth.
+
+  # --- ENFORCED from P1 (the entity has internal users) ---
+  P1_enforced:
+    - risk.data_sensitivity   # You must know if this touches PII before others use it.
+    - risk.autonomy_level     # You must know if AI is involved before others depend on it.
+    - tags                    # At least domain tag. Enables agent discovery.
+
+  # --- ENFORCED from P2 (internal production — reliability matters) ---
+  P2_enforced:
+    - agent.explanation       # Pre-authored speech. Required before agents navigate this entity.
+    - agent.context_priority  # Triage ranking. Required for efficient context loading.
+    - agent.affordances       # Permission boundaries. Required before agents act on this entity.
+    - version                 # Semver. Changes matter now.
+
+  # --- ENFORCED from P4 (external users — polish matters) ---
+  P4_enforced:
+    - display_name            # Human-facing name. Must be intentional for external users.
+    - risk.consequence        # Must assess damage potential before external exposure.
+    - risk.regulatory         # Must assess legal exposure before external exposure.
+
+  # --- ENFORCED from P5 (paid GA — completeness matters) ---
+  P5_enforced:
+    - created                 # Lifecycle tracking for paid products.
+    - aliases                 # Discoverability mandatory for commercial entities.
+
+  # --- ALWAYS FREE (appear whenever you know them) ---
+  free:
+    - aliases                 # Below P5: optional but always welcome.
+    - agent.related           # Traversal hints. The earlier the better, never required.
+    - deprecated              # Lifecycle. Declare when relevant.
+    - sunset
+    - successor
+
+  # --- LOCKED until stage ---
+  locked:
+    # None at identity level. All identity fields are either enforced or free.
+
+
+# ===========================================
+# FEATURE-SPECIFIC FIELDS
+# ===========================================
+
+feature_fields:
+
+  # --- P0: What the source code already contains ---
+  P0_enforced:
+    - category                # analysis | generation | transformation | ... Known from the code.
+    - delivery                # cli_tool | api_endpoint | mcp_tool | ... Known from how you invoke it.
+    - invoke.method           # The actual command. Exists in the code.
+    - inputs                  # At least one. If it takes no input, it's not a component.
+    - outputs                 # At least one. If it produces nothing, it's not a component.
+
+  # --- P1: It has real users, dependencies need tracking ---
+  P1_enforced:
+    - invoke.environment      # Which env vars / Doppler refs. Known from os.getenv() calls.
+    - requires_connections    # Which connections. Known from the API calls in the code.
+
+  # --- P2: Internal production, observability needed ---
+  P2_enforced:
+    - metrics.usage_event     # Must be wired to telemetry.
+    - feeds_into              # Downstream dependencies must be declared.
+    - fed_by                  # Upstream sources must be declared.
+
+  # --- P3: Others depend on it, contract matters ---
+  P3_enforced:
+    - invoke.prerequisites    # Execution order documented.
+    - metrics.cost_metric     # FinOps tracking begins.
+
+  # --- P4: External beta ---
+  P4_enforced:
+    - commercial.visibility   # Who can see this? Must be declared before external exposure.
+
+  # --- P5: Paid GA ---
+  P5_enforced:
+    - commercial.entitlement  # Tied to billing plan.
+    - commercial.metering     # What unit is metered.
+    - metrics.success_event   # Full telemetry coverage.
+    - metrics.failure_event
+
+  # --- ALWAYS FREE ---
+  free:
+    - application             # May not be assigned to an app yet at P0.
+    - invoke.prerequisites    # Below P3: optional if no dependencies exist.
+    - feeds_into              # Below P2: optional but always welcome.
+    - fed_by                  # Below P2: optional but always welcome.
+    - metrics.cost_metric     # Below P3: optional but trackable early.
+
+  # --- LOCKED ---
+  locked:
+    - commercial.entitlement: P4    # Cannot claim billing integration before external beta.
+    - commercial.metering: P4       # Cannot claim metering before external beta.
+
+
+# ===========================================
+# CONNECTION-SPECIFIC FIELDS
+# ===========================================
+
+connection_fields:
+
+  # --- P0: What the code already tells you ---
+  # When you write `requests.get("https://api.cerebras.ai", headers={"Authorization": f"Bearer {key}"})`
+  # you already know: source, target, protocol, endpoint, direction, auth method, credential.
+  # All of this is extractable from the source code. Enforce it.
+  P0_enforced:
+    - source                  # What calls. Known from the code.
+    - target                  # What is called. Known from the URL.
+    - relationship            # depends_on | integrates | ... Knowable from context.
+    - transport.protocol      # http_rest | mcp_stdio | ssh | ... Known from the code.
+    - transport.endpoint      # The URL or host. Known from the code.
+    - transport.direction     # push | pull | bidi. Known from the code pattern.
+    - auth.method             # bearer_token | api_key | none | ... Known from the code.
+    - auth.credentials        # At least the primary ref. Known from os.getenv().
+
+  # --- P1: Internal users, basic hygiene ---
+  P1_enforced:
+    - health.status           # At minimum: active | unknown. Must declare honestly.
+    - impact.data_flows       # What kind of data crosses? Must know before others use it.
+
+  # --- P2: Internal production, must be verifiable ---
+  P2_enforced:
+    - health.verification.method     # How do we know it's working?
+    - health.verification.command    # Executable check. Agent can run it.
+    - health.verification.interpretation  # How to read the result.
+    - impact.consequence             # What happens if severed?
+    - impact.human_impact            # Plain English for agent relay.
+    - impact.blast_radius            # Which features break?
+    - impact.recovery_action         # What to do about it.
+
+  # --- P3: Others depend on it ---
+  P3_enforced:
+    - health.failure_count_90d       # Reliability history tracked.
+    - transport.alternatives         # Fallback transports documented if they exist.
+
+  # --- P4: External exposure ---
+  P4_enforced:
+    - auth.rotation.policy           # Credential hygiene required.
+    - auth.rotation.last_rotated     # Tracked.
+    - operational.rate_limit         # Must know limits before external users hit them.
+    - operational.docs_url           # External documentation exists.
+
+  # --- P5: Paid GA ---
+  P5_enforced:
+    - operational.cost_model         # Know what you're paying.
+    - operational.unit_cost          # Know the rate.
+    - operational.monthly_budget     # Budget cap set.
+    - health.last_verified           # Must be within 30 days for active connections.
+    - health.mttr_avg                # Recovery time tracked.
+
+  # --- ALWAYS FREE ---
+  free:
+    - health.verification.command    # Below P2: welcome if you have it.
+    - health.failure_count_90d       # Below P3: trackable early.
+    - transport.alternatives         # Below P3: document if known.
+    - operational.rate_limit         # Below P4: good to know anytime.
+    - operational.docs_url           # Below P4: useful anytime.
+    - auth.rotation.expires          # Anytime — credential expiry is always relevant.
+
+  # --- LOCKED ---
+  locked:
+    - operational.sla: P4            # Cannot promise SLA before external exposure.
+
+
+# ===========================================
+# AGENT-SPECIFIC FIELDS
+# ===========================================
+
+agent_fields:
+
+  # --- P0: What you know when you first configure the agent ---
+  P0_enforced:
+    - type                           # llm_conversational | llm_agentic | workflow_runner | ...
+    - runtime.provider               # anthropic | openai | self_hosted | ...
+    - interface.primary              # chat | cli | api | webhook | ...
+
+  # --- P1: Internal users, governance baseline ---
+  P1_enforced:
+    - runtime.model                  # Which model, which version. Must track.
+    - governance.delegation.cannot   # Prohibitions from day one. Non-negotiable.
+    - governance.escalation.triggers # When to stop and ask human. Non-negotiable.
+    - governance.escalation.target   # Who to ask.
+    - governance.escalation.method   # How to ask.
+    - interface.channels             # Where is this agent reachable?
+
+  # --- P2: Internal production, full operational profile ---
+  P2_enforced:
+    - runtime.context_window         # How much schema can it load? Critical for triage.
+    - capabilities.strengths         # What is it good at?
+    - capabilities.limitations       # What is it bad at?
+    - governance.delegation.can_read
+    - governance.delegation.can_write
+    - governance.delegation.can_execute
+    - governance.audit.logs_actions  # Must log what it does in production.
+    - governance.audit.log_destination
+    - interface.mcp_servers          # Which tools can it use?
+
+  # --- P3: Others depend on it, full capability map ---
+  P3_enforced:
+    - capabilities.features_accessible   # Formal permission map.
+    - capabilities.connections_usable    # Formal connection map.
+    - memory.type                        # How does it maintain state?
+    - governance.audit.logs_decisions    # Must log WHY it acts, not just what.
+    - governance.audit.retention         # How long are logs kept?
+
+  # --- P4: External-facing agent ---
+  P4_enforced:
+    - governance.delegation.requires_approval  # Approval gates for risky actions.
+    - identity.auth_method                     # Full auth chain documented.
+    - identity.credential_ref                  # Where credentials live.
+
+  # --- P5: Paid agent service ---
+  P5_enforced:
+    - runtime.speed                  # Performance tier documented.
+    - runtime.cost_tier              # Cost tier documented.
+    - identity.can_assume            # Delegation chains documented.
+
+  # --- ALWAYS FREE ---
+  free:
+    - runtime.context_window         # Below P2: useful if known.
+    - runtime.speed                  # Below P5: useful if known.
+    - runtime.cost_tier              # Below P5: useful if known.
+    - capabilities.strengths         # Below P2: useful if known.
+    - capabilities.limitations       # Below P2: useful if known.
+    - memory                         # Below P3: document if relevant.
+    - interaction_patterns           # Multi-agent patterns. Anytime.
+
+  # --- LOCKED ---
+  locked:
+    # Agent governance.delegation.cannot is ENFORCED from P1, not locked.
+    # This is deliberate: prohibitions must be declared early because
+    # the cost of an unauthorized action is always high, even in alpha.
+    # There's nothing to lock for agents — governance is either enforced or free.
+
+
+# ===========================================
+# VALIDATOR BEHAVIOR
+# ===========================================
+#
+# Given an entity at stage P(n):
+#
+# 1. Collect all ENFORCED fields for P0 through P(n).
+# 2. For each enforced field, check: is it present and non-empty?
+#    MISSING → validation ERROR. Entity cannot be at this stage.
+#
+# 3. For each present field, check: is it in the LOCKED list with a stage > P(n)?
+#    LOCKED VIOLATION → validation ERROR. Entity is making premature promises.
+#
+# 4. For each present field not in enforced or locked: it's FREE. Accept it.
+#    No warnings, no errors. Early knowledge is always welcome.
+#
+# 5. Absent FREE fields: no error, no warning, no placeholder, no null.
+#    The field simply doesn't exist in the YAML.
+#
+#
+# PROMOTION VALIDATION:
+# When an entity requests stage promotion (e.g., P1 → P2):
+#
+# 1. Run validator at target stage P(n+1).
+# 2. Report all missing ENFORCED fields as a promotion checklist.
+# 3. Entity stays at P(n) until all P(n+1) enforced fields are present.
+# 4. FREE fields that are already present are celebrated, not required.
+#
+#
+# EXAMPLE:
+#
+# A connection at P0 with these fields is VALID:
+#   id, kind, name, purpose, owner, stage, status,
+#   source, target, relationship, transport.protocol,
+#   transport.endpoint, transport.direction,
+#   auth.method, auth.credentials,
+#   health.verification.command    ← FREE field, present early. Good.
+#
+# The same connection requesting promotion to P1 needs additionally:
+#   risk.data_sensitivity, risk.autonomy_level, tags,
+#   health.status, impact.data_flows
+#
+# If health.status is missing → promotion blocked, checklist shows what's needed.
+#
+#
+# DEMOTION:
+# If an entity loses fields (e.g., connection loses health verification),
+# it does NOT automatically demote. The validator flags the inconsistency:
+# "Entity CON-007 is at P2 but missing P2-required field health.verification.method."
+# The owner decides: fix the field, or demote the stage.

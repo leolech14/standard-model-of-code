@@ -1,0 +1,202 @@
+# ============================================================================
+# AGENTS REGISTRY SCHEMA v1.0
+# Defines WHO acts in the ecosystem.
+#
+# An agent is any non-human entity that performs actions: AI models behind
+# interfaces, autonomous service accounts, workflow runners, MCP clients,
+# scheduled automation. Agents are the bridge between human intent and
+# machine execution.
+#
+# The ecosystem has three node types:
+#   Components  — WHAT can be done
+#   Agents    — WHO does it
+#   Connections — HOW they reach each other
+#
+# Together they form the complete operational graph.
+#
+# INHERITS: ENTITY_IDENTITY (id, kind:"agent", name, purpose, owner, stage, risk, agent, ...)
+# ============================================================================
+
+agent:
+  _identity: ENTITY_IDENTITY   # All fields from universal identity block. kind = "agent"
+
+  # === WHAT IT IS ===
+
+  type:           enum          # The fundamental nature of this agent.
+                                #
+                                # llm_conversational  — Chat-based AI (Claude on claude.ai, ChatGPT, Gemini)
+                                #                       Primary interface: natural language. Stateful per session.
+                                #
+                                # llm_agentic         — AI with tool use and autonomous execution (Claude Code,
+                                #                       Codex, Devin). Can run commands, write files, call APIs.
+                                #
+                                # workflow_runner      — Orchestration engine (n8n, Temporal, Airflow).
+                                #                       Executes predefined flows. Deterministic.
+                                #
+                                # service_account      — Non-interactive identity for machine-to-machine auth.
+                                #                       No UI. No reasoning. Just credentials + permissions.
+                                #
+                                # scheduled_automation — Cron jobs, scheduled tasks, periodic scanners.
+                                #                       Time-triggered. No real-time interaction.
+                                #
+                                # mcp_client           — An application that connects to MCP servers
+                                #                       to access tools, resources, and prompts.
+                                #
+                                # hybrid               — Combines types. Specify in notes.
+
+  # === RUNTIME ===
+  # What powers this agent. An LLM agent has a model. A workflow runner has an engine.
+
+  runtime:
+    provider:     string        # "anthropic" | "openai" | "google" | "cerebras" | "self_hosted" | "n8n" | "system"
+    model:        string | null # "claude-opus-4-6" | "gpt-4.1" | "gemini-2.5-pro" | null (for non-LLM agents)
+    context_window: integer | null  # Tokens. Determines how much schema the agent can load at once.
+                                    # Critical for context_priority triage.
+    speed:        enum | null   # fast | standard | slow — relative inference speed.
+                                # Determines suitability for real-time vs batch tasks.
+    cost_tier:    enum | null   # low | medium | high | very_high — relative cost per invocation.
+                                # Determines when to use this agent vs a cheaper alternative.
+
+  # === INTERFACE ===
+  # How humans and other agents interact with this agent.
+
+  interface:
+    primary:      enum          # chat | cli | api | webhook | scheduled | headless
+    channels:     string[]      # Where this agent is reachable:
+                                # ["claude.ai", "claude-code-cli", "api.anthropic.com", "n8n-workflow-123"]
+    mcp_servers:  string[]      # MCP servers this agent connects to: ["cerebras-code", "doppler", "github"]
+                                # These are the agent's "hands" — tools it can use.
+
+  # === CAPABILITIES ===
+  # What this agent can do. Expressed as component refs it has access to.
+  # This is the agent's permission boundary — its delegation of authority.
+
+  capabilities:
+    features_accessible: string[]   # Feature IDs this agent can invoke: ["component:CMP-042", "component:CMP-043"]
+    connections_usable:  string[]   # Connection IDs this agent can use: ["connection:CON-007"]
+
+    # Cognitive profile — what this agent is GOOD AT.
+    # Not permissions — aptitudes. Helps the orchestration layer choose the right agent.
+    strengths:    string[]      # ["code_generation", "analysis", "research", "planning",
+                                #  "debugging", "creative_writing", "data_transformation",
+                                #  "multi_step_reasoning", "tool_orchestration"]
+
+    limitations:  string[]      # What this agent is BAD AT or CANNOT DO.
+                                # ["no_internet_access", "no_file_system", "short_context",
+                                #  "slow_inference", "no_code_execution", "english_only"]
+
+  # === GOVERNANCE (UPS D.4) ===
+  # The trust boundary. What this agent is ALLOWED vs FORBIDDEN.
+  # Directly implements UPS D.4 Delegation of Authority.
+
+  governance:
+    delegation:
+      can_read:       string[]  # What data domains: ["metrics", "configs", "logs"]
+      can_write:      string[]  # What it can modify: ["code", "docs", "configs"]
+      can_execute:    string[]  # What actions: ["deploy_staging", "run_tests", "send_notifications"]
+      cannot:         string[]  # Explicit prohibitions: ["deploy_production", "delete_data",
+                                #  "modify_billing", "access_pii", "send_external_email"]
+                                # Prohibitions override all other permissions.
+
+      requires_approval:        # Actions this agent can propose but not execute alone
+        - action:     string    # "deploy_production"
+          approver:   string    # "owner:leo" | "agent:AGT-001" | "team:platform"
+          mechanism:  string    # "slack_approval" | "cli_confirm" | "pr_review"
+
+    escalation:
+      triggers:     string[]    # When to stop and ask a human:
+                                # ["confidence_below_0.7", "cost_above_$10", "irreversible_action",
+                                #  "novel_situation", "conflicting_instructions", "pii_detected"]
+      target:       string      # Who to escalate to: "owner:leo" | "slack:#alerts"
+      method:       string      # How: "pause_and_ask" | "notify_and_continue" | "abort"
+
+    audit:
+      logs_decisions:   boolean # Does this agent log its reasoning?
+      logs_actions:     boolean # Does this agent log what it did?
+      log_destination:  string  # Where: "system:audit_log" | "file:/var/log/agent.log"
+      retention:        string  # How long: "90d" | "1y" | "indefinite"
+
+  # === MEMORY AND STATE ===
+  # How this agent maintains context across interactions.
+
+  memory:
+    type:         enum          # none | session_only | persistent_file | persistent_db | cloud_managed
+    location:     string | null # Where state lives: "~/.claude/memory" | "notion:workspace/memory" | null
+    shared_with:  string[]      # Other agent IDs that can read this memory: ["agent:AGT-002"]
+
+  # === IDENTITY CHAIN ===
+  # How this agent authenticates when using connections.
+  # An agent's identity flows through the connections it uses.
+
+  identity:
+    auth_method:  enum          # api_key | oauth | ssh_key | service_account | inherited | none
+    credential_ref: string | null  # "doppler:ai-tools/prd/ANTHROPIC_API_KEY"
+    can_assume:   string[]      # Other agent identities this agent can assume: ["agent:AGT-005"]
+                                # For delegation chains: Agent A triggers Agent B with Agent B's credentials.
+
+
+# ============================================================================
+# AGENT INTERACTION PATTERNS
+# Pre-computed patterns for multi-agent coordination.
+# ============================================================================
+
+interaction_patterns:
+
+  # How agents work together. Each pattern is a coordination template.
+
+  pattern:
+    id:           string        # "PAT-001"
+    name:         string        # "research-then-implement"
+    description:  string        # "A research agent gathers information, then an implementation agent acts on it."
+
+    roles:
+      - role:     string        # "researcher" | "implementer" | "reviewer" | "orchestrator"
+        agent_ref: string       # "agent:AGT-002" — which agent fills this role
+        receives:  string       # What input: "human_query" | "research_output" | "implementation_plan"
+        produces:  string       # What output: "research_brief" | "code_changes" | "review_verdict"
+
+    flow:         string        # "sequential" | "parallel" | "iterative" | "conditional"
+    handoff:      string        # How work passes between agents:
+                                # "context_transfer" — full context passed
+                                # "artifact_handoff" — only outputs passed (lossy but cheaper)
+                                # "shared_memory"    — agents read from same memory store
+
+
+# ============================================================================
+# QUERY PATTERNS — Pre-computed traversals for agent navigation
+# ============================================================================
+#
+# "Which agent should handle this task?"
+#   → classify task type (code_generation, research, data_transformation, ...)
+#   → filter agents where capabilities.strengths contains task_type
+#   → filter by runtime.cost_tier (prefer cheaper if task is simple)
+#   → filter by health.status = active
+#   → return best match
+#
+# "What can agent X access?"
+#   → load agent X
+#   → resolve capabilities.features_accessible → list of features with purposes
+#   → resolve capabilities.connections_usable → list of connections with targets
+#   → check governance.delegation.cannot → subtract prohibited actions
+#   → return complete permission map
+#
+# "What agents are affected if connection CON-007 goes down?"
+#   → filter agents where capabilities.connections_usable contains CON-007
+#   → for each affected agent, list capabilities.features_accessible that require CON-007
+#   → report impact per agent
+#
+# "Is agent X allowed to deploy to production?"
+#   → load agent X governance.delegation
+#   → check cannot list for "deploy_production"
+#   → check requires_approval for "deploy_production"
+#   → return: forbidden | requires_approval(from whom) | permitted
+#
+# "Show me all active agents and what they're connected to"
+#   → filter agents where status = active
+#   → for each, resolve mcp_servers → connections → external providers
+#   → produce ecosystem topology per agent
+#
+# "What's the cheapest agent that can do code review?"
+#   → filter agents where strengths contains "code_generation" or "debugging"
+#   → sort by runtime.cost_tier ascending
+#   → return first match with status = active

@@ -1,0 +1,233 @@
+# ============================================================================
+# COMPONENTS REGISTRY — Live Ecosystem Data (representative subset)
+# ============================================================================
+
+components:
+
+  - id: CMP-001
+    kind: component
+    name: cerebras-rapid-intel
+    display_name: Cerebras Rapid Intelligence
+    version: "1.0.0"
+    purpose: "Fast AI-powered research and analysis using Cerebras inference for speed-critical intelligence tasks."
+    owner: leo
+    ups_layer: D
+    stage: P2
+    status: active
+    created: "2024-10-01"
+    risk:
+      data_sensitivity: internal
+      autonomy_level: ai_assisted
+      consequence: reversible_low
+      regulatory: unregulated
+    aliases: ["rapid intel", "cerebras intel", "fast research", "quick analysis"]
+    tags: ["domain:ai", "provider:cerebras", "category:analysis"]
+    agent:
+      explanation: "Fast intelligence tool powered by Cerebras. Takes a research query and returns structured analysis at high speed. Used when speed matters more than depth — quick competitive scans, rapid fact-checking, fast summarization."
+      context_priority: 0.6
+      affordances:
+        can_query: true
+        can_test: true
+        can_modify: false
+        can_create_similar: true
+        can_decommission: false
+      related:
+        - ref: connection:CON-001
+          why: "This component depends on Cerebras API for inference."
+          when: "always"
+        - ref: component:CMP-002
+          why: "Rapid intel output can feed into deeper analysis workflows."
+          when: "if_building_pipeline"
+
+    application: wave-ai-tools
+    category: analysis
+    delivery: cli_tool
+
+    inputs:
+      - name: query
+        type: string
+        required: true
+        description: "The research question or analysis prompt."
+        example: "What are the latest developments in server-driven UI architecture?"
+      - name: model
+        type: string
+        required: false
+        description: "Cerebras model to use. Defaults to llama-4-scout-17b-16e-instruct."
+        example: "llama-4-scout-17b-16e-instruct"
+
+    outputs:
+      - name: analysis
+        type: json
+        description: "Structured analysis with findings, sources, and confidence scores."
+
+    invoke:
+      method: "python wave/tools/ai/cerebras_rapid_intel.py"
+      environment: ["doppler:ai-tools/prd/CEREBRAS_API_KEY"]
+      prerequisites: []
+
+    requires_connections: ["connection:CON-001"]
+    feeds_into: ["component:CMP-002"]
+    fed_by: []
+
+    metrics:
+      usage_event: "wave.rapid_intel.invoked"
+      success_event: "wave.rapid_intel.completed"
+      failure_event: "wave.rapid_intel.failed"
+      cost_metric: "tokens_consumed"
+
+    commercial:
+      visibility: internal
+      entitlement: null
+      metering: null
+
+
+  - id: CMP-002
+    kind: component
+    name: collider
+    display_name: Collider Code Analyzer
+    version: "2.0.0"
+    purpose: "Deep code analysis using algebraic topology — extracts structural patterns, complexity metrics, and architectural insights from codebases."
+    owner: leo
+    ups_layer: D
+    stage: P3
+    status: active
+    created: "2024-06-01"
+    risk:
+      data_sensitivity: internal
+      autonomy_level: ai_assisted
+      consequence: reversible_low
+      regulatory: unregulated
+    aliases: ["collider", "code analysis", "smoc", "particle system", "code topology"]
+    tags: ["domain:analysis", "framework:smoc", "category:analysis"]
+    agent:
+      explanation: "The Collider — code analysis engine based on the Standard Model of Code (SMoC) framework. Applies algebraic topology (Betti numbers), OKLCH color encoding, and a 16-level holarchy to analyze software structure. Produces structural reports, complexity metrics, and visual diagnostics."
+      context_priority: 0.7
+      affordances:
+        can_query: true
+        can_test: true
+        can_modify: false
+        can_create_similar: false
+        can_decommission: false
+      related:
+        - ref: component:CMP-003
+          why: "Collider output feeds into the Briefing Generator for compressed reports."
+          when: "always"
+        - ref: component:CMP-001
+          why: "Rapid intel can provide context that enriches Collider analysis."
+          when: "if_building_pipeline"
+
+    application: wave-ai-tools
+    category: analysis
+    delivery: cli_tool
+
+    inputs:
+      - name: target_path
+        type: string
+        required: true
+        description: "Path to the codebase or file to analyze."
+        example: "/Users/lech/PROJECTS_all/PROJECT_elements/src"
+      - name: depth
+        type: number
+        required: false
+        description: "Analysis depth 1-16 (holarchy levels). Default 8."
+        example: 8
+
+    outputs:
+      - name: analysis_report
+        type: "file:json"
+        description: "Full structural analysis with Betti numbers, complexity metrics, and particle decomposition."
+      - name: briefing
+        type: "file:md"
+        description: "Human-readable summary of findings."
+
+    invoke:
+      method: "python wave/tools/collider/collider.py"
+      environment: []
+      prerequisites: []
+
+    requires_connections: []
+    feeds_into: ["component:CMP-003"]
+    fed_by: ["component:CMP-001"]
+
+    metrics:
+      usage_event: "wave.collider.invoked"
+      success_event: "wave.collider.completed"
+      failure_event: "wave.collider.failed"
+      cost_metric: "compute_seconds"
+
+    commercial:
+      visibility: internal
+      entitlement: null
+      metering: null
+
+
+  - id: CMP-010
+    kind: component
+    name: notion-sync
+    display_name: Notion Database Sync
+    version: "1.0.0"
+    purpose: "Automated synchronization of Notion databases (Tasks, Events, Runs → TimeView) via n8n workflows."
+    owner: leo
+    ups_layer: B
+    stage: P2
+    status: active
+    created: "2024-04-01"
+    risk:
+      data_sensitivity: internal
+      autonomy_level: ai_supervised
+      consequence: reversible_low
+      regulatory: unregulated
+    aliases: ["notion sync", "task sync", "timeview sync", "database sync"]
+    tags: ["domain:orchestration", "platform:notion", "agent:n8n"]
+    agent:
+      explanation: "Automated Notion database synchronization. Keeps Tasks, Events, and Runs databases in sync with the TimeView dashboard. Runs via n8n workflows on the VPS. If it fails, the TimeView dashboard shows stale data."
+      context_priority: 0.5
+      affordances:
+        can_query: true
+        can_test: true
+        can_modify: false
+        can_create_similar: true
+        can_decommission: false
+      related:
+        - ref: agent:AGT-003
+          why: "n8n executes this sync workflow."
+          when: "always"
+        - ref: connection:CON-003
+          why: "n8n runs on the VPS — SSH needed to debug sync issues."
+          when: "if_debugging"
+
+    application: ecosystem-platform
+    category: orchestration
+    delivery: scheduled_job
+
+    inputs:
+      - name: trigger
+        type: string
+        required: false
+        description: "Manual trigger or automatic (cron). Default: every 30 minutes."
+        example: "cron:*/30 * * * *"
+
+    outputs:
+      - name: sync_result
+        type: json
+        description: "Count of synced records, errors, duration."
+
+    invoke:
+      method: "webhook:n8n/notion-sync"
+      environment: ["doppler:ai-tools/prd/NOTION_API_KEY"]
+      prerequisites: []
+
+    requires_connections: ["connection:CON-010"]
+    feeds_into: []
+    fed_by: []
+
+    metrics:
+      usage_event: "platform.notion_sync.invoked"
+      success_event: "platform.notion_sync.completed"
+      failure_event: "platform.notion_sync.failed"
+      cost_metric: null
+
+    commercial:
+      visibility: internal
+      entitlement: null
+      metering: null

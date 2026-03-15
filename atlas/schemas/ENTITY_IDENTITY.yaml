@@ -1,0 +1,105 @@
+# ============================================================================
+# ENTITY IDENTITY PROTOCOL v1.0
+# The universal atom shared by every registry entity in the ecosystem.
+# Components, connections, and agents all inherit this block.
+#
+# DESIGN PRINCIPLE: Every field is a pre-computed inference.
+# An AI agent loading this entity should spend ZERO tokens reasoning about
+# what this thing is, who owns it, or how to talk about it.
+# ============================================================================
+
+# --- SPECIFICATION ---
+
+entity_identity:
+
+  # CORE IDENTITY — the irreducible minimum
+  id:           string    # Format: {KIND}-{SEQ}  (CMP-042, CON-007, AGT-003)
+  kind:         enum      # component | agent | connection | resource | external
+                          # 5 macro kinds (closed). These are the algebra — agents
+                          # reason over them deterministically. For subtypes, use:
+                          #   subtype: string (namespaced, e.g. x_lbl.feature_flag_store)
+                          #   subtype_status: enum[approved, provisional, deprecated]
+  name:         string    # Machine-safe, URL-safe, lowercase-hyphenated
+  display_name: string    # Human-readable. What the agent says out loud.
+  version:      string    # semver: MAJOR.MINOR.PATCH
+
+  # SEMANTIC COMPRESSION — what this IS in one breath
+  purpose:      string    # One sentence. Maximum 20 words.
+                          # Must answer: "What does this do and why does it matter?"
+                          # This is what the agent reads FIRST. If the agent only has
+                          # budget for one field, this is it.
+
+  # OWNERSHIP — who to ask
+  owner:        string    # Person or team. The agent escalates here.
+
+  # TAXONOMY — where this fits in the UPS
+  ups_layer:    enum      # A | B | C | D | E — which UPS layer governs this entity
+  stage:        enum      # P0 | P1 | P2 | P3 | P4 | P5 | P6 | P7
+
+  # LIFECYCLE — is it alive
+  status:       enum      # draft | active | deprecated | sunset
+  created:      date
+  deprecated:   date | null
+  sunset:       date | null
+  successor:    ref | null  # If deprecated, what replaces this
+
+  # CLASSIFICATION — risk profile (from UPS Axis 3.5)
+  risk:
+    data_sensitivity:   enum  # public | internal | confidential | restricted
+    autonomy_level:     enum  # human_operated | ai_assisted | ai_supervised | ai_autonomous
+    consequence:        enum  # reversible_low | reversible_high | irreversible_low | irreversible_high
+    regulatory:         enum  # unregulated | light | heavy
+
+  # DISCOVERABILITY — how agents and humans find this
+  aliases:      string[]  # Natural language names humans use.
+                          # "the revenue thing", "cerebras connection", "code agent"
+                          # Agents use these for fuzzy resolution from human intent.
+  tags:         string[]  # Structured taxonomy tags for filtered queries.
+                          # Format: {domain}:{value}  e.g. "provider:cerebras", "domain:ai", "team:platform"
+
+  # AGENT NAVIGATION — pre-computed instructions for AI traversal
+  agent:
+    explanation:      string    # How to describe this entity to a human in one paragraph.
+                                # Written FOR the agent TO SAY. Not documentation — speech.
+    context_priority: number    # 0.0–1.0. When context window is limited, load high-priority first.
+                                # 0.9+ = always load. 0.5 = load if relevant. 0.2 = load only if asked.
+    affordances:                # What an agent CAN DO with this entity
+      can_query:          boolean  # Read this entry
+      can_test:           boolean  # Run health check or validation
+      can_modify:         boolean  # Change fields (rare — most require human)
+      can_create_similar: boolean  # Use as template for new entities
+      can_decommission:   boolean  # Requires human approval almost always
+    related:                    # Pre-computed graph neighbors with traversal reasoning
+      - ref:    string          # Entity ID
+        why:    string          # Why this relationship matters (one sentence)
+        when:   string          # When to traverse: "always", "if_debugging", "if_asked_about_cost", etc.
+
+
+# --- REFERENCE FORMAT ---
+#
+# Entities reference each other using qualified refs:
+#   component:CMP-042
+#   connection:CON-007
+#   agent:AGT-003
+#   resource:RES-001
+#   external:cerebras           (for external providers not in our registries)
+#   doppler:{project}/{config}/{secret}  (for credential references)
+#   ups:{layer}.{section}       (for UPS cross-references, e.g. ups:B.2, ups:D.4)
+#
+# This format is parseable by both machines (split on colon) and LLMs (readable as-is).
+
+
+# --- COMPATIBILITY MAPPING ---
+#
+# This identity block maps to industry standards:
+#   id          → Backstage metadata.name, npm name, OCI .title, MCP Registry name
+#   version     → semver everywhere
+#   purpose     → Backstage metadata.description, npm description
+#   owner       → Backstage spec.owner, Helm maintainers
+#   tags        → Backstage metadata.tags, npm keywords
+#   status      → Backstage metadata.annotations['backstage.io/lifecycle']
+#   risk        → CycloneDX services[].data[].classification
+#
+# The mapping is documented, not enforced. Export adapters can transform
+# registry entries to Backstage catalog-info.yaml, MCP server cards,
+# SPDX elements, or npm package.json as needed.
