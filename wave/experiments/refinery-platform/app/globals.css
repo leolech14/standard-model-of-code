@@ -1,19 +1,644 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════
+   OKLCH Design Token System -- Refinery Platform
+   Single source of truth. Components reference tokens, never raw values.
+
+   Architecture:
+     Layer 1  Primitive Scale      oklch(L C H) raw values, spacing, type
+     Layer 2  Semantic Tokens      --color-*, --text-*, --space-*, etc.
+     Layer 3  Component Tokens     inline per-component (optional)
+
+   Parametric Engine:
+     Every visual property derives from SEEDS + COEFFICIENTS via calc().
+     Change a seed → everything recomputes. The CSS IS the computation.
+
+   Coverage: Color | Typography | Spacing | Layout | Motion | Z-Index
+   ═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   1. PARAMETRIC ENGINE + COLOR SYSTEM
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   The engine has four layers:
+     1. COEFFICIENTS -- transform constants (the "knobs")
+     2. SEEDS        -- base L/C/H values per hue (the "DNA")
+     3. COMPUTED     -- derived via calc(seed + coeff) (the "phenotype")
+     4. SEMANTIC     -- role bindings (the "API")
+
+   Theme switching: override only seeds + coefficients in [data-theme].
+   Everything downstream recomputes automatically.
+
+   Reference: oklch-color-system.json parametric rules
+     surface:  bg + L(coeff)     | direction flips per theme
+     border:   bg + L(coeff)     | sign flips: +dark, -light
+     hover:    base + L(coeff)   | +dark (lighter), -light (darker)
+     dim:      base + L(coeff), C * coeff  | desaturate + darken
+     glow:     base / alpha(coeff)          | translucent halo
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #e5e5e5;
+  color-scheme: dark;
+
+  /* ═══ COEFFICIENTS ═══════════════════════════════════════════════════
+     Named transform constants. These are the tuning knobs.
+     Changing one value here cascades through every computed token. */
+
+  /* Color variant transforms */
+  --coeff-hover-l: 0.05;           /* L shift on hover (+lighter in dark) */
+  --coeff-dim-l: -0.10;            /* L shift for dim/muted variant */
+  --coeff-dim-c: 0.7;              /* C multiplier for dim (desaturate) */
+  --coeff-glow-alpha: 0.25;        /* Alpha for glow/shadow color variants */
+
+  /* Surface derivation from background seed
+     Dark mode: surfaces LIGHTER than bg (positive offsets).
+     Light mode: overrides these with different values + signs. */
+  --coeff-surface-l: 0.033;        /* Surface = bg + this */
+  --coeff-elevated-l: 0.060;       /* Elevated/hover surface = bg + this */
+  --coeff-border-l: 0.086;         /* Border = bg + this */
+  --coeff-border-subtle-l: 0.150;  /* Subtle border = bg + this */
+
+  /* Shadow depth */
+  --shadow-strength: 1;            /* Multiplier for shadow alpha (dark=1, light<1) */
+
+  /* Glass effect */
+  --glass-alpha: 0.5;              /* Background alpha for glass cards */
+  --glass-blur-px: 12px;           /* Blur radius for glass */
+
+  /* Spatial density -- scales semantic gaps (1=default, 0.75=compact, 1.25=comfort) */
+  --density: 1;
+
+
+  /* ═══ COLOR SEEDS ════════════════════════════════════════════════════
+     Each chromatic hue decomposed into L / C / H.
+     Variants are COMPUTED from these via calc() + coefficients.
+     Theme switch: change only the L seed. C and H stay constant. */
+
+  /* Achromatic seeds */
+  --bg-l: 0.145;                    /* Background lightness */
+  --text-l: 0.922;                  /* Primary text */
+  --text-secondary-l: 0.556;        /* Secondary text */
+  --text-muted-l: 0.439;            /* Muted text */
+  --accent-text-l: 0.145;           /* Text ON accent backgrounds */
+
+  /* Chromatic seeds -- L / C / H triplets */
+  --emerald-l: 0.696;  --emerald-c: 0.170;  --emerald-h: 162;
+  --rose-l:    0.645;  --rose-c:    0.246;  --rose-h:    16;
+  --blue-l:    0.623;  --blue-c:    0.214;  --blue-h:    259;
+  --purple-l:  0.583;  --purple-c:  0.239;  --purple-h:  293;
+  --amber-l:   0.769;  --amber-c:   0.188;  --amber-h:   70;
+  --sky-l:     0.685;  --sky-c:     0.150;  --sky-h:     230;
+
+
+  /* ═══ NEUTRAL REFERENCE SCALE ═══════════════════════════════════════
+     11 achromatic steps from near-black to near-white.
+     Used directly only by scrollbar and edge cases.
+     Semantic tokens use computed values from bg-l seed instead. */
+
+  --neutral-0:   oklch(0.145 0 0);
+  --neutral-1:   oklch(0.178 0 0);
+  --neutral-2:   oklch(0.205 0 0);
+  --neutral-3:   oklch(0.231 0 0);
+  --neutral-4:   oklch(0.295 0 0);
+  --neutral-5:   oklch(0.439 0 0);
+  --neutral-6:   oklch(0.556 0 0);
+  --neutral-7:   oklch(0.708 0 0);
+  --neutral-8:   oklch(0.869 0 0);
+  --neutral-9:   oklch(0.922 0 0);
+  --neutral-10:  oklch(0.985 0 0);
+
+
+  /* ═══ COMPUTED CHROMATIC COLORS ═════════════════════════════════════
+     Each hue: base + hover (L+coeff) + dim (L+coeff, C*coeff) + glow (/alpha).
+     Never edit these. Change seeds or coefficients instead.
+
+     Hunt Effect: dark-mode saturated colors appear brighter --
+     we keep C moderate (0.12-0.25) to avoid gamut clipping. */
+
+  /* Emerald / Accent -- H=162 */
+  --emerald:       oklch(var(--emerald-l) var(--emerald-c) var(--emerald-h));
+  --emerald-light: oklch(calc(var(--emerald-l) + var(--coeff-hover-l)) var(--emerald-c) var(--emerald-h));
+  --emerald-dim:   oklch(calc(var(--emerald-l) + var(--coeff-dim-l)) calc(var(--emerald-c) * var(--coeff-dim-c)) var(--emerald-h));
+  --emerald-glow:  oklch(var(--emerald-l) var(--emerald-c) var(--emerald-h) / var(--coeff-glow-alpha));
+
+  /* Rose / Danger -- H=16 */
+  --rose:          oklch(var(--rose-l) var(--rose-c) var(--rose-h));
+  --rose-light:    oklch(calc(var(--rose-l) + var(--coeff-hover-l)) var(--rose-c) var(--rose-h));
+  --rose-dim:      oklch(calc(var(--rose-l) + var(--coeff-dim-l)) calc(var(--rose-c) * var(--coeff-dim-c)) var(--rose-h));
+  --rose-glow:     oklch(var(--rose-l) var(--rose-c) var(--rose-h) / var(--coeff-glow-alpha));
+
+  /* Blue / Info -- H=259 */
+  --blue:          oklch(var(--blue-l) var(--blue-c) var(--blue-h));
+  --blue-light:    oklch(calc(var(--blue-l) + var(--coeff-hover-l)) var(--blue-c) var(--blue-h));
+  --blue-dim:      oklch(calc(var(--blue-l) + var(--coeff-dim-l)) calc(var(--blue-c) * var(--coeff-dim-c)) var(--blue-h));
+  --blue-glow:     oklch(var(--blue-l) var(--blue-c) var(--blue-h) / var(--coeff-glow-alpha));
+
+  /* Purple / Highlight -- H=293 */
+  --purple:        oklch(var(--purple-l) var(--purple-c) var(--purple-h));
+  --purple-light:  oklch(calc(var(--purple-l) + var(--coeff-hover-l)) var(--purple-c) var(--purple-h));
+  --purple-dim:    oklch(calc(var(--purple-l) + var(--coeff-dim-l)) calc(var(--purple-c) * var(--coeff-dim-c)) var(--purple-h));
+  --purple-glow:   oklch(var(--purple-l) var(--purple-c) var(--purple-h) / var(--coeff-glow-alpha));
+
+  /* Amber / Warning -- H=70 */
+  --amber:         oklch(var(--amber-l) var(--amber-c) var(--amber-h));
+  --amber-light:   oklch(calc(var(--amber-l) + var(--coeff-hover-l)) var(--amber-c) var(--amber-h));
+  --amber-dim:     oklch(calc(var(--amber-l) + var(--coeff-dim-l)) calc(var(--amber-c) * var(--coeff-dim-c)) var(--amber-h));
+  --amber-glow:    oklch(var(--amber-l) var(--amber-c) var(--amber-h) / var(--coeff-glow-alpha));
+
+  /* Sky / Rainmaker -- H=230 */
+  --sky:           oklch(var(--sky-l) var(--sky-c) var(--sky-h));
+  --sky-light:     oklch(calc(var(--sky-l) + var(--coeff-hover-l)) var(--sky-c) var(--sky-h));
+  --sky-dim:       oklch(calc(var(--sky-l) + var(--coeff-dim-l)) calc(var(--sky-c) * var(--coeff-dim-c)) var(--sky-h));
+  --sky-glow:      oklch(var(--sky-l) var(--sky-c) var(--sky-h) / var(--coeff-glow-alpha));
+
+
+  /* ═══ SEMANTIC COLOR TOKENS ═════════════════════════════════════════
+     Components bind HERE, never to seeds or computed values directly.
+     Surfaces + borders: computed from bg-l + surface coefficients.
+     Text: from lightness seeds. Accent/status: from chromatic computed. */
+
+  /* Surfaces (bg-l + coefficient) */
+  --color-bg:             oklch(var(--bg-l) 0 0);
+  --color-surface:        oklch(calc(var(--bg-l) + var(--coeff-surface-l)) 0 0);
+  --color-surface-hover:  oklch(calc(var(--bg-l) + var(--coeff-elevated-l)) 0 0);
+  --color-elevated:       oklch(calc(var(--bg-l) + var(--coeff-elevated-l)) 0 0);
+
+  /* Borders (bg-l + coefficient) */
+  --color-border:         oklch(calc(var(--bg-l) + var(--coeff-border-l)) 0 0);
+  --color-border-subtle:  oklch(calc(var(--bg-l) + var(--coeff-border-subtle-l)) 0 0);
+
+  /* Text (from lightness seeds) */
+  --color-text:           oklch(var(--text-l) 0 0);
+  --color-text-secondary: oklch(var(--text-secondary-l) 0 0);
+  --color-text-muted:     oklch(var(--text-muted-l) 0 0);
+
+  /* Accent (binds to emerald computed) */
+  --color-accent:         var(--emerald);
+  --color-accent-hover:   var(--emerald-light);
+  --color-accent-dim:     var(--emerald-dim);
+  --color-accent-text:    oklch(var(--accent-text-l) 0 0);
+  --color-accent-glow:    var(--emerald-glow);
+
+  /* Status (binds to chromatic computed) */
+  --color-success:        var(--emerald);
+  --color-success-glow:   var(--emerald-glow);
+  --color-danger:         var(--rose);
+  --color-danger-glow:    var(--rose-glow);
+  --color-warning:        var(--amber);
+  --color-warning-glow:   var(--amber-glow);
+  --color-info:           var(--blue);
+  --color-info-glow:      var(--blue-glow);
+
+  /* Glass (from bg-l + glass coefficients) */
+  --glass-bg:             oklch(calc(var(--bg-l) + var(--coeff-surface-l)) 0 0 / var(--glass-alpha));
+  --glass-border:         oklch(calc(var(--bg-l) + var(--coeff-border-l)) 0 0);
+  --glass-blur:           var(--glass-blur-px);
+
+  /* Legacy compat */
+  --background: var(--color-bg);
+  --foreground: var(--color-text);
 }
+
+
+/* ── THEME MACHINE ──────────────────────────────────────────────────────
+   Light theme: override ONLY seeds and coefficients.
+   Every computed token recomputes automatically via calc().
+   Activated via data-theme="light" on <html>, managed by ThemeProvider.
+
+   This is the power of parametric: ~25 seed overrides replace
+   what would be ~50 hardcoded token re-declarations.
+
+   The math:
+     Dark  → bg-l=0.145, text-l=0.922, surfaces add L, borders add L
+     Light → bg-l=0.965, text-l=0.178, surfaces add L, borders SUBTRACT L
+   ───────────────────────────────────────────────────────────────────── */
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* ── Achromatic seeds flip ── */
+  --bg-l: 0.965;
+  --text-l: 0.178;
+  --text-secondary-l: 0.439;
+  --text-muted-l: 0.556;
+  --accent-text-l: 0.993;
+
+  /* ── Directional coefficients ──
+     Surfaces: still brighter than bg (+), but smaller offset.
+     Borders: now DARKER than bg (sign flips to negative). */
+  --coeff-surface-l: 0.028;
+  --coeff-elevated-l: 0.028;
+  --coeff-border-l: -0.096;
+  --coeff-border-subtle-l: -0.043;
+
+  /* ── Hover reverses: darker on hover in light mode ── */
+  --coeff-hover-l: -0.05;
+
+  /* ── Glow less prominent on white backgrounds ── */
+  --coeff-glow-alpha: 0.15;
+
+  /* ── Chromatic L seeds: drop for contrast on white ── */
+  --emerald-l: 0.596;
+  --rose-l: 0.577;
+  --blue-l: 0.553;
+  --purple-l: 0.513;
+  --amber-l: 0.700;
+  --sky-l: 0.615;
+
+  /* ── Shadow + Glass ── */
+  --shadow-strength: 0.5;
+  --glass-alpha: 0.7;
+
+  /* ── Scrollbar neutrals (direct override for scrollbar widget) ── */
+  --neutral-1: oklch(0.965 0 0);
+  --neutral-4: oklch(0.820 0 0);
+  --neutral-6: oklch(0.650 0 0);
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   2. TYPOGRAPHY -- Fluid Type Scale
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   clamp(min, preferred, max) -- browser interpolates fluidly.
+   The clamp() IS the parametric system for type: viewport-responsive.
+   Scale: minor-third ratio (~1.2x) from base seed.
+   All rem-based so user zoom/accessibility scales correctly. */
+
+:root {
+  /* Font Families */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+
+  /* Type Base Seed -- the origin of the fluid scale */
+  --type-base: 0.8125rem;         /* 13px -- dashboard-optimized */
+
+  /* Fluid Font Sizes (viewport-parametric via clamp) */
+  --text-2xs: clamp(0.625rem, 0.6rem + 0.15vw, 0.6875rem);   /* 10-11px */
+  --text-xs:  clamp(0.6875rem, 0.65rem + 0.2vw, 0.75rem);    /* 11-12px */
+  --text-sm:  clamp(0.75rem, 0.72rem + 0.2vw, 0.8125rem);    /* 12-13px */
+  --text-base: clamp(0.8125rem, 0.78rem + 0.2vw, 0.875rem);  /* 13-14px */
+  --text-lg:  clamp(0.875rem, 0.84rem + 0.25vw, 1rem);       /* 14-16px */
+  --text-xl:  clamp(1rem, 0.95rem + 0.3vw, 1.125rem);        /* 16-18px */
+  --text-2xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);       /* 20-24px */
+  --text-3xl: clamp(1.5rem, 1.35rem + 0.75vw, 2rem);         /* 24-32px */
+  --text-4xl: clamp(2rem, 1.75rem + 1.25vw, 2.75rem);        /* 32-44px */
+
+  /* Font Weights */
+  --weight-light:     300;
+  --weight-normal:    400;
+  --weight-medium:    500;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+
+  /* Line Heights */
+  --leading-none:     1;
+  --leading-tight:    1.25;
+  --leading-snug:     1.375;
+  --leading-normal:   1.5;
+  --leading-relaxed:  1.625;
+  --leading-loose:    2;
+
+  /* Letter Spacing */
+  --tracking-tighter: -0.04em;
+  --tracking-tight:   -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.02em;
+  --tracking-wider:   0.04em;
+  --tracking-widest:  0.08em;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   3. SPACING -- Parametric 4px Grid
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   space-unit is the spatial seed. All raw values are integer multiples.
+   Semantic gaps use density coefficient for layout-level scaling.
+   4px base (not 8px) for dashboard density -- data-heavy UIs need
+   tighter increments. Every value is a multiple of space-unit. */
+
+:root {
+  /* Spatial seed */
+  --space-unit: 0.25rem;           /* 4px -- the atom of spacing */
+
+  /* Raw spacing scale (primitive layer) */
+  --space-0:    0;
+  --space-px:   1px;
+  --space-0-5:  0.125rem;                          /* 2px */
+  --space-1:    var(--space-unit);                  /* 4px */
+  --space-1-5:  calc(var(--space-unit) * 1.5);     /* 6px */
+  --space-2:    calc(var(--space-unit) * 2);        /* 8px */
+  --space-2-5:  calc(var(--space-unit) * 2.5);     /* 10px */
+  --space-3:    calc(var(--space-unit) * 3);        /* 12px */
+  --space-3-5:  calc(var(--space-unit) * 3.5);     /* 14px */
+  --space-4:    calc(var(--space-unit) * 4);        /* 16px */
+  --space-5:    calc(var(--space-unit) * 5);        /* 20px */
+  --space-6:    calc(var(--space-unit) * 6);        /* 24px */
+  --space-7:    calc(var(--space-unit) * 7);        /* 28px */
+  --space-8:    calc(var(--space-unit) * 8);        /* 32px */
+  --space-9:    calc(var(--space-unit) * 9);        /* 36px */
+  --space-10:   calc(var(--space-unit) * 10);       /* 40px */
+  --space-12:   calc(var(--space-unit) * 12);       /* 48px */
+  --space-14:   calc(var(--space-unit) * 14);       /* 56px */
+  --space-16:   calc(var(--space-unit) * 16);       /* 64px */
+  --space-20:   calc(var(--space-unit) * 20);       /* 80px */
+  --space-24:   calc(var(--space-unit) * 24);       /* 96px */
+
+  /* Semantic gaps (density-scaled) -- the "breathing room" of the UI */
+  --gap-xs:     calc(var(--space-1) * var(--density));     /* 4px @ density=1 */
+  --gap-sm:     calc(var(--space-2) * var(--density));     /* 8px */
+  --gap-md:     calc(var(--space-3) * var(--density));     /* 12px */
+  --gap-lg:     calc(var(--space-4) * var(--density));     /* 16px */
+  --gap-xl:     calc(var(--space-6) * var(--density));     /* 24px */
+  --gap-2xl:    calc(var(--space-8) * var(--density));     /* 32px */
+
+  /* Component-specific spacing */
+  --sidebar-width:       16rem;     /* 256px */
+  --sidebar-collapsed:   4rem;      /* 64px */
+  --header-height:       3.5rem;    /* 56px */
+  --page-padding:        var(--space-6);
+  --card-padding:        var(--space-4);
+  --card-padding-sm:     var(--space-3);
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   4. LAYOUT -- Radius, Shadows, Containers
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Radius: derived from seed via multiplier. Change seed → all corners shift.
+   Shadows: alpha scaled by --shadow-strength coefficient.
+   Shadows use OKLCH (pure black at alpha) -- stays in our color pipeline. */
+
+:root {
+  /* Radius seed -- the origin of all corner rounding */
+  --radius-seed:  0.5rem;                             /* 8px */
+
+  /* Computed radius scale */
+  --radius-none:  0;
+  --radius-sm:    calc(var(--radius-seed) * 0.5);     /* 4px */
+  --radius-md:    var(--radius-seed);                  /* 8px */
+  --radius-lg:    calc(var(--radius-seed) * 1.5);      /* 12px */
+  --radius-xl:    calc(var(--radius-seed) * 2);        /* 16px */
+  --radius-2xl:   calc(var(--radius-seed) * 3);        /* 24px */
+  --radius-full:  9999px;
+
+  /* Default radius */
+  --radius:       var(--radius-md);
+
+  /* Parametric shadows -- alpha scaled by shadow-strength coefficient
+     Dark mode (strength=1): full opacity. Light mode (strength=0.5): halved.
+     Geometry (offset, blur) stays constant -- only depth perception changes. */
+  --shadow-xs:    0 1px 2px oklch(0 0 0 / calc(0.08 * var(--shadow-strength)));
+  --shadow-sm:    0 2px 8px oklch(0 0 0 / calc(0.12 * var(--shadow-strength)));
+  --shadow-md:    0 4px 16px oklch(0 0 0 / calc(0.14 * var(--shadow-strength)));
+  --shadow-lg:    0 8px 30px oklch(0 0 0 / calc(0.16 * var(--shadow-strength)));
+  --shadow-xl:    0 20px 60px oklch(0 0 0 / calc(0.24 * var(--shadow-strength)));
+
+  /* Glow shadows (colored, for active/focus states) */
+  --shadow-glow-accent:  0 0 20px var(--color-accent-glow);
+  --shadow-glow-danger:  0 0 20px var(--color-danger-glow);
+  --shadow-glow-info:    0 0 20px var(--color-info-glow);
+
+  /* Focus ring */
+  --ring-width:   2px;
+  --ring-offset:  2px;
+  --ring-color:   var(--color-accent);
+
+  /* Container widths */
+  --container-sm:  640px;
+  --container-md:  768px;
+  --container-lg:  1024px;
+  --container-xl:  1280px;
+  --container-2xl: 1536px;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   5. MOTION -- Parametric Timing
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   motion-unit is the temporal seed. All durations are integer multiples.
+   Three speed tiers matching polling frequency feel:
+     fast (3×)  -- hover/focus, micro-interactions
+     base (4×)  -- color changes, state transitions
+     slow (6×)  -- layout shifts, reveals
+   Easing: cubic-bezier for more natural feel than keyword easings. */
+
+:root {
+  /* Temporal seed */
+  --motion-unit: 50ms;             /* The atom of time */
+
+  /* Computed durations */
+  --duration-instant: var(--motion-unit);                    /* 50ms */
+  --duration-fast:    calc(var(--motion-unit) * 3);          /* 150ms */
+  --duration-base:    calc(var(--motion-unit) * 4);          /* 200ms */
+  --duration-slow:    calc(var(--motion-unit) * 6);          /* 300ms */
+  --duration-slower:  calc(var(--motion-unit) * 10);         /* 500ms */
+
+  /* Easing curves */
+  --ease-default:  cubic-bezier(0.4, 0, 0.2, 1);    /* material standard */
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:   cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Combined shorthand */
+  --transition-fast:   var(--duration-fast)   var(--ease-default);
+  --transition-base:   var(--duration-base)   var(--ease-default);
+  --transition-slow:   var(--duration-slow)   var(--ease-default);
+
+  /* Preset transitions */
+  --transition-colors: color var(--transition-base),
+                       background-color var(--transition-base),
+                       border-color var(--transition-base),
+                       box-shadow var(--transition-base);
+  --transition-transform: transform var(--transition-fast);
+  --transition-opacity:   opacity var(--transition-base);
+  --transition-all:       all var(--transition-base);
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   6. Z-INDEX -- Layering Scale
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   100-step gaps prevent z-index wars.
+   Every stacking context is named and intentional. */
+
+:root {
+  --z-base:           0;
+  --z-dropdown:       100;
+  --z-sticky:         200;
+  --z-sidebar:        300;
+  --z-header:         350;
+  --z-modal-backdrop: 400;
+  --z-modal:          500;
+  --z-popover:        600;
+  --z-tooltip:        700;
+  --z-toast:          800;
+  --z-max:            9999;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   7. RESPONSIVE BREAKPOINTS (reference values)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Tailwind handles actual @media queries.
+   These exist for JS usage / documentation. */
+
+:root {
+  --breakpoint-sm:  640px;
+  --breakpoint-md:  768px;
+  --breakpoint-lg:  1024px;
+  --breakpoint-xl:  1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TAILWIND 4 @theme -- Generates utility classes from tokens
+   ═══════════════════════════════════════════════════════════════════════
+   Maps semantic tokens to Tailwind utilities:
+     bg-surface, text-accent, border-border, shadow-md, etc. */
+
+@theme {
+  /* Colors -- Surfaces */
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-elevated: var(--color-elevated);
+
+  /* Colors -- Borders */
+  --color-border: var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+
+  /* Colors -- Text */
+  --color-text: var(--color-text);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+
+  /* Colors -- Accent (emerald) */
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-dim: var(--color-accent-dim);
+  --color-accent-text: var(--color-accent-text);
+  --color-accent-glow: var(--color-accent-glow);
+
+  /* Colors -- Semantic status */
+  --color-success: var(--color-success);
+  --color-success-glow: var(--color-success-glow);
+  --color-danger: var(--color-danger);
+  --color-danger-glow: var(--color-danger-glow);
+  --color-warning: var(--color-warning);
+  --color-warning-glow: var(--color-warning-glow);
+  --color-info: var(--color-info);
+  --color-info-glow: var(--color-info-glow);
+
+  /* Colors -- Chromatic (for decorative / informational coloring) */
+  --color-purple: var(--purple);
+  --color-purple-dim: var(--purple-dim);
+  --color-sky: var(--sky);
+  --color-sky-dim: var(--sky-dim);
+
+  /* Radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  /* Shadows */
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════ */
 
 body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
   color: var(--foreground);
   background: var(--background);
-  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Match reference design glassmorphic style */
+/* Selection uses accent color */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SCROLLBAR -- Thin, token-driven
+   ═══════════════════════════════════════════════════════════════════════ */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral-4) var(--neutral-1);
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--neutral-1);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--neutral-4);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-base);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--neutral-6);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   UTILITY CLASSES -- Token-driven
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Glassmorphic card */
 .glass-card {
-  @apply bg-neutral-900/50 backdrop-blur-md border border-neutral-800;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+}
+
+/* Focus ring utility */
+.focus-ring:focus-visible {
+  outline: var(--ring-width) solid var(--ring-color);
+  outline-offset: var(--ring-offset);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ANIMATIONS -- Keyframes used by components
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

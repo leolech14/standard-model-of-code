@@ -34,7 +34,7 @@ async function discoverProjects() {
   // Hardcoded for MVP - Elements as first tenant
   // Future: Scan /data/refinery/ or query database
 
-  const elementsPath = process.env.ELEMENTS_PATH || '/Users/lech/PROJECTS_all/PROJECT_elements';
+  const elementsPath = process.env.ELEMENTS_PATH || `${process.env.HOME}/PROJECTS_all/PROJECT_elements`;
   const chunksDir = path.join(elementsPath, '.agent/intelligence/chunks');
 
   // Check if Elements chunks exist

@@ -6,16 +6,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {
-    extend: {
-      // Match reference design colors
-      colors: {
-        primary: {
-          DEFAULT: '#10b981', // emerald-500
-          dark: '#059669',
-        },
-      },
-    },
-  },
+  // Colors now defined via OKLCH tokens in globals.css @theme directive.
+  // No color overrides needed here.
   plugins: [],
 } satisfies Config;

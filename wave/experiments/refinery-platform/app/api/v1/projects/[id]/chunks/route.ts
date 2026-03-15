@@ -10,14 +10,15 @@ import path from 'path';
  */
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
     const perPage = parseInt(searchParams.get('per_page') || '50');
 
-    const projectId = params.id;
+    const { id } = await params;
+    const projectId = id;
 
     // Load chunks for this project
     const chunks = await loadProjectChunks(projectId);
@@ -50,7 +51,7 @@ export async function GET(
 async function loadProjectChunks(projectId: string) {
   // Map project ID to actual data location
   const projectPaths: Record<string, string> = {
-    'elements': process.env.ELEMENTS_PATH || '/Users/lech/PROJECTS_all/PROJECT_elements',
+    'elements': process.env.ELEMENTS_PATH || `${process.env.HOME}/PROJECTS_all/PROJECT_elements`,
     // Future: 'atman', 'sentinel', etc.
   };
 

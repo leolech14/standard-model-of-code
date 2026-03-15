@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { Box, FileText } from 'lucide-react';
 import { EmptyState, SectionHeader } from '@/components/shared/Common';
+import { Skeleton } from '@/components/ui';
+import { localGet } from '@/lib/api';
 
 interface Chunk {
   chunk_id: string;
@@ -18,25 +20,28 @@ export default function ChunksPage() {
   const [selectedChunk, setSelectedChunk] = useState<Chunk | null>(null);
 
   useEffect(() => {
-    // Load chunks for Elements (first tenant)
-    fetch('/api/v1/projects/elements/chunks?per_page=20')
-      .then(res => res.json())
+    localGet<{ success: boolean; data: { items: Chunk[] } }>('projects/elements/chunks?per_page=20')
       .then(data => {
         if (data.success) {
           setChunks(data.data.items);
         }
-        setLoading(false);
       })
       .catch(err => {
         console.error('Failed to load chunks:', err);
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-pulse text-emerald-500">Loading chunks...</div>
+      <div className="flex h-full">
+        <div className="w-96 border-r border-border p-4 space-y-3">
+          {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-14" />)}
+        </div>
+        <div className="flex-1 p-6">
+          <Skeleton className="h-6 w-48 mb-4" />
+          <Skeleton className="h-64" />
+        </div>
       </div>
     );
   }
@@ -44,7 +49,7 @@ export default function ChunksPage() {
   return (
     <div className="flex h-full">
       {/* Chunk List */}
-      <div className="w-96 border-r border-neutral-800 flex flex-col">
+      <div className="w-96 border-r border-border flex flex-col">
         <SectionHeader title={`Chunks (${chunks.length})`} />
 
         <div className="flex-1 overflow-y-auto">
@@ -59,18 +64,18 @@ export default function ChunksPage() {
                   className={`
                     p-3 rounded-md cursor-pointer transition-colors
                     ${selectedChunk?.chunk_id === chunk.chunk_id
-                      ? 'bg-neutral-800'
-                      : 'hover:bg-neutral-900/50'
+                      ? 'bg-surface'
+                      : 'hover:bg-surface-hover'
                     }
                   `}
                 >
                   <div className="flex items-start gap-2">
-                    <FileText className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+                    <FileText className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs font-mono text-neutral-400 truncate mb-1">
+                      <div className="text-xs font-mono text-text-secondary truncate mb-1">
                         {chunk.file}
                       </div>
-                      <div className="text-xs text-neutral-500">
+                      <div className="text-xs text-text-muted">
                         {chunk.tokens} tokens
                       </div>
                     </div>
@@ -86,19 +91,19 @@ export default function ChunksPage() {
       <div className="flex-1 flex flex-col">
         {selectedChunk ? (
           <>
-            <div className="border-b border-neutral-800 p-4">
-              <div className="flex items-center gap-2 text-xs text-neutral-500 mb-2">
+            <div className="border-b border-border p-4">
+              <div className="flex items-center gap-2 text-xs text-text-muted mb-2">
                 <Box className="w-3 h-3" />
                 <span className="font-mono">{selectedChunk.chunk_id}</span>
               </div>
               <h2 className="text-sm font-semibold mb-1">{selectedChunk.file}</h2>
-              <div className="text-xs text-neutral-500">
-                {selectedChunk.tokens} tokens • {selectedChunk.project_id}
+              <div className="text-xs text-text-muted">
+                {selectedChunk.tokens} tokens &bull; {selectedChunk.project_id}
               </div>
             </div>
 
             <div className="flex-1 overflow-y-auto p-6">
-              <pre className="text-xs font-mono text-neutral-300 whitespace-pre-wrap leading-relaxed">
+              <pre className="text-xs font-mono text-text whitespace-pre-wrap leading-relaxed">
                 {selectedChunk.content}
               </pre>
             </div>
