@@ -108,3 +108,122 @@ def test_normalize_output_file_paths_consistent():
     assert "app/utils.py" in files_index
     assert f"{target_path}/app/main.py" not in files_index
     assert f"{target_path}/app/utils.py" not in files_index
+
+
+# ---------------------------------------------------------------------------
+# Locus tests
+# ---------------------------------------------------------------------------
+
+LOCUS_DIMS = ("physical", "architectural", "scale", "identity", "topological", "address")
+
+
+def _rich_node():
+    """A fully-populated node with all locus source fields."""
+    return {
+        "id": "core_auth.py::validate_token",
+        "name": "validate_token",
+        "file_path": "core_auth.py",
+        "start_line": 149,
+        "end_line": 160,
+        "atom": "EXT.CTL.M",
+        "layer": "Interface",
+        "ring": "presentation",
+        "tier": "T2",
+        "level": "L3",
+        "level_zone": "SYSTEMIC",
+        "atom_family": "EXT",
+        "role": "Controller",
+        "kind": "function",
+        "community_id": 1,
+        "topology_role": "hub",
+        "depth_from_entry": 1,
+    }
+
+
+def test_locus_stamped_after_normalize():
+    """Full node gets all 6 locus dimensions."""
+    target_path = "/tmp/project"
+    data = {
+        "target": target_path,
+        "timestamp": "2026-01-01T00:00:00",
+        "version": "0.0.1",
+        "nodes": [_rich_node()],
+        "edges": [],
+    }
+    normalized = normalize_output(data)
+    node = normalized["nodes"][0]
+    assert "locus" in node
+
+    locus = node["locus"]
+    for dim in LOCUS_DIMS:
+        assert dim in locus, f"locus missing dimension: {dim}"
+
+    assert locus["physical"] == "core_auth.py:149-160"
+    assert locus["architectural"] == "Interface.presentation.T2"
+    assert locus["scale"] == "L3.SYSTEMIC"
+    assert locus["identity"] == "EXT.Controller.function"
+    assert locus["topological"] == "C1.hub.d1"
+    assert "Interface" in locus["address"]
+    assert "core_auth.py" in locus["address"]
+
+
+def test_locus_idempotent():
+    """Normalizing twice produces identical locus."""
+    target_path = "/tmp/project"
+    data = {
+        "target": target_path,
+        "timestamp": "2026-01-01T00:00:00",
+        "version": "0.0.1",
+        "nodes": [_rich_node()],
+        "edges": [],
+    }
+    once = normalize_output(data)
+    locus_1 = once["nodes"][0]["locus"].copy()
+    twice = normalize_output(once)
+    locus_2 = twice["nodes"][0]["locus"]
+    assert locus_1 == locus_2
+
+
+def test_locus_partial_fields():
+    """Sparse node gets '?' fallbacks, never crashes."""
+    target_path = "/tmp/project"
+    sparse_node = {
+        "id": "bare.py::foo",
+        "name": "foo",
+        "file_path": "bare.py",
+        "atom": "LOG.FNC.M",
+    }
+    data = {
+        "target": target_path,
+        "timestamp": "2026-01-01T00:00:00",
+        "version": "0.0.1",
+        "nodes": [sparse_node],
+        "edges": [],
+    }
+    normalized = normalize_output(data)
+    locus = normalized["nodes"][0]["locus"]
+
+    for dim in LOCUS_DIMS:
+        assert dim in locus, f"locus missing dimension: {dim}"
+        assert isinstance(locus[dim], str)
+
+    # Physical should have file but no line range
+    assert "bare.py" in locus["physical"]
+    # Missing fields should show "?"
+    assert "?" in locus["architectural"]
+    assert "?" in locus["topological"]
+
+
+def test_validate_contract_locus_warning():
+    """Missing locus produces a validation warning (not error)."""
+    target_path = "/tmp/project"
+    data = _sample_output(target_path)
+    normalized = normalize_output(data)
+
+    # Strip locus to simulate a pre-locus output
+    for node in normalized["nodes"]:
+        del node["locus"]
+
+    errors, warnings = validate_contract(normalized)
+    locus_warnings = [w for w in warnings if "locus" in w]
+    assert len(locus_warnings) >= 1

@@ -934,7 +934,7 @@ Resolution: Code changes should be called "Directed Mutation" (like CRISPR editi
 
 **Canonical data:** Locus values computed by Collider pipeline, stored in `UnifiedNode.locus` field.
 
-**Implementation status:** Proposed for `particle.schema.json` update.
+**Implementation status:** Implemented in `src/core/normalize_output.py::_compute_locus()`. Stamped on every node during Stage 22 (Output Generation). See `docs/specs/CANONICAL_OUTPUT_CONTRACT.md` for output format.
 
 ### 5.9 Holon (Self-Contained Autonomous Unit)
 

@@ -132,6 +132,60 @@ def _derive_tier(atom_id: str) -> str:
     return "unknown"
 
 
+def _compute_locus(node: Dict[str, Any]) -> Dict[str, str]:
+    """Compute the multi-dimensional virtual address for a node.
+
+    Returns a dict with 5 coordinate dimensions + 1 composite address string.
+    Missing fields degrade to ``"?"`` — locus is always present, never crashes.
+    """
+    def _g(key: str) -> str:
+        v = node.get(key)
+        return str(v) if v is not None and v != "" else "?"
+
+    # physical: file:start-end
+    fp = _g("file_path")
+    sl, el = _g("start_line"), _g("end_line")
+    if sl != "?" and el != "?":
+        physical = f"{fp}:{sl}-{el}"
+    elif sl != "?":
+        physical = f"{fp}:{sl}"
+    else:
+        physical = fp
+
+    # architectural: layer.ring.tier
+    architectural = f"{_g('layer')}.{_g('ring')}.{_g('tier')}"
+
+    # scale: level.zone
+    scale = f"{_g('level')}.{_g('level_zone')}"
+
+    # identity: family.role.kind
+    identity = f"{_g('atom_family')}.{_g('role')}.{_g('kind')}"
+
+    # topological: Cn.role.dn
+    cid = _g("community_id")
+    community = f"C{cid}" if cid != "?" else "?"
+    trole = _g("topology_role")
+    depth = _g("depth_from_entry")
+    depth_str = f"d{depth}" if depth != "?" else "?"
+    topological = f"{community}.{trole}.{depth_str}"
+
+    # composite address: arch | identity | physical
+    tier_short = _g("tier")
+    level_short = _g("level")
+    arch_compact = f"{_g('layer')}.{tier_short}.{level_short}"
+    id_compact = f"{_g('atom_family')}.{_g('role')}"
+    address = f"{arch_compact} | {id_compact} | {physical}"
+
+    return {
+        "physical": physical,
+        "architectural": architectural,
+        "scale": scale,
+        "identity": identity,
+        "topological": topological,
+        "address": address,
+    }
+
+
 def _normalize_taxonomy(node: Dict[str, Any]) -> None:
     atom_id = node.get("atom")
     derived_family = _derive_atom_family(atom_id) if atom_id else None
@@ -155,6 +209,8 @@ def _normalize_taxonomy(node: Dict[str, Any]) -> None:
 
     if "ring" not in node:
         node["ring"] = None
+
+    node["locus"] = _compute_locus(node)
 
 
 def _iter_nodes(data: Dict[str, Any]) -> Iterable[Dict[str, Any]]:
@@ -399,6 +455,14 @@ def validate_contract(data: Dict[str, Any]) -> Tuple[List[str], List[str]]:
             errors.append(f"node[{idx}] tier invalid: {tier}")
 
         check_confidence_fields(node, f"node[{idx}]")
+
+        locus = node.get("locus")
+        if not isinstance(locus, dict):
+            warnings.append(f"node[{idx}] locus missing")
+        else:
+            for dim in ("physical", "architectural", "scale", "identity", "topological", "address"):
+                if dim not in locus:
+                    warnings.append(f"node[{idx}] locus.{dim} missing")
 
     edges = list(_iter_edges(data))
     for idx, edge in enumerate(edges):

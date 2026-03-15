@@ -730,6 +730,12 @@ terms:
       score; (c) separation of Locus (conceptual invariant) from Location
       (file path, mutable). No prior formulation unifies these five axes
       into a static classification coordinate for code atoms.
+    implementation:
+      status: "implemented"
+      location: "src/core/normalize_output.py::_compute_locus()"
+      stage: "Stage 22: Output Generation"
+      output_field: "node.locus"
+      dimensions: [physical, architectural, scale, identity, topological, address]
     validated: "2026-01-31 (Gemini 98/100, Perplexity confirmed)"
     see_also: "L1_DEFINITIONS.md §5.8"
     related_terms: [sixteen_levels, ring, atom, role, rpbl, holon]

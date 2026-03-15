@@ -1,0 +1,74 @@
+id: MACRO-PROJECT_PURGE-DS-STORE
+name: "Purge .DS_Store and macOS Metadata"
+version: 1.0.0
+status: DRAFT
+created: '2026-03-07T12:00:00Z'
+author: claude-opus-4-6 + leonardo.lech
+description: |
+  Removes all .DS_Store files and ._* resource fork files across PROJECTS_all.
+  Also adds .DS_Store to global gitignore if not already there.
+
+  Low disk impact (~1MB total) but high hygiene impact — keeps
+  git history clean and avoids cross-platform noise.
+tags:
+  - cleanup
+  - hygiene
+  - macos
+  - gitignore
+scope: PROJECTS_all
+
+trigger:
+  type: schedule
+  schedule: "0 6 * * 1"  # Weekly Monday 6 AM
+
+preconditions: []
+
+steps:
+  - id: count
+    description: "Count .DS_Store files"
+    tool: Bash
+    params:
+      command: |
+        echo "DS_Store: $(find ~/PROJECTS_all -name '.DS_Store' 2>/dev/null | wc -l)"
+        echo "._files: $(find ~/PROJECTS_all -name '._*' 2>/dev/null | wc -l)"
+    output_var: counts
+    on_failure: continue
+
+  - id: purge
+    description: "Remove all .DS_Store and ._ files"
+    tool: Bash
+    params:
+      command: |
+        find ~/PROJECTS_all -name ".DS_Store" -delete 2>/dev/null
+        find ~/PROJECTS_all -name "._*" -delete 2>/dev/null
+        echo "DONE"
+    output_var: result
+    on_failure: continue
+
+  - id: ensure_gitignore
+    description: "Add .DS_Store to global gitignore"
+    tool: Bash
+    params:
+      command: |
+        GLOBAL_GI="$HOME/.gitignore_global"
+        if ! grep -q ".DS_Store" "$GLOBAL_GI" 2>/dev/null; then
+          echo ".DS_Store" >> "$GLOBAL_GI"
+          echo "._*" >> "$GLOBAL_GI"
+          git config --global core.excludesfile "$GLOBAL_GI"
+          echo "Added to global gitignore"
+        else
+          echo "Already in global gitignore"
+        fi
+    output_var: gitignore_status
+    on_failure: continue
+
+success_criteria:
+  - "All .DS_Store files removed"
+  - "Global gitignore configured"
+
+output:
+  type: manifest
+  path: ".agent/macros/logs/MACRO-PROJECT_PURGE-DS-STORE/{date}.manifest.yaml"
+  format: yaml
+
+executions: []

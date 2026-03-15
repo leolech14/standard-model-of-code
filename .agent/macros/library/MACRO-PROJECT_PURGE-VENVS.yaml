@@ -1,0 +1,117 @@
+id: MACRO-PROJECT_PURGE-VENVS
+name: "Purge Python Virtual Environments Across Projects"
+version: 1.0.0
+status: DRAFT
+created: '2026-03-07T12:00:00Z'
+author: claude-opus-4-6 + leonardo.lech
+description: |
+  Removes .venv and venv directories across PROJECTS_all.
+  Regenerable via `pip install -r requirements.txt` or `pip install -e .`
+
+  Found 3 venvs:
+    - PROJECT_antigravity-lab/.venv
+    - PROJECT_secretscript-alt/venv
+    - PROJECT_elements/.venv (CAUTION: main project, has .tools_venv too)
+
+  Estimated savings: 500 MB - 1.5 GB
+
+  NOTE: PROJECT_elements has TWO venvs (.venv and .tools_venv). This macro
+  targets both but marks elements as HIGH_CAUTION — user should confirm
+  they want to rebuild those.
+tags:
+  - cleanup
+  - disk-space
+  - python
+  - regenerable
+  - caution
+scope: PROJECTS_all
+
+trigger:
+  type: manual
+
+preconditions:
+  - condition: "requirements.txt or pyproject.toml exists for each target"
+    required: true
+    reason: "Must be able to recreate the venv"
+  - condition: "No running processes from these venvs"
+    required: true
+    reason: "Active processes will break"
+
+target_dirs:
+  - path: PROJECT_antigravity-lab/.venv
+    caution: LOW
+    recreate: "pip install -r requirements.txt"
+  - path: PROJECT_secretscript-alt/venv
+    caution: LOW
+    recreate: "pip install -r requirements.txt"
+  - path: PROJECT_elements/.venv
+    caution: HIGH
+    recreate: "pip install -e . && pip install -r requirements.txt"
+    note: "Main project venv — AI tools, collider, all wave/ tools depend on this"
+  - path: PROJECT_elements/.tools_venv
+    caution: MEDIUM
+    recreate: "See PROJECT_elements CLAUDE.md for two-venv setup"
+    note: "pe CLI and docling tools"
+
+steps:
+  - id: check_requirements
+    description: "Verify recreate files exist"
+    tool: Bash
+    params:
+      command: |
+        for proj in PROJECT_antigravity-lab PROJECT_secretscript-alt PROJECT_elements; do
+          base="$HOME/PROJECTS_all/$proj"
+          if [ -f "$base/requirements.txt" ] || [ -f "$base/pyproject.toml" ]; then
+            echo "OK: $proj has requirements"
+          else
+            echo "MISSING: $proj — cannot recreate venv safely"
+          fi
+        done
+    output_var: req_check
+    on_failure: stop
+
+  - id: measure_before
+    description: "Measure venv sizes"
+    tool: Bash
+    params:
+      command: |
+        find ~/PROJECTS_all -maxdepth 2 \( -name ".venv" -o -name "venv" -o -name ".tools_venv" \) \
+          -type d -exec du -sh {} \; 2>/dev/null
+    output_var: sizes
+    on_failure: continue
+
+  - id: purge_venvs
+    description: "Remove venv directories (USER MUST CONFIRM)"
+    tool: AskUser
+    params:
+      question: |
+        About to delete these virtual environments:
+        {sizes}
+
+        Confirm deletion? PROJECT_elements venvs will need manual recreation.
+    output_var: confirmation
+    on_failure: stop
+
+  - id: execute_purge
+    description: "Delete confirmed venvs"
+    tool: Bash
+    params:
+      command: |
+        find ~/PROJECTS_all -maxdepth 2 \( -name ".venv" -o -name "venv" \) \
+          -type d -exec rm -rf {} + 2>/dev/null
+        echo "DONE: venvs removed"
+    condition: "confirmation == 'yes'"
+    output_var: result
+    on_failure: stop
+
+success_criteria:
+  - "User confirmed deletion"
+  - "All target venvs removed"
+  - "Recreation instructions documented"
+
+output:
+  type: manifest
+  path: ".agent/macros/logs/MACRO-PROJECT_PURGE-VENVS/{date}.manifest.yaml"
+  format: yaml
+
+executions: []

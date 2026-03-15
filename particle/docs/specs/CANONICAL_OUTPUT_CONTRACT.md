@@ -1,6 +1,6 @@
 # Canonical Output Contract
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Created:** 2026-02-01
 **Status:** AUTHORITATIVE
 
@@ -58,7 +58,15 @@
       "semantic_role": "string",
       "purpose": "string",
       "has_docstring": "boolean",
-      "betweenness_centrality": "number"
+      "betweenness_centrality": "number",
+      "locus": {
+        "physical": "string (file:start-end)",
+        "architectural": "string (layer.ring.tier)",
+        "scale": "string (level.zone)",
+        "identity": "string (family.role.kind)",
+        "topological": "string (Cn.role.dn)",
+        "address": "string (compact composite)"
+      }
     }
   ],
   "edges": [
@@ -115,6 +123,7 @@ python3 particle/tools/batch_grade/validate_output.py .collider/unified_analysis
 | Version | Date | Change |
 |---------|------|--------|
 | 1.0.0 | 2026-02-01 | Initial contract (ARCHIVIST) |
+| 1.1.0 | 2026-03-07 | Added `node.locus` (multi-dimensional virtual address) |
 
 ---
 

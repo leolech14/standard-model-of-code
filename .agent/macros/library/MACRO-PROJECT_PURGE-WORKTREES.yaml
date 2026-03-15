@@ -1,0 +1,104 @@
+id: MACRO-PROJECT_PURGE-WORKTREES
+name: "Purge Stale Claude Code Worktrees"
+version: 1.0.0
+status: DRAFT
+created: '2026-03-07T12:00:00Z'
+author: claude-opus-4-6 + leonardo.lech
+description: |
+  Removes stale .claude/worktrees/ across PROJECTS_all.
+  Claude Code creates git worktrees for isolated agent work. These often
+  persist after sessions end and can be massive (full repo copies).
+
+  Found 43 projects with .claude/ directories, at least 3 with active worktrees:
+    - PROJECT_elements/.claude/worktrees/ (hopeful-lederberg, vigilant-dijkstra)
+    - PROJECT_openclaw/.claude/worktrees/ (relaxed-roentgen)
+
+  Each worktree is a FULL COPY of the repo. For PROJECT_elements (~18GB),
+  each worktree could be 5-15 GB.
+
+  Estimated savings: 5-30 GB (potentially the biggest win)
+tags:
+  - cleanup
+  - disk-space
+  - claude-code
+  - worktrees
+  - high-impact
+scope: PROJECTS_all
+
+trigger:
+  type: manual
+
+preconditions:
+  - condition: "No active Claude Code sessions using these worktrees"
+    required: true
+    reason: "Active sessions will lose work"
+
+steps:
+  - id: inventory_worktrees
+    description: "List all worktrees and their sizes"
+    tool: Bash
+    params:
+      command: |
+        for claude_dir in $(find ~/PROJECTS_all -maxdepth 2 -name ".claude" -type d 2>/dev/null); do
+          wt_dir="$claude_dir/worktrees"
+          if [ -d "$wt_dir" ]; then
+            echo "=== $wt_dir ==="
+            for wt in "$wt_dir"/*/; do
+              if [ -d "$wt" ]; then
+                echo "  $(basename $wt): $(du -sh $wt 2>/dev/null | cut -f1)"
+              fi
+            done
+          fi
+        done
+    output_var: worktree_inventory
+    on_failure: continue
+
+  - id: check_git_worktrees
+    description: "Use git to verify worktree status"
+    tool: Bash
+    params:
+      command: |
+        for proj in ~/PROJECTS_all/PROJECT_elements ~/PROJECTS_all/PROJECT_openclaw; do
+          if [ -d "$proj/.git" ]; then
+            echo "=== $(basename $proj) ==="
+            cd "$proj" && git worktree list 2>/dev/null
+          fi
+        done
+    output_var: git_status
+    on_failure: continue
+
+  - id: prune_worktrees
+    description: "Remove stale worktrees via git and then delete dirs"
+    tool: Bash
+    params:
+      command: |
+        for proj in ~/PROJECTS_all/PROJECT_elements ~/PROJECTS_all/PROJECT_openclaw; do
+          if [ -d "$proj/.git" ]; then
+            cd "$proj"
+            git worktree prune 2>/dev/null
+            # Remove remaining worktree dirs
+            if [ -d "$proj/.claude/worktrees" ]; then
+              for wt in "$proj/.claude/worktrees"/*/; do
+                if [ -d "$wt" ]; then
+                  git worktree remove "$wt" --force 2>/dev/null || rm -rf "$wt"
+                  echo "Removed: $wt"
+                fi
+              done
+            fi
+          fi
+        done
+    output_var: prune_result
+    on_failure: continue
+
+success_criteria:
+  - "All stale worktrees identified"
+  - "Git worktree prune executed"
+  - "Orphaned worktree directories removed"
+  - "Disk space freed reported"
+
+output:
+  type: manifest
+  path: ".agent/macros/logs/MACRO-PROJECT_PURGE-WORKTREES/{date}.manifest.yaml"
+  format: yaml
+
+executions: []

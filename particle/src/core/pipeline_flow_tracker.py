@@ -49,6 +49,9 @@ FIELD_PRODUCERS: Dict[str, str] = {
     "is_coordinator":       "Stage 6.5: Graph Analytics",
     "is_influential":       "Stage 6.5: Graph Analytics",
     "weight":               "normalize_output",
+    "locus":                "Stage 22: Output Generation (normalize_output)",
+    "topology_role":        "Stage 6.5: Graph Analytics",
+    "depth_from_entry":     "Stage 6.7: Semantic Purpose Analysis",
 }
 
 # Field -> stages that consume (read) it.  Used for ordering warnings.

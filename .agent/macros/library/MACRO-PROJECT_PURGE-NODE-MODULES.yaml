@@ -1,0 +1,106 @@
+id: MACRO-PROJECT_PURGE-NODE-MODULES
+name: "Purge node_modules Across All Projects"
+version: 1.0.0
+status: DRAFT
+created: '2026-03-07T12:00:00Z'
+author: claude-opus-4-6 + leonardo.lech
+description: |
+  Removes all top-level node_modules directories across PROJECTS_all.
+  These are fully regenerable via `npm install` / `yarn install` from
+  their respective package.json + lockfiles.
+
+  Estimated savings: 2-5 GB across 8 projects with node_modules.
+
+  SAFE: All deletions are regenerable. No data loss possible.
+tags:
+  - cleanup
+  - disk-space
+  - node
+  - regenerable
+scope: PROJECTS_all
+target_dirs:
+  - PROJECT_ai-debate-system/node_modules
+  - PROJECT_secretscript-alt/node_modules
+  - PROJECT_secretscript/node_modules
+  - PROJECT_ui-server-control-center/node_modules
+  - PROJECT_ai-image-editor-2/node_modules
+  - PROJECT_orbital-trade/node_modules
+  - PROJECT_oklch-color-wheel/node_modules
+  - PROJECT_geminimaill/node_modules
+  # Also nested: secretscript-alt/{magic-mcp,figma-plugin,react-app}/node_modules
+  # Also: PROJECT_elements internal (wave/experiments/refinery-dashboard, etc.)
+
+trigger:
+  type: manual
+  # Future: schedule monthly
+
+preconditions:
+  - condition: "No active npm/node processes in target projects"
+    required: true
+    reason: "Avoid breaking running dev servers"
+  - condition: "package-lock.json or yarn.lock exists in each project"
+    required: true
+    reason: "Ensures reproducible reinstall"
+
+steps:
+  - id: verify_lockfiles
+    description: "Confirm lockfiles exist for each target"
+    tool: Bash
+    params:
+      command: |
+        for proj in PROJECT_ai-debate-system PROJECT_secretscript-alt PROJECT_secretscript \
+                     PROJECT_ui-server-control-center PROJECT_ai-image-editor-2 \
+                     PROJECT_orbital-trade PROJECT_oklch-color-wheel PROJECT_geminimaill; do
+          base="$HOME/PROJECTS_all/$proj"
+          if [ -f "$base/package-lock.json" ] || [ -f "$base/yarn.lock" ]; then
+            echo "OK: $proj has lockfile"
+          else
+            echo "WARN: $proj missing lockfile — skip or backup first"
+          fi
+        done
+    output_var: lockfile_check
+    on_failure: stop
+
+  - id: measure_before
+    description: "Measure current disk usage"
+    tool: Bash
+    params:
+      command: |
+        find ~/PROJECTS_all -maxdepth 2 -name "node_modules" -type d \
+          -exec du -sm {} \; 2>/dev/null | sort -rn
+    output_var: size_before
+    on_failure: continue
+
+  - id: purge_node_modules
+    description: "Delete all node_modules directories"
+    tool: Bash
+    params:
+      command: |
+        find ~/PROJECTS_all -maxdepth 4 -name "node_modules" -type d \
+          -prune -exec rm -rf {} \; 2>/dev/null
+        echo "DONE: All node_modules removed"
+    output_var: purge_result
+    on_failure: stop
+
+  - id: verify_cleanup
+    description: "Confirm no node_modules remain"
+    tool: Bash
+    params:
+      command: |
+        remaining=$(find ~/PROJECTS_all -maxdepth 4 -name "node_modules" -type d 2>/dev/null | wc -l)
+        echo "Remaining node_modules dirs: $remaining"
+    expect: "Remaining node_modules dirs: 0"
+    output_var: verification
+    on_failure: continue
+
+success_criteria:
+  - "All node_modules directories removed"
+  - "Lockfiles confirmed for each project"
+  - "Disk space freed reported"
+
+output:
+  type: manifest
+  path: ".agent/macros/logs/MACRO-PROJECT_PURGE-NODE-MODULES/{date}.manifest.yaml"
+  format: yaml
+
+executions: []
