@@ -198,6 +198,22 @@ git commit -m "archive: Move old_thing (reason)"
 
 ---
 
+## D9: REH Canonical Architecture ✅
+
+**Decision:** REH (Repository Evolution History) has a shared core (`reh_core.py`) with two access interfaces: batch analytics (`temporal_analysis.py`, Collider pipeline Stage 18) and interactive tools (`mcp_history_server.py`, MCP server for agents).
+
+**Architecture:**
+- Shared core: `particle/src/core/reh_core.py` (constants + git utilities)
+- Analysis engine: `particle/src/core/temporal_analysis.py` (batch analytics, canonical)
+- Interactive tools: `wave/tools/mcp/mcp_history_server.py` (MCP server, 5 tools)
+- Ecosystem wrapper: `PROJECT_openclaw/scripts/reh_state_map.py` (snapshot generator)
+
+**Import direction:** Both `temporal_analysis.py` and `mcp_history_server.py` import from `reh_core.py`. The MCP server is the origin (REH was born there); the temporal analysis module is the canonical engine (more capabilities, tested, integrated into Collider pipeline).
+
+**Rationale:** REH was born as an MCP server, then adapted into Collider via code copy. The copy grew more capabilities (hotspots, age distribution, change coupling, bus factor) and 594 lines of tests. D2 demands a single canonical source. Extracting shared constants into `reh_core.py` resolves the duplication while preserving both interfaces.
+
+---
+
 ## DECISION LOG (Chronological)
 
 | Date | Decision | Status |

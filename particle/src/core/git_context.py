@@ -22,10 +22,10 @@ from typing import List, Optional, Tuple
 
 
 # ────────────────────────────────────────────────
-# Git helpers (thin wrappers around temporal_analysis)
+# Git helpers (from REH shared core)
 # ────────────────────────────────────────────────
 # Local wrappers so tests can @patch("src.core.git_context._run_git")
-# without touching temporal_analysis.
+# without touching reh_core or temporal_analysis.
 
 def _run_git(
     repo_path: str,
@@ -34,14 +34,14 @@ def _run_git(
     timeout: int = 30,
 ) -> Tuple[bool, str]:
     """Run a git command safely with output capping and timeout."""
-    from src.core.temporal_analysis import _run_git as _ta_run_git
-    return _ta_run_git(repo_path, args, max_output=max_output, timeout=timeout)
+    from src.core.reh_core import _run_git as _reh_run_git
+    return _reh_run_git(repo_path, args, max_output=max_output, timeout=timeout)
 
 
 def _is_git_repo(path: str) -> bool:
     """Check whether *path* is inside a git working tree."""
-    from src.core.temporal_analysis import _is_git_repo as _ta_is_git_repo
-    return _ta_is_git_repo(path)
+    from src.core.reh_core import _is_git_repo as _reh_is_git_repo
+    return _reh_is_git_repo(path)
 
 
 # ────────────────────────────────────────────────

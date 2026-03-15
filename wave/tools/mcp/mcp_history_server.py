@@ -20,10 +20,24 @@ Usage:
 import json
 import os
 import re
-import subprocess
+import sys
 from collections import defaultdict
+from pathlib import Path
 
-from mcp.server.fastmcp import FastMCP
+# Import shared REH core (D9: single canonical source for constants + git utilities)
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "particle" / "src"))
+from core.reh_core import (  # noqa: E402
+    NOISE_DIRS,
+    NOISE_EXTENSIONS,
+    CODE_EXTENSIONS,
+    CAPABILITY_PATTERNS,
+    LANG_BY_EXT,
+    _run_git,
+    _is_noise,
+    _is_code_file,
+)
+
+from mcp.server.fastmcp import FastMCP  # noqa: E402
 
 mcp = FastMCP(
     "Repository Evolution History",
@@ -37,53 +51,7 @@ mcp = FastMCP(
     ),
 )
 
-# ========== Shared Constants ==========
-
-NOISE_DIRS = {
-    ".git", "node_modules", ".venv", ".tools_venv", "__pycache__",
-    "dist", "build", ".repos_cache", ".mypy_cache", ".pytest_cache",
-    ".ruff_cache", ".next", ".cache", ".egg-info", "venv",
-}
-
-NOISE_EXTENSIONS = {".pyc", ".pyo", ".so", ".dylib", ".png", ".jpg", ".zip", ".DS_Store"}
-
-CODE_EXTENSIONS = {
-    ".py", ".js", ".ts", ".tsx", ".jsx", ".go", ".rs", ".java",
-    ".rb", ".sh", ".yaml", ".yml", ".toml", ".json", ".md",
-}
-
-# Language-specific patterns for detecting function/class definitions
-CAPABILITY_PATTERNS = {
-    "python": re.compile(r"^\s*(async\s+)?def\s+(\w+)|^\s*class\s+(\w+)"),
-    "javascript": re.compile(r"^\s*(?:export\s+)?(?:async\s+)?function\s+(\w+)|^\s*(?:export\s+)?class\s+(\w+)|^\s*(?:const|let|var)\s+(\w+)\s*=\s*(?:async\s+)?\("),
-    "go": re.compile(r"^\s*func\s+(?:\(\w+\s+\*?\w+\)\s+)?(\w+)|^\s*type\s+(\w+)\s+struct"),
-}
-
-LANG_BY_EXT = {
-    ".py": "python", ".js": "javascript", ".ts": "javascript",
-    ".tsx": "javascript", ".jsx": "javascript", ".go": "go",
-}
-
-
-# ========== Shared Utilities ==========
-
-def _run_git(repo_path: str, args: list[str], max_output: int = 500_000) -> tuple[bool, str]:
-    """Run a git command safely with output capping and timeout."""
-    try:
-        result = subprocess.run(
-            ["git"] + args,
-            cwd=repo_path,
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        output = result.stdout[:max_output]
-        return result.returncode == 0, output
-    except subprocess.TimeoutExpired:
-        return False, "Git command timed out (30s limit)"
-    except Exception as e:
-        return False, str(e)
-
+# ========== MCP-specific Utilities ==========
 
 def _validate_repo(path: str) -> tuple[bool, str]:
     """Check that path exists and is a git repo."""
@@ -92,19 +60,6 @@ def _validate_repo(path: str) -> tuple[bool, str]:
     if not os.path.isdir(os.path.join(path, ".git")):
         return False, f"Not a git repository: {path}"
     return True, ""
-
-
-def _is_noise(path: str) -> bool:
-    parts = path.split("/")
-    if any(p in NOISE_DIRS for p in parts):
-        return True
-    _, ext = os.path.splitext(path)
-    return ext in NOISE_EXTENSIONS
-
-
-def _is_code_file(path: str) -> bool:
-    _, ext = os.path.splitext(path)
-    return ext in CODE_EXTENSIONS
 
 
 def _check_file_status(relative_path: str, repo_root: str) -> str:

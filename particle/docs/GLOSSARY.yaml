@@ -2913,6 +2913,28 @@ terms:
       Static code analysis tool. Collider is a superset of a linter -
       it analyzes structure, not just style.
 
+  reh:
+    canonical_name: "REH (Repository Evolution History)"
+    category: original_invention
+    introduced:
+      version: "2.0.0"
+      date: "2026"
+      by: "Leonardo Lech"
+    definition: |
+      Git-powered codebase archaeology system providing the R_change temporal
+      dimension. Analyzes repository evolution via growth velocity, hotspot
+      detection, capability drift, age distribution, change coupling, and
+      contributor tracking. Implemented as a shared core (reh_core.py) with
+      two interfaces: batch analytics for the Collider pipeline
+      (temporal_analysis.py, Stage 18) and interactive MCP tools
+      (mcp_history_server.py, 5 tools). Born as an independent MCP server,
+      later adapted into Collider. Governed by D9.
+    project_meaning: |
+      REH provides the temporal axis that Collider's static structural
+      analysis cannot: not just what the code IS, but how it BECAME.
+    related_terms: [temporal_analysis, constructal_resistance, collider, r_change]
+    epistemic_status: FRAMEWORK_DEFINITION
+
   refactoring:
     canonical_name: "Refactoring"
     category: standard_cs

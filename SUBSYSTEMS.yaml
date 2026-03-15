@@ -68,18 +68,23 @@ subsystems:
       - ./pe status
 
   - name: TEMPORAL_INTELLIGENCE
-    description: "File popularity tracking + temporal analytics (S15)"
+    description: "File popularity tracking, temporal analytics, and REH (Repository Evolution History)"
     root_dirs:
-      code: particle/scripts
+      code: particle/src/core
       context: .agent/intelligence
     entrypoints:
+      - particle/src/core/reh_core.py
+      - particle/src/core/temporal_analysis.py
+      - wave/tools/mcp/mcp_history_server.py
       - particle/scripts/generate_repo_timestamps.py
       - particle/scripts/file_popularity_tracker.py
     canonical_docs:
       - .agent/intelligence/TOOLS_REGISTRY.yaml
+      - governance/DECISIONS.md  # D9: REH Canonical Architecture
     generated_outputs:
       - project_elements_file_timestamps.csv (TDJ - centralized)
       - .file_popularity/ (reports)
+      - .reh/ (REH state maps, ecosystem wrapper output)
       - "**/*.metadata.json" (decentralized - future)
     status: active
     maturity: beta

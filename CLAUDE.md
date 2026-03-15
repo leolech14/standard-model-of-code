@@ -31,12 +31,26 @@ particle/           Collider engine (Python, v2.3.0)
 wave/tools/ai/      AI intelligence toolkit (Cerebras, ACI, Perplexity, Decision Deck)
 wave/tools/ai/mcp_servers/  MCP server wrappers (3 servers)
 wave/config/        Analysis sets, model config
+wave/experiments/refinery-platform/  Ecosystem dashboard (Next.js 15, has own .claude/CLAUDE.md)
 .agent/             Governance, decision deck cards, task registry
 context-management/ Refinery + visualization dashboards
 governance/         Roadmap, decisions, quality gates
 docs/               AI model reference, diagrams
 standard-model-of-code/  Theory package (pip installable)
 ```
+
+### Refinery Platform (Ecosystem Dashboard)
+
+Full-scope ecosystem dashboard: Next.js 15 / React 19 / Tailwind 4. Surfaces 200+ OpenClaw API endpoints across 12 domains (system, voice, LLM, comms, trading, finance, memory, tools, etc.) as a unified frontend.
+
+- **Location:** `wave/experiments/refinery-platform/`
+- **Port:** 3001 (dev + prod)
+- **Deploy:** `dashboard.centralmcp.ai` (behind Authelia)
+- **Design system:** Algebra-UI -- parametric OKLCH engine (hard tokens / soft tokens / coefficients). Lineage from PROJECT_vector-ui research.
+- **Agent context:** `.ecoroot/common_knowledge.md` (shared SSOT) + thin wrappers: `.claude/CLAUDE.md`, `GEMINI.md`, `AGENTS.md`
+- **Plan:** `~/.claude/plans/keen-wondering-puddle.md` (master implementation spec, 474 lines)
+
+When working on the Refinery Platform, the project-level agent files have the full context. All three agents (Claude, Gemini, Codex) share `.ecoroot/common_knowledge.md` as their single source of truth.
 
 ## Commands
 
@@ -57,6 +71,11 @@ standard-model-of-code/  Theory package (pip installable)
 ./collider-hub feedback --repo /path/to/repo        # Feedback-only from existing artifacts
 ./collider-hub manual-feedback --repo /path/to/repo --problem "..." --evidence "..."
 
+# REH (Repository Evolution History) — git-powered codebase archaeology
+# MCP server with 5 tools: timeline, pickaxe, file history, capability changes, directory activity
+uv run python wave/tools/mcp/mcp_history_server.py                      # Start MCP server (stdio)
+uv run python wave/tools/mcp/mcp_history_server.py --test /path/to/repo # Quick smoke test
+
 # AI Tools (all via doppler for secrets)
 doppler run -- .venv/bin/python3 wave/tools/ai/cerebras_rapid_intel.py sweep
 doppler run -- .venv/bin/python3 wave/tools/ai/analyze.py --aci "query"
@@ -72,7 +91,7 @@ bash scripts/archive-to-gcs.sh --execute   # Real sync
 
 # Dashboards
 cd context-management/viz/unified-dashboard && npm run dev   # Projectome viewer :3000
-cd context-management/experiments/refinery-platform && npm run dev  # Refinery :3001
+cd wave/experiments/refinery-platform && npm run dev  # Refinery :3001
 ```
 
 ## Key Paths
@@ -83,12 +102,16 @@ cd context-management/experiments/refinery-platform && npm run dev  # Refinery :
 | AI query (fast) | `wave/tools/ai/cerebras_rapid_intel.py` |
 | AI query (smart routing) | `wave/tools/ai/analyze.py --aci` |
 | MCP servers | `wave/tools/ai/mcp_servers/` (3 servers) |
+| REH (temporal) | `particle/src/core/reh_core.py` (core), `temporal_analysis.py` (engine), `wave/tools/mcp/mcp_history_server.py` (MCP) |
 | Decision deck cards | `.agent/deck/` + `wave/tools/ai/deck/` |
 | Atom taxonomy | `particle/data/atoms/` (3,610 atoms) |
 | Analysis config | `wave/config/analysis_sets.yaml` |
 | Subsystem map | `SUBSYSTEMS.yaml` (8 subsystems) |
 | Domain map | `DOMAINS.yaml` (6 domains) |
 | Architecture deep dive | `wave/tools/ai/.research/ARCHITECTURE_MAP.md` |
+| Refinery Platform (dashboard) | `wave/experiments/refinery-platform/` (has own `.claude/CLAUDE.md`) |
+| Refinery design system | `wave/experiments/refinery-platform/app/globals.css` (parametric OKLCH engine) |
+| Refinery master plan | `~/.claude/plans/keen-wondering-puddle.md` (474-line implementation spec) |
 
 ## Rules
 

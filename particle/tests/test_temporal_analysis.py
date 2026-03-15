@@ -155,7 +155,7 @@ class TestRunGit:
         ok, msg = _run_git("/nonexistent/path/xyz", ["status"])
         assert not ok
 
-    @patch("temporal_analysis.subprocess.run")
+    @patch("src.core.reh_core.subprocess.run")
     def test_run_git_timeout(self, mock_run):
         import subprocess as sp
         mock_run.side_effect = sp.TimeoutExpired(cmd="git", timeout=30)
@@ -163,7 +163,7 @@ class TestRunGit:
         assert not ok
         assert "timed out" in msg.lower()
 
-    @patch("temporal_analysis.subprocess.run")
+    @patch("src.core.reh_core.subprocess.run")
     def test_run_git_success(self, mock_run):
         mock_run.return_value = type("R", (), {
             "returncode": 0,
@@ -173,7 +173,7 @@ class TestRunGit:
         assert ok
         assert output == "hello world"
 
-    @patch("temporal_analysis.subprocess.run")
+    @patch("src.core.reh_core.subprocess.run")
     def test_run_git_output_capped(self, mock_run):
         mock_run.return_value = type("R", (), {
             "returncode": 0,
@@ -185,20 +185,20 @@ class TestRunGit:
 
 
 class TestIsGitRepo:
-    @patch("temporal_analysis.os.path.isdir")
+    @patch("src.core.reh_core.os.path.isdir")
     def test_with_git_dir(self, mock_isdir):
         mock_isdir.return_value = True
         assert _is_git_repo("/some/repo")
 
-    @patch("temporal_analysis._run_git")
-    @patch("temporal_analysis.os.path.isdir")
+    @patch("src.core.reh_core._run_git")
+    @patch("src.core.reh_core.os.path.isdir")
     def test_worktree_fallback(self, mock_isdir, mock_git):
         mock_isdir.return_value = False
         mock_git.return_value = (True, ".git")
         assert _is_git_repo("/some/worktree")
 
-    @patch("temporal_analysis._run_git")
-    @patch("temporal_analysis.os.path.isdir")
+    @patch("src.core.reh_core._run_git")
+    @patch("src.core.reh_core.os.path.isdir")
     def test_not_a_repo(self, mock_isdir, mock_git):
         mock_isdir.return_value = False
         mock_git.return_value = (False, "fatal")
