@@ -95,7 +95,7 @@ def _ensure_confidence_baselines() -> None:
         _CATEGORY_BASE_CONFIDENCE = {
             'dead_code': 0.85, 'execution': 0.85, 'constraints': 0.80,
             'entanglement': 0.80, 'topology': 0.75, 'rpbl': 0.75,
-            'performance': 0.70, 'data_flow': 0.70, 'test_coverage': 0.70,
+            'performance': 0.70, 'data_flow': 0.70, 'test_density': 0.70,
             'api_drift': 0.65, 'incoherence': 0.60, 'gap_detection': 0.55,
             'temporal': 0.55, 'purpose': 0.50, 'purpose_decomposition': 0.50,
             'contextome': 0.45, 'ideome': 0.40,
@@ -151,12 +151,26 @@ class InsightsReport:
     meta: Dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
+        # --- Findings count resolution (C5) ---
+        # Split raw total into core (non-api_drift) and api_drift counts.
+        raw_count = len(self.findings)
+        by_cat: Dict[str, int] = {}
+        for f in self.findings:
+            by_cat[f.category] = by_cat.get(f.category, 0) + 1
+        api_drift_count = by_cat.get('api_drift', 0)
+        core_count = raw_count - api_drift_count
+
         return {
             'grade': self.grade,
             'health_score': round(self.health_score, 2),
             'health_components': {k: round(v, 2) for k, v in self.health_components.items()},
             'mission_matrix': self.mission_matrix,
-            'findings_count': len(self.findings),
+            # Findings counts — resolved (Phase 1 C5)
+            'raw_findings_count': raw_count,
+            'core_findings_count': core_count,
+            'api_drift_count': api_drift_count,
+            'findings_count_by_category': by_cat,
+            'findings_count': raw_count,  # DEPRECATED: use raw_findings_count
             'findings_by_severity': self._count_by_severity(),
             'findings': [f.to_dict() for f in self.findings],
             'executive_summary': self.executive_summary,
@@ -203,23 +217,33 @@ class InsightsReport:
         lines.append("|-----------|-------|--------|")
         weights = {
             'topology': 0.20, 'constraints': 0.20, 'purpose': 0.15,
-            'test_coverage': 0.15, 'dead_code': 0.10, 'entanglement': 0.10,
+            'test_density': 0.15, 'dead_code': 0.10, 'entanglement': 0.10,
             'rpbl_balance': 0.10,
         }
         for comp, score in self.health_components.items():
+            if comp == 'test_coverage':
+                continue  # Skip deprecated alias in markdown
             w = weights.get(comp, 0)
             lines.append(f"| {comp} | {score:.1f}/10 | {w:.0%} |")
         lines.append("")
 
-        # Findings by severity
+        # Findings by severity — human-facing uses core count (C5)
         sev_counts = self._count_by_severity()
+        api_drift_n = sum(1 for f in self.findings if f.category == 'api_drift')
+        core_n = len(self.findings) - api_drift_n
         lines.append("## Findings Summary")
         lines.append("")
         parts = []
         for sev in ['critical', 'high', 'medium', 'low', 'info']:
             if sev_counts.get(sev, 0) > 0:
                 parts.append(f"{sev_counts[sev]} {sev}")
-        lines.append(f"Total: {len(self.findings)} findings ({', '.join(parts)})")
+        if api_drift_n > 0:
+            lines.append(
+                f"{core_n} core findings ({', '.join(parts)}) "
+                f"+ {api_drift_n} API drift items analyzed separately"
+            )
+        else:
+            lines.append(f"Total: {core_n} findings ({', '.join(parts)})")
         lines.append("")
 
         # Individual findings
@@ -268,6 +292,18 @@ class InsightsReport:
                 lines.append(f"- {item}")
             lines.append("")
 
+        # Confidence disclaimer (Phase 1 M3)
+        lines.append("---")
+        lines.append("")
+        lines.append(
+            "*Confidence expresses the reliability of the analysis method used to "
+            "produce a finding. It is not the severity, impact, or priority of the "
+            "issue, and it is not a probability that a specific individual finding "
+            "is true. Findings labelled 'provisional' use guard clauses whose "
+            "thresholds have not been externally validated.*"
+        )
+        lines.append("")
+
         return "\n".join(lines)
 
     def _count_by_severity(self) -> Dict[str, int]:
@@ -294,6 +330,8 @@ class InsightsCompiler:
         # ChemistryLab or None — must be a live object, not a serialized string
         _lab_candidate = full_output.get('_chemistry_lab')
         self._lab = _lab_candidate if hasattr(_lab_candidate, 'get_modulation') else None
+        self._purpose_guard_fired = False
+        self._last_purpose_metrics: Dict[str, Any] = {}
 
     def compile(self) -> InsightsReport:
         """Run all interpretation passes and produce the report."""
@@ -358,6 +396,41 @@ class InsightsCompiler:
         issues = self._promote_findings_to_issues()
 
         health_components = self._compute_health_components()
+
+        # ── H5: Surface purpose guard clause as provisional finding ────────
+        if self._purpose_guard_fired:
+            self._add(
+                category='purpose',
+                severity='info',
+                title='Purpose guard clause active (provisional)',
+                description=(
+                    'The purpose-field alignment reported CRITICAL, but '
+                    'high clarity, low uncertainty, and low god-class ratio '
+                    'suggest the label is classifier-confidence noise. '
+                    'The alignment sub-score was overridden from 2.0 to 8.5.'
+                ),
+                evidence={
+                    'override_from': 2.0,
+                    'override_to': 8.5,
+                    'alignment_health': 'CRITICAL',
+                    'purpose_clarity': self._last_purpose_metrics.get('purpose_clarity'),
+                    'uncertain_ratio': self._last_purpose_metrics.get('uncertain_ratio'),
+                    'god_class_ratio': self._last_purpose_metrics.get('god_class_ratio'),
+                    'behavior_status': 'provisional_compatibility',
+                },
+                interpretation=(
+                    'This adjustment is provisional and may be revised. '
+                    'It prevents the purpose score from being dragged down '
+                    'by a classifier label that contradicts the structural evidence.'
+                ),
+                recommendation=(
+                    'Review the purpose-field alignment classifier. '
+                    'If future data confirms the CRITICAL label is wrong, '
+                    'fix the classifier rather than relying on this guard.'
+                ),
+                effort='low',
+            )
+
         mission_matrix = self._compute_mission_matrix(health_components)
         health_score = self._compute_health_score(health_components)
         grade = self._score_to_grade(health_score)
@@ -367,6 +440,76 @@ class InsightsCompiler:
 
         # Collect capability status (built by _interpret_execution_capability)
         cap_status = getattr(self, '_capability_status', {})
+
+        # ── Analysis depth fingerprint (Phase 1 C2) ─────────────────────
+        # Enables run-to-run comparability: if inputs differ, score deltas
+        # are expected; if inputs are identical, score deltas signal a bug.
+        node_count = int(self.kpis.get('nodes_total', 0) or 0)
+        edge_count = int(self.kpis.get('edges_total', 0) or 0)
+        edges_per_node = (
+            round(edge_count / node_count, 2)
+            if node_count > 0 else 0.0
+        )
+        perf = self.data.get('pipeline_performance') or {}
+        perf_summary = perf.get('summary', {})
+        stages_completed = int(perf_summary.get('ok_count', 0) or 0)
+        stages_total = int(perf_summary.get('total_stages', 0) or 0)
+
+        # parser_coverage: pass through from full_output if present (C1),
+        # omit entirely for legacy runs that lack it.
+        parser_coverage = self.data.get('parser_coverage')
+
+        # Denominator strategy: use files_discovered (survey) as the outer
+        # boundary, files_attempted (parser) as the inner boundary.
+        # nodes_per_discovered_file exposes parser-coverage gaps directly:
+        # if many files are skipped/failed, this ratio drops even when
+        # nodes_per_parsed_file stays constant.
+        #
+        # SEMANTIC RULE: When parser_coverage is absent (legacy run),
+        # per-file denominators are UNKNOWN, not zero.  We emit null
+        # and mark availability as "unavailable" so consumers never
+        # confuse "not measured" with "measured at 0.0".
+        _has_denominators = parser_coverage is not None
+        if _has_denominators:
+            files_discovered = int(parser_coverage.get('files_discovered', 0) or 0)
+            files_attempted = int(parser_coverage.get('files_attempted', 0) or 0)
+            files_parsed = int(parser_coverage.get('files_successfully_parsed', 0) or 0)
+
+            nodes_per_discovered_file = (
+                round(node_count / files_discovered, 2)
+                if files_discovered > 0 else 0.0
+            )
+            nodes_per_attempted_file = (
+                round(node_count / files_attempted, 2)
+                if files_attempted > 0 else 0.0
+            )
+            nodes_per_parsed_file = (
+                round(node_count / files_parsed, 2)
+                if files_parsed > 0 else 0.0
+            )
+        else:
+            nodes_per_discovered_file = None
+            nodes_per_attempted_file = None
+            nodes_per_parsed_file = None
+
+        analysis_depth = {
+            'node_count': node_count,
+            'edge_count': edge_count,
+            'nodes_per_discovered_file': nodes_per_discovered_file,
+            'nodes_per_attempted_file': nodes_per_attempted_file,
+            'nodes_per_parsed_file': nodes_per_parsed_file,
+            'edges_per_node': edges_per_node,
+            'stages_completed': stages_completed,
+            'stages_total': stages_total,
+        }
+        if not _has_denominators:
+            analysis_depth['availability'] = {
+                'nodes_per_discovered_file': 'unavailable',
+                'nodes_per_attempted_file': 'unavailable',
+                'nodes_per_parsed_file': 'unavailable',
+            }
+        if parser_coverage is not None:
+            analysis_depth['parser_coverage'] = parser_coverage
 
         return InsightsReport(
             grade=grade,
@@ -379,8 +522,9 @@ class InsightsCompiler:
             theory_glossary=glossary,
             meta={
                 'compiler_version': '2.1.0',
-                'nodes_analyzed': self.kpis.get('nodes_total', 0),
-                'edges_analyzed': self.kpis.get('edges_total', 0),
+                'nodes_analyzed': node_count,
+                'edges_analyzed': edge_count,
+                'analysis_depth': analysis_depth,
                 'capability_status': cap_status,
                 'issues': issues,
                 'issue_count': len(issues),
@@ -1610,14 +1754,18 @@ class InsightsCompiler:
 
     def _compute_health_components(self) -> Dict[str, float]:
         """Compute individual health component scores (each 0-10)."""
+        td_score = self._score_test_coverage()
         components = {
             'topology': self._score_topology(),
             'constraints': self._score_constraints(),
             'purpose': self._score_purpose(),
-            'test_coverage': self._score_test_coverage(),
+            'test_density': td_score,
             'dead_code': self._score_dead_code(),
             'entanglement': self._score_entanglement(),
             'rpbl_balance': self._score_rpbl_balance(),
+            # DEPRECATED: test_coverage renamed to test_density.
+            # Dual-emit for 2 releases, then remove.
+            'test_coverage': td_score,
         }
         # Apply chemistry modulations (coefficients < 1.0 penalise overconfident scores)
         if self._lab is not None:
@@ -1663,6 +1811,7 @@ class InsightsCompiler:
         ci = self.kpis.get('codebase_intelligence', 0) or 0
         ci_score = max(0.0, min(10.0, ci * 10.0))
         purpose_metrics = self._purpose_metrics()
+        self._last_purpose_metrics = purpose_metrics  # Cache for guard finding evidence
 
         clarity = purpose_metrics.get('purpose_clarity')
         alignment = purpose_metrics.get('alignment_health')
@@ -1683,6 +1832,7 @@ class InsightsCompiler:
         ):
             # Guard against over-strict absolute thresholds in purpose_field alignment health.
             alignment_score = 8.5
+            self._purpose_guard_fired = True
         else:
             alignment_score = {
                 'GOOD': 9.5,
@@ -1940,7 +2090,7 @@ class InsightsCompiler:
         notes: List[str] = []
 
         constraints_score = float(health_components.get('constraints', self._score_constraints())) * 10.0
-        test_score = float(health_components.get('test_coverage', self._score_test_coverage())) * 10.0
+        test_score = float(health_components.get('test_density', health_components.get('test_coverage', self._score_test_coverage()))) * 10.0
         dead_code_score = float(health_components.get('dead_code', self._score_dead_code())) * 10.0
 
         knot = float(self.kpis.get('knot_score', 0.0) or 0.0)
@@ -2034,16 +2184,27 @@ class InsightsCompiler:
             'topology': 0.20,
             'constraints': 0.20,
             'purpose': 0.15,
-            'test_coverage': 0.15,
+            'test_density': 0.15,
             'dead_code': 0.10,
             'entanglement': 0.10,
             'rpbl_balance': 0.10,
         }
+        # NOTE: test_coverage (deprecated alias) is NOT weighted — only test_density counts.
+        # Both keys exist in components but only test_density participates in the sum.
+        # Backward compat: if caller passes test_coverage but not test_density, honor it.
+        if 'test_density' not in components and 'test_coverage' in components:
+            components = dict(components, test_density=components['test_coverage'])
         # Merge from YAML — partial overrides keep remaining defaults intact.
         yaml_weights = self._thresholds.get('health_scoring', {}).get('weights')
         weights = dict(default_weights)
         if isinstance(yaml_weights, dict):
-            weights.update(yaml_weights)
+            # Backward compat: old YAML may use 'test_coverage'; normalize to 'test_density'.
+            yw = dict(yaml_weights)
+            if 'test_coverage' in yw and 'test_density' not in yw:
+                yw['test_density'] = yw.pop('test_coverage')
+            elif 'test_coverage' in yw and 'test_density' in yw:
+                yw.pop('test_coverage')  # test_density takes precedence
+            weights.update(yw)
         score = sum(components.get(k, 5.0) * w for k, w in weights.items())
         return round(min(10.0, max(0.0, score)), 2)
 
@@ -2116,10 +2277,15 @@ class InsightsCompiler:
         total_edges = self.kpis.get('edges_total', 0)
         shape = self.kpis.get('topology_shape', 'UNKNOWN')
 
+        # Count findings — separate core from api_drift for human-facing summary (C5)
         sev_counts = {}
+        api_drift_total = 0
         for f in self.findings:
             sev_counts[f.severity] = sev_counts.get(f.severity, 0) + 1
+            if f.category == 'api_drift':
+                api_drift_total += 1
 
+        core_total = len(self.findings) - api_drift_total
         critical = sev_counts.get('critical', 0)
         high = sev_counts.get('high', 0)
 
@@ -2137,6 +2303,12 @@ class InsightsCompiler:
             parts.append(f'{high} high-severity issues should be addressed soon.')
         if critical == 0 and high == 0:
             parts.append('No critical or high-severity issues detected.')
+
+        if api_drift_total > 0:
+            parts.append(
+                f'{core_total} core findings plus {api_drift_total} API drift items '
+                f'analyzed separately.'
+            )
 
         # Highlight weakest component
         if components:
@@ -3400,8 +3572,20 @@ class InsightsCompiler:
             drill_down={'key': 'codome_boundaries'},
         )
 
+    # Minimum similarity score for a path_drift finding to be surfaced.
+    # Below this, the fuzzy match is suppressed as noise (Option B from audit).
+    # Internal candidate matching in api_drift_analyzer.py still uses 0.40 for
+    # candidate detection; only surfacing is gated here.
+    _PATH_DRIFT_SURFACE_THRESHOLD = 0.70
+
     def _interpret_api_drift(self):
-        """Interpret API backend/frontend drift findings."""
+        """Interpret API backend/frontend drift findings.
+
+        Phase 1 de-noising (C5b):
+        - Each finding is tagged with match_type: exact | fuzzy | method_mismatch
+        - path_drift findings below _PATH_DRIFT_SURFACE_THRESHOLD are suppressed
+        - Suppressed count is tracked and reported
+        """
         drift = self.data.get('api_drift', {})
         if not drift:
             return
@@ -3416,49 +3600,77 @@ class InsightsCompiler:
         if total_be == 0 and total_fe == 0:
             return
 
-        # Convert drift items to insights using the analyzer's helper
-        try:
-            from src.core.api_drift_analyzer import generate_api_insights, APIDriftReport, DriftItem
-            # Reconstruct a minimal report for the helper
-            report = APIDriftReport(
-                drift_items=[DriftItem(**item) if isinstance(item, dict) else item for item in items],
-                matched_endpoints=matched,
-                total_backend_routes=total_be,
-                total_frontend_calls=total_fe,
-                drift_score=drift_score,
+        # --- Classify match_type and apply suppression ---
+        # Exact match types (deterministic, confidence=1.0):
+        _EXACT_DRIFT_TYPES = {'orphaned_endpoint', 'missing_endpoint', 'shadow_endpoint'}
+        suppressed_count = 0
+
+        for item in items:
+            if isinstance(item, dict):
+                dtype = item.get('drift_type', 'unknown')
+                desc = item.get('description', '')
+                sev = item.get('severity', 'medium')
+                confidence = item.get('confidence', 1.0)
+            else:
+                dtype = getattr(item, 'drift_type', 'unknown')
+                desc = getattr(item, 'description', '')
+                sev = getattr(item, 'severity', 'medium')
+                confidence = getattr(item, 'confidence', 1.0)
+
+            # Determine match_type
+            if dtype in _EXACT_DRIFT_TYPES:
+                match_type = 'exact'
+            elif dtype == 'method_mismatch':
+                match_type = 'method_mismatch'
+            elif dtype == 'path_drift':
+                match_type = 'fuzzy'
+            else:
+                match_type = 'exact'
+
+            # Suppress low-confidence fuzzy matches (path_drift < surface threshold)
+            if match_type == 'fuzzy' and isinstance(confidence, (int, float)):
+                if confidence < self._PATH_DRIFT_SURFACE_THRESHOLD:
+                    suppressed_count += 1
+                    continue
+
+            self._add(
+                category='api_drift',
+                severity=sev,
+                title=f"API drift: {dtype.replace('_', ' ')}",
+                description=desc,
+                evidence={
+                    'drift_type': dtype,
+                    'drift_score': drift_score,
+                    'match_type': match_type,
+                    'similarity_score': round(float(confidence), 3) if match_type == 'fuzzy' else None,
+                },
+                interpretation=desc,
+                recommendation='Review API contract alignment.',
+                effort='medium',
+                confidence=float(confidence) if isinstance(confidence, (int, float)) else 0.65,
             )
-            for insight in generate_api_insights(report):
-                self._add(
-                    category='api_drift',
-                    severity=insight['severity'],
-                    title=insight['title'],
-                    description=insight['description'],
-                    evidence={'drift_score': drift_score, 'matched': matched},
-                    interpretation=insight.get('description', ''),
-                    recommendation=insight.get('recommendation', 'Review API contract alignment.'),
-                    effort='medium',
-                )
-        except Exception:
-            # Fallback: generate insights directly from drift items
-            for item in items:
-                if isinstance(item, dict):
-                    sev = item.get('severity', 'medium')
-                    desc = item.get('description', '')
-                    dtype = item.get('drift_type', 'unknown')
-                else:
-                    sev = getattr(item, 'severity', 'medium')
-                    desc = getattr(item, 'description', '')
-                    dtype = getattr(item, 'drift_type', 'unknown')
-                self._add(
-                    category='api_drift',
-                    severity=sev,
-                    title=f"API drift: {dtype.replace('_', ' ')}",
-                    description=desc,
-                    evidence={'drift_type': dtype},
-                    interpretation=desc,
-                    recommendation='Review API contract alignment.',
-                    effort='medium',
-                )
+
+        # Report suppressed noise count
+        if suppressed_count > 0:
+            self._add(
+                category='api_drift',
+                severity='info',
+                title='Low-confidence API drift items suppressed',
+                description=(
+                    f'{suppressed_count} path_drift items with similarity below '
+                    f'{self._PATH_DRIFT_SURFACE_THRESHOLD:.0%} were suppressed as noise.'
+                ),
+                evidence={
+                    'suppressed_count': suppressed_count,
+                    'surface_threshold': self._PATH_DRIFT_SURFACE_THRESHOLD,
+                },
+                interpretation=(
+                    'Fuzzy path matches below the surface threshold are likely false positives. '
+                    'They are retained internally but not surfaced as findings.'
+                ),
+                recommendation='Lower the surface threshold if you want to see more speculative matches.',
+                effort='low',
+            )
 
         # Overall drift health insight
         if drift_score == 0 and matched > 0:
@@ -3467,7 +3679,7 @@ class InsightsCompiler:
                 severity='info',
                 title='API contracts fully aligned',
                 description=f'{matched} endpoints matched between backend and frontend with zero drift.',
-                evidence={'drift_score': 0, 'matched': matched},
+                evidence={'drift_score': 0, 'matched': matched, 'match_type': 'exact'},
                 interpretation='Backend and frontend API surfaces are in perfect agreement.',
                 recommendation='Maintain contract alignment through API versioning or contract tests.',
                 effort='low',
@@ -3478,7 +3690,7 @@ class InsightsCompiler:
                 severity='critical',
                 title='Severe API contract drift',
                 description=f'Drift score {drift_score:.0%} — more than half the API surface is misaligned.',
-                evidence={'drift_score': drift_score, 'matched': matched, 'total_be': total_be},
+                evidence={'drift_score': drift_score, 'matched': matched, 'total_be': total_be, 'match_type': 'exact'},
                 interpretation='Major disconnect between backend routes and frontend consumers.',
                 recommendation='Audit all frontend API calls against the backend route definitions.',
                 effort='high',

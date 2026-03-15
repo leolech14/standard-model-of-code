@@ -177,6 +177,9 @@ class UnifiedAnalysisOutput:
     warnings: List[str] = field(default_factory=list)
     recommendations: List[str] = field(default_factory=list)
 
+    # === PARSE MANIFEST (Phase 1 C1) ===
+    parse_manifest: Dict[str, Any] = field(default_factory=dict)
+
     def to_dict(self) -> Dict:
         """Convert to dict for JSON serialization."""
         return asdict(self)
@@ -411,6 +414,39 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
     print(f"   DEBUG: Summing particles... Total: {particles_total}")
     raw_particle_count = particles_total
 
+    # ── Parse manifest: actual per-file parse outcomes (Phase 1 C1) ──────
+    # Built from real parse_status fields set by analyze_file(), not inferred.
+    _walk_stats = getattr(ts_engine, 'last_walk_stats', {})
+    _status_counts: Dict[str, int] = {}
+    _lang_manifest: Dict[str, Dict[str, int]] = {}
+    for r in results:
+        status = r.get('parse_status', 'unknown')
+        _status_counts[status] = _status_counts.get(status, 0) + 1
+        lang = r.get('language', 'unknown')
+        if lang not in _lang_manifest:
+            _lang_manifest[lang] = {'attempted': 0, 'parsed': 0, 'failed': 0}
+        _lang_manifest[lang]['attempted'] += 1
+        if status in ('parsed', 'parsed_empty'):
+            _lang_manifest[lang]['parsed'] += 1
+        else:
+            _lang_manifest[lang]['failed'] += 1
+    # Add per-language coverage ratio
+    for lang_entry in _lang_manifest.values():
+        att = lang_entry['attempted']
+        lang_entry['coverage'] = round(lang_entry['parsed'] / att, 4) if att > 0 else 0.0
+
+    _files_attempted = len(results)
+    _files_parsed = _status_counts.get('parsed', 0) + _status_counts.get('parsed_empty', 0)
+    _files_failed = _files_attempted - _files_parsed
+    _parse_manifest = {
+        'files_attempted': _files_attempted,
+        'files_successfully_parsed': _files_parsed,
+        'files_failed': _files_failed,
+        'status_breakdown': dict(_status_counts),
+        'coverage_by_language': _lang_manifest,
+        'walk_stats': _walk_stats,
+    }
+
     # =========================================================================
     # STAGE 2: RPBL CLASSIFICATION
     # =========================================================================
@@ -632,6 +668,9 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
         auto_discovery_report=auto_discovery,
         analysis_time_ms=analysis_time_ms,
     )
+
+    # Attach real parse manifest (Phase 1 C1)
+    output.parse_manifest = _parse_manifest
 
     # Add graph inference to output
     output.architecture['graph_inference'] = graph_inference_report

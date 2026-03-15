@@ -154,6 +154,14 @@ def test_build_full_cmd_ecosystem_profile_excludes_repo_archives(tmp_path):
 
     assert ".claude/worktrees" in excludes
     assert ".agent/intelligence" in excludes
+    assert ".agent/registry" in excludes
+    assert ".agent/deck" in excludes
+    assert ".agent/runs" in excludes
+    assert ".agent/macros/library" in excludes
     assert "research/gemini" in excludes
     assert "research/perplexity" in excludes
     assert "wave/intelligence" in excludes
+    assert "collider_feedback" in excludes
+    assert ".reh" in excludes
+    assert ".archive-openclaw-20260206" in excludes
+    assert ".file_explorer_trash" in excludes

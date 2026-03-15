@@ -45,6 +45,10 @@ def run_extraction(ctx: PipelineContext) -> None:
         ctx.unified_llm_enrichment = getattr(result, 'llm_enrichment', {}) if hasattr(result, 'llm_enrichment') else result.get('llm_enrichment', {})
         ctx.unified_warnings = getattr(result, 'warnings', []) if hasattr(result, 'warnings') else result.get('warnings', [])
         ctx.unified_recommendations = getattr(result, 'recommendations', []) if hasattr(result, 'recommendations') else result.get('recommendations', [])
+        # Parse manifest from actual parser outcomes (Phase 1 C1)
+        ctx.parse_manifest = getattr(result, 'parse_manifest', None) or (
+            result.get('parse_manifest') if hasattr(result, '__getitem__') else None
+        )
         timer.set_output(nodes=len(ctx.nodes), edges=len(ctx.edges))
     ctx.guard.nodes = ctx.nodes
     ctx.guard.edges = ctx.edges

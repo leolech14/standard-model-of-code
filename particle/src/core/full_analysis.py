@@ -504,6 +504,35 @@ def _assemble_output(ctx) -> None:
         ctx.full_output['top_hubs'].append({'name': name, 'in_degree': deg})
     ctx.full_output['kpis']['top_hub_count'] = len(ctx.full_output['top_hubs'])
 
+    # ── Parser coverage manifest (Phase 1 C1) ───────────────────────
+    # Built from ACTUAL parse outcomes recorded by analyze_file(), NOT
+    # inferred from downstream node presence.  files_discovered comes
+    # from the survey; everything else comes from the real parse_manifest
+    # propagated through PipelineContext.
+    survey = ctx.survey_result
+    files_discovered = survey.composition.source_files if survey else 0
+    pm = ctx.parse_manifest  # real manifest from unified_analysis
+    if pm:
+        files_attempted = pm.get('files_attempted', 0)
+        files_parsed = pm.get('files_successfully_parsed', 0)
+        files_failed = pm.get('files_failed', 0)
+        files_skipped = max(0, files_discovered - files_attempted)
+        cov_ratio = (
+            files_parsed / files_discovered
+            if files_discovered > 0 else 0.0
+        )
+        ctx.full_output['parser_coverage'] = {
+            'files_discovered': files_discovered,
+            'files_attempted': files_attempted,
+            'files_successfully_parsed': files_parsed,
+            'files_failed': files_failed,
+            'files_skipped': files_skipped,
+            'coverage_ratio': round(cov_ratio, 4),
+            'coverage_by_language': pm.get('coverage_by_language', {}),
+            'status_breakdown': pm.get('status_breakdown', {}),
+        }
+    # else: legacy run without parse_manifest — omit section entirely
+
     # Include SmartIgnore discovery data in output
     if ctx.smartignore_manifest:
         from src.core.smart_ignore import SmartIgnore as _SI

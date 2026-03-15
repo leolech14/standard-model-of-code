@@ -14,15 +14,25 @@
 # If the value is below all thresholds, no finding is emitted.
 
 dead_code:
+  # Justification: Static reachability analysis. Deterministic for languages
+  # with full AST support; heuristic for dynamic dispatch/reflection.
+  # Thresholds based on industry norms: 5% is normal churn, 10% signals
+  # neglected cleanup, 20% indicates structural rot.
   dead_code_percent_critical: 20
   dead_code_percent_high: 10
   dead_code_percent_medium: 5
 
 orphans:
+  # Justification: Orphan nodes have zero in-edges (unreferenced code).
+  # 8% is common in repos with utility libraries; 15% suggests major
+  # dead zones or misconfigured entry points.
   orphan_percent_critical: 15
   orphan_percent_high: 8
 
 entanglement:
+  # Justification: Knot score counts directed cycle groups weighted by
+  # node involvement. 2 = a few small cycles (common); 4 = structural
+  # issue; 7 = pervasive circular deps requiring architectural intervention.
   knot_score_critical: 7
   knot_score_high: 4
   knot_score_medium: 2
@@ -52,7 +62,11 @@ purpose:
     structural: 0.10
 
 rpbl_balance:
-  # Role counts that trigger imbalance findings
+  # Justification: RPBL (Responsibility-Purity-Boundary-Lifecycle) balance
+  # measures architectural role distribution. Penalty thresholds at 6/4 are
+  # heuristic: a balanced system keeps all dimensions 3-6. Values outside
+  # that range indicate architectural skew (e.g. too many resource-heavy
+  # nodes, too few purpose-focused nodes).
   resource_heavy: 6
   purpose_light: 4
   behavior_heavy: 6
@@ -73,15 +87,40 @@ signal_density:
 
 topology_scores:
   # Shape-to-score mapping for _score_topology() (each 0.0-10.0)
+  #
+  # These shapes are emitted by topology_reasoning.py classify_topology().
+  # Ordering rationale (best → worst):
+  #   STRICT_LAYERS (10): No directed cycles, single component. Ideal.
+  #   BALANCED_NETWORK (8): Connected, no cycles detected, but doesn't meet
+  #     STRICT_LAYERS criteria. Well-distributed responsibility.
+  #   DENSE_MESH (7.5): High avg_degree (>10) but no severe cycle/hub issues.
+  #     Interconnected but not tangled.
+  #   CYCLIC_NETWORK (7): Has dependency cycles but few enough that the graph
+  #     is not BIG_BALL_OF_MUD. Most real-world codebases land here.
+  #     PROVISIONAL/UNVALIDATED: 7.0 chosen because cycles exist but are
+  #     limited (<= 10 cycle groups). Sits between DENSE_MESH (high connectivity,
+  #     no flagged cycles) and DISCONNECTED_ISLANDS (fragmented). May be
+  #     adjusted after empirical validation across more repositories.
+  #   MESH (7): Legacy alias. Same score as CYCLIC_NETWORK.
+  #   DISCONNECTED_ISLANDS (5): Many components, largest < 50%. Fragmented.
+  #   STAR_HUB (4): Centralization > 0.4. God-object pattern.
+  #   BIG_BALL_OF_MUD (2): >10 cycle groups AND avg_degree > 5. Severely tangled.
+  #
   STRICT_LAYERS: 10.0
+  BALANCED_NETWORK: 8.0
+  DENSE_MESH: 7.5
+  CYCLIC_NETWORK: 7.0          # provisional/unvalidated -- see rationale above
   MESH: 7.0
   DISCONNECTED_ISLANDS: 5.0
   STAR_HUB: 4.0
   BIG_BALL_OF_MUD: 2.0
-  _default: 6.0               # fallback for unknown shapes
+  _default: 6.0               # fallback for shapes not listed above
 
 health_scoring:
-  # Constraint violation scoring (rho_antimatter + rho_policy combined)
+  # Constraint violation scoring (rho_antimatter + rho_policy combined).
+  # Justification: rho = violation_count / total_nodes. < 1% is clean;
+  # 1-3% is minor; 3-6% moderate; 6-10% poor; above 10% severe.
+  # These are empirical from analyzing ~50 repos with Collider.
   constraint_perfect: 0.01
   constraint_good: 0.03
   constraint_moderate: 0.06
@@ -100,7 +139,12 @@ health_scoring:
   knot_moderate: 5
   knot_severe: 8
 
-  # Test coverage thresholds
+  # Test density thresholds (ratio of test atoms to logic atoms).
+  # Justification: This is atom-type density, NOT line/branch coverage.
+  # A ratio of 1.0 means equal test and logic atoms (very well tested);
+  # 0.5 is adequate; 0.2 is minimal; below 0.2 suggests undertested logic.
+  # Canonical key is "test_density" (renamed from "test_coverage" in Phase 1).
+  # Code reads both names for backward compatibility during the 2-release transition.
   test_coverage_ideal: 1.0
   test_coverage_good: 0.5
   test_coverage_low: 0.2
@@ -114,12 +158,18 @@ health_scoring:
     topology: 0.20
     constraints: 0.20
     purpose: 0.15
-    test_coverage: 0.15
+    test_density: 0.15       # renamed from test_coverage (Phase 1 H2)
     dead_code: 0.10
     entanglement: 0.10
     rpbl_balance: 0.10
 
 grade_boundaries:
+  # Justification: Grade boundaries map health_score (0-10) to letter grades.
+  # A (>= 8.5): Production-quality architecture. Minor issues only.
+  # B (>= 7.0): Solid with known improvement areas.
+  # C (>= 5.5): Functional but with significant structural debt.
+  # D (>= 4.0): Major architectural issues requiring intervention.
+  # F (< 4.0): Severe structural problems across multiple dimensions.
   A: 8.5
   B: 7.0
   C: 5.5
@@ -147,7 +197,7 @@ confidence_baselines:
   rpbl: 0.75
   performance: 0.70
   data_flow: 0.70
-  test_coverage: 0.70
+  test_density: 0.70        # renamed from test_coverage (Phase 1 H2)
   api_drift: 0.65
   incoherence: 0.60
   gap_detection: 0.55

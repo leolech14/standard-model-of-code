@@ -345,21 +345,33 @@ class TreeSitterUniversalEngine:
         return tokens
 
     def analyze_file(self, file_path: str) -> Dict[str, Any]:
-        """Analyze a single file for universal patterns"""
+        """Analyze a single file for universal patterns.
+
+        Returns a dict with 'parse_status' tracking actual parse outcome:
+          'parsed'        – parser ran and extracted particles
+          'parsed_empty'  – parser ran without error, zero particles extracted
+          'read_failed'   – could not read file content
+          'unsupported'   – file extension not supported (fallback)
+        """
 
         # Determine language
         ext = Path(file_path).suffix
         language = self.supported_languages.get(ext)
 
         if not language:
-            return self._fallback_analysis(file_path)
+            result = self._fallback_analysis(file_path)
+            result['parse_status'] = 'unsupported'
+            return result
 
         # Read file content
         try:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
         except Exception:
-            return {'particles': [], 'touchpoints': [], 'language': 'unknown'}
+            return {
+                'file_path': file_path, 'particles': [], 'touchpoints': [],
+                'language': 'unknown', 'parse_status': 'read_failed',
+            }
 
         # Parse (simplified for minimal version)
         depth_metrics: Dict[str, Any] = {}
@@ -390,6 +402,8 @@ class TreeSitterUniversalEngine:
         touchpoints = self._extract_touchpoints(content, particles)
         raw_imports = self._extract_raw_imports(content, language, file_path)
 
+        parse_status = 'parsed' if particles else 'parsed_empty'
+
         result = {
             'file_path': file_path,
             'language': language,
@@ -399,6 +413,7 @@ class TreeSitterUniversalEngine:
             'lines_analyzed': len(content.split('\n')),
             'chars_analyzed': len(content),
             'raw_content': content,  # For JS module resolution
+            'parse_status': parse_status,
         }
         if depth_metrics:
             result['depth_metrics'] = depth_metrics
@@ -848,6 +863,9 @@ class TreeSitterUniversalEngine:
         Respects .colliderignore file if present in the directory.
         Also accepts explicit exclude_paths from survey module.
 
+        After completion, ``self.last_walk_stats`` holds directory-level
+        counts used to build the parse manifest.
+
         Args:
             dir_path: Directory to analyze
             extensions: Optional list of extensions to filter (e.g., ['.py', '.js'])
@@ -855,6 +873,14 @@ class TreeSitterUniversalEngine:
         """
         results = []
         path = Path(dir_path)
+        # Walk-level counters for parse manifest (Phase 1 C1)
+        self.last_walk_stats = {
+            'files_walked': 0,
+            'files_skipped_ignore': 0,
+            'files_skipped_extension': 0,
+            'files_analyzed': 0,
+            'files_crashed': 0,
+        }
 
         if not path.exists():
             return []
@@ -887,26 +913,33 @@ class TreeSitterUniversalEngine:
 
             for file in files:
                 print(f"      [WALK] Found file: {file}")
+                self.last_walk_stats['files_walked'] += 1
                 file_path = root_path / file
 
                 # Skip ignored files
                 if should_ignore_path(file_path, ignore_patterns, path):
+                    self.last_walk_stats['files_skipped_ignore'] += 1
                     continue
 
                 ext = Path(file).suffix
 
                 if extensions and ext not in extensions:
+                    self.last_walk_stats['files_skipped_extension'] += 1
                     continue
 
                 # Only analyze if the extension is supported by the Tree-sitter parser
                 if ext in self.supported_languages:
                     print(f"      [AST] Analyzing {file_path}")
+                    self.last_walk_stats['files_analyzed'] += 1
                     try:
                         results.append(self.analyze_file(str(file_path)))
                     except Exception as e:
                         print(f"      [AST] ❌ CRASH analyzing {file_path}: {e}")
+                        self.last_walk_stats['files_crashed'] += 1
                         import traceback
                         traceback.print_exc()
+                else:
+                    self.last_walk_stats['files_skipped_extension'] += 1
 
         print(f"   DEBUG: analyze_directory walk completed. Found {len(results)} file results.")
         print("   DEBUG: analyze_directory loop finished. returning {} results.".format(len(results)))

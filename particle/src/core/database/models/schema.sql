@@ -10,11 +10,10 @@ CREATE TABLE IF NOT EXISTS schema_version (
     description TEXT
 );
 
--- Insert version records if not exists
+-- Only seed v1 here; higher versions are recorded by the Migrator
+-- after it successfully applies each migration's up() function.
 INSERT OR IGNORE INTO schema_version (version, description)
 VALUES (1, 'Initial schema with runs, nodes, edges, and file tracking');
-INSERT OR IGNORE INTO schema_version (version, description)
-VALUES (2, 'Add git context and run delta tracking to analysis_runs');
 
 -- ============================================================================
 -- ANALYSIS RUNS

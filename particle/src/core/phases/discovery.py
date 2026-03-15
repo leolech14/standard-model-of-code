@@ -47,6 +47,7 @@ def _run_smartignore(ctx: PipelineContext) -> None:
                       f"(~{ctx.smartignore_manifest.estimated_files_skipped} files excluded)", ctx.quiet)
 
                 # Write .smartignore file for caching/review
+                ctx.output_dir.mkdir(parents=True, exist_ok=True)
                 si.write_smartignore(ctx.smartignore_manifest,
                                      str(ctx.output_dir / ".smartignore"))
                 ctx.data_ledger.publish("smartignore", "Stage -1: SmartIgnore",

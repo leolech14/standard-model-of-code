@@ -412,7 +412,8 @@ class TestHealthScore:
         """Health components should have the expected keys."""
         data = _base_output()
         result = compile_insights(data)
-        expected_keys = {'topology', 'constraints', 'purpose', 'test_coverage', 'dead_code', 'entanglement', 'rpbl_balance'}
+        expected_keys = {'topology', 'constraints', 'purpose', 'test_density',
+                         'test_coverage', 'dead_code', 'entanglement', 'rpbl_balance'}
         assert set(result['health_components'].keys()) == expected_keys
 
 

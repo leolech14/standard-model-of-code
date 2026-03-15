@@ -49,6 +49,9 @@ class PipelineContext:
     delta_result: Any = None
     db_manager: Any = None
 
+    # ── Parse manifest (Phase 1 C1 — actual parser outcomes) ────────
+    parse_manifest: Optional[Dict] = None
+
     # ── Analysis results needed across phases ────────────────────────
     purpose_field: Any = None
     exec_flow: Any = None
