@@ -5,7 +5,7 @@ Community intelligence via Reddit's public JSON API. Six read-only tools
 for searching posts, reading threads, and analyzing communities.
 
 No authentication required. Uses Reddit's public .json endpoints.
-Rate limit: ~30 req/min (sufficient for agentic research).
+Rate limit: ~10 req/min unauthenticated (6s between requests).
 
 Usage:
     python wave/tools/ai/mcp_servers/reddit_intelligence_mcp.py
@@ -37,11 +37,11 @@ _LAST_REQUEST = 0.0
 
 
 def _get(url: str, params: dict | None = None) -> dict:
-    """Rate-limited GET returning parsed JSON."""
+    """Rate-limited GET returning parsed JSON. 6s gap = ~10 req/min."""
     global _LAST_REQUEST
     elapsed = time.monotonic() - _LAST_REQUEST
-    if elapsed < 2.0:
-        time.sleep(2.0 - elapsed)
+    if elapsed < 6.0:
+        time.sleep(6.0 - elapsed)
     _LAST_REQUEST = time.monotonic()
     resp = _SESSION.get(url, params=params, timeout=15)
     resp.raise_for_status()
@@ -79,15 +79,27 @@ def reddit_search(
     sort: str = "relevance",
     time_filter: str = "all",
     limit: int = 10,
+    after: str = "",
 ) -> str:
     """Search Reddit posts by query. Optionally scope to a subreddit.
 
+    Supports Reddit's advanced search syntax in the query field:
+        author:username    — posts by a specific user
+        flair:"Discussion" — filter by post flair
+        selftext:keyword   — search post body text
+        title:"setup guide" — search only titles
+        site:github.com    — filter by linked domain
+        url:anthropic      — search linked URLs
+        AND, OR, NOT       — boolean operators (CASE SENSITIVE)
+    Example: 'title:"MCP server" AND author:spez NOT flair:Meme'
+
     Args:
-        query: Search terms (e.g., "Claude Code MCP server setup").
+        query: Search terms with optional advanced operators.
         subreddit: Optional subreddit to search within (e.g., "ClaudeAI").
         sort: One of: relevance, hot, top, new, comments.
         time_filter: One of: hour, day, week, month, year, all.
         limit: Max results (1-25).
+        after: Pagination cursor from a previous response's "after" field.
     """
     try:
         limit = max(1, min(limit, 25))
@@ -97,9 +109,14 @@ def reddit_search(
             "q": query, "sort": sort, "t": time_filter,
             "limit": limit, "restrict_sr": "1" if subreddit else "0",
         }
+        if after:
+            params["after"] = after
         data = _get(url, params)
         posts = [_post_summary(p["data"]) for p in data["data"]["children"]]
-        return json.dumps({"query": query, "subreddit": sub, "results": posts})
+        result: dict[str, Any] = {"query": query, "subreddit": sub, "results": posts}
+        if data["data"].get("after"):
+            result["after"] = data["data"]["after"]
+        return json.dumps(result)
     except Exception as e:
         return json.dumps({"error": str(e)})
 
@@ -109,6 +126,7 @@ def reddit_top_posts(
     subreddit: str,
     time_filter: str = "week",
     limit: int = 10,
+    after: str = "",
 ) -> str:
     """Get top posts from a subreddit.
 
@@ -116,13 +134,20 @@ def reddit_top_posts(
         subreddit: Subreddit name (e.g., "Python", "ClaudeAI").
         time_filter: One of: hour, day, week, month, year, all.
         limit: Max results (1-25).
+        after: Pagination cursor from a previous response's "after" field.
     """
     try:
         limit = max(1, min(limit, 25))
         url = f"https://www.reddit.com/r/{subreddit}/top.json"
-        data = _get(url, {"t": time_filter, "limit": limit})
+        params: dict[str, Any] = {"t": time_filter, "limit": limit}
+        if after:
+            params["after"] = after
+        data = _get(url, params)
         posts = [_post_summary(p["data"]) for p in data["data"]["children"]]
-        return json.dumps({"subreddit": subreddit, "time_filter": time_filter, "results": posts})
+        result: dict[str, Any] = {"subreddit": subreddit, "time_filter": time_filter, "results": posts}
+        if data["data"].get("after"):
+            result["after"] = data["data"]["after"]
+        return json.dumps(result)
     except Exception as e:
         return json.dumps({"error": str(e)})
 
