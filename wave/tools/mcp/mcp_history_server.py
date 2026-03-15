@@ -569,6 +569,137 @@ def get_directory_activity(
     }, indent=2)
 
 
+# ========== UX Layer Tools (Tier 1/2/3 Reports) ==========
+
+from reh_evolution import EvolutionCompiler  # noqa: E402
+from reh_tier2_briefing import build_reh_briefing  # noqa: E402
+from reh_tier3_report import build_reh_html_report  # noqa: E402
+from reh_meta_envelope import append_to_reh_index  # noqa: E402
+
+
+@mcp.tool()
+def generate_evolution_report(
+    repo_path: str,
+    since: str = "",
+    until: str = "",
+    output_dir: str = "",
+) -> str:
+    """Generate three-tier evolution report for a repository.
+
+    Produces:
+    - reh_evolution.json  (Tier 1: full temporal data)
+    - reh_briefing.json   (Tier 2: <4K token AI briefing)
+    - reh_report.html     (Tier 3: interactive human report)
+    - meta_index.jsonl    (longitudinal tracking, appended)
+
+    Args:
+        repo_path: Absolute path to the git repository root.
+        since: Start date (YYYY-MM-DD). Default: last 30 days.
+        until: End date (YYYY-MM-DD). Default: now.
+        output_dir: Output directory. Default: <repo>/.reh/
+    """
+    valid, err = _validate_repo(repo_path)
+    if not valid:
+        return json.dumps({"error": err})
+
+    out = Path(output_dir) if output_dir else Path(repo_path) / ".reh"
+    out.mkdir(parents=True, exist_ok=True)
+
+    # Tier 1: Full evolution compilation
+    compiler = EvolutionCompiler()
+    evolution = compiler.compile(repo_path, since, until)
+    (out / "reh_evolution.json").write_text(
+        json.dumps(evolution, indent=2, default=str)
+    )
+
+    # Tier 2: AI briefing
+    briefing = build_reh_briefing(evolution)
+    (out / "reh_briefing.json").write_text(
+        json.dumps(briefing, indent=2, default=str)
+    )
+
+    # Tier 3: Human report
+    report_html = build_reh_html_report(evolution, briefing)
+    (out / "reh_report.html").write_text(report_html)
+
+    # Meta index (longitudinal)
+    append_to_reh_index(evolution.get("meta_envelope", {}), out)
+
+    return json.dumps({
+        "status": "success",
+        "output_dir": str(out),
+        "files": {
+            "tier1_raw": str(out / "reh_evolution.json"),
+            "tier2_briefing": str(out / "reh_briefing.json"),
+            "tier3_report": str(out / "reh_report.html"),
+            "meta_index": str(out / "meta_index.jsonl"),
+        },
+        "trajectory": evolution.get("trajectory", "unknown"),
+        "milestones_count": len(evolution.get("milestones", [])),
+    }, indent=2)
+
+
+@mcp.tool()
+def get_evolution_briefing(
+    repo_path: str,
+    since: str = "",
+    until: str = "",
+) -> str:
+    """Get <4K token AI briefing of repo evolution. No file I/O.
+
+    Returns compact JSON directly suitable for LLM context injection.
+    Use this when you need quick context about a repo's trajectory
+    without generating full reports or writing files.
+
+    Args:
+        repo_path: Absolute path to the git repository root.
+        since: Start date (YYYY-MM-DD). Default: last 30 days.
+        until: End date (YYYY-MM-DD). Default: now.
+    """
+    valid, err = _validate_repo(repo_path)
+    if not valid:
+        return json.dumps({"error": err})
+
+    compiler = EvolutionCompiler()
+    evolution = compiler.compile(repo_path, since, until)
+    briefing = build_reh_briefing(evolution)
+    return json.dumps(briefing, indent=2, default=str)
+
+
+@mcp.tool()
+def get_velocity_metrics(
+    repo_path: str,
+    weeks: int = 8,
+) -> str:
+    """Get development velocity metrics for recent N weeks.
+
+    Returns commits/week, trend (accelerating/steady/decelerating),
+    most active directories, and trajectory classification.
+
+    Args:
+        repo_path: Absolute path to the git repository root.
+        weeks: Number of recent weeks to analyze. Default: 8.
+    """
+    valid, err = _validate_repo(repo_path)
+    if not valid:
+        return json.dumps({"error": err})
+
+    from datetime import datetime, timedelta
+    since = (datetime.now() - timedelta(weeks=weeks)).strftime("%Y-%m-%d")
+
+    compiler = EvolutionCompiler()
+    evolution = compiler.compile(repo_path, since=since)
+    velocity = evolution.get("velocity", {})
+    trajectory = evolution.get("trajectory", "unknown")
+
+    return json.dumps({
+        "repo": repo_path,
+        "weeks_analyzed": weeks,
+        "trajectory": trajectory,
+        "velocity": velocity,
+    }, indent=2, default=str)
+
+
 # ========== Entry Point ==========
 
 if __name__ == "__main__":
