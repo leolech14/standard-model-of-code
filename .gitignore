@@ -213,3 +213,10 @@ particle/src/core/viz/assets/vendor/
 *.backup
 backup_*.zip
 *.log
+
+# Claude Code workspace state
+.claude/launch.json
+.superpowers/
+
+# Large binary documents (use git-lfs or store externally)
+*.docx
