@@ -334,11 +334,25 @@ components:
       - name: analysis
         type: json
         description: Structured analysis with findings and confidence scores.
+      - name: sweep_results
+        type: file:json
+        description: JSON sweep results in research/auto-saves/.
+      - name: markdown_report
+        type: file:md
+        description: Markdown reports auto-saved to research/auto-saves/.
+    metrics:
+      usage_event: cerebras_query_executed
+      cost_metric: "$0.001 per query (Cerebras free tier)"
     requires_connections: [CON-001]
-    feeds_into: [CMP-002]
+    feeds_into: [CMP-052]
+    fed_by: []
     agent:
       explanation: "Fast intelligence tool on Cerebras. Takes a research query, returns structured analysis at high speed. Use when speed matters more than depth."
       context_priority: 0.6
+      affordances:
+        can_read: [codebase]
+        can_write: [research/auto-saves/]
+        cannot: [modify_source_code, commit]
 
   - id: CMP-002
     kind: component
@@ -366,12 +380,28 @@ components:
       - name: brain_download
         type: file:md
         description: Human/LLM-readable summary of findings.
+      - name: unified_analysis
+        type: file:json
+        description: Unified analysis artifact in .collider/.
+      - name: collider_db
+        type: file:sqlite
+        description: SQLite database of parsed atoms and relationships.
+      - name: feedback_bundle
+        type: directory
+        description: Post-run feedback bundle in .collider/feedback/.
+    metrics:
+      usage_event: collider_analysis_executed
+      cost_metric: "Free (local, no API)"
     requires_connections: []
-    feeds_into: [CMP-003]
-    fed_by: [CMP-001]
+    feeds_into: [CMP-052, CMP-003]
+    fed_by: [CMP-001, CMP-060]
     agent:
       explanation: "The Collider — code analysis engine based on SMoC. Applies algebraic topology (Betti numbers), 16-level holarchy, and 5-dimensional incoherence decomposition. Produces Brain Downloads for LLM consumption."
       context_priority: 0.7
+      affordances:
+        can_read: [codebase, git_history]
+        can_write: [.collider/, collider_feedback/]
+        cannot: [modify_source_code, deploy]
 
   - id: CMP-003
     kind: component
@@ -393,10 +423,19 @@ components:
     outputs:
       - name: briefing
         type: file:md
+        description: Compressed, actionable briefing in .collider/.
+    metrics:
+      usage_event: briefing_generated
+      cost_metric: "Included in Collider run"
+    feeds_into: []
     fed_by: [CMP-002]
     agent:
       explanation: "Takes raw Collider output and compresses it into actionable briefings. The 'so what' layer on top of deep analysis."
       context_priority: 0.5
+      affordances:
+        can_read: [.collider/]
+        can_write: [.collider/]
+        cannot: [modify_source_code]
 
   - id: CMP-010
     kind: component
@@ -412,10 +451,23 @@ components:
     invoke:
       method: webhook:n8n/notion-sync
       environment: [doppler:ai-tools/prd/NOTION_API_KEY]
+    outputs:
+      - name: sync_result
+        type: json
+        description: Sync status and record counts from Notion API.
+    metrics:
+      usage_event: notion_sync_executed
+      cost_metric: "Free (Notion API)"
     requires_connections: [CON-010]
+    feeds_into: []
+    fed_by: []
     agent:
       explanation: "Notion database sync running on n8n. Keeps Tasks, Events, and Runs in sync with TimeView. If TimeView shows stale data, check this component and AGT-003."
       context_priority: 0.5
+      affordances:
+        can_read: [notion_workspace]
+        can_write: [notion_database]
+        cannot: [modify_source_code, commit]
 
   - id: CMP-052
     kind: component
@@ -553,11 +605,26 @@ components:
     invoke:
       method: "python wave/tools/ai/cerebras_spiral_intel.py spiral --parallel -w 20"
       environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    outputs:
+      - name: spiral_report
+        type: file:json
+        description: Multi-pass analysis result JSON in research/.
+      - name: spiral_markdown
+        type: file:md
+        description: Human-readable spiral analysis report in research/.
+    metrics:
+      usage_event: spiral_analysis_executed
+      cost_metric: "$0.05 per full spiral (5 passes)"
     requires_connections: [CON-001]
-    feeds_into: [CMP-002]
+    feeds_into: [CMP-052, CMP-002]
+    fed_by: [CMP-001]
     agent:
       explanation: "Spiral Intelligence — multi-pass codebase understanding using Cerebras (3000 t/s). P1 surface scan → P2 gap filling → P3 dependency resolution → P4 subsystem synthesis → P5 unified model. 5,455 files analyzed in 5.4 minutes."
       context_priority: 0.5
+      affordances:
+        can_read: [codebase]
+        can_write: [research/]
+        cannot: [modify_source_code]
 
   - id: CMP-060
     kind: component
@@ -572,9 +639,31 @@ components:
     delivery: mcp_tool
     invoke:
       method: "uv run python wave/tools/mcp/mcp_history_server.py"
+    outputs:
+      - name: evolution_report
+        type: file:json
+        description: "Tier 1 reh_evolution.json — full git archaeology data."
+      - name: evolution_briefing
+        type: file:json
+        description: "Tier 2 reh_briefing.json (<4K tokens) for LLM context injection."
+      - name: evolution_html
+        type: file:html
+        description: "Tier 3 reh_report.html — self-contained human-readable report."
+      - name: run_index
+        type: file:jsonl
+        description: "Longitudinal meta_index.jsonl tracking all runs."
+    metrics:
+      usage_event: reh_query_executed
+      cost_metric: "Free (pure git, no API)"
+    feeds_into: [CMP-052, CMP-002]
+    fed_by: []
     agent:
       explanation: "REH — Repository Evolution History. Git archaeology + session mining via MCP. 11 tools: timeline, pickaxe, file history, capability changes, directory activity, evolution reports, briefings, velocity metrics, session search."
       context_priority: 0.5
+      affordances:
+        can_read: [git_history, .collider/feedback/]
+        can_write: [.reh/]
+        cannot: [modify_source_code, commit]
 
   - id: CMP-061
     kind: component
@@ -590,10 +679,23 @@ components:
     invoke:
       method: "doppler run -- python wave/tools/ai/mcp_servers/cerebras_intelligence_mcp.py"
       environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    outputs:
+      - name: query_result
+        type: json
+        description: Structured LLM query result or research findings from MCP tool invocation.
+    metrics:
+      usage_event: cerebras_mcp_query
+      cost_metric: "$0.001 per query"
     requires_connections: [CON-001]
+    feeds_into: [CMP-052]
+    fed_by: [CMP-001]
     agent:
       explanation: "Cerebras Intelligence MCP — 10 tools for fast LLM queries, Perplexity research, and token estimation. Registered as ECO-047 in TOOLS_REGISTRY."
       context_priority: 0.5
+      affordances:
+        can_read: [codebase, external_web]
+        can_write: []
+        cannot: [modify_source_code]
 
   - id: CMP-054
     kind: component
@@ -609,12 +711,23 @@ components:
     invoke:
       method: "python wave/tools/ai/cerebras_enricher.py enrich .collider/unified_analysis.json"
       environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    outputs:
+      - name: enriched_atoms
+        type: file:json
+        description: Collider atoms enriched with semantic metadata (purpose, summary, intent) in wave/data/enriched/.
+    metrics:
+      usage_event: cerebras_enrichment_executed
+      cost_metric: "$0.01 per batch"
     requires_connections: [CON-001]
     fed_by: [CMP-002]
     feeds_into: [CMP-001]
     agent:
       explanation: "Semantic enricher that adds purpose, summary, and intent to raw Collider output. Takes structural analysis and makes it meaningful. Output at wave/data/enriched/."
       context_priority: 0.4
+      affordances:
+        can_read: [codebase, atom_taxonomy]
+        can_write: [research/]
+        cannot: [modify_source_code]
 
   - id: CMP-055
     kind: component
@@ -630,10 +743,23 @@ components:
     invoke:
       method: "python wave/tools/ai/cerebras_tagger.py tag --pattern '**/*.py'"
       environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    outputs:
+      - name: tagged_files
+        type: file:json
+        description: D1-D8 dimensional classification results in wave/data/tags/.
+    metrics:
+      usage_event: cerebras_tagging_executed
+      cost_metric: "$0.001 per file"
     requires_connections: [CON-001]
+    feeds_into: [CMP-002]
+    fed_by: [CMP-001]
     agent:
       explanation: "Batch classifier — tags source files across 8 dimensions (D1-D8) at 3000 files/min via Cerebras. Output at wave/data/tags/."
       context_priority: 0.4
+      affordances:
+        can_read: [codebase]
+        can_write: [research/]
+        cannot: [modify_source_code]
 
   - id: CMP-062
     kind: component
@@ -648,9 +774,22 @@ components:
     delivery: mcp_tool
     invoke:
       method: "python wave/tools/ai/mcp_servers/reddit_intelligence_mcp.py"
+    outputs:
+      - name: search_results
+        type: json
+        description: Community search results, post threads, and subreddit statistics.
+    metrics:
+      usage_event: reddit_query_executed
+      cost_metric: "Free (public JSON API)"
+    feeds_into: [CMP-052]
+    fed_by: []
     agent:
       explanation: "Reddit Intelligence — 6 MCP tools for community search, post threads, subreddit info. No API key needed (public JSON). 6-second rate limit between requests."
       context_priority: 0.3
+      affordances:
+        can_read: [reddit_public_api]
+        can_write: []
+        cannot: [modify_source_code, post_to_reddit]
 
   - id: CMP-070
     kind: component
@@ -666,10 +805,26 @@ components:
     invoke:
       method: "python wave/tools/ai/perplexity_research.py 'query'"
       environment: [doppler:ai-tools/dev/PERPLEXITY_API_KEY]
+    outputs:
+      - name: research_report
+        type: file:md
+        description: Web research report with citations auto-saved to research/perplexity/.
+      - name: research_json
+        type: file:json
+        description: Raw JSON research data from Perplexity Sonar API.
+    metrics:
+      usage_event: perplexity_query_executed
+      cost_metric: "$0.005 per query (sonar-pro)"
     requires_connections: [CON-007]
+    feeds_into: [CMP-052]
+    fed_by: []
     agent:
       explanation: "Perplexity Sonar research — web queries with citations. Models: sonar, sonar-pro, sonar-reasoning, sonar-deep-research. Auto-saves to particle/docs/research/perplexity/."
       context_priority: 0.5
+      affordances:
+        can_read: [external_web]
+        can_write: [research/perplexity/]
+        cannot: [modify_source_code]
 
   - id: CMP-071
     kind: component
@@ -685,11 +840,26 @@ components:
     invoke:
       method: "python wave/tools/ai/sonar_deep.py 'query'"
       environment: [doppler:ai-tools/dev/PERPLEXITY_API_KEY]
+    outputs:
+      - name: deep_report
+        type: file:md
+        description: Long-form deep research report auto-saved to research/sonar-deep/.
+      - name: deep_json
+        type: file:json
+        description: Raw JSON deep research data from sonar-deep-research model.
+    metrics:
+      usage_event: sonar_deep_executed
+      cost_metric: "$0.05 per deep research query"
     requires_connections: [CON-007]
-    feeds_into: [CMP-002]
+    feeds_into: [CMP-052, CMP-070]
+    fed_by: [CMP-070]
     agent:
       explanation: "Deep research tool — multi-step analysis via Perplexity sonar-deep-research. 600s timeout. Plan mode synthesizes multi-query research. Auto-saves to particle/docs/research/sonar-deep/."
       context_priority: 0.4
+      affordances:
+        can_read: [external_web]
+        can_write: [research/sonar-deep/]
+        cannot: [modify_source_code]
 
   - id: CMP-072
     kind: component
@@ -705,10 +875,23 @@ components:
     invoke:
       method: "doppler run -- python wave/tools/ai/adversarial_auditor.py audit doc.md --domain smoc"
       environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY, doppler:ai-tools/prd/PERPLEXITY_API_KEY]
+    outputs:
+      - name: audit_report
+        type: file:json
+        description: Three-layer audit report (IP claims, citations, methodology) in collider_feedback/.
+    metrics:
+      usage_event: adversarial_audit_executed
+      cost_metric: "$0.10 per audit"
     requires_connections: [CON-001, CON-007]
+    feeds_into: [CMP-002]
+    fed_by: [CMP-052]
     agent:
       explanation: "Adversarial auditor — three-layer audit (IP claims, citations, methodology) using Cerebras + Perplexity. ~$0.01-0.04 per audit. Output to collider_feedback/."
       context_priority: 0.4
+      affordances:
+        can_read: [codebase]
+        can_write: [research/]
+        cannot: [modify_source_code]
 
   - id: CMP-073
     kind: component
@@ -761,9 +944,22 @@ components:
     delivery: cli_tool
     invoke:
       method: "./pe deck play CARD-ANA-001"
+    outputs:
+      - name: card_result
+        type: json
+        description: Card execution result including step outcomes and governance meter updates.
+    metrics:
+      usage_event: card_played
+      cost_metric: "$0.01 per card (Cerebras)"
+    feeds_into: [CMP-052]
+    fed_by: []
     agent:
       explanation: "Decision Deck executor — plays certified move cards from .agent/deck/. Verifies preconditions, executes steps, validates outcomes, updates 5 governance meters. Rollback on failure."
       context_priority: 0.4
+      affordances:
+        can_read: [.agent/deck/]
+        can_write: [.agent/state/]
+        cannot: [modify_source_code, deploy]
 
   - id: CMP-076
     kind: component
@@ -778,9 +974,22 @@ components:
     delivery: library
     invoke:
       method: "from industrial_ui import GeminiUI, PerplexityUI, IndustrialUI"
+    outputs:
+      - name: styled_output
+        type: text
+        description: ANSI-styled terminal output rendered to stdout.
+    metrics:
+      usage_event: ui_render
+      cost_metric: "Free (local library)"
+    feeds_into: [CMP-052, CMP-001]
+    fed_by: []
     agent:
       explanation: "Terminal UI library — ANSI styling shared by all CLI tools. GeminiUI (blue), PerplexityUI (green), IndustrialUI (yellow). Headers, sections, progress bars, citations."
       context_priority: 0.2
+      affordances:
+        can_read: []
+        can_write: [stdout]
+        cannot: [modify_source_code]
 
   # --- Channels capability (PROJECT_openclaw, fe1b011) ---
 
@@ -797,9 +1006,22 @@ components:
     delivery: library
     invoke:
       method: "from channels.transport_base import ChannelTransport, ChannelCapabilities"
+    outputs:
+      - name: message_result
+        type: json
+        description: Message dispatch result from channel transport implementation.
+    metrics:
+      usage_event: channel_message_processed
+      cost_metric: "Varies by provider"
+    feeds_into: []
+    fed_by: []
     agent:
       explanation: "Abstract base class for channel transports. Declares ChannelCapabilities (buttons, lists, reactions, typing, media) and the ChannelTransport ABC. Mirrors voice/voice_bridge_base.py."
       context_priority: 0.3
+      affordances:
+        can_read: [incoming_messages]
+        can_write: [outgoing_messages]
+        cannot: [modify_source_code]
 
   - id: CMP-086
     kind: component
@@ -832,9 +1054,22 @@ components:
     delivery: library
     invoke:
       method: "from channels.baileys_legacy import BaileysLegacyTransport"
+    outputs:
+      - name: message_result
+        type: json
+        description: Message dispatch result via OpenClaw Gateway RPC.
+    metrics:
+      usage_event: channel_message_processed
+      cost_metric: "Varies by provider"
+    feeds_into: []
+    fed_by: []
     agent:
       explanation: "Text-only WhatsApp transport. Wraps existing voice/whatsapp_transport.py in ChannelTransport interface. All capabilities = False. The fallback path."
       context_priority: 0.2
+      affordances:
+        can_read: [incoming_messages]
+        can_write: [outgoing_messages]
+        cannot: [modify_source_code]
 
   - id: CMP-088
     kind: component
@@ -849,9 +1084,22 @@ components:
     delivery: library
     invoke:
       method: "from channels.orchestrator import get_orchestrator"
+    outputs:
+      - name: message_result
+        type: json
+        description: Orchestrated message dispatch with timing and sequencing applied.
+    metrics:
+      usage_event: channel_message_processed
+      cost_metric: "Varies by provider"
+    feeds_into: []
+    fed_by: []
     agent:
       explanation: "Channel orchestrator — 9 autonomous behaviors: read receipts, typing indicator + renewal, interim messages, sequencing (300ms), text splitting, 24h window tracking. Mirrors voice/voice_gateway.py."
       context_priority: 0.4
+      affordances:
+        can_read: [incoming_messages]
+        can_write: [outgoing_messages]
+        cannot: [modify_source_code]
 
   - id: CMP-089
     kind: component
@@ -866,9 +1114,22 @@ components:
     delivery: library
     invoke:
       method: "from channels.tools import tools_for_chat_completions"
+    outputs:
+      - name: message_result
+        type: json
+        description: Channel tool execution result (send_text, send_buttons, send_media, react, narrate, send_location).
+    metrics:
+      usage_event: channel_message_processed
+      cost_metric: "Varies by provider"
+    feeds_into: []
+    fed_by: []
     agent:
       explanation: "6 channel-generic tools. LLM calls channel_send_buttons (not wpp_send_buttons). Tool_exec checks transport capabilities at runtime and degrades gracefully. Three format converters (chat_completions, openai, gemini)."
       context_priority: 0.3
+      affordances:
+        can_read: [incoming_messages]
+        can_write: [outgoing_messages]
+        cannot: [modify_source_code]
 
   - id: CMP-090
     kind: component
@@ -890,7 +1151,7 @@ components:
 
   # --- Oracle components ---
 
-  - id: CMP-100
+  - id: CMP-091
     kind: component
     name: oracle-atlas-tier
     display_name: Oracle Atlas Lookup (Tier -1)
@@ -901,6 +1162,10 @@ components:
     status: active
     category: analysis
     delivery: library
+    risk:
+      data_sensitivity: public
+      autonomy_level: human_operated
+    tags: [domain:ai, tier:oracle, cost:zero]
     invoke:
       method: "from analyze.tiers.atlas import atlas_lookup"
       environment: []
@@ -913,6 +1178,7 @@ components:
       - name: lookup_result
         type: json
         description: Matched entities with explanations, source files, blast radius, health context.
+    requires_connections: []
     feeds_into: [CMP-052]
     agent:
       explanation: "Oracle Tier -1 — checks ATLAS.yaml before any LLM call. Returns pre-authored entity explanations with atlas citations. Zero API cost, <50ms. Scopes downstream tiers to relevant source files."
