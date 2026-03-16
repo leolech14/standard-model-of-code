@@ -129,6 +129,14 @@ externals:
     docs_url: https://huggingface.co/docs
     notes: Model hub, Spaces, datasets. MCP server connected.
 
+  - id: EXT-013
+    name: perplexity
+    display_name: Perplexity
+    domain: ai_provider
+    base_url: https://api.perplexity.ai
+    docs_url: https://docs.perplexity.ai
+    notes: Web research with citations. Models sonar, sonar-pro, sonar-reasoning, sonar-deep-research. Quota-sensitive.
+
 
 # =====================
 # AGENTS
@@ -485,6 +493,193 @@ components:
       explanation: "Cerebras Intelligence MCP — 10 tools for fast LLM queries, Perplexity research, and token estimation. Registered as ECO-047 in TOOLS_REGISTRY."
       context_priority: 0.5
 
+  - id: CMP-054
+    kind: component
+    name: cerebras-enricher
+    display_name: Cerebras Semantic Enricher
+    purpose: Adds meaning (purpose, summary, intent, relationships) to Collider structural output via Cerebras.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: transformation
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/cerebras_enricher.py enrich .collider/unified_analysis.json"
+      environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    requires_connections: [CON-001]
+    fed_by: [CMP-002]
+    feeds_into: [CMP-001]
+    agent:
+      explanation: "Semantic enricher that adds purpose, summary, and intent to raw Collider output. Takes structural analysis and makes it meaningful. Output at wave/data/enriched/."
+      context_priority: 0.4
+
+  - id: CMP-055
+    kind: component
+    name: cerebras-tagger
+    display_name: Cerebras Batch Tagger
+    purpose: Bulk D1-D8 dimensional classification of source files using Cerebras inference with optional Claude validation.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/cerebras_tagger.py tag --pattern '**/*.py'"
+      environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    requires_connections: [CON-001]
+    agent:
+      explanation: "Batch classifier — tags source files across 8 dimensions (D1-D8) at 3000 files/min via Cerebras. Output at wave/data/tags/."
+      context_priority: 0.4
+
+  - id: CMP-062
+    kind: component
+    name: reddit-intelligence-mcp
+    display_name: Reddit Intelligence MCP Server
+    purpose: Community intelligence via Reddit public JSON API — 6 read-only search and analysis tools.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: analysis
+    delivery: mcp_tool
+    invoke:
+      method: "python wave/tools/ai/mcp_servers/reddit_intelligence_mcp.py"
+    agent:
+      explanation: "Reddit Intelligence — 6 MCP tools for community search, post threads, subreddit info. No API key needed (public JSON). 6-second rate limit between requests."
+      context_priority: 0.3
+
+  - id: CMP-070
+    kind: component
+    name: perplexity-research
+    display_name: Perplexity Research
+    purpose: Web research queries using Perplexity Sonar API with auto-save to research directory.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/perplexity_research.py 'query'"
+      environment: [doppler:ai-tools/dev/PERPLEXITY_API_KEY]
+    requires_connections: [CON-007]
+    agent:
+      explanation: "Perplexity Sonar research — web queries with citations. Models: sonar, sonar-pro, sonar-reasoning, sonar-deep-research. Auto-saves to particle/docs/research/perplexity/."
+      context_priority: 0.5
+
+  - id: CMP-071
+    kind: component
+    name: sonar-deep
+    display_name: Sonar Deep Research
+    purpose: Long-form multi-step deep research using Perplexity sonar-deep-research model with optional Collider context.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/sonar_deep.py 'query'"
+      environment: [doppler:ai-tools/dev/PERPLEXITY_API_KEY]
+    requires_connections: [CON-007]
+    feeds_into: [CMP-002]
+    agent:
+      explanation: "Deep research tool — multi-step analysis via Perplexity sonar-deep-research. 600s timeout. Plan mode synthesizes multi-query research. Auto-saves to particle/docs/research/sonar-deep/."
+      context_priority: 0.4
+
+  - id: CMP-072
+    kind: component
+    name: adversarial-auditor
+    display_name: Adversarial Auditor
+    purpose: Three-layer automated document audit for IP claims, citation accuracy, and methodological soundness.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "doppler run -- python wave/tools/ai/adversarial_auditor.py audit doc.md --domain smoc"
+      environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY, doppler:ai-tools/prd/PERPLEXITY_API_KEY]
+    requires_connections: [CON-001, CON-007]
+    agent:
+      explanation: "Adversarial auditor — three-layer audit (IP claims, citations, methodology) using Cerebras + Perplexity. ~$0.01-0.04 per audit. Output to collider_feedback/."
+      context_priority: 0.4
+
+  - id: CMP-073
+    kind: component
+    name: cerebras-queue
+    display_name: Cerebras Queue Manager
+    purpose: Centralized request queue preventing Cerebras rate limit chaos from multiple concurrent agents.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: orchestration
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/cerebras_queue.py worker"
+      environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    requires_connections: [CON-001]
+    agent:
+      explanation: "Queue manager for Cerebras API — prevents rate limit violations when multiple tools run concurrently. File-based queue with lock coordination. 5 req/sec safe limit."
+      context_priority: 0.3
+
+  - id: CMP-074
+    kind: component
+    name: hf-space-client
+    display_name: HuggingFace Space Client
+    purpose: CLI for HuggingFace LLM chat, image generation, and Gradio Space API access.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: integration
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/hf_space.py chat 'query'"
+      environment: [doppler:ai-tools/dev/HF_TOKEN]
+    requires_connections: [CON-009]
+    agent:
+      explanation: "HuggingFace Space client — chat with models, generate images via FLUX, call any Gradio Space API. Uses HF router for inference."
+      context_priority: 0.3
+
+  - id: CMP-075
+    kind: component
+    name: decision-deck-player
+    display_name: Decision Deck Player
+    purpose: Execute certified moves from the Decision Deck — load card, verify, execute steps, validate, update meters.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: orchestration
+    delivery: cli_tool
+    invoke:
+      method: "./pe deck play CARD-ANA-001"
+    agent:
+      explanation: "Decision Deck executor — plays certified move cards from .agent/deck/. Verifies preconditions, executes steps, validates outcomes, updates 5 governance meters. Rollback on failure."
+      context_priority: 0.4
+
+  - id: CMP-076
+    kind: component
+    name: industrial-ui
+    display_name: Industrial UI Library
+    purpose: Shared terminal output styling with ANSI colors — consistent visual identity per tool family.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    status: active
+    category: communication
+    delivery: library
+    invoke:
+      method: "from industrial_ui import GeminiUI, PerplexityUI, IndustrialUI"
+    agent:
+      explanation: "Terminal UI library — ANSI styling shared by all CLI tools. GeminiUI (blue), PerplexityUI (green), IndustrialUI (yellow). Headers, sections, progress bars, citations."
+      context_priority: 0.2
+
 
 # =====================
 # CONNECTIONS
@@ -750,6 +945,112 @@ connections:
     agent:
       explanation: "n8n's connection to Notion for database sync. If TimeView is stale, check this connection, then AGT-003, then CMP-010."
       context_priority: 0.5
+
+  - id: CON-007
+    kind: connection
+    name: perplexity-inference
+    display_name: Perplexity Sonar API
+    purpose: Web research with citations via Perplexity Sonar models for real-time intelligence.
+    owner: leo
+    stage: P1
+    status: broken
+    source: agent:AGT-002
+    target: external:EXT-013
+    relationship:
+      canonical: depends_on
+    transport:
+      protocol: http_rest
+      endpoint: https://api.perplexity.ai/chat/completions
+      direction: pull
+    auth:
+      method: bearer_token
+      credentials:
+        - ref: doppler:ai-tools/dev/PERPLEXITY_API_KEY
+          role: api_key
+    health:
+      status: broken
+      last_verified: "2026-03-15"
+      verification:
+        command: "curl -s -o /dev/null -w '%{http_code}' -H 'Authorization: Bearer $PERPLEXITY_API_KEY' https://api.perplexity.ai/chat/completions"
+        interpretation: "200=healthy, 401=quota exhausted or key invalid, timeout=down"
+      notes: "API quota exhausted 2026-03-15. 401 insufficient_quota."
+    impact:
+      consequence: degraded_ux
+      human_impact: Web research unavailable. Adversarial auditor loses citation verification. Manual research required.
+      blast_radius: [CMP-070, CMP-071, CMP-072]
+      recovery_action: Check Perplexity billing. Recharge API credits. If persistent, switch to manual web search.
+    operational:
+      cost_model: per_call
+      monthly_budget: 5
+    agent:
+      explanation: "Perplexity Sonar API — web research with citations. Currently BROKEN (quota exhausted). Affects research tools and adversarial auditor."
+      context_priority: 0.6
+
+  - id: CON-008
+    kind: connection
+    name: gemini-inference
+    display_name: Google Gemini API
+    purpose: Primary reasoning and long-context analysis via Google AI Studio Gemini models.
+    owner: leo
+    stage: P1
+    status: active
+    source: CMP-052
+    target: external:EXT-008
+    relationship:
+      canonical: depends_on
+    transport:
+      protocol: http_rest
+      endpoint: null
+      direction: pull
+    auth:
+      method: api_key
+      credentials:
+        - ref: doppler:ai-tools/prd/GEMINI_API_KEY
+          role: api_key
+    health:
+      status: active
+      last_verified: "2026-03-15"
+    impact:
+      consequence: degraded_ux
+      human_impact: AI analysis tool loses smart routing and long-context mode. Cerebras handles fast queries as fallback.
+      blast_radius: [CMP-052]
+      recovery_action: Check Google AI Studio dashboard. Verify API key in Doppler.
+    agent:
+      explanation: "Gemini API via google-genai SDK. Powers analyze.py ACI routing. If analysis quality degrades, check this connection."
+      context_priority: 0.5
+
+  - id: CON-009
+    kind: connection
+    name: huggingface-api
+    display_name: HuggingFace Inference API
+    purpose: Model inference, Space access, and dataset operations via HuggingFace hub.
+    owner: leo
+    stage: P1
+    status: active
+    source: CMP-074
+    target: external:EXT-012
+    relationship:
+      canonical: integrates
+    transport:
+      protocol: http_rest
+      endpoint: https://router.huggingface.co/v1
+      direction: pull
+    auth:
+      method: bearer_token
+      credentials:
+        - ref: doppler:ai-tools/dev/HF_TOKEN
+          role: api_key
+    health:
+      status: active
+      last_verified: "2026-03-15"
+    impact:
+      consequence: negligible
+      human_impact: HuggingFace Space access and model inference unavailable. Core ecosystem unaffected.
+      blast_radius: [CMP-074]
+      recovery_action: Check HuggingFace status page. Verify HF_TOKEN in Doppler.
+    agent:
+      explanation: "HuggingFace API — model inference and Space access. Low ecosystem impact. MCP server provides alternative access."
+      context_priority: 0.3
 
 
 # =====================
