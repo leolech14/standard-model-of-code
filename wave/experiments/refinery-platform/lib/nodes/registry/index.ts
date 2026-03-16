@@ -12,6 +12,7 @@ import { tradingNodeList } from './trading';
 import { commsNodeList } from './comms';
 import { memoryNodeList } from './memory';
 import { journalNodeList } from './journal';
+import { ecosystemNodeList } from './ecosystem';
 
 /** All registered nodes across all domains */
 const ALL_NODES: NodeDefinition[] = [
@@ -21,6 +22,7 @@ const ALL_NODES: NodeDefinition[] = [
   ...commsNodeList,
   ...memoryNodeList,
   ...journalNodeList,
+  ...ecosystemNodeList,
 ];
 
 /** Index by ID for O(1) lookup */
@@ -75,3 +77,4 @@ export { tradingNodes, tradingNodeList, getTradingNodesByGroup } from './trading
 export { commsNodes, commsNodeList } from './comms';
 export { memoryNodes, memoryNodeList } from './memory';
 export { journalNodes, journalNodeList } from './journal';
+export { ecosystemNodes, ecosystemNodeList, ecosystemPageDef, SERVICE_META, TOTAL_TOKENS } from './ecosystem';

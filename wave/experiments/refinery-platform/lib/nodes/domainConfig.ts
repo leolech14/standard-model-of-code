@@ -23,6 +23,7 @@ import {
   Mail,
   Settings,
   BookOpen,
+  Globe,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -155,6 +156,13 @@ export const DOMAIN_CONFIGS: Record<string, DomainConfig> = {
     title: 'Developer Journal',
     description: 'Daily development activity across the ecosystem',
     pollingFooter: 'local filesystem · on-demand refresh',
+  },
+
+  ecosystem: {
+    icon: Globe,
+    title: 'Ecosystem Atlas',
+    description: '10 cloud services · context token visualization · interactive',
+    pollingFooter: 'static data · click to toggle services',
   },
 };
 
