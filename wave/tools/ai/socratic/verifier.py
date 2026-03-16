@@ -1,7 +1,6 @@
 """3-phase hypothesis verification loop."""
 
 import glob
-import time
 from pathlib import Path
 from typing import Optional
 

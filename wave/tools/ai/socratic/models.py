@@ -1,6 +1,5 @@
 """Pydantic data models for Socratic Validator."""
 
-import hashlib
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
