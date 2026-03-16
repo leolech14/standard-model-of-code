@@ -158,26 +158,33 @@ subsystems:
     validators: []
     note: "Committed 2026-02-01, previously untracked"
 
-# Subsystem relationships
+# Subsystem relationships (mapped to Ecosystem Atlas canonical types)
+# 9 canonical: depends_on | integrates | orchestrates | replicates |
+#              delegates | publishes | observes | mediates | verifies
 relationships:
   - source: PARTICLE
     target: WAVE
-    type: uses
-    description: "Collider calls analyze.py for AI insights"
+    relationship:
+      canonical: integrates
+      qualifier: x_lbl.ai_enrichment
+    description: "Collider calls analyze.py for AI insights (enhanced, not required)"
 
   - source: WAVE
     target: PARTICLE
-    type: validates
+    relationship:
+      canonical: verifies
     description: "HSL validates code against theory"
 
   - source: OBSERVER
     target: PARTICLE
-    type: orchestrates
+    relationship:
+      canonical: orchestrates
     description: "Autopilot runs Collider analysis"
 
   - source: OBSERVER
     target: WAVE
-    type: orchestrates
+    relationship:
+      canonical: orchestrates
     description: "Autopilot queries analyze.py"
 
 # Verification rules

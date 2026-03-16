@@ -2,6 +2,14 @@
 
 Standard Model of Code -- the theoretical framework + implementation for treating code as architecture.
 
+## Ecosystem Atlas
+
+**Load `atlas/ATLAS.yaml` at the start of every session.** This file IS the ecosystem context — components, agents, connections, resources, external providers. When asked about the ecosystem, consult the atlas first. When you register a new tool or connection, add it to the atlas.
+
+- Atlas schemas: `atlas/schemas/` (the formal grammar — 6 files)
+- Atlas data: `atlas/ATLAS.yaml` (the living file — ~9K tokens)
+- Atlas framework: `atlas/schemas/` (load when extending or validating)
+
 ## Architecture
 
 Two hemispheres (like a brain):
@@ -98,6 +106,8 @@ cd wave/experiments/refinery-platform && npm run dev  # Refinery :3001
 
 | Task | Location |
 |------|----------|
+| Ecosystem Atlas | `atlas/ATLAS.yaml` (load at session start) |
+| Atlas schemas | `atlas/schemas/` (6 schema files, the formal grammar) |
 | Analyze a repo | `particle/cli.py` (entry), `particle/full_analysis.py` |
 | AI query (fast) | `wave/tools/ai/cerebras_rapid_intel.py` |
 | AI query (smart routing) | `wave/tools/ai/analyze.py --aci` |
