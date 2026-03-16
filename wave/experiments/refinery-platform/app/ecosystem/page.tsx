@@ -1,19 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { Globe, Zap, Server, Database, Key, GitBranch, Bot, Cloud, BarChart3, RefreshCw } from 'lucide-react';
+import { Server } from 'lucide-react';
 
 const SERVICES = [
-  { id: 'notion', label: 'Notion', sub: 'docs', icon: Globe, tokens: 1200, color: 'text-slate-600' },
-  { id: 'chatgpt', label: 'ChatGPT', sub: 'research', icon: Bot, tokens: 850, color: 'text-emerald-600' },
-  { id: 'google', label: 'Google', sub: 'cloud', icon: Cloud, tokens: 2100, color: 'text-blue-600' },
-  { id: 'github', label: 'GitHub', sub: 'code', icon: GitBranch, tokens: 3400, color: 'text-slate-700' },
-  { id: 'anthropic', label: 'Anthropic', sub: 'LLMs', icon: Bot, tokens: 1500, color: 'text-amber-600' },
-  { id: 'supabase', label: 'Supabase', sub: 'data', icon: Database, tokens: 900, color: 'text-green-600' },
-  { id: 'doppler', label: 'Doppler', sub: 'secrets', icon: Key, tokens: 150, color: 'text-yellow-600' },
-  { id: 'openfinance', label: 'Open Finance', sub: 'data', icon: BarChart3, tokens: 600, color: 'text-indigo-600' },
-  { id: 'cerebras', label: 'Cerebras', sub: 'inference', icon: Zap, tokens: 4500, color: 'text-rose-600' },
-  { id: 'n8n', label: 'n8n', sub: 'flows', icon: RefreshCw, tokens: 400, color: 'text-red-600' },
+  { id: 'notion', label: 'Notion', sub: 'docs', emoji: '📓', tokens: 1200 },
+  { id: 'chatgpt', label: 'ChatGPT', sub: 'research', emoji: '💬', tokens: 850 },
+  { id: 'google', label: 'Google', sub: 'cloud', emoji: '🌐', tokens: 2100 },
+  { id: 'github', label: 'GitHub', sub: 'code', emoji: '🐙', tokens: 3400 },
+  { id: 'anthropic', label: 'Anthropic', sub: 'LLMs', emoji: '🤖', tokens: 1500 },
+  { id: 'supabase', label: 'Supabase', sub: 'data', emoji: '⚡', tokens: 900 },
+  { id: 'doppler', label: 'Doppler', sub: 'secrets', emoji: '🔑', tokens: 150 },
+  { id: 'openfinance', label: 'Open Finance', sub: 'data', emoji: '📊', tokens: 600 },
+  { id: 'cerebras', label: 'Cerebras', sub: 'inference', emoji: '🧮', tokens: 4500 },
+  { id: 'n8n', label: 'n8n', sub: 'flows', emoji: '🔄', tokens: 400 },
 ];
 
 const TOTAL_TOKENS = SERVICES.reduce((s, n) => s + n.tokens, 0);
@@ -46,10 +46,9 @@ export default function EcosystemPage() {
           {/* Service Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
             {SERVICES.map((svc) => {
-              const Icon = svc.icon;
               return (
                 <div key={svc.id} className="glass-card rounded-lg p-4 flex flex-col items-center text-center">
-                  <Icon className={`w-6 h-6 mb-2 ${svc.color}`} />
+                  <span className="text-3xl mb-2">{svc.emoji}</span>
                   <div className="text-sm font-semibold">{svc.label}</div>
                   <div className="text-xs text-text-muted">{svc.sub}</div>
 
