@@ -716,6 +716,34 @@ def _run_full_analysis(target_path: str, output_dir: str = None, options: Dict[s
     # Insights, Output Generation, Pipeline Report, Summary, Cleanup
     run_output(ctx)
 
+    # ── Phase 8: Atlas Emitter ──────────────────────────────────────
+    # Emit component candidates for the Ecosystem Atlas scaffold.
+    # Produces .collider/atlas_candidates.yaml from pipeline state.
+    try:
+        from src.core.pipeline.stages.atlas_emitter import AtlasEmitterStage
+        from src.core.data_management import CodebaseState
+
+        # Build a lightweight CodebaseState from ctx for the emitter.
+        atlas_state = CodebaseState.__new__(CodebaseState)
+        atlas_state.target_path = ctx.target_path
+        atlas_state.nodes = {n.get("id", str(i)): n for i, n in enumerate(ctx.nodes)}
+        atlas_state.edges = ctx.edges
+        atlas_state.metadata = ctx.full_output.get("metadata", {})
+
+        emitter = AtlasEmitterStage(output_dir=ctx.output_dir)
+        emitter.execute(atlas_state)
+
+        count = atlas_state.metadata.get("atlas_candidates_count", 0)
+        if count > 0:
+            ctx.data_ledger.publish(
+                "atlas_emitter", "Phase 8: Atlas Emitter",
+                f"Emitted {count} component candidates to atlas_candidates.yaml"
+            )
+    except Exception as exc:
+        # Atlas emitter is non-critical. Log and continue.
+        import logging
+        logging.getLogger("collider.atlas").warning("Atlas emitter skipped: %s", exc)
+
     return ctx.full_output
 
 

@@ -85,6 +85,7 @@ from .output_generation import OutputGenerationStage
 
 # Additional stages (post-analysis)
 from .igt_metrics import IGTMetricsStage
+from .atlas_emitter import AtlasEmitterStage
 
 
 __all__ = [
@@ -125,6 +126,7 @@ __all__ = [
     "OutputGenerationStage",
     # Additional
     "IGTMetricsStage",
+    "AtlasEmitterStage",
 ]
 
 # Stage execution order (31 stages)
@@ -165,4 +167,6 @@ STAGE_ORDER = [
     "igt_metrics",  # Stage 14: IGT metrics
     "manifest_writer",  # Stage 13: Provenance before output
     "output_generation",
+    # Phase 6: Atlas
+    "atlas_emitter",  # Stage 23: Emit component candidates for Ecosystem Atlas
 ]

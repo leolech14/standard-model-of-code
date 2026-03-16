@@ -137,6 +137,7 @@ def create_full_pipeline(
         IGTMetricsStage,
         ManifestWriterStage,
         OutputGenerationStage,
+        AtlasEmitterStage,
     )
 
     # Full stage registry
@@ -177,6 +178,8 @@ def create_full_pipeline(
         "igt_metrics": IGTMetricsStage(),
         "manifest_writer": ManifestWriterStage(),
         "output_generation": OutputGenerationStage(output_dir=output_dir),
+        # Phase 6: Atlas
+        "atlas_emitter": AtlasEmitterStage(output_dir=output_dir),
     }
 
     # Select stages
