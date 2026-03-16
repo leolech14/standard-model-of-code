@@ -725,14 +725,17 @@ def get_feedback_summary(repo_path: str) -> str:
 
     auto = feedback_dir / "latest_auto_feedback.json"
     if auto.exists():
-        data = json.loads(auto.read_text())
-        result["auto_feedback"] = {
-            "grade": data.get("grade"),
-            "health_score": data.get("health_score"),
-            "issue_count": len(data.get("issues", [])),
-            "top_issues": data.get("issues", [])[:5],
-            "llm_degradation": data.get("llm_degradation"),
-        }
+        try:
+            data = json.loads(auto.read_text())
+            result["auto_feedback"] = {
+                "grade": data.get("grade"),
+                "health_score": data.get("health_score"),
+                "issue_count": len(data.get("issues", [])),
+                "top_issues": data.get("issues", [])[:5],
+                "llm_degradation": data.get("llm_degradation"),
+            }
+        except json.JSONDecodeError:
+            result["auto_feedback"] = {"error": "malformed JSON"}
 
     audit = feedback_dir / "latest_ai_user_audit.md"
     if audit.exists():
@@ -742,12 +745,15 @@ def get_feedback_summary(repo_path: str) -> str:
 
     report = feedback_dir / "collider_feedback_report_latest.json"
     if report.exists():
-        data = json.loads(report.read_text())
-        result["report"] = {
-            "run_ts": data.get("ts"),
-            "files": data.get("files"),
-            "llm_meta": data.get("llm_meta"),
-        }
+        try:
+            data = json.loads(report.read_text())
+            result["report"] = {
+                "run_ts": data.get("ts"),
+                "files": data.get("files"),
+                "llm_meta": data.get("llm_meta"),
+            }
+        except json.JSONDecodeError:
+            result["report"] = {"error": "malformed JSON"}
 
     if not result:
         return json.dumps({"error": "Feedback directory exists but no artifacts found"})

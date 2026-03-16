@@ -107,7 +107,7 @@ def build_reh_briefing(
     # Volatility zones (for AI agents: high stddev = unstable, worth watching)
     volatility_zones: list = []
     for row in matrix:
-        weeks = row.get("weeks", {})
+        weeks = row.get("weekly", {})
         vals = list(weeks.values())
         if len(vals) >= 2:
             mean = sum(vals) / len(vals)

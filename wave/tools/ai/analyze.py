@@ -2763,6 +2763,10 @@ Examples:
                             success=True,
                             duration_ms=int((time.time() - instant_start) * 1000)
                         )
+                    _track_analyze_run(
+                        query=args.prompt, tier="instant", mode="aci",
+                        duration_ms=int((time.time() - instant_start) * 1000),
+                    )
                     sys.exit(0)
                 elif decision.tier == Tier.INSTANT:
                     print("Could not answer from truths. Falling back to RAG.", file=sys.stderr)
@@ -2853,6 +2857,11 @@ Respond concisely based on your knowledge."""
                                 duration_ms=duration_ms
                             )
 
+                        _track_analyze_run(
+                            query=args.prompt, tier="cerebras", mode="aci",
+                            tokens_in=len(user_prompt) // 4, tokens_out=len(result) // 4,
+                            duration_ms=duration_ms,
+                        )
                         sys.exit(0)
                     else:
                         # Empty result - fallback to RAG
@@ -2937,6 +2946,12 @@ Respond concisely based on your knowledge."""
                             duration_ms=duration_ms
                         )
 
+                    _track_analyze_run(
+                        query=args.prompt, tier="perplexity", mode="aci",
+                        tokens_in=result.get("usage", {}).get("prompt_tokens", 0),
+                        tokens_out=result.get("usage", {}).get("completion_tokens", 0),
+                        duration_ms=duration_ms,
+                    )
                     sys.exit(0)
                 except Exception as e:
                     print(f"[PERPLEXITY] Error: {e}", file=sys.stderr)
@@ -3118,6 +3133,14 @@ Please provide a thorough, comprehensive answer using the full context available
                     except Exception as log_err:
                         print(f"[FLASH_DEEP] ACI logging skipped: {log_err}", file=sys.stderr)
 
+                usage = getattr(response, 'usage_metadata', None)
+                _track_analyze_run(
+                    query=args.prompt, tier="flash_deep", mode="aci",
+                    model=flash_model,
+                    tokens_in=getattr(usage, 'prompt_token_count', 0) if usage else 0,
+                    tokens_out=getattr(usage, 'candidates_token_count', 0) if usage else 0,
+                    duration_ms=duration_ms,
+                )
                 sys.exit(0)
 
             except Exception as e:
