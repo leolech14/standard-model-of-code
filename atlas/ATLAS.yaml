@@ -420,30 +420,71 @@ components:
   - id: CMP-052
     kind: component
     name: ai-analyze
-    display_name: AI Analysis Tool
-    purpose: Smart-routed AI queries with mode selection (standard, forensic, architect) via Gemini.
+    display_name: Adaptive Context Intelligence (ACI) Router
+    purpose: Smart-routed AI queries across 5+ tiers (Instant/RAG/LongContext/Perplexity/GraphRAG) with structured output contract.
     owner: leo
     application: wave-ai-tools
-    stage: P2
+    stage: P3
+    version: "3.0.0"
     status: active
     category: analysis
     delivery: cli_tool
+    tags: [ai, analysis, routing, gemini, perplexity, graphrag, aci]
     invoke:
-      method: "python wave/tools/ai/analyze.py {query} --mode {mode}"
-      environment: [doppler:ai-tools/prd/GEMINI_API_KEY]
+      method: "doppler run -- python wave/tools/ai/analyze.py --aci {query}"
+      environment: [doppler:ai-tools/prd/GEMINI_API_KEY, doppler:ai-tools/prd/PERPLEXITY_API_KEY]
+      prerequisites:
+        - ".venv activated with google-genai, openai SDKs"
+        - "doppler configured (ai-tools/prd)"
+        - "Optional: neo4j for GraphRAG tier"
     inputs:
       - name: query
         type: string
         required: true
+        description: Natural language question about the codebase or topic
+      - name: tier
+        type: enum
+        values: [instant, rag, long_context, flash_deep, perplexity, hybrid, graph_rag]
+        required: false
+        description: Force specific ACI tier (auto-routed if omitted)
       - name: mode
         type: enum
-        values: [standard, forensic, architect]
+        values: [standard, forensic, architect, insights, role_validation, plan_validation]
+        required: false
+      - name: set
+        type: string
+        required: false
+        description: Analysis set name from wave/config/analysis_sets.yaml
     outputs:
       - name: analysis_result
-        type: text:md
+        type: file:json
+        description: AnalyzeResult (Stone Tool Output Contract) with run_id, timing, cost, context manifest
+      - name: auto_save
+        type: file:md
+        description: Auto-saved response in research/auto-saves/
+      - name: run_index
+        type: file:jsonl
+        description: Longitudinal tracking in .analyze/run_index.jsonl
+    metrics:
+      usage_event: analyze_query_executed
+      cost_metric: "$0.001 (instant) to $2.00 (flash_deep) per query"
+    requires_connections: [CON-008, CON-001, CON-010]
+    feeds_into: [CMP-002, CMP-003]
+    fed_by: [CMP-060, CMP-002]
     agent:
-      explanation: "AI analysis tool with smart routing. Modes: standard (general), forensic (deep investigation), architect (structural reasoning). Uses Gemini."
-      context_priority: 0.5
+      explanation: >
+        ACI Router — the ecosystem's primary AI query interface. Auto-selects optimal tier:
+        cached stats (instant), file search with citations (RAG), full 1M context reasoning
+        (long_context), 2M deep analysis (flash_deep), web research (perplexity), or
+        knowledge graph (graph_rag). Stone Tool Output Contract guarantees AnalyzeResult
+        with run_id, timing, cost, context manifest, confidence. 7 tiers, 6 modes,
+        research schemas, Socratic verification. ECO-060 in TOOLS_REGISTRY.
+      context_priority: 0.8
+      affordances:
+        can_read: [codebase, external_web, knowledge_graph, file_search_stores]
+        can_write: [research/auto-saves/, .analyze/]
+        cannot: [modify_source_code, commit, deploy, delete_files]
+      related: [CMP-060, CMP-056, CMP-003]
 
   - id: CMP-056
     kind: component

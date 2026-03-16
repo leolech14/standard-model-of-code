@@ -42,6 +42,9 @@ notebook-lm/
 # REH outputs
 .reh/
 
+# Analyze (ACI) outputs
+.analyze/
+
 # Collider outputs (all variants)
 .collider/
 .collider_*/

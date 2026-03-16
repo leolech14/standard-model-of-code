@@ -248,12 +248,13 @@ class ContextManifest:
 @dataclass
 class AnalyzeResult:
     """Structured output for Stone Tool contract."""
+    _generated: Dict[str, Any] = field(default_factory=dict)
     run_id: str = ""
     query: str = ""
     mode: str = "standard"
     models: Dict[str, str] = field(default_factory=dict)
     aci: Dict[str, Any] = field(default_factory=dict)
-    graph_rag: Dict[str, Any] = field(default_factory=dict)  # New field
+    graph_rag: Dict[str, Any] = field(default_factory=dict)
     context: ContextManifest = field(default_factory=ContextManifest)
     external: Dict[str, Any] = field(default_factory=lambda: {"requested": False, "queries": [], "results": []})
     answer: Dict[str, Any] = field(default_factory=lambda: {"summary": "", "body": "", "citations": [], "confidence": 0.0})
@@ -277,6 +278,60 @@ class AnalyzeResult:
         ts = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
         short_hash = hashlib.sha256(f"{ts}{random.random()}".encode()).hexdigest()[:6]
         return f"{ts}__{short_hash}"
+
+    @staticmethod
+    def d6_header() -> Dict[str, Any]:
+        """D6 provenance header (ecosystem standard)."""
+        import subprocess as _sp
+        sha = "unknown"
+        try:
+            sha = _sp.check_output(
+                ["git", "rev-parse", "--short", "HEAD"],
+                cwd=str(PROJECT_ROOT),
+                stderr=_sp.DEVNULL,
+            ).decode().strip()
+        except Exception:
+            pass
+        return {
+            "source": "analyze",
+            "version": "3.0.0",
+            "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "git_sha": sha,
+        }
+
+
+def _track_analyze_run(
+    query: str,
+    tier: str = "unknown",
+    mode: str = "standard",
+    model: str = "unknown",
+    tokens_in: int = 0,
+    tokens_out: int = 0,
+    cost_usd: float = 0.0,
+    duration_ms: int = 0,
+    success: bool = True,
+) -> None:
+    """Append run metadata to .analyze/run_index.jsonl for longitudinal tracking."""
+    index_dir = PROJECT_ROOT / ".analyze"
+    try:
+        index_dir.mkdir(exist_ok=True)
+        record = {
+            "_generated": AnalyzeResult.d6_header(),
+            "query": query[:100],
+            "tier": tier,
+            "mode": mode,
+            "model": model,
+            "tokens_in": tokens_in,
+            "tokens_out": tokens_out,
+            "cost_usd": round(cost_usd, 6),
+            "duration_ms": duration_ms,
+            "success": success,
+        }
+        with open(index_dir / "run_index.jsonl", "a") as f:
+            f.write(json.dumps(record, default=str) + "\n")
+    except Exception:
+        pass  # Never fail the main flow for tracking
+
 
 def compute_bundle_hash(files: List[Path]) -> str:
     """Compute SHA256 hash of file contents for reproducibility."""
@@ -4034,9 +4089,23 @@ Please provide a thorough, comprehensive answer using the full context available
                 # Auto-save full session log
                 _save_session_log(model=args.model, total_tokens_in=input_tokens, total_tokens_out=output_tokens)
 
+                # Longitudinal run tracking (ECO-060)
+                tier_label = aci_decision.tier.value if (args.aci and aci_decision) else "long_context"
+                _track_analyze_run(
+                    query=args.prompt or "",
+                    tier=tier_label,
+                    mode=args.mode,
+                    model=args.model,
+                    tokens_in=input_tokens,
+                    tokens_out=output_tokens,
+                    cost_usd=est,
+                    duration_ms=int((time.time() - aci_start_time) * 1000) if aci_start_time else 0,
+                )
+
         except Exception as e:
             print(f"Error: {e}")
             _save_session_log(model=args.model)  # Save even on error
+            _track_analyze_run(query=args.prompt or "", success=False)
             sys.exit(1)
 
 
