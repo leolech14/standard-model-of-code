@@ -19,6 +19,7 @@ import {
   Mail,
   Settings,
   Inbox,
+  BookOpen,
   ChevronRight,
 } from 'lucide-react';
 
@@ -72,6 +73,7 @@ const NAV_GROUPS: NavGroup[] = [
   {
     label: 'INTELLIGENCE',
     items: [
+      { path: '/journal', label: 'Journal', icon: BookOpen },
       { path: '/inbox', label: 'Inbox', icon: Inbox },
       { path: '/memory', label: 'Memory', icon: Database },
       { path: '/tools', label: 'Tools', icon: Wrench },
