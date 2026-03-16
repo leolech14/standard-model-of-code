@@ -835,6 +835,36 @@ components:
       explanation: "Webhook receiver for Meta Cloud API. Handles verification (GET challenge-response), inbound messages (POST with signature verification), delivery statuses. Also has /api/channels/health endpoint."
       context_priority: 0.3
 
+  # --- Oracle components ---
+
+  - id: CMP-100
+    kind: component
+    name: oracle-atlas-tier
+    display_name: Oracle Atlas Lookup (Tier -1)
+    purpose: Instant knowledge retrieval from ATLAS.yaml — zero-cost pre-LLM tier for the ACI router.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: analysis
+    delivery: library
+    invoke:
+      method: "from analyze.tiers.atlas import atlas_lookup"
+      environment: []
+    inputs:
+      - name: query
+        type: string
+        required: true
+        description: Natural language question about the ecosystem.
+    outputs:
+      - name: lookup_result
+        type: json
+        description: Matched entities with explanations, source files, blast radius, health context.
+    feeds_into: [CMP-052]
+    agent:
+      explanation: "Oracle Tier -1 — checks ATLAS.yaml before any LLM call. Returns pre-authored entity explanations with atlas citations. Zero API cost, <50ms. Scopes downstream tiers to relevant source files."
+      context_priority: 0.6
+
   # --- Auto-detected by Atlas Emitter (Stage 23), reviewed and accepted ---
 
   - id: CMP-077
