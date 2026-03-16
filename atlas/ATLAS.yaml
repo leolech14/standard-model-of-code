@@ -486,6 +486,59 @@ components:
         cannot: [modify_source_code, commit, deploy, delete_files]
       related: [CMP-060, CMP-056, CMP-003]
 
+  - id: CMP-090
+    kind: component
+    name: socratic-validator
+    display_name: Socratic Semantic Validator
+    purpose: Hypothesis-driven code verification against semantic definitions with antimatter pattern detection.
+    owner: leo
+    application: wave-ai-tools
+    stage: P2
+    version: "1.0.0"
+    status: active
+    category: verification
+    delivery: cli_tool
+    tags: [ai, verification, semantic, audit, socratic]
+    invoke:
+      method: "doppler run -- python wave/tools/ai/socratic/cli.py --domain {domain}"
+      environment: [doppler:ai-tools/prd/GEMINI_API_KEY]
+    inputs:
+      - name: domain
+        type: string
+        required: true
+        description: Domain name from semantic_models.yaml
+      - name: candidate
+        type: string
+        required: false
+        description: Explicit file path to verify (skips discovery)
+    outputs:
+      - name: audit_report
+        type: file:json
+        description: Full AuditReport in .socratic/latest_report.json
+      - name: audit_markdown
+        type: file:md
+        description: Human-readable report in .socratic/latest_report.md
+      - name: run_index
+        type: file:jsonl
+        description: Longitudinal tracking in .socratic/run_index.jsonl
+    metrics:
+      usage_event: socratic_domain_verified
+      cost_metric: "$0.10-$2.00 per domain"
+    requires_connections: [CON-008]
+    feeds_into: [CMP-052]
+    fed_by: [CMP-052]
+    agent:
+      explanation: >
+        Socratic Validator — hypothesis-driven semantic verification. Generates
+        testable hypotheses from semantic_models.yaml, discovers implementations
+        via anchors or File Search, verifies invariants via Gemini, runs antimatter
+        pattern detection. Three-tier output + longitudinal tracking.
+      context_priority: 0.4
+      affordances:
+        can_read: [codebase, semantic_models.yaml, file_search_stores]
+        can_write: [.socratic/, wave/intelligence/]
+        cannot: [modify_source_code, commit, deploy]
+
   - id: CMP-056
     kind: component
     name: cerebras-spiral-intel

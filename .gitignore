@@ -45,6 +45,9 @@ notebook-lm/
 # Analyze (ACI) outputs
 .analyze/
 
+# Socratic Validator outputs
+.socratic/
+
 # Collider outputs (all variants)
 .collider/
 .collider_*/
