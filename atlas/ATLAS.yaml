@@ -680,6 +680,154 @@ components:
       explanation: "Terminal UI library — ANSI styling shared by all CLI tools. GeminiUI (blue), PerplexityUI (green), IndustrialUI (yellow). Headers, sections, progress bars, citations."
       context_priority: 0.2
 
+  # --- Auto-detected by Atlas Emitter (Stage 23), reviewed and accepted ---
+
+  - id: CMP-077
+    kind: component
+    name: cerebras-zoo-compare
+    display_name: Cerebras Zoo Compare
+    purpose: Compare multiple Cerebras models against CODE_ZOO architectural patterns for benchmarking.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/cerebras_zoo_compare.py"
+      environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    requires_connections: [CON-001]
+    agent:
+      explanation: "Model comparison tool — benchmarks Cerebras models against architectural patterns from CODE_ZOO.md. Use for model selection decisions."
+      context_priority: 0.3
+
+  - id: CMP-078
+    kind: component
+    name: cerebras-doc-validator
+    display_name: Cerebras Doc Validator
+    purpose: Validate documentation accuracy and consistency against source code using Cerebras inference.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/cerebras_doc_validator.py"
+      environment: [doppler:ai-tools/prd/CEREBRAS_API_KEY]
+    requires_connections: [CON-001]
+    agent:
+      explanation: "Documentation validator — checks docs against source code for accuracy. Uses Cerebras for fast inference."
+      context_priority: 0.3
+
+  - id: CMP-079
+    kind: component
+    name: gemini-status
+    display_name: Gemini Status Monitor
+    purpose: Monitor Google Gemini API health, quota usage, and model availability.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: monitoring
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/gemini_status.py"
+      environment: [doppler:ai-tools/prd/GEMINI_API_KEY]
+    requires_connections: [CON-008]
+    agent:
+      explanation: "Gemini health monitor — checks API status, quota, and available models. Run this if analyze.py ACI routing seems degraded."
+      context_priority: 0.3
+
+  - id: CMP-080
+    kind: component
+    name: boundary-analyzer
+    display_name: Boundary Analyzer
+    purpose: Analyze code scope boundaries and identify totalization completeness of code subsets.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/boundary_analyzer.py"
+    agent:
+      explanation: "Boundary analyzer — scope analysis for code subsets. Identifies dangling references, self-contained clusters, and completeness scores."
+      context_priority: 0.3
+
+  - id: CMP-081
+    kind: component
+    name: cerebras-hire
+    display_name: Cerebras Hire Manager
+    purpose: Manage Cerebras worker delegation with file-based lock coordination for concurrent analysis tasks.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: orchestration
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/cerebras_hire.py"
+    agent:
+      explanation: "Hire manager — file-based worker delegation for Cerebras tasks. Coordinates concurrent analysis jobs with lock files."
+      context_priority: 0.2
+
+  - id: CMP-082
+    kind: component
+    name: precision-fetcher
+    display_name: Precision Fetcher
+    purpose: Targeted web research using Perplexity API for specific factual queries with source verification.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: analysis
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/research/precision_fetcher.py"
+      environment: [doppler:ai-tools/dev/PERPLEXITY_API_KEY]
+    requires_connections: [CON-007]
+    agent:
+      explanation: "Precision research — targeted factual queries via Perplexity with source verification. More focused than perplexity-research."
+      context_priority: 0.3
+
+  - id: CMP-083
+    kind: component
+    name: observe-session
+    display_name: Session Observer
+    purpose: Monitor and capture Claude Code session activity for analysis and context preservation.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: monitoring
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/observe_session.py"
+    agent:
+      explanation: "Session observer — captures Claude Code activity for post-session analysis. Feeds into REH session archaeology."
+      context_priority: 0.2
+
+  - id: CMP-084
+    kind: component
+    name: hf-spaces-orchestrator
+    display_name: HuggingFace Spaces Orchestrator
+    purpose: Multi-Space orchestration for parallel inference across multiple HuggingFace Spaces.
+    owner: leo
+    application: wave-ai-tools
+    stage: P1
+    status: active
+    category: integration
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/ai/hf_spaces.py"
+      environment: [doppler:ai-tools/dev/HF_TOKEN]
+    requires_connections: [CON-009]
+    agent:
+      explanation: "Multi-Space orchestrator — run inference across multiple HuggingFace Spaces in parallel. Higher-level than hf-space-client (CMP-074)."
+      context_priority: 0.3
+
 
 # =====================
 # CONNECTIONS
