@@ -22,6 +22,7 @@ import {
   HardDrive,
   Mail,
   Settings,
+  BookOpen,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -147,6 +148,13 @@ export const DOMAIN_CONFIGS: Record<string, DomainConfig> = {
   settings: {
     icon: Settings,
     title: 'Settings',
+  },
+
+  journal: {
+    icon: BookOpen,
+    title: 'Developer Journal',
+    description: 'Daily development activity across the ecosystem',
+    pollingFooter: 'local filesystem · on-demand refresh',
   },
 };
 

@@ -145,6 +145,49 @@ export interface RepresentationHints {
   layout?: 'row' | 'grid' | 'stack' | 'mini-grid' | 'inline';
 }
 
+/* ─── Purpose (WHY) ─── */
+
+export type AttentionCost = 'glance' | 'scan' | 'study' | 'analyze';
+export type NarrativeRole = 'anchor' | 'detail' | 'evidence' | 'action';
+
+export interface PurposeDefinition {
+  /** The question this node answers for the user */
+  answers: string;
+  /** Which page success_criteria this serves */
+  serves?: string[];
+  /** Relevance to the page mission (0-1). Drives sort order. */
+  relevance: number;
+  /** Cognitive cost to process: determines view sizing */
+  attentionCost: AttentionCost;
+  /** Position in the page narrative flow */
+  narrativeRole: NarrativeRole;
+}
+
+/* ─── Context (strategic adjacency) ─── */
+
+export interface ContextDefinition {
+  /** Nodes that must be nearby for this to make sense */
+  requiresNearby?: string[];
+  /** Nodes this enables (downstream consumers) */
+  enables?: string[];
+  /** Nodes to render side-by-side for comparison */
+  contrastsWith?: string[];
+}
+
+/* ─── Page-level definition ─── */
+
+export interface PageDefinition {
+  id: string;
+  /** Why this page exists — the mission statement */
+  mission: string;
+  /** Who reads this page */
+  audience: string;
+  /** When/how often this page is consulted */
+  cadence: string;
+  /** Measurable outcomes that mean the page succeeded */
+  successCriteria: string[];
+}
+
 /* ─── Reflexes (aspirational) ─── */
 
 export interface ReflexDefinition {
@@ -163,6 +206,10 @@ export interface NodeDefinition {
   title: string;
   description?: string;
   kind: NodeKind;
+  /** WHY this node exists — drives layout, ordering, sizing */
+  purpose?: PurposeDefinition;
+  /** Strategic adjacency — what this node needs nearby */
+  context?: ContextDefinition;
   sense: SenseDefinition;
   interpret?: InterpretDefinition;
   mutations?: MutationDefinition[];

@@ -45,14 +45,15 @@ export async function GET(request: Request) {
       }
     }
 
-    // Otherwise, return list of available days with summary
+    // No date param: return latest day's full digest (for SemanticPage nodes)
+    // plus available days list for navigation
     let files: string[] = [];
     try {
       files = await readdir(DAYS_DIR);
     } catch {
       return NextResponse.json({
         success: true,
-        data: { days: [], total_days: 0 },
+        data: { days: [], total_days: 0, total_events: 0, velocity: {}, timeline: [], highlights: [], milestones: [], events_by_project: {}, events_by_source: {}, projects_active: [] },
       });
     }
 
@@ -61,9 +62,18 @@ export async function GET(request: Request) {
       .sort()
       .reverse(); // Most recent first
 
+    // Load latest day's full digest
+    let latestDigest: DailyDigest | null = null;
+    if (jsonFiles.length > 0) {
+      try {
+        const content = await readFile(join(DAYS_DIR, jsonFiles[0]), 'utf-8');
+        latestDigest = JSON.parse(content);
+      } catch { /* empty */ }
+    }
+
+    // Build day summaries for navigation
     const days = [];
     for (const file of jsonFiles.slice(0, 30)) {
-      // Last 30 days max
       try {
         const content = await readFile(join(DAYS_DIR, file), 'utf-8');
         const digest: DailyDigest = JSON.parse(content);
@@ -80,9 +90,14 @@ export async function GET(request: Request) {
       }
     }
 
+    // Merge: latest day's data at top level (for node fieldPath extraction)
+    // plus days array for navigation
     return NextResponse.json({
       success: true,
       data: {
+        // Latest day's fields (nodes extract from here via fieldPath)
+        ...(latestDigest ?? {}),
+        // Navigation
         days,
         total_days: jsonFiles.length,
         journal_dir: DEVJOURNAL_DIR,

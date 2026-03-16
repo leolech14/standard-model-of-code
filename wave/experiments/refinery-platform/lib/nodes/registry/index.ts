@@ -5,12 +5,13 @@
  * Pages import from this file, never directly from domain files.
  */
 
-import type { NodeDefinition } from '../types';
+import type { NodeDefinition, DataSource } from '../types';
 import { systemNodeList } from './system';
 import { voiceNodeList } from './voice';
 import { tradingNodeList } from './trading';
 import { commsNodeList } from './comms';
 import { memoryNodeList } from './memory';
+import { journalNodeList } from './journal';
 
 /** All registered nodes across all domains */
 const ALL_NODES: NodeDefinition[] = [
@@ -19,6 +20,7 @@ const ALL_NODES: NodeDefinition[] = [
   ...tradingNodeList,
   ...commsNodeList,
   ...memoryNodeList,
+  ...journalNodeList,
 ];
 
 /** Index by ID for O(1) lookup */
@@ -48,18 +50,18 @@ export function getNodesByGroup(domain: string, group: string): NodeDefinition[]
 
 /**
  * Deduplicate endpoints from a set of nodes.
- * Returns endpoint → shortest intervalMs (so shared endpoints
+ * Returns endpoint → { intervalMs, source } (so shared endpoints
  * poll at the fastest rate any consumer needs).
  */
 export function getUniqueEndpoints(
   nodes: NodeDefinition[],
-): Map<string, number> {
-  const map = new Map<string, number>();
+): Map<string, { intervalMs: number; source: DataSource }> {
+  const map = new Map<string, { intervalMs: number; source: DataSource }>();
   for (const node of nodes) {
     const ep = node.sense.endpoint;
     const existing = map.get(ep);
-    if (existing == null || node.sense.intervalMs < existing) {
-      map.set(ep, node.sense.intervalMs);
+    if (existing == null || node.sense.intervalMs < existing.intervalMs) {
+      map.set(ep, { intervalMs: node.sense.intervalMs, source: node.sense.source });
     }
   }
   return map;
@@ -72,3 +74,4 @@ export { voiceNodes, voiceNodeList } from './voice';
 export { tradingNodes, tradingNodeList, getTradingNodesByGroup } from './trading';
 export { commsNodes, commsNodeList } from './comms';
 export { memoryNodes, memoryNodeList } from './memory';
+export { journalNodes, journalNodeList } from './journal';

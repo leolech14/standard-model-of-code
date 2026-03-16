@@ -1,13 +1,15 @@
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from 'react';
-import { apiGet, ApiError } from './api';
+import { apiGet, localGet, ApiError } from './api';
+import type { DataSource } from './nodes/types';
 
 /**
  * Multi-endpoint polling hook.
  *
  * Solves: React hooks can't be called in loops.
  * One hook manages N polling intervals imperatively via refs.
+ * Supports both OpenClaw (apiGet) and local (localGet) data sources.
  *
  * Usage:
  *   const endpoints = [{ path: 'health', intervalMs: 10_000 }, ...];
@@ -15,10 +17,12 @@ import { apiGet, ApiError } from './api';
  */
 
 export interface EndpointConfig {
-  /** API path segment, e.g. 'health', 'trading/current' */
+  /** API path segment, e.g. 'health', 'trading/current', 'journal?date=2026-03-16' */
   path: string;
   /** Polling interval in milliseconds. 0 = fetch once. */
   intervalMs: number;
+  /** Data source: 'openclaw' (default) routes via apiGet, 'local' routes via localGet */
+  source?: DataSource;
 }
 
 export type SourceMap = Record<
@@ -49,6 +53,12 @@ export function useMultiPolling(endpoints: EndpointConfig[]): {
   const [, setTick] = useState(0);
   const bump = useCallback(() => setTick((t) => t + 1), []);
 
+  // Build a source lookup from endpoints config
+  const sourceByPath = useRef<Map<string, DataSource>>(new Map());
+  for (const ep of endpoints) {
+    sourceByPath.current.set(ep.path, ep.source ?? 'openclaw');
+  }
+
   // Fetch a single endpoint and update its slot
   const fetchOne = useCallback(
     async (path: string) => {
@@ -59,7 +69,10 @@ export function useMultiPolling(endpoints: EndpointConfig[]): {
       bump();
 
       try {
-        const result = await apiGet(path);
+        const source = sourceByPath.current.get(path) ?? 'openclaw';
+        const result = source === 'local'
+          ? await localGet(path)
+          : await apiGet(path);
         // Slot may have been removed during fetch
         const current = slotsRef.current.get(path);
         if (current) {

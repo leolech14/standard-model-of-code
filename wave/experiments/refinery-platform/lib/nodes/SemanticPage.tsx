@@ -59,7 +59,8 @@ export function SemanticPage({
     const epMap = getUniqueEndpoints(nodes);
     const configs: EndpointConfig[] = [];
 
-    for (const [path, intervalMs] of epMap) {
+    for (const [path, epInfo] of epMap) {
+      const { intervalMs, source } = epInfo;
       // Check if any filter node uses this endpoint
       const filterNode = filterNodes.find((n) => n.sense.endpoint === path);
       if (filterNode && filterState) {
@@ -69,9 +70,9 @@ export function SemanticPage({
           if (val) params.set(fp.id, val);
         }
         const qs = params.toString();
-        configs.push({ path: qs ? `${path}?${qs}` : path, intervalMs });
+        configs.push({ path: qs ? `${path}?${qs}` : path, intervalMs, source });
       } else {
-        configs.push({ path, intervalMs });
+        configs.push({ path, intervalMs, source });
       }
     }
 
