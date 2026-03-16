@@ -21,6 +21,7 @@ import {
   Inbox,
   BookOpen,
   ChevronRight,
+  Globe,
 } from 'lucide-react';
 
 /**
@@ -83,6 +84,7 @@ const NAV_GROUPS: NavGroup[] = [
     label: 'PLATFORM',
     items: [
       { path: '/projects', label: 'Projects', icon: Box },
+      { path: '/ecosystem', label: 'Ecosystem', icon: Globe },
       { path: '/chunks', label: 'Chunks', icon: Box },
       { path: '/infra', label: 'Infrastructure', icon: HardDrive },
       { path: '/google', label: 'Google', icon: Mail },
