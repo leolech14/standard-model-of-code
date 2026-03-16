@@ -39,6 +39,9 @@ particle/docs/ui/corpus/
 # NotebookLM exports
 notebook-lm/
 
+# REH outputs
+.reh/
+
 # Collider outputs (all variants)
 .collider/
 .collider_*/
