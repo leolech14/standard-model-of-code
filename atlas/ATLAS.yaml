@@ -1332,6 +1332,71 @@ components:
       explanation: "Multi-Space orchestrator — run inference across multiple HuggingFace Spaces in parallel. Higher-level than hf-space-client (CMP-074)."
       context_priority: 0.3
 
+  # --- DevJournal + Refinery (2026-03-16 session) ---
+
+  - id: CMP-092
+    kind: component
+    name: devjournal-pipeline
+    display_name: DevJournal Ingestion Pipeline
+    purpose: First Refinery ingestion system — collects git/cli/fs events into unified JSONL ledger with materialized daily views.
+    owner: leo
+    application: wave-tools
+    stage: P1
+    status: active
+    category: ingestion
+    delivery: cli_tool
+    invoke:
+      method: "python wave/tools/devjournal/run.py"
+      environment: []
+    inputs:
+      - name: date
+        type: string
+        required: false
+        description: "Target date (YYYY-MM-DD). Default: today."
+      - name: range
+        type: integer
+        required: false
+        description: "Number of days to process backwards."
+    outputs:
+      - name: ledger
+        type: file:jsonl
+        description: "~/.devjournal/devjournal.jsonl — append-only event ledger."
+      - name: daily_digest
+        type: file:json
+        description: "~/.devjournal/days/YYYY-MM-DD.json — materialized daily view."
+    feeds_into: [CMP-093]
+    depends_on: [RES-006]
+    tags: [domain:intelligence, ingestion:mvp, idempotent]
+    agent:
+      explanation: "DevJournal — 3 collectors (git, cli, fs) gather events into append-only JSONL ledger with deterministic oids. Materializer produces daily JSON digests. First automated pipeline in Refinery (solves Concern C2). Pattern reusable for AppSpec, session, and Collider ingestion."
+      context_priority: 0.6
+
+  - id: CMP-093
+    kind: component
+    name: refinery-platform
+    display_name: Refinery Platform (Ecosystem Dashboard)
+    purpose: Full-scope ecosystem dashboard with parametric OKLCH design system and semantic node architecture.
+    owner: leo
+    application: refinery
+    stage: P2
+    status: active
+    category: dashboard
+    delivery: web_app
+    invoke:
+      method: "npm run dev (port 3001)"
+      environment: []
+    details:
+      stack: "Next.js 15 / React 19 / Tailwind 4 / TypeScript"
+      design_system: "Algebra-UI (parametric OKLCH — seeds + coefficients + calc)"
+      architecture: "Semantic Node Architecture (purpose-driven, framework-agnostic definitions)"
+      deploy: "dashboard.centralmcp.ai (behind Authelia)"
+      path: "wave/experiments/refinery-platform/"
+    depends_on: [RES-001, RES-005, RES-006]
+    authenticates_via: [RES-005]
+    tags: [domain:platform, gen:3, parametric, semantic-nodes]
+    agent:
+      explanation: "Refinery Platform — Gen 3 ecosystem dashboard. Algebra-UI parametric OKLCH design (seeds+coefficients→all properties). Semantic node architecture with PurposeDefinition (answers, relevance, narrativeRole). 12 pages, 10 UI primitives, local+OpenClaw data sources. Deployed to dashboard.centralmcp.ai behind Authelia."
+      context_priority: 0.8
 
 # =====================
 # CONNECTIONS
@@ -1739,6 +1804,62 @@ connections:
       explanation: "WhatsApp Cloud API — Meta Business integration for interactive messaging. Currently DORMANT (needs Meta app registration). Phase 1 code lives in PROJECT_openclaw/dashboard/channels/."
       context_priority: 0.4
 
+  - id: CON-031
+    kind: connection
+    name: devjournal-to-refinery
+    display_name: DevJournal → Refinery Dashboard
+    purpose: DevJournal materialized daily JSON consumed by Refinery journal page via local filesystem API route.
+    owner: leo
+    stage: P1
+    status: active
+    source: CMP-092
+    target: CMP-093
+    relationship:
+      canonical: publishes
+    transport:
+      protocol: filesystem
+      endpoint: "~/.devjournal/days/YYYY-MM-DD.json"
+      direction: push
+    auth:
+      method: none
+    health:
+      status: active
+      last_verified: "2026-03-16"
+    impact:
+      consequence: degraded_ux
+      human_impact: "Journal page shows empty state. Run: python wave/tools/devjournal/run.py"
+      blast_radius: [CMP-093]
+    agent:
+      explanation: "DevJournal pipeline writes daily JSON to ~/.devjournal/days/. Refinery API route reads these files via fs/promises. No network transport — pure filesystem. Each machine (Mac, VPS) runs collectors independently."
+      context_priority: 0.4
+
+  - id: CON-032
+    kind: connection
+    name: caddy-to-refinery
+    display_name: Caddy → Refinery (reverse proxy)
+    purpose: TLS-terminated HTTPS from dashboard.centralmcp.ai to Refinery on localhost:3001.
+    owner: leo
+    stage: P2
+    status: active
+    source: RES-004
+    target: CMP-093
+    relationship:
+      canonical: mediates
+    transport:
+      protocol: http_reverse_proxy
+      endpoint: "localhost:3001"
+      direction: push
+    auth:
+      method: forward_auth
+      credentials:
+        - ref: RES-005
+          role: "Authelia 2FA gate"
+    health:
+      status: active
+      last_verified: "2026-03-16"
+    agent:
+      explanation: "Caddy reverse proxies dashboard.centralmcp.ai → Refinery on :3001. All requests pass through Authelia forward_auth first (2FA required)."
+      context_priority: 0.3
 
 # =====================
 # RESOURCES
@@ -1796,6 +1917,68 @@ resources:
       explanation: "Doppler vault — 105 secrets across 8 projects. Every credential ref in this atlas resolves here."
       context_priority: 0.8
 
+  - id: RES-004
+    kind: resource
+    name: caddy-proxy
+    display_name: Caddy Reverse Proxy
+    purpose: TLS termination + reverse proxy for all *.centralmcp.ai subdomains.
+    owner: leo
+    stage: P2
+    status: active
+    type: gateway
+    location: vps
+    depends_on: [RES-001]
+    details:
+      config: /etc/caddy/Caddyfile
+      domains: [dashboard.centralmcp.ai, auth.centralmcp.ai, docker.centralmcp.ai, code.centralmcp.ai, logs.centralmcp.ai, monitor.centralmcp.ai]
+    agent:
+      explanation: "Caddy serves all *.centralmcp.ai subdomains. Routes dashboard→:3001 (Refinery), docker→:9000 (Portainer), logs→:3000 (Grafana). All protected by Authelia forward_auth except monitor."
+      context_priority: 0.5
+
+  - id: RES-005
+    kind: resource
+    name: authelia-auth
+    display_name: Authelia Authentication
+    purpose: Self-hosted SSO/2FA gate for all centralmcp.ai services.
+    owner: leo
+    stage: P2
+    status: active
+    type: auth
+    location: vps
+    depends_on: [RES-001]
+    details:
+      config_live: /root/authelia/config/configuration.yml
+      config_backup: /root/ops/config/authelia/config/configuration.yml
+      users_db: /root/authelia/config/users_database.yml
+      data_dir: /root/authelia/data/
+      docker_container: authelia
+      port: 9091
+      policy: two_factor
+      webauthn: true
+      webauthn_display: "Lagosta Control"
+    agent:
+      explanation: "Authelia SSO — username/password + 2FA (WebAuthn/TOTP) for *.centralmcp.ai. Config lives in /root/authelia/config/ (bind-mounted into Docker). Golden backup in /root/ops/config/authelia/. If config gets wiped, restore from ops backup."
+      context_priority: 0.6
+
+  - id: RES-006
+    kind: resource
+    name: devjournal-store
+    display_name: DevJournal Data Store
+    purpose: Append-only event ledger + materialized daily views for developer activity tracking.
+    owner: leo
+    stage: P1
+    status: active
+    type: data_store
+    location: local
+    details:
+      path_mac: ~/.devjournal/
+      path_vps: /root/.devjournal/
+      ledger: devjournal.jsonl
+      daily_views: days/YYYY-MM-DD.json
+      schema: "oid + ts + source + kind + project + data + tags"
+    agent:
+      explanation: "DevJournal filesystem data store — append-only JSONL ledger with deterministic oids. Materialized daily JSON views consumed by Refinery /journal page. Exists on both Mac and VPS independently (not synced — each machine runs its own collectors)."
+      context_priority: 0.4
 
 # ============================================================================
 # ATLAS NAVIGATION GUIDE
