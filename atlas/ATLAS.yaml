@@ -137,6 +137,14 @@ externals:
     docs_url: https://docs.perplexity.ai
     notes: Web research with citations. Models sonar, sonar-pro, sonar-reasoning, sonar-deep-research. Quota-sensitive.
 
+  - id: EXT-014
+    name: meta-cloud
+    display_name: Meta WhatsApp Cloud API
+    domain: social_comms
+    base_url: https://graph.facebook.com
+    docs_url: https://developers.facebook.com/docs/whatsapp/cloud-api
+    notes: Interactive messaging (buttons, lists, reactions, media). Requires business verification. AI chatbot policy risk.
+
 
 # =====================
 # AGENTS
@@ -680,6 +688,112 @@ components:
       explanation: "Terminal UI library — ANSI styling shared by all CLI tools. GeminiUI (blue), PerplexityUI (green), IndustrialUI (yellow). Headers, sections, progress bars, citations."
       context_priority: 0.2
 
+  # --- Channels capability (PROJECT_openclaw, fe1b011) ---
+
+  - id: CMP-085
+    kind: component
+    name: channel-transport-base
+    display_name: Channel Transport Base
+    purpose: Abstract interface for all messaging channel transports — declares capabilities and method contracts.
+    owner: leo
+    application: openclaw-dashboard
+    stage: P2
+    status: active
+    category: communication
+    delivery: library
+    invoke:
+      method: "from channels.transport_base import ChannelTransport, ChannelCapabilities"
+    agent:
+      explanation: "Abstract base class for channel transports. Declares ChannelCapabilities (buttons, lists, reactions, typing, media) and the ChannelTransport ABC. Mirrors voice/voice_bridge_base.py."
+      context_priority: 0.3
+
+  - id: CMP-086
+    kind: component
+    name: whatsapp-cloud-transport
+    display_name: WhatsApp Cloud Transport
+    purpose: Meta Cloud API implementation — send_text, send_buttons, send_list, send_media, react, typing, mark_read.
+    owner: leo
+    application: openclaw-dashboard
+    stage: P1
+    status: dormant
+    category: communication
+    delivery: library
+    invoke:
+      method: "from channels.whatsapp_cloud import WhatsAppCloudTransport"
+    requires_connections: [CON-030]
+    agent:
+      explanation: "WhatsApp Cloud API transport. Full Meta Business API implementation (242 lines). DORMANT until Meta app registration. Supports buttons (max 3), lists, reactions, typing, read receipts, media, location."
+      context_priority: 0.3
+
+  - id: CMP-087
+    kind: component
+    name: baileys-legacy-transport
+    display_name: Baileys Legacy Transport
+    purpose: Backward-compatible text-only WhatsApp transport via OpenClaw Gateway RPC.
+    owner: leo
+    application: openclaw-dashboard
+    stage: P2
+    status: active
+    category: communication
+    delivery: library
+    invoke:
+      method: "from channels.baileys_legacy import BaileysLegacyTransport"
+    agent:
+      explanation: "Text-only WhatsApp transport. Wraps existing voice/whatsapp_transport.py in ChannelTransport interface. All capabilities = False. The fallback path."
+      context_priority: 0.2
+
+  - id: CMP-088
+    kind: component
+    name: channel-orchestrator
+    display_name: Channel Orchestrator
+    purpose: Channel-agnostic timing, sequencing, and 9 autonomous behaviors for messaging.
+    owner: leo
+    application: openclaw-dashboard
+    stage: P2
+    status: active
+    category: orchestration
+    delivery: library
+    invoke:
+      method: "from channels.orchestrator import get_orchestrator"
+    agent:
+      explanation: "Channel orchestrator — 9 autonomous behaviors: read receipts, typing indicator + renewal, interim messages, sequencing (300ms), text splitting, 24h window tracking. Mirrors voice/voice_gateway.py."
+      context_priority: 0.4
+
+  - id: CMP-089
+    kind: component
+    name: channel-tools
+    display_name: Channel Tool Definitions
+    purpose: 6 channel-generic messaging tools — send_text, send_buttons, send_media, react, narrate, send_location.
+    owner: leo
+    application: openclaw-dashboard
+    stage: P2
+    status: active
+    category: communication
+    delivery: library
+    invoke:
+      method: "from channels.tools import tools_for_chat_completions"
+    agent:
+      explanation: "6 channel-generic tools. LLM calls channel_send_buttons (not wpp_send_buttons). Tool_exec checks transport capabilities at runtime and degrades gracefully. Three format converters (chat_completions, openai, gemini)."
+      context_priority: 0.3
+
+  - id: CMP-090
+    kind: component
+    name: channel-webhook-api
+    display_name: Channels Webhook API
+    purpose: Inbound webhook receiver for Meta WhatsApp Cloud API and Telegram Bot API.
+    owner: leo
+    application: openclaw-dashboard
+    stage: P1
+    status: dormant
+    category: communication
+    delivery: api_endpoint
+    invoke:
+      method: "FastAPI router at /api/channels/webhook/whatsapp"
+    requires_connections: [CON-030]
+    agent:
+      explanation: "Webhook receiver for Meta Cloud API. Handles verification (GET challenge-response), inbound messages (POST with signature verification), delivery statuses. Also has /api/channels/health endpoint."
+      context_priority: 0.3
+
   # --- Auto-detected by Atlas Emitter (Stage 23), reviewed and accepted ---
 
   - id: CMP-077
@@ -1199,6 +1313,41 @@ connections:
     agent:
       explanation: "HuggingFace API — model inference and Space access. Low ecosystem impact. MCP server provides alternative access."
       context_priority: 0.3
+
+  - id: CON-030
+    kind: connection
+    name: whatsapp-cloud-api
+    display_name: WhatsApp Cloud API
+    purpose: Meta Business API for interactive WhatsApp messaging — buttons, lists, reactions, typing, media.
+    owner: leo
+    stage: P1
+    status: dormant
+    source: CMP-090
+    target: external:EXT-014
+    relationship:
+      canonical: depends_on
+    transport:
+      protocol: http_rest
+      endpoint: https://graph.facebook.com
+      direction: push
+    auth:
+      method: bearer_token
+      credentials:
+        - ref: doppler:ai-tools/prd/WHATSAPP_CLOUD_TOKEN
+          role: api_key
+        - ref: doppler:ai-tools/prd/WHATSAPP_CLOUD_APP_SECRET
+          role: webhook_secret
+    health:
+      status: dormant
+      notes: "Phase 1 code complete (fe1b011 in PROJECT_openclaw). Not yet activated — needs Meta Business App registration and dedicated phone number."
+    impact:
+      consequence: negligible
+      human_impact: Interactive WhatsApp features unavailable. Falls back to Baileys text-only transport.
+      blast_radius: []
+      recovery_action: Check Meta Business dashboard. Verify Cloud API token in Doppler.
+    agent:
+      explanation: "WhatsApp Cloud API — Meta Business integration for interactive messaging. Currently DORMANT (needs Meta app registration). Phase 1 code lives in PROJECT_openclaw/dashboard/channels/."
+      context_priority: 0.4
 
 
 # =====================
