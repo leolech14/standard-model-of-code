@@ -42,12 +42,13 @@ from mcp.server.fastmcp import FastMCP  # noqa: E402
 mcp = FastMCP(
     "Repository Evolution History",
     instructions=(
-        "Git-powered codebase archaeology. Use search_code_changes to find when "
-        "specific code was introduced or removed (pickaxe). Use get_file_history "
-        "to trace a file's full evolution. Use detect_capability_changes to find "
-        "regressions (functions/classes lost between two commits). Use "
-        "get_directory_activity for scoped activity in a path + date window. "
-        "Use get_repo_history for a broad chronological overview."
+        "Git-powered codebase archaeology. "
+        "Core: get_repo_history, search_code_changes, get_file_history, "
+        "detect_capability_changes, get_directory_activity. "
+        "Reports: generate_evolution_report, get_evolution_briefing, get_velocity_metrics. "
+        "Feedback: get_feedback_summary reads Collider Hub quality audits from "
+        "<repo>/.collider/feedback/. "
+        "Discovery: get_tool_manifest lists all capabilities + related ecosystem tools."
     ),
 )
 
@@ -698,6 +699,97 @@ def get_velocity_metrics(
         "trajectory": trajectory,
         "velocity": velocity,
     }, indent=2, default=str)
+
+
+# ========== Feedback Bridge ==========
+
+@mcp.tool()
+def get_feedback_summary(repo_path: str) -> str:
+    """Get latest Collider feedback bundle for a repository.
+
+    Reads auto-feedback, AI audit, and report from <repo>/.collider/feedback/.
+    Returns structured summary of code quality assessment, issues, and grade.
+    Use after generate_evolution_report() for complete picture.
+
+    Args:
+        repo_path: Absolute path to the git repository root.
+    """
+    feedback_dir = Path(repo_path) / ".collider" / "feedback"
+    if not feedback_dir.exists():
+        return json.dumps({
+            "error": "No feedback found.",
+            "hint": f"Run: collider-hub full --repo {repo_path}",
+        })
+
+    result: dict = {}
+
+    auto = feedback_dir / "latest_auto_feedback.json"
+    if auto.exists():
+        data = json.loads(auto.read_text())
+        result["auto_feedback"] = {
+            "grade": data.get("grade"),
+            "health_score": data.get("health_score"),
+            "issue_count": len(data.get("issues", [])),
+            "top_issues": data.get("issues", [])[:5],
+            "llm_degradation": data.get("llm_degradation"),
+        }
+
+    audit = feedback_dir / "latest_ai_user_audit.md"
+    if audit.exists():
+        content = audit.read_text()
+        result["ai_audit_preview"] = content[:2000]
+        result["ai_audit_full_path"] = str(audit)
+
+    report = feedback_dir / "collider_feedback_report_latest.json"
+    if report.exists():
+        data = json.loads(report.read_text())
+        result["report"] = {
+            "run_ts": data.get("ts"),
+            "files": data.get("files"),
+            "llm_meta": data.get("llm_meta"),
+        }
+
+    if not result:
+        return json.dumps({"error": "Feedback directory exists but no artifacts found"})
+
+    return json.dumps(result, indent=2, default=str)
+
+
+@mcp.tool()
+def get_tool_manifest() -> str:
+    """List all available REH capabilities and related ecosystem tools.
+
+    Returns tool inventory with descriptions and pointers to related
+    capabilities (Collider Hub, feedback bundle, batch analytics).
+    Use this to discover what's available.
+    """
+    return json.dumps({
+        "reh_tools": {
+            "archaeology": [
+                "get_repo_history", "search_code_changes", "get_file_history",
+                "detect_capability_changes", "get_directory_activity",
+            ],
+            "reports": [
+                "generate_evolution_report", "get_evolution_briefing",
+                "get_velocity_metrics",
+            ],
+            "feedback": ["get_feedback_summary"],
+            "discovery": ["get_tool_manifest"],
+        },
+        "related_ecosystem": {
+            "collider_hub": {
+                "description": "Full repository analysis + feedback bundle generation",
+                "invocation": "collider-hub full --repo /path/to/repo",
+                "output_dir": "<repo>/.collider/",
+                "feedback_dir": "<repo>/.collider/feedback/",
+            },
+            "batch_analytics": {
+                "description": "Change coupling, bus factor, age distribution (Collider Stage 18)",
+                "invocation": "collider full /path/to/repo",
+                "note": "Full temporal data available in Tier 1 output after generate_evolution_report()",
+            },
+        },
+    }, indent=2)
 
 
 # ========== Entry Point ==========

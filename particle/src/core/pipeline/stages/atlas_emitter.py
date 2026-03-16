@@ -106,6 +106,10 @@ class AtlasEmitterStage(BaseStage):
         files: Dict[str, List[Dict[str, Any]]] = {}
         for _node_id, node in state.nodes.items():
             fpath = node.get("file_path", node.get("file", ""))
+            # Skip __init__.py and test files.
+            basename = Path(fpath).name if fpath else ""
+            if basename in ("__init__.py", "conftest.py") or basename.startswith("test_"):
+                continue
             if fpath:
                 files.setdefault(fpath, []).append(node)
 
@@ -150,9 +154,13 @@ class AtlasEmitterStage(BaseStage):
         imports_str = " ".join(str(i) for i in imports).lower()
 
         # MCP server (check first — most specific).
+        # Module-level FastMCP imports don't appear in function body_source,
+        # so also detect by file path convention (mcp_servers/ or *_mcp.py).
         if _RE_FASTMCP.search(source) or "fastmcp" in imports_str or "mcp.server" in imports_str:
             return "mcp_tool"
         if _RE_MCP_TOOL.search(source):
+            return "mcp_tool"
+        if "mcp_servers/" in fpath or fpath.endswith("_mcp.py") or "_mcp_server" in fpath:
             return "mcp_tool"
 
         # API endpoint.

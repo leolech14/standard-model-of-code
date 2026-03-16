@@ -20,7 +20,12 @@ _TRUNC_SUMMARY = 500
 def _truncate(text: str, max_len: int) -> str:
     if not text or len(text) <= max_len:
         return text or ""
-    return text[:max_len - 3] + "..."
+    content_max = max_len - 3
+    truncated = text[:content_max]
+    last_space = truncated.rfind(' ')
+    if last_space > 0:
+        return truncated[:last_space] + "..."
+    return truncated + "..."
 
 
 def _round_val(v: Any, decimals: int = 2) -> Any:
@@ -59,9 +64,16 @@ def build_reh_briefing(
     n_milestones = len(milestones)
     cap_changed = capability.get("recently_changed_count", 0)
 
+    # Commit count transparency (merge filter may reduce count)
+    raw_commits = envelope.get("commit_count_raw", total_commits)
+    commit_note = (
+        f"{total_commits} commits" if raw_commits == total_commits
+        else f"{total_commits} dev commits ({raw_commits} total)"
+    )
+
     summary = (
         f"{target} is {trajectory} with {cpw:.0f} commits/week ({trend}). "
-        f"{total_commits} commits analyzed, {n_milestones} milestones detected, "
+        f"{commit_note} analyzed, {n_milestones} milestones detected, "
         f"{cap_changed} capabilities recently changed."
     )
 
@@ -92,6 +104,18 @@ def build_reh_briefing(
         for row in sorted(matrix, key=lambda r: r.get("total", 0))[:2]
     ] if len(matrix) > 3 else []
 
+    # Volatility zones (for AI agents: high stddev = unstable, worth watching)
+    volatility_zones: list = []
+    for row in matrix:
+        weeks = row.get("weeks", {})
+        vals = list(weeks.values())
+        if len(vals) >= 2:
+            mean = sum(vals) / len(vals)
+            stddev = (sum((v - mean) ** 2 for v in vals) / len(vals)) ** 0.5
+            if stddev > 0 and mean > 0:
+                volatility_zones.append((row["directory"], round(stddev, 1), row["total"]))
+    volatility_zones.sort(key=lambda x: -x[1])
+
     # Capability summary
     cap_summary = {
         "total_capabilities": capability.get("total_current", 0),
@@ -100,8 +124,15 @@ def build_reh_briefing(
 
     # Navigation hints
     navigation = {
-        "start_here": [m["date"] + ": " + m.get("title", "")[:40] for m in sorted_milestones[:3]],
+        "start_here": [
+            m["date"] + ": " + _truncate(m.get("title", ""), 50)
+            for m in sorted_milestones[:3]
+        ],
         "watch_list": cold_zones[:2],
+        "watch_list_agent": [
+            f"{d} (volatility: {s}, total: {t})"
+            for d, s, t in volatility_zones[:2]
+        ],
         "growth_areas": hot_zones[:2],
     }
 

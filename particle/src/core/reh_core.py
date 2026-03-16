@@ -98,6 +98,12 @@ def _is_noise(path: str) -> bool:
     parts = path.split("/")
     if any(p in NOISE_DIRS for p in parts):
         return True
+    # Pattern-based: exclude common non-development directories
+    _NOISE_SUFFIXES = ("_TEST", "_OUTPUT", "_DEMO", "_TEMP", "_VIDEOS", "_BACKUP")
+    for part in parts:
+        upper = part.upper()
+        if upper.endswith(_NOISE_SUFFIXES):
+            return True
     _, ext = os.path.splitext(path)
     return ext in NOISE_EXTENSIONS
 

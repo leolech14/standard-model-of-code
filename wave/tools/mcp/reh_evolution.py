@@ -76,16 +76,20 @@ class EvolutionCompiler:
                 all_files.add(fb["file"])
         cap_count = capability_changes.get("total_current", 0)
 
+        dev_commits = sum(len(d.get("commits", [])) for d in timeline)
+        raw_commits = getattr(self, "_total_raw_commits", dev_commits)
+
         envelope = build_reh_envelope(
             repo_path=repo_path,
             date_range={"since": since or "repo_start", "until": until or "now"},
-            commit_count=sum(len(d.get("commits", [])) for d in timeline),
+            commit_count=dev_commits,
             file_count=len(all_files),
             capability_count=cap_count,
             velocity_cpw=velocity.get("commits_per_week_avg", 0),
             trajectory=trajectory,
             analysis_time_ms=elapsed_ms,
         )
+        envelope["commit_count_raw"] = raw_commits
 
         return {
             "_generated": _d6_header(),
@@ -114,11 +118,13 @@ class EvolutionCompiler:
         if not ok:
             return []
 
-        # Group commits by date
+        # Group commits by date (merge commits filtered for dev-only count)
         by_date: Dict[str, List[str]] = defaultdict(list)
+        total_raw_commits = 0
         for line in output.strip().split("\n"):
             if "|" not in line:
                 continue
+            total_raw_commits += 1
             date, msg = line.split("|", 1)
             msg = msg.strip()
             if msg.lower().startswith("merge"):
@@ -148,6 +154,8 @@ class EvolutionCompiler:
 
         # Merge into timeline
         all_dates = sorted(set(list(by_date.keys()) + list(births_by_date.keys())))
+        self._total_raw_commits = total_raw_commits
+
         timeline = []
         for date in all_dates[-50:]:  # Last 50 days max
             commits = by_date.get(date, [])[:10]  # Max 10 per day
