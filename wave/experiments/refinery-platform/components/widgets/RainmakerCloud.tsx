@@ -374,6 +374,19 @@ export default function RainmakerCloud() {
     }
 
     try {
+      // Request microphone BEFORE starting session (required by ElevenLabs SDK)
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch (micErr) {
+        console.error('[rainmaker] Microphone access denied:', micErr);
+        setMessages((prev) => [
+          ...prev,
+          { direction: 'out', channel: 'voice', content: 'Microphone access denied. Please allow mic access and try again.', ts: new Date().toISOString() },
+        ]);
+        setCallConnecting(false);
+        return;
+      }
+
       // Dynamic import of ElevenLabs SDK
       const { Conversation } = await import('@11labs/client');
 
@@ -403,6 +416,10 @@ export default function RainmakerCloud() {
         },
         onError: (message, context) => {
           console.error('[rainmaker] ElevenLabs error:', message, context);
+          setMessages((prev) => [
+            ...prev,
+            { direction: 'out', channel: 'voice', content: `Voice error: ${message}`, ts: new Date().toISOString() },
+          ]);
           setCallActive(false);
           setCallConnecting(false);
           conversationRef.current = null;
@@ -412,6 +429,10 @@ export default function RainmakerCloud() {
       conversationRef.current = conv;
     } catch (err: any) {
       console.error('[rainmaker] startSession error:', err);
+      setMessages((prev) => [
+        ...prev,
+        { direction: 'out', channel: 'voice', content: `Connection error: ${err.message}`, ts: new Date().toISOString() },
+      ]);
       setCallConnecting(false);
     }
   }, [chatOpen, loadCommlogHistory, connectSSE, handleTranscriptMessage]);
