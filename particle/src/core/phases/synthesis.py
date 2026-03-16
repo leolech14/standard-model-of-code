@@ -48,6 +48,7 @@ def run_synthesis(ctx: 'PipelineContext') -> None:
     _run_temporal(ctx)
     _run_ideome(ctx)
     _run_chemistry(ctx)
+    _run_principle_evidence(ctx)
     _run_color_encoding(ctx)
 
 
@@ -539,6 +540,26 @@ def _run_chemistry(ctx: 'PipelineContext') -> None:
         import traceback
         traceback.print_exc()
         ctx.data_ledger.publish("chemistry", "Stage 20: Data Chemistry", status="failed", summary=str(e))
+
+
+def _run_principle_evidence(ctx: 'PipelineContext') -> None:
+    """Stage 25: Principle Evidence Collection (Ideome v2 Layer 1)."""
+    print("\n🔍 Stage 25: Principle Evidence Collection...")
+    try:
+        from src.core.principle_evidence import collect_evidence
+        evidence = collect_evidence(ctx.full_output, repo_path=str(ctx.target))
+        ctx.full_output['principle_evidence'] = evidence
+        nodes_with_evidence = sum(1 for v in evidence.values() if any(
+            v.get(k, {}).get('found', False)
+            for k in ['a1_d6_header', 'a3_longitudinal', 'a5_cost_tracking',
+                      'b2_degradation', 'b3_auto_feedback', 'b4_error_observability']
+        ))
+        _log(f"   → {len(evidence)} nodes scanned, {nodes_with_evidence} with evidence", ctx.quiet)
+        ctx.data_ledger.publish("principle_evidence", "Stage 25: Principle Evidence",
+            summary=f"{nodes_with_evidence}/{len(evidence)} nodes with evidence")
+    except Exception as e:
+        print(f"   ⚠️ Principle evidence collection failed: {e}")
+        ctx.full_output.setdefault('principle_evidence', {})
 
 
 def _run_color_encoding(ctx: 'PipelineContext') -> None:
