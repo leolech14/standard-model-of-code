@@ -4,13 +4,18 @@ import React from 'react';
 import { SemanticPage } from '@/lib/nodes/SemanticPage';
 import type { CustomViewComponent } from '@/lib/nodes/NodeRenderer';
 
-/* ── Source Colors (parametric tokens) ──────── */
+/* ── Source Colors (parametric tokens, all 8 ETS sources) ── */
 
 const SOURCE_COLORS: Record<string, string> = {
   git: 'var(--color-emerald)',
   cli: 'var(--color-blue)',
   fs: 'var(--color-amber)',
   session: 'var(--color-rose)',
+  memory: 'var(--color-purple)',
+  plan: 'var(--color-teal)',
+  git_notes: 'var(--color-emerald-dim)',
+  xattr: 'var(--color-amber-dim)',
+  system: 'var(--color-text-muted)',
   collider: 'var(--color-purple)',
 };
 
@@ -77,7 +82,7 @@ const TimelineChart: CustomViewComponent = ({ data }) => {
       </div>
       <div className="flex gap-3 mt-3 flex-wrap">
         {Object.entries(SOURCE_COLORS)
-          .filter(([key]) => ['git', 'cli', 'fs'].includes(key))
+          .filter(([key]) => ['git', 'cli', 'fs', 'session', 'memory', 'plan'].includes(key))
           .map(([source, color]) => (
             <div key={source} className="flex items-center gap-1">
               <div className="w-2 h-2 rounded-full" style={{ background: color }} />
@@ -131,11 +136,196 @@ const ProjectBreakdown: CustomViewComponent = ({ data }) => {
   );
 };
 
+/**
+ * Source Breakdown — horizontal bars by trace source.
+ * Registered as customViewId: 'source-breakdown'
+ */
+const SourceBreakdown: CustomViewComponent = ({ data }) => {
+  const bySource = (data && typeof data === 'object' && !Array.isArray(data))
+    ? data as Record<string, number>
+    : {};
+  const sorted = Object.entries(bySource).sort((a, b) => b[1] - a[1]);
+  const maxCount = Math.max(...sorted.map(([, c]) => c), 1);
+  const total = sorted.reduce((sum, [, c]) => sum + c, 0);
+
+  return (
+    <div className="space-y-2">
+      {sorted.map(([source, count]) => {
+        const pct = total > 0 ? ((count / total) * 100).toFixed(0) : '0';
+        return (
+          <div key={source}>
+            <div className="flex justify-between text-xs mb-0.5">
+              <div className="flex items-center gap-1.5">
+                <div
+                  className="w-2 h-2 rounded-full"
+                  style={{ background: sourceColor(source) }}
+                />
+                <span className="text-[var(--color-text-secondary)] font-mono">{source}</span>
+              </div>
+              <span className="text-[var(--color-text-muted)]">
+                {count} <span className="text-[10px]">({pct}%)</span>
+              </span>
+            </div>
+            <div className="h-1.5 rounded-full bg-[var(--color-surface-hover)] overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all"
+                style={{
+                  width: `${(count / maxCount) * 100}%`,
+                  background: sourceColor(source),
+                  opacity: 0.7,
+                }}
+              />
+            </div>
+          </div>
+        );
+      })}
+      {sorted.length === 0 && (
+        <div className="text-xs text-[var(--color-text-muted)] italic">No source data</div>
+      )}
+    </div>
+  );
+};
+
+/**
+ * Signature Panel — shows AI model attribution from highlights.
+ * Filters highlights for ai_session entries and shows model + token usage.
+ * Registered as customViewId: 'signature-panel'
+ */
+const SignaturePanel: CustomViewComponent = ({ data }) => {
+  const highlights = Array.isArray(data) ? data : [];
+  const aiSessions = highlights.filter(
+    (h: Record<string, unknown>) => h.kind === 'ai_session'
+  );
+  const memoryEvents = highlights.filter(
+    (h: Record<string, unknown>) =>
+      h.kind === 'memory_written' || h.kind === 'memory_updated'
+  );
+
+  if (aiSessions.length === 0 && memoryEvents.length === 0) {
+    return (
+      <div className="text-xs text-[var(--color-text-muted)] italic">
+        No AI attribution data for this day
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {aiSessions.length > 0 && (
+        <div>
+          <div className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-wider mb-1.5">
+            AI Sessions
+          </div>
+          <div className="space-y-1.5">
+            {aiSessions.map((session: Record<string, unknown>, i: number) => (
+              <div
+                key={i}
+                className="flex items-center justify-between text-xs bg-[var(--color-surface)] rounded-[var(--radius-sm)] px-2.5 py-1.5"
+              >
+                <div className="flex items-center gap-2">
+                  <div
+                    className="w-1.5 h-1.5 rounded-full"
+                    style={{ background: 'var(--color-rose)' }}
+                  />
+                  <span className="text-[var(--color-text)] font-mono text-[11px]">
+                    {String(session.title || '')}
+                  </span>
+                </div>
+                <span className="text-[var(--color-text-muted)] text-[10px]">
+                  {String(session.detail || '')}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {memoryEvents.length > 0 && (
+        <div>
+          <div className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-wider mb-1.5">
+            Memory Activity
+          </div>
+          <div className="space-y-1">
+            {memoryEvents.map((mem: Record<string, unknown>, i: number) => (
+              <div
+                key={i}
+                className="text-xs text-[var(--color-text-secondary)] flex items-center gap-1.5"
+              >
+                <div
+                  className="w-1.5 h-1.5 rounded-full"
+                  style={{ background: 'var(--color-purple)' }}
+                />
+                <span>{String(mem.title || '')}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/**
+ * Correlation View — shows corroborated work sessions.
+ * Filters highlights for work_session entries.
+ * Registered as customViewId: 'correlation-view'
+ */
+const CorrelationView: CustomViewComponent = ({ data }) => {
+  const highlights = Array.isArray(data) ? data : [];
+  const sessions = highlights.filter(
+    (h: Record<string, unknown>) => h.kind === 'work_session'
+  );
+
+  if (sessions.length === 0) {
+    return (
+      <div className="text-xs text-[var(--color-text-muted)] italic">
+        No correlated work sessions detected
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-2">
+      {sessions.map((session: Record<string, unknown>, i: number) => {
+        const tags = (session.tags as string[]) || [];
+        const sourceTags = tags.filter((t: string) => t !== 'corroborated');
+        return (
+          <div
+            key={i}
+            className="bg-[var(--color-surface)] rounded-[var(--radius-sm)] px-3 py-2 border border-[var(--color-border)]"
+          >
+            <div className="text-xs text-[var(--color-text)] mb-1">
+              {String(session.title || '')}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] text-[var(--color-text-muted)]">
+                {String(session.detail || '')}
+              </span>
+              <div className="flex gap-1 ml-auto">
+                {sourceTags.map((tag: string) => (
+                  <div
+                    key={tag}
+                    className="w-2 h-2 rounded-full"
+                    style={{ background: sourceColor(tag) }}
+                    title={tag}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 /* ── Custom views registry ───────────────────── */
 
 const JOURNAL_CUSTOM_VIEWS: Record<string, CustomViewComponent> = {
   'timeline-chart': TimelineChart,
   'project-breakdown': ProjectBreakdown,
+  'source-breakdown': SourceBreakdown,
+  'signature-panel': SignaturePanel,
+  'correlation-view': CorrelationView,
 };
 
 /* ── Page ─────────────────────────────────────── */

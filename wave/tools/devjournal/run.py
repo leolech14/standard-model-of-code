@@ -19,8 +19,12 @@ _devjournal = Path(__file__).resolve().parent
 sys.path.insert(0, str(_devjournal))
 
 from compiler import compile_day
+from correlator import correlate_day, write_correlation_report
 from materializer import materialize_day
-from schema import DEVJOURNAL_DIR, DAYS_DIR, LEDGER_PATH, ETS_REGISTRY_PATH
+from schema import (
+    DEVJOURNAL_DIR, DAYS_DIR, LEDGER_PATH, ETS_REGISTRY_PATH,
+    append_to_ledger,
+)
 
 
 def main():
@@ -28,6 +32,7 @@ def main():
     parser.add_argument("date", nargs="?", default=None, help="Target date (YYYY-MM-DD). Default: today.")
     parser.add_argument("--range", type=int, default=1, help="Number of days to process (backwards from date).")
     parser.add_argument("--materialize-only", action="store_true", help="Skip collectors, re-materialize from ledger.")
+    parser.add_argument("--no-correlate", action="store_true", help="Skip trace correlation.")
     parser.add_argument("--quiet", action="store_true", help="Suppress output.")
     parser.add_argument("--registry", type=str, default=None,
                         help="Path to trace_registry.yaml. Default: ~/.ets/trace_registry.yaml if exists.")
@@ -71,6 +76,21 @@ def main():
             summary = compile_day(date_str, verbose=verbose, registry_path=registry_path)
             if verbose:
                 print(f"  Compiled: {summary['new_events']} new events in {summary['duration_ms']}ms")
+                print()
+
+        # Run correlation (after compilation, before materialization)
+        if not args.no_correlate:
+            if verbose:
+                print(f"  Correlating...")
+            corroborated = correlate_day(date_str, verbose=verbose)
+            if corroborated:
+                append_to_ledger(corroborated)
+                report_path = write_correlation_report(date_str, corroborated)
+                if verbose:
+                    print(f"  Correlated: {len(corroborated)} meta-events → {report_path}")
+            elif verbose:
+                print(f"  No correlations found")
+            if verbose:
                 print()
 
         digest = materialize_day(date_str, verbose=verbose)

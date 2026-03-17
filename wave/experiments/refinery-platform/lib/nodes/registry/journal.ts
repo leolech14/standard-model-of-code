@@ -362,6 +362,101 @@ export const journalNodes: Record<string, NodeDefinition> = {
     },
     tags: ['milestones', 'evidence'],
   },
+
+  /* ─── ETS Trace Nodes ─── */
+
+  'journal.sources': {
+    id: 'journal.sources',
+    domain: 'journal',
+    title: 'Trace Sources',
+    description: 'Event distribution across all active ETS collectors',
+    kind: 'table',
+    purpose: {
+      answers: 'Which trace sources contributed today?',
+      serves: ['See the shape of the day (when, what, how much)'],
+      relevance: 0.82,
+      attentionCost: 'scan',
+      narrativeRole: 'detail',
+    },
+    context: {
+      requiresNearby: ['journal.velocity'],
+    },
+    sense: {
+      source: 'local',
+      endpoint: 'journal',
+      intervalMs: 0,
+      fieldPath: 'data.events_by_source',
+    },
+    representation: {
+      preferredView: 'custom',
+      customViewId: 'source-breakdown',
+      salience: 'normal',
+      group: 'activity',
+      order: 2,
+    },
+    tags: ['ets', 'sources'],
+  },
+
+  'journal.signatures': {
+    id: 'journal.signatures',
+    domain: 'journal',
+    title: 'AI Attribution',
+    description: 'Signature protocol: which AI models authored work today',
+    kind: 'feed',
+    purpose: {
+      answers: 'Who (human or AI) did the work?',
+      serves: ['Identify which projects got most effort today'],
+      relevance: 0.72,
+      attentionCost: 'glance',
+      narrativeRole: 'evidence',
+    },
+    sense: {
+      source: 'local',
+      endpoint: 'journal',
+      intervalMs: 0,
+      fieldPath: 'data.highlights',
+    },
+    representation: {
+      preferredView: 'custom',
+      customViewId: 'signature-panel',
+      salience: 'normal',
+      group: 'evidence',
+      order: 2,
+    },
+    tags: ['ets', 'signatures', 'attribution'],
+  },
+
+  'journal.correlations': {
+    id: 'journal.correlations',
+    domain: 'journal',
+    title: 'Work Sessions',
+    description: 'Corroborated clusters: linked events across multiple sources',
+    kind: 'feed',
+    purpose: {
+      answers: 'What connected actions happened together?',
+      serves: ['Detect concerns worth investigating', 'Spot breakthroughs worth celebrating'],
+      relevance: 0.68,
+      attentionCost: 'study',
+      narrativeRole: 'evidence',
+    },
+    context: {
+      requiresNearby: ['journal.timeline', 'journal.sources'],
+    },
+    sense: {
+      source: 'local',
+      endpoint: 'journal',
+      intervalMs: 0,
+      fieldPath: 'data.highlights',
+    },
+    representation: {
+      preferredView: 'custom',
+      customViewId: 'correlation-view',
+      salience: 'normal',
+      group: 'evidence',
+      order: 3,
+    },
+    tags: ['ets', 'correlations'],
+  },
 };
 
 /* ─── Exports ─── */

@@ -90,6 +90,54 @@ def _extract_highlights(events: List[DevJournalEvent], max_items: int = 15) -> L
                         "tags": ["inbox"],
                     })
 
+    # Session conversations (AI activity summary)
+    for e in events:
+        if e.kind.value == "conversation":
+            model = e.data.get("model", "unknown")
+            msgs = e.data.get("total_messages", 0)
+            tokens = e.data.get("total_tokens", 0)
+            highlights.append({
+                "oid": e.oid,
+                "ts": e.ts.isoformat(),
+                "kind": "ai_session",
+                "project": e.project,
+                "title": f"AI session ({model}): {msgs} messages",
+                "detail": f"{tokens:,} tokens",
+                "tags": ["session", model],
+            })
+
+    # Memory events
+    for e in events:
+        if e.kind.value in ("memory_written", "memory_updated"):
+            action = "New memory" if e.kind.value == "memory_written" else "Updated memory"
+            highlights.append({
+                "oid": e.oid,
+                "ts": e.ts.isoformat(),
+                "kind": e.kind.value,
+                "project": e.project,
+                "title": f"{action}: {e.data.get('name', 'unknown')}",
+                "detail": e.data.get("description", "")[:100],
+                "tags": e.tags,
+            })
+
+    # Corroborated clusters
+    for e in events:
+        if e.kind.value == "corroborated":
+            ctype = e.data.get("correlation_type", "")
+            event_count = e.data.get("event_count", 0)
+            sources = e.data.get("sources", [])
+            if ctype == "session_cluster":
+                dur = e.data.get("duration_minutes", 0)
+                highlights.append({
+                    "oid": e.oid,
+                    "ts": e.ts.isoformat(),
+                    "kind": "work_session",
+                    "project": e.project,
+                    "title": f"Work session: {event_count} events across {', '.join(sources)}",
+                    "detail": f"{dur} minutes",
+                    "tags": ["corroborated"] + sources,
+                })
+
     # Sort by timestamp, cap at max
     highlights.sort(key=lambda h: h["ts"])
     return highlights[:max_items]
