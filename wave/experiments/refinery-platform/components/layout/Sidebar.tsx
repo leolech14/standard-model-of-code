@@ -22,6 +22,7 @@ import {
   BookOpen,
   FileText,
   FolderTree,
+  SlidersHorizontal,
   ChevronRight,
   Globe,
 } from 'lucide-react';
@@ -92,6 +93,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: '/chunks', label: 'Chunks', icon: Box },
       { path: '/infra', label: 'Infrastructure', icon: HardDrive },
       { path: '/google', label: 'Google', icon: Mail },
+      { path: '/parameters', label: 'Parameters', icon: SlidersHorizontal },
       { path: '/settings', label: 'Settings', icon: Settings },
     ],
   },
