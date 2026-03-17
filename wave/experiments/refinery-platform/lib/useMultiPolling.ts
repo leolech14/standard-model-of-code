@@ -27,11 +27,13 @@ export interface EndpointConfig {
 
 export type SourceMap = Record<
   string,
-  { data: unknown; loading: boolean; error: string | null }
+  { data: unknown; loading: boolean; error: string | null; lastGood: unknown; lastGoodAt: number }
 >;
 
 interface SlotState {
   data: unknown;
+  lastGood: unknown;
+  lastGoodAt: number;
   loading: boolean;
   error: string | null;
   timer: ReturnType<typeof setInterval> | null;
@@ -77,6 +79,8 @@ export function useMultiPolling(endpoints: EndpointConfig[]): {
         const current = slotsRef.current.get(path);
         if (current) {
           current.data = result;
+          current.lastGood = result;
+          current.lastGoodAt = Date.now();
           current.error = null;
           current.loading = false;
           bump();
@@ -121,7 +125,7 @@ export function useMultiPolling(endpoints: EndpointConfig[]): {
 
       if (!slot) {
         // New endpoint — create slot and fetch immediately
-        slot = { data: null, loading: true, error: null, timer: null };
+        slot = { data: null, lastGood: null, lastGoodAt: 0, loading: true, error: null, timer: null };
         slots.set(ep.path, slot);
         fetchOne(ep.path);
       }
@@ -163,6 +167,8 @@ export function useMultiPolling(endpoints: EndpointConfig[]): {
       data: slot.data,
       loading: slot.loading,
       error: slot.error,
+      lastGood: slot.lastGood,
+      lastGoodAt: slot.lastGoodAt,
     };
   }
 

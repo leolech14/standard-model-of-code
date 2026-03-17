@@ -15,6 +15,15 @@ export const commsNodes: Record<string, NodeDefinition> = {
     title: 'Recent Communications',
     description: 'Latest communication log entries',
     kind: 'feed',
+    purpose: {
+      answers: 'What communications have happened recently?',
+      relevance: 0.70,
+      attentionCost: 'scan',
+      narrativeRole: 'detail',
+    },
+    context: {
+      requiresNearby: ['comms.stats'],
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'commlog/recent',
@@ -36,6 +45,12 @@ export const commsNodes: Record<string, NodeDefinition> = {
     title: 'Communication Stats',
     description: 'Communication volume and channel breakdown',
     kind: 'metric',
+    purpose: {
+      answers: 'What is the overall communication volume and breakdown?',
+      relevance: 0.80,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'commlog/stats',
@@ -56,6 +71,12 @@ export const commsNodes: Record<string, NodeDefinition> = {
     title: 'Active Channels',
     description: 'Communication channels and their status',
     kind: 'table',
+    purpose: {
+      answers: 'Which communication channels are active and what is their status?',
+      relevance: 0.60,
+      attentionCost: 'scan',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'commlog/stats',
@@ -83,6 +104,12 @@ export const commsNodes: Record<string, NodeDefinition> = {
     title: 'Total Messages',
     description: 'Total messages processed today',
     kind: 'metric',
+    purpose: {
+      answers: 'How many messages have been processed today?',
+      relevance: 0.80,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'commlog/stats',

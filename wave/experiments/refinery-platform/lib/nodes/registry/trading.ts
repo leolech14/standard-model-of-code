@@ -33,6 +33,15 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'PnL Today',
     description: 'Daily realized profit/loss',
     kind: 'metric',
+    purpose: {
+      answers: 'How much money was made or lost today?',
+      relevance: 0.92,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
+    context: {
+      requiresNearby: ['trading.positions'],
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/current',
@@ -58,6 +67,15 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Unrealized',
     description: 'Unrealized PnL across open positions',
     kind: 'metric',
+    purpose: {
+      answers: 'What is the floating profit/loss on open positions?',
+      relevance: 0.92,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
+    context: {
+      requiresNearby: ['trading.positions'],
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/current',
@@ -83,6 +101,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Positions',
     description: 'Number of open positions',
     kind: 'metric',
+    purpose: {
+      answers: 'How many positions are currently open?',
+      relevance: 0.85,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/current',
@@ -107,6 +131,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Day Type',
     description: 'Market day classification (WAVE_UP, CHOP, ROTATION, etc.)',
     kind: 'metric',
+    purpose: {
+      answers: 'What type of market day is it (trending, choppy, rotating)?',
+      relevance: 0.80,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/market-state',
@@ -140,6 +170,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Market State',
     description: 'Composite market state with breadth, dispersion, BTC sync, and top movers',
     kind: 'composite',
+    purpose: {
+      answers: 'What is the overall market condition across all indicators?',
+      relevance: 0.80,
+      attentionCost: 'scan',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/market-state',
@@ -164,6 +200,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Top Movers',
     description: 'Top moving symbols by volume/price change',
     kind: 'table',
+    purpose: {
+      answers: 'Which symbols are moving the most right now?',
+      relevance: 0.70,
+      attentionCost: 'scan',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/market-state',
@@ -193,6 +235,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Breadth',
     description: 'Market breadth indicator',
     kind: 'metric',
+    purpose: {
+      answers: 'How broad is market participation across symbols?',
+      relevance: 0.60,
+      attentionCost: 'glance',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/market-state',
@@ -218,6 +266,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Dispersion',
     description: 'Market dispersion indicator',
     kind: 'metric',
+    purpose: {
+      answers: 'How spread out are returns across the market?',
+      relevance: 0.60,
+      attentionCost: 'glance',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/market-state',
@@ -243,6 +297,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'BTC Sync',
     description: 'Bitcoin correlation sync (0-1 raw, displayed as percentage)',
     kind: 'metric',
+    purpose: {
+      answers: 'How correlated is the market with Bitcoin right now?',
+      relevance: 0.60,
+      attentionCost: 'glance',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/market-state',
@@ -270,6 +330,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Open Positions',
     description: 'Active trading positions with PnL',
     kind: 'table',
+    purpose: {
+      answers: 'What positions are open and how is each performing?',
+      relevance: 0.85,
+      attentionCost: 'scan',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/current',
@@ -302,6 +368,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Auto-Trading',
     description: 'Auto-trading system control with enable/disable/go_live/advisory actions',
     kind: 'control',
+    purpose: {
+      answers: 'Is auto-trading enabled and in what mode?',
+      relevance: 0.75,
+      attentionCost: 'glance',
+      narrativeRole: 'action',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/auto-entry',
@@ -348,6 +420,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Alerts',
     description: 'Trading alerts and warnings (string array)',
     kind: 'feed',
+    purpose: {
+      answers: 'Are there any active trading alerts or warnings?',
+      relevance: 0.85,
+      attentionCost: 'scan',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/current',
@@ -373,6 +451,12 @@ export const tradingNodes: Record<string, NodeDefinition> = {
     title: 'Trade Opportunities',
     description: 'Ranked trade opportunities with dynamic timeframe/direction filters',
     kind: 'list',
+    purpose: {
+      answers: 'What are the best trade opportunities right now?',
+      relevance: 0.70,
+      attentionCost: 'scan',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'trading/ranking',

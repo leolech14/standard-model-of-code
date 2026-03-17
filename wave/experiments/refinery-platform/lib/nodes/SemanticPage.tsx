@@ -8,6 +8,8 @@ import {
   AlertTriangle,
   CheckCircle2,
 } from 'lucide-react';
+import { interpret } from '@/lib/engine/compass';
+import { sieve } from '@/lib/engine/sieve';
 import { Badge } from '@/components/shared/Common';
 import { Skeleton, Tabs, TabPanel, Select } from '@/components/ui';
 import { useToast } from '@/components/ui/Toast';
@@ -98,14 +100,14 @@ export function SemanticPage({
     for (const ep of endpoints) {
       const basePath = ep.path.split('?')[0];
       if (basePath !== ep.path && !map[basePath]) {
-        map[basePath] = map[ep.path] ?? { data: null, loading: true, error: null };
+        map[basePath] = map[ep.path] ?? { data: null, loading: true, error: null, lastGood: null, lastGoodAt: 0 };
       }
     }
     return map;
   }, [sourceMap, endpoints]);
 
   const sourceFor = (endpoint: string) =>
-    resolvedSourceMap[endpoint] ?? { data: null, loading: true, error: null };
+    resolvedSourceMap[endpoint] ?? { data: null, loading: true, error: null, lastGood: null, lastGoodAt: 0 };
 
   // 7. Derived state for page chrome
   const allLoading = nodes.length > 0 &&
@@ -136,31 +138,50 @@ export function SemanticPage({
 
   const Icon = config?.icon;
 
-  // 8. Group + sort nodes for rendering
-  //    Compass→Cartographer: purpose.relevance drives sort when available,
-  //    falls back to representation.order for nodes without purpose.
+  // 8. PURPOSE-DRIVEN layout: Compass → Sieve → zone grouping
+  //    Anti-fragile: if Compass/Sieve throws, fall back to group+order.
   const nodesByGroup = useMemo(() => {
-    const groups = new Map<string, NodeDefinition[]>();
-    for (const node of nodes) {
-      const g = node.purpose?.narrativeRole ?? node.representation.group ?? 'default';
-      const arr = groups.get(g) ?? [];
-      arr.push(node);
-      groups.set(g, arr);
+    try {
+      const compassOutput = interpret(nodes);
+      const { instructions } = sieve(compassOutput);
+
+      // Build zone map from validated instructions
+      const instructionMap = new Map(instructions.map(i => [i.nodeId, i]));
+      const groups = new Map<string, NodeDefinition[]>();
+
+      for (const inst of instructions) {
+        const node = nodes.find(n => n.id === inst.nodeId);
+        if (!node) continue;
+        const zone = inst.zone;
+        const arr = groups.get(zone) ?? [];
+        arr.push(node);
+        groups.set(zone, arr);
+      }
+
+      // Sort within each zone by compass order (= relevance rank)
+      for (const [, arr] of groups) {
+        arr.sort((a, b) => {
+          const aOrd = instructionMap.get(a.id)?.order ?? 99;
+          const bOrd = instructionMap.get(b.id)?.order ?? 99;
+          return aOrd - bOrd;
+        });
+      }
+
+      return groups;
+    } catch {
+      // Anti-fragility: fall back to manual group+order if engine fails
+      const groups = new Map<string, NodeDefinition[]>();
+      for (const node of nodes) {
+        const g = node.representation.group ?? 'default';
+        const arr = groups.get(g) ?? [];
+        arr.push(node);
+        groups.set(g, arr);
+      }
+      for (const [, arr] of groups) {
+        arr.sort((a, b) => (a.representation.order ?? 0) - (b.representation.order ?? 0));
+      }
+      return groups;
     }
-    for (const [, arr] of groups) {
-      arr.sort((a, b) => {
-        const relA = a.purpose?.relevance;
-        const relB = b.purpose?.relevance;
-        // If both have relevance, sort descending (higher = first)
-        if (relA != null && relB != null) return relB - relA;
-        // If only one has relevance, it wins
-        if (relA != null) return -1;
-        if (relB != null) return 1;
-        // Fallback to manual order
-        return (a.representation.order ?? 0) - (b.representation.order ?? 0);
-      });
-    }
-    return groups;
   }, [nodes]);
 
   // ── Loading ──

@@ -18,6 +18,12 @@ export const voiceNodes: Record<string, NodeDefinition> = {
     title: 'Voice Providers',
     description: 'Configured TTS/STT providers and their status',
     kind: 'table',
+    purpose: {
+      answers: 'Which voice providers are configured and are they operational?',
+      relevance: 0.60,
+      attentionCost: 'scan',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'voice/providers',
@@ -43,6 +49,12 @@ export const voiceNodes: Record<string, NodeDefinition> = {
     title: 'LLM Mode',
     description: 'Current LLM processing mode',
     kind: 'control',
+    purpose: {
+      answers: 'What LLM processing mode is currently active?',
+      relevance: 0.75,
+      attentionCost: 'glance',
+      narrativeRole: 'action',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'llm/mode',
@@ -74,6 +86,12 @@ export const voiceNodes: Record<string, NodeDefinition> = {
     title: 'Self Knowledge',
     description: 'Voice agent self-knowledge and persona configuration',
     kind: 'composite',
+    purpose: {
+      answers: 'What does the voice agent know about itself and its persona?',
+      relevance: 0.50,
+      attentionCost: 'study',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'voice/self-knowledge',
@@ -94,6 +112,12 @@ export const voiceNodes: Record<string, NodeDefinition> = {
     title: 'Voice Gateway',
     description: 'Voice gateway connection status',
     kind: 'status',
+    purpose: {
+      answers: 'Is the voice gateway connected and operational?',
+      relevance: 0.95,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'voice/gateway/status',
@@ -117,6 +141,12 @@ export const voiceNodes: Record<string, NodeDefinition> = {
     title: 'Call Status',
     description: 'Current meeting/call status',
     kind: 'status',
+    purpose: {
+      answers: 'Is there an active call or meeting in progress?',
+      relevance: 0.80,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'meet/status',

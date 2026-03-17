@@ -15,6 +15,12 @@ export const memoryNodes: Record<string, NodeDefinition> = {
     title: 'Total Chunks',
     description: 'Number of memory chunks stored',
     kind: 'metric',
+    purpose: {
+      answers: 'How many memory chunks are stored in the system?',
+      relevance: 0.80,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'memory/stats',
@@ -36,6 +42,12 @@ export const memoryNodes: Record<string, NodeDefinition> = {
     title: 'Storage Used',
     description: 'Total memory storage consumption',
     kind: 'metric',
+    purpose: {
+      answers: 'How much storage is the memory system consuming?',
+      relevance: 0.80,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'memory/stats',
@@ -57,6 +69,12 @@ export const memoryNodes: Record<string, NodeDefinition> = {
     title: 'Recent Chunks',
     description: 'Most recently stored memory chunks',
     kind: 'table',
+    purpose: {
+      answers: 'What memory chunks were stored most recently?',
+      relevance: 0.60,
+      attentionCost: 'scan',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'memory/chunks',
@@ -84,6 +102,12 @@ export const memoryNodes: Record<string, NodeDefinition> = {
     title: 'Collections',
     description: 'Memory collections and their sizes',
     kind: 'table',
+    purpose: {
+      answers: 'What memory collections exist and how large are they?',
+      relevance: 0.60,
+      attentionCost: 'scan',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'memory/stats',

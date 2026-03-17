@@ -17,6 +17,12 @@ export const systemNodes: Record<string, NodeDefinition> = {
     title: 'Health',
     description: 'Overall system health status',
     kind: 'status',
+    purpose: {
+      answers: 'Is the system alive and healthy right now?',
+      relevance: 0.95,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'health',
@@ -41,6 +47,15 @@ export const systemNodes: Record<string, NodeDefinition> = {
     domain: 'system',
     title: 'CPU',
     kind: 'metric',
+    purpose: {
+      answers: 'How much CPU capacity is being consumed?',
+      relevance: 0.90,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
+    context: {
+      requiresNearby: ['system.cpu', 'system.memory', 'system.disk'],
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'system/current',
@@ -70,6 +85,15 @@ export const systemNodes: Record<string, NodeDefinition> = {
     domain: 'system',
     title: 'Memory',
     kind: 'metric',
+    purpose: {
+      answers: 'How much RAM is in use vs available?',
+      relevance: 0.90,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
+    context: {
+      requiresNearby: ['system.cpu', 'system.memory', 'system.disk'],
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'system/current',
@@ -99,6 +123,15 @@ export const systemNodes: Record<string, NodeDefinition> = {
     domain: 'system',
     title: 'Disk',
     kind: 'metric',
+    purpose: {
+      answers: 'How much disk space remains before capacity issues?',
+      relevance: 0.85,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
+    context: {
+      requiresNearby: ['system.cpu', 'system.memory', 'system.disk'],
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'system/current',
@@ -129,6 +162,12 @@ export const systemNodes: Record<string, NodeDefinition> = {
     domain: 'system',
     title: 'Uptime',
     kind: 'metric',
+    purpose: {
+      answers: 'How long has the system been running without restart?',
+      relevance: 0.80,
+      attentionCost: 'glance',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'health',
@@ -152,6 +191,12 @@ export const systemNodes: Record<string, NodeDefinition> = {
     domain: 'system',
     title: 'Version',
     kind: 'metric',
+    purpose: {
+      answers: 'Which version of the system is deployed?',
+      relevance: 0.40,
+      attentionCost: 'glance',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'health',
@@ -175,6 +220,12 @@ export const systemNodes: Record<string, NodeDefinition> = {
     domain: 'system',
     title: 'Platform',
     kind: 'metric',
+    purpose: {
+      answers: 'What OS and architecture is the system running on?',
+      relevance: 0.35,
+      attentionCost: 'glance',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'system/current',
@@ -198,6 +249,12 @@ export const systemNodes: Record<string, NodeDefinition> = {
     domain: 'system',
     title: 'Processes',
     kind: 'metric',
+    purpose: {
+      answers: 'How many processes are running on the system?',
+      relevance: 0.60,
+      attentionCost: 'glance',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'system/current',
@@ -222,6 +279,12 @@ export const systemNodes: Record<string, NodeDefinition> = {
     domain: 'system',
     title: 'Services',
     kind: 'table',
+    purpose: {
+      answers: 'Which services are running and what is their status?',
+      relevance: 0.70,
+      attentionCost: 'scan',
+      narrativeRole: 'detail',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'system/current',
@@ -262,6 +325,12 @@ export const systemNodes: Record<string, NodeDefinition> = {
     domain: 'system',
     title: 'Recent Events',
     kind: 'feed',
+    purpose: {
+      answers: 'What notable events have occurred recently?',
+      relevance: 0.50,
+      attentionCost: 'study',
+      narrativeRole: 'evidence',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'system/history',
@@ -284,6 +353,12 @@ export const systemNodes: Record<string, NodeDefinition> = {
     domain: 'system',
     title: 'Active Anomalies',
     kind: 'list',
+    purpose: {
+      answers: 'Are there any active anomalies requiring attention?',
+      relevance: 0.95,
+      attentionCost: 'scan',
+      narrativeRole: 'anchor',
+    },
     sense: {
       source: 'openclaw',
       endpoint: 'system/history',
