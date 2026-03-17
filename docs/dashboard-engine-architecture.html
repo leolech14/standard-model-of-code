@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Engine — Complete Architecture</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+    --typo-display:      clamp(1.6rem, 5vw, 2.4rem);
+    --typo-section:      clamp(0.92rem, 2.5vw, 1.1rem);
+    --typo-heading:      1rem;
+    --typo-body:         0.925rem;
+    --typo-small:        0.85rem;
+    --typo-label:        0.72rem;
+    --typo-code:         0.82em;
+    --typo-metric:       clamp(1.4rem, 3.5vw, 1.8rem);
+    --typo-diagram-node: 14px;
+    --typo-diagram-edge: 12px;
+    --typo-diagram-title:16px;
+    --typo-diagram-target-px: 14;
+    --bg: #f8f7f5; --surface: #ffffff; --surface-muted: #f0ede9;
+    --border: #d0c9c0; --border-light: #e2ddd6;
+    --text: #111111; --text-secondary: #333028; --text-muted: #686460;
+    --accent: #7a5f3e; --accent-light: #96784a;
+    --accent-faint: rgba(122, 95, 62, 0.07);
+    --blue-deep: #1a3858; --blue-mid: #3a6aa0; --blue-soft: #5590c8;
+    --blue-faint: rgba(58, 106, 160, 0.07);
+    --ink: #000000;
+    --positive: #2a6838; --warning: #806018; --negative: #701818;
+    --diagram-bg: #ffffff;
+    --p1: #7a5f3e; --p2: #3a6aa0; --p3: #584870;
+    --p1-fill: #f0e4d0; --p2-fill: #dce8f8; --p3-fill: #e8e0f0;
+    --pos-fill: #dce8dc; --warn-fill: #f5ecd0; --neg-fill: #f2d8d8;
+    --content-pad: 3.5rem;
+    --section-gap: 1.5rem;
+    --element-gap: 1.5rem;
+    --typo-letter: 0em;
+    --typo-word: 0em;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    font-weight: 400; line-height: 1.75;
+    padding: 3.5rem var(--content-pad) 4rem; max-width: 960px; margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: var(--typo-letter); word-spacing: var(--typo-word);
+  }
+  h1 { font-size: var(--typo-display); font-weight: 700; color: var(--ink); letter-spacing: -0.03em; margin-bottom: 0.25rem; line-height: 1.2; }
+  h2 { font-size: var(--typo-section); font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin: 0; padding-bottom: 0; border-bottom: none; }
+  h3 { font-size: var(--typo-heading); font-weight: 600; color: var(--blue-deep); margin: var(--element-gap) 0 0.75rem; letter-spacing: -0.01em; }
+  p, li { font-size: var(--typo-body); color: var(--text-secondary); }
+  p + p { margin-top: 0.75rem; }
+  b, strong { color: var(--text); font-weight: 600; }
+  .subtitle { color: var(--text-secondary); font-size: clamp(0.8rem, 2vw, 0.9rem); margin-bottom: 2.5rem; line-height: 1.6; }
+
+  /* --- Drawer sections --- */
+  .drawer { margin-top: var(--section-gap); border: 1px solid var(--border-light); border-radius: 8px; background: var(--surface); overflow: hidden; }
+  .drawer-header { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.5rem; cursor: pointer; user-select: none; border-bottom: 1px solid transparent; transition: background 0.2s, border-color 0.2s; }
+  .drawer-header:hover { background: var(--accent-faint); }
+  .drawer.open > .drawer-header { border-bottom-color: var(--border-light); }
+  .drawer-chevron { flex-shrink: 0; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 12px; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .drawer.open > .drawer-header .drawer-chevron { transform: rotate(90deg); }
+  .drawer-title { flex: 1; }
+  .drawer-title h2 { margin: 0; padding: 0; border: none; }
+  .drawer-summary { font-size: var(--typo-small); color: var(--text-muted); margin-top: 0.15rem; line-height: 1.4; }
+  .drawer.open > .drawer-header .drawer-summary { display: none; }
+  .drawer-body-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+  .drawer.open > .drawer-body-wrap { grid-template-rows: 1fr; }
+  .drawer-body { overflow: hidden; min-height: 0; }
+  .drawer-body-inner { padding: 1.5rem 1.5rem 2rem; display: flex; flex-direction: column; gap: var(--element-gap); }
+  .drawer-body-inner > * { margin-top: 0; margin-bottom: 0; }
+  .drawer-body-inner > h3 { margin-top: 0.5rem; }
+
+  /* --- Section Index --- */
+  .section-index { background: var(--surface); border: 1px solid var(--border-light); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 0 0 1rem; }
+  .section-index-title { font-size: var(--typo-label); font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
+  .section-index-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.15rem 2rem; }
+  .section-index-item { display: flex; align-items: baseline; gap: 0.5rem; padding: 0.35rem 0.5rem; border-radius: 4px; cursor: pointer; transition: background 0.15s; text-decoration: none; }
+  .section-index-item:hover { background: var(--accent-faint); }
+  .section-index-item .idx-num { font-size: var(--typo-label); font-weight: 700; color: var(--accent); min-width: 1.5rem; flex-shrink: 0; }
+  .section-index-item .idx-title { font-size: var(--typo-body); font-weight: 500; color: var(--ink); line-height: 1.4; }
+  .section-index-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 0.45rem; transition: background 0.3s; }
+  .section-index-item.visited .idx-num { color: var(--text-muted); }
+  .section-index-item.visited .idx-title { color: var(--text-muted); }
+  .section-index-item.visited::before { background: var(--positive); }
+
+  /* --- Cards --- */
+  .card { background: var(--surface); border: 1px solid var(--border-light); border-radius: 6px; padding: 1.5rem 1.75rem; margin: 0; }
+  .card-highlight { border-left: 3px solid var(--blue-mid); }
+  .card ul { margin-left: 1.25rem; margin-top: 0.6rem; }
+  .card li { margin-bottom: 0.45rem; }
+
+  /* --- Diagrams --- */
+  .mermaid-container { background: var(--diagram-bg); border: 1px solid var(--border); border-radius: 6px; padding: 2rem 1.5rem; margin: 0; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; position: relative; }
+  .mermaid-container:hover { border-color: var(--accent); }
+  .mermaid { display: flex; justify-content: center; min-width: 0; }
+  .mermaid svg { height: auto; min-height: 120px; }
+  .mermaid svg .cluster foreignObject { overflow: visible !important; }
+  .mermaid svg .cluster-label foreignObject { overflow: visible !important; }
+  .mermaid svg text, .mermaid svg tspan, .mermaid svg foreignObject, .mermaid svg foreignObject * { font-family: 'Inter', system-ui, sans-serif !important; }
+  .mermaid svg .nodeLabel, .mermaid svg .node text, .mermaid svg .node foreignObject *, .mermaid svg .label text, .mermaid svg .label foreignObject span { font-size: var(--typo-diagram-node) !important; }
+  .mermaid svg .edgeLabel text, .mermaid svg .edgeLabel foreignObject *, .mermaid svg .edgeLabels foreignObject * { font-size: var(--typo-diagram-edge) !important; }
+  .mermaid svg .cluster-label foreignObject *, .mermaid svg .cluster-label text { font-size: var(--typo-diagram-title) !important; }
+
+  /* --- Tables --- */
+  .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0; border-radius: 6px; border: 1px solid var(--border-light); }
+  table { width: 100%; border-collapse: collapse; font-size: var(--typo-body); min-width: 540px; }
+  th { background: var(--surface-muted); color: var(--accent); font-weight: 700; font-size: var(--typo-label); text-transform: uppercase; letter-spacing: 0.06em; padding: 0.65rem 0.75rem; text-align: left; border-bottom: 2px solid var(--accent); position: sticky; top: 0; }
+  td { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); }
+  tr:hover { background: var(--accent-faint); }
+
+  /* --- Tags --- */
+  .tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px; font-size: var(--typo-label); font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; }
+  .tag-green { background: var(--pos-fill); color: var(--positive); }
+  .tag-blue { background: var(--p2-fill); color: var(--blue-deep); }
+  .tag-purple { background: var(--p3-fill); color: var(--p3); }
+  .tag-amber { background: var(--warn-fill); color: var(--warning); }
+  .tag-red { background: var(--neg-fill); color: var(--negative); }
+
+  /* --- Metrics --- */
+  .metric-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; margin: 0; }
+  .metric { background: var(--surface); border: 1px solid var(--border-light); border-radius: 6px; padding: 1.15rem 0.85rem; text-align: center; }
+  .metric-value { font-size: var(--typo-metric); font-weight: 700; color: var(--ink); line-height: 1.2; font-variant-numeric: tabular-nums; }
+  .metric-label { font-size: var(--typo-label); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.25rem; font-weight: 500; line-height: 1.3; }
+
+  /* --- Verdict --- */
+  .verdict-box { background: var(--surface); border: 1px solid var(--accent); border-left: 4px solid var(--accent); border-radius: 6px; padding: 1.75rem; margin: 0; font-size: 0.95rem; color: var(--text); }
+
+  /* --- Code --- */
+  code { font-family: var(--mono); background: var(--surface-muted); padding: 0.12rem 0.35rem; border-radius: 3px; font-size: var(--typo-code); color: var(--blue-deep); }
+  pre.code-block { background: var(--surface-muted); border: 1px solid var(--border-light); border-radius: 6px; padding: 1.25rem; font-family: var(--mono); font-size: 0.78rem; line-height: 1.65; overflow-x: auto; color: var(--text-secondary); white-space: pre; }
+
+  /* --- Two column --- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* --- Dept grid --- */
+  .dept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .dept-card { background: var(--surface); border: 1px solid var(--border-light); border-radius: 6px; padding: 1rem 1.15rem; }
+  .dept-card h4 { font-size: var(--typo-body); font-weight: 700; color: var(--accent); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .dept-card ul { margin-left: 1rem; margin-top: 0.3rem; }
+  .dept-card li { font-size: var(--typo-small); margin-bottom: 0.2rem; color: var(--text-secondary); }
+
+  /* --- Separator & Footer --- */
+  .separator { width: 40px; height: 2px; background: var(--accent); margin: 3rem auto 0; }
+  .footer { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 0.78rem; text-align: center; line-height: 1.6; }
+  a { color: var(--blue-mid); text-decoration: none; }
+  a:hover { color: var(--blue-deep); text-decoration: underline; }
+
+  /* --- Toolbar --- */
+  .toolbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; padding: 0.4rem var(--content-pad); background: color-mix(in srgb, var(--surface) 85%, transparent); border-bottom: 1px solid var(--border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); height: 40px; }
+  .toolbar-sliders { display: flex; align-items: center; gap: 0.4rem; }
+  .toolbar-sliders label { font-size: var(--typo-label); font-weight: 600; color: var(--text-muted); user-select: none; min-width: 1.2rem; text-align: center; }
+  .toolbar input[type="range"] { -webkit-appearance: none; appearance: none; width: 100px; height: 3px; background: var(--border); border-radius: 2px; outline: none; cursor: pointer; }
+  .toolbar input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 2px solid var(--surface); box-shadow: 0 1px 3px rgba(0,0,0,0.18); cursor: pointer; }
+  .toolbar input[type="range"]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 2px solid var(--surface); box-shadow: 0 1px 3px rgba(0,0,0,0.18); cursor: pointer; }
+  .toolbar-settings-btn { background: none; border: 1px solid var(--border); color: var(--text-muted); width: 30px; height: 30px; border-radius: 6px; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; transition: background 0.15s, transform 0.3s; }
+  .toolbar-settings-btn:hover { background: var(--accent-faint); color: var(--text); }
+  .toolbar-settings-btn.open { transform: rotate(90deg); }
+  .settings-dropdown { position: absolute; top: 100%; right: var(--content-pad); margin-top: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; min-width: 240px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
+  .settings-dropdown.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .settings-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0; }
+  .settings-label { font-size: var(--typo-label); font-weight: 600; color: var(--text-secondary); min-width: 110px; flex-shrink: 0; }
+  .settings-val { font-family: var(--mono); font-size: 0.68rem; color: var(--text-muted); min-width: 2.5rem; text-align: right; flex-shrink: 0; }
+
+  /* Smooth transitions */
+  *, *::before, *::after { transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    :root { --content-pad: 2rem; --section-gap: 1.25rem; --element-gap: 1.25rem; }
+    .metric-row { grid-template-columns: repeat(3, 1fr); }
+    .section-index-list { grid-template-columns: repeat(2, 1fr); }
+    .dept-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    :root { --content-pad: 1.25rem; --section-gap: 1rem; --element-gap: 1rem; }
+    body { padding-top: 3.2rem; line-height: 1.65; }
+    .metric-row { grid-template-columns: repeat(2, 1fr); }
+    .metric:last-child { grid-column: 1 / -1; }
+    .two-col { grid-template-columns: 1fr; }
+    .dept-grid { grid-template-columns: 1fr; }
+    .card { padding: 1rem 1.15rem; }
+    .verdict-box { padding: 1.15rem; }
+    .drawer-header { padding: 0.85rem 1rem; }
+    .drawer-body-inner { padding: 1rem 1rem 1.5rem; }
+    .section-index-list { grid-template-columns: 1fr; }
+    table { font-size: 0.82rem; }
+    th { font-size: 0.7rem; padding: 0.5rem; }
+    td { padding: 0.45rem 0.5rem; }
+  }
+  @media (max-width: 380px) {
+    :root { --content-pad: 0.85rem; }
+    .metric-row { grid-template-columns: 1fr; }
+    .metric:last-child { grid-column: auto; }
+    .toolbar input[type="range"] { width: 56px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-sliders">
+    <label for="brightness-slider">&#9728;</label>
+    <input type="range" id="brightness-slider" min="0" max="100" value="85" step="1">
+    <label for="spacing-slider">&#8596;</label>
+    <input type="range" id="spacing-slider" min="0" max="100" value="30" step="1">
+  </div>
+  <button class="toolbar-settings-btn" id="settings-toggle" title="Settings">&#9881;</button>
+  <div class="settings-dropdown" id="settings-dropdown">
+    <div class="settings-row">
+      <span class="settings-label">Brightness</span>
+      <span class="settings-val" id="val-brightness">0.85</span>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">Typography Spacing</span>
+      <span class="settings-val" id="val-spacing">30</span>
+    </div>
+  </div>
+</div>
+
+<h1>Dashboard Engine</h1>
+<p class="subtitle">Complete Architecture &mdash; 28 roles. 8 departments. Purpose-driven parametric UI from semantic files to pixels.<br>
+<span class="tag tag-amber">2026-03-16</span>&ensp;<span class="tag tag-blue">PROJECT_elements</span>&ensp;<span class="tag tag-purple">Refinery Platform</span></p>
+
+<div class="metric-row" style="margin-bottom: 2rem;">
+  <div class="metric"><div class="metric-value">28</div><div class="metric-label">Roles</div></div>
+  <div class="metric"><div class="metric-value">8</div><div class="metric-label">Departments</div></div>
+  <div class="metric"><div class="metric-value">15</div><div class="metric-label">New Files (engine/)</div></div>
+  <div class="metric"><div class="metric-value">7</div><div class="metric-label">Existing (enhanced)</div></div>
+  <div class="metric"><div class="metric-value">6</div><div class="metric-label">V1 Team</div></div>
+</div>
+
+<!-- Section Index -->
+<div class="section-index">
+  <div class="section-index-title">Section Index</div>
+  <div class="section-index-list">
+    <div class="section-index-item" data-drawer="drawer-01"><span class="idx-num">01</span><span class="idx-title">The Company (Overview)</span></div>
+    <div class="section-index-item" data-drawer="drawer-02"><span class="idx-num">02</span><span class="idx-title">The Pipeline (Data Flow)</span></div>
+    <div class="section-index-item" data-drawer="drawer-03"><span class="idx-num">03</span><span class="idx-title">Semantic Files (The Briefs)</span></div>
+    <div class="section-index-item" data-drawer="drawer-04"><span class="idx-num">04</span><span class="idx-title">The Constraint System</span></div>
+    <div class="section-index-item" data-drawer="drawer-05"><span class="idx-num">05</span><span class="idx-title">Anti-Fragility</span></div>
+    <div class="section-index-item" data-drawer="drawer-06"><span class="idx-num">06</span><span class="idx-title">V1 Build Plan</span></div>
+    <div class="section-index-item" data-drawer="drawer-07"><span class="idx-num">07</span><span class="idx-title">Research Findings</span></div>
+    <div class="section-index-item" data-drawer="drawer-08"><span class="idx-num">08</span><span class="idx-title">What Exists vs What's New</span></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DRAWER 01: The Company -->
+<!-- ============================================================ -->
+<div class="drawer" id="drawer-01">
+  <div class="drawer-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="drawer-chevron">&#9654;</div>
+    <div class="drawer-title">
+      <h2>01 &mdash; The Company (Overview)</h2>
+      <div class="drawer-summary">28 roles organized as a modern company &mdash; job titles, not abstractions</div>
+    </div>
+  </div>
+  <div class="drawer-body-wrap"><div class="drawer-body"><div class="drawer-body-inner">
+
+    <p>The Dashboard Engine is organized as a <strong>company with 8 departments</strong>. Each role has a single responsibility, a human-readable job title, and a clear input/output contract. No role knows about the implementation of another &mdash; they communicate through typed messages.</p>
+
+    <div class="dept-grid">
+      <div class="dept-card"><h4>Executive</h4><ul><li><strong>CEO</strong> &mdash; Orchestrator</li><li><strong>Strategist</strong> &mdash; Purpose interpreter</li></ul></div>
+      <div class="dept-card"><h4>Intake</h4><ul><li><strong>Receptionist</strong> &mdash; File reader</li><li><strong>Field Reporter</strong> &mdash; Data poller</li><li><strong>Editor</strong> &mdash; Data transform</li><li><strong>ER Nurse</strong> &mdash; Error interpreter</li></ul></div>
+      <div class="dept-card"><h4>Finance</h4><ul><li><strong>Treasurer</strong> &mdash; Token resolver</li><li><strong>Bookkeeper</strong> &mdash; State cache</li></ul></div>
+      <div class="dept-card"><h4>Legal &amp; Compliance</h4><ul><li><strong>Compliance Officer</strong> &mdash; Constraints</li><li><strong>General Counsel</strong> &mdash; Governance</li><li><strong>Auditor</strong> &mdash; Explainer</li></ul></div>
+      <div class="dept-card"><h4>Creative</h4><ul><li><strong>Art Director</strong> &mdash; Optimizer</li><li><strong>Architect</strong> &mdash; Layout</li><li><strong>Pattern Maker</strong> &mdash; Recipes</li><li><strong>Interior Designer</strong> &mdash; Themes</li></ul></div>
+      <div class="dept-card"><h4>Operations</h4><ul><li><strong>Ops Manager</strong> &mdash; Controls</li><li><strong>Dispatcher</strong> &mdash; Events</li><li><strong>Change Manager</strong> &mdash; Transactions</li><li><strong>Navigator</strong> &mdash; Routing</li></ul></div>
+      <div class="dept-card"><h4>Publishing</h4><ul><li><strong>Publisher</strong> &mdash; Renderer</li><li><strong>Translator</strong> &mdash; Importer</li><li><strong>Credentials Mgr</strong> &mdash; Capabilities</li></ul></div>
+      <div class="dept-card"><h4>Risk &amp; Intelligence</h4><ul><li><strong>Risk Manager</strong> &mdash; Anti-fragility</li><li><strong>Performance Analyst</strong> &mdash; Budgets</li><li><strong>Remote Operator</strong> &mdash; AI API</li><li><strong>UX Researcher</strong> &mdash; Feedback</li><li><strong>Archivist</strong> &mdash; History</li></ul></div>
+    </div>
+
+    <div class="mermaid-container">
+      <pre class="mermaid">
+graph LR
+    subgraph Executive
+        CEO[CEO]
+        STR[Strategist]
+    end
+    subgraph Intake
+        REC[Receptionist]
+        FR[Field Reporter]
+    end
+    subgraph Creative
+        AD[Art Director]
+        ARC[Architect]
+    end
+    subgraph Legal
+        CO[Compliance Officer]
+    end
+    subgraph Publishing
+        PUB[Publisher]
+    end
+    REC --> STR
+    FR --> CEO
+    STR --> CO
+    CO --> AD
+    AD --> ARC
+    ARC --> PUB
+      </pre>
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DRAWER 02: The Pipeline -->
+<!-- ============================================================ -->
+<div class="drawer" id="drawer-02">
+  <div class="drawer-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="drawer-chevron">&#9654;</div>
+    <div class="drawer-title">
+      <h2>02 &mdash; The Pipeline (Data Flow)</h2>
+      <div class="drawer-summary">8 stages from semantic file to pixels &mdash; &lt;25ms total budget</div>
+    </div>
+  </div>
+  <div class="drawer-body-wrap"><div class="drawer-body"><div class="drawer-body-inner">
+
+    <p>Every render cycle flows through a deterministic pipeline. Each stage has a <strong>millisecond budget</strong> and a single responsible role. The total target is under 25ms &mdash; a single frame at 40fps.</p>
+
+    <div class="mermaid-container">
+      <pre class="mermaid">
+graph TD
+    BRIEF[Briefs on Disk] --> RECV[Receptionist reads]
+    RECV --> STRAT[Strategist interprets]
+    DATA[Field Reporter polls] --> EDIT[Editor transforms]
+    EDIT --> TRIAGE[ER Nurse checks]
+    STRAT --> COMPLY[Compliance validates]
+    TRIAGE --> COMPLY
+    MINT[Treasurer resolves] --> COMPLY
+    COMPLY --> SCORE[Art Director scores]
+    SCORE --> LAYOUT[Architect composes]
+    LAYOUT --> PUB[Publisher renders]
+      </pre>
+    </div>
+
+    <h3>Per-Stage Budget</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Stage</th><th>Role</th><th>Budget</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Semantic read</td><td>Receptionist</td><td>5ms</td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Purpose interpret</td><td>Strategist</td><td>1ms</td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Token resolve</td><td>Treasurer</td><td>2ms</td><td><span class="tag tag-green">DONE</span></td></tr>
+          <tr><td>Data fetch</td><td>Field Reporter</td><td>async</td><td><span class="tag tag-green">DONE</span></td></tr>
+          <tr><td>Data transform</td><td>Editor</td><td>1ms</td><td><span class="tag tag-green">DONE</span></td></tr>
+          <tr><td>Constraint check</td><td>Compliance Officer</td><td>3ms</td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Score / optimize</td><td>Art Director</td><td>1ms</td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Layout compose</td><td>Architect</td><td>2ms</td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Render</td><td>Publisher</td><td>10ms</td><td><span class="tag tag-green">DONE</span></td></tr>
+          <tr><td><strong>TOTAL</strong></td><td></td><td><strong>&lt;25ms</strong></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DRAWER 03: Semantic Files -->
+<!-- ============================================================ -->
+<div class="drawer" id="drawer-03">
+  <div class="drawer-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="drawer-chevron">&#9654;</div>
+    <div class="drawer-title">
+      <h2>03 &mdash; Semantic Files (The Briefs)</h2>
+      <div class="drawer-summary">Purpose-driven contracts &mdash; why each data point exists</div>
+    </div>
+  </div>
+  <div class="drawer-body-wrap"><div class="drawer-body"><div class="drawer-body-inner">
+
+    <p>A <strong>Brief</strong> is a YAML file that declares <em>what</em> a dashboard element shows, <em>why</em> it exists, and <em>how</em> it should behave under failure. The engine reads Briefs at startup and uses them to drive every rendering decision.</p>
+
+    <pre class="code-block">id: journal.velocity
+purpose:
+  answers: "How productive was this day?"
+  becoming: "Real-time development intensity gauge"
+  relevance: 0.95
+  attention_cost: glance
+  narrative_role: anchor
+sense:
+  source: local
+  endpoint: journal
+controls:
+  - id: refresh
+    action: POST /api/v1/journal/rerun
+constraints:
+  - "contrast >= 4.5:1"
+resilience:
+  fallback: last_known_good</pre>
+
+    <h3>The 6 Questions Every Brief Answers</h3>
+    <div class="mermaid-container">
+      <pre class="mermaid">
+graph LR
+    B[Brief] --> Q1["What? (id + sense)"]
+    B --> Q2["Why? (purpose.answers)"]
+    B --> Q3["How important? (relevance)"]
+    B --> Q4["How fast? (attention_cost)"]
+    B --> Q5["What if fail? (resilience)"]
+    B --> Q6["What rules? (constraints)"]
+      </pre>
+    </div>
+
+    <div class="card card-highlight">
+      <p><strong>Key insight:</strong> The Brief is a <em>contract</em>, not configuration. It tells the engine the semantic intent so that the Creative department (Art Director, Architect) can make layout decisions <em>automatically</em> based on relevance, attention cost, and narrative role.</p>
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DRAWER 04: Constraint System -->
+<!-- ============================================================ -->
+<div class="drawer" id="drawer-04">
+  <div class="drawer-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="drawer-chevron">&#9654;</div>
+    <div class="drawer-title">
+      <h2>04 &mdash; The Constraint System (Legal Dept)</h2>
+      <div class="drawer-summary">Must / Should / Prefer &mdash; three tiers of coherence rules</div>
+    </div>
+  </div>
+  <div class="drawer-body-wrap"><div class="drawer-body"><div class="drawer-body-inner">
+
+    <p>Every token and layout decision passes through the <strong>Compliance Officer</strong> before reaching the renderer. Constraints are classified into three tiers that determine what happens on violation.</p>
+
+    <div class="mermaid-container">
+      <pre class="mermaid">
+graph LR
+    TOKEN[Resolved Token] --> MUST{Must?}
+    MUST -->|pass| SHOULD{Should?}
+    MUST -->|fail| BLOCK[REFUSE]
+    SHOULD -->|pass| PREFER{Prefer?}
+    SHOULD -->|fail| FIX[Auto-Correct]
+    PREFER -->|pass| RENDER[Render]
+    PREFER -->|fail| WARN[Warn + Render]
+    FIX --> RENDER
+      </pre>
+    </div>
+
+    <h3>Constraint Types</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tier</th><th>Behavior on Fail</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-red">MUST</span></td><td>Refuse to render</td><td><code>contrast >= 4.5:1</code> (WCAG AA)</td></tr>
+          <tr><td><span class="tag tag-amber">SHOULD</span></td><td>Auto-correct silently</td><td><code>font-size >= 12px</code></td></tr>
+          <tr><td><span class="tag tag-blue">PREFER</span></td><td>Warn, render anyway</td><td><code>border-radius: consistent</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <p><strong>The Auditor</strong> logs every constraint evaluation. When a MUST fails, the Auditor produces a human-readable explanation of <em>why</em> the render was blocked and <em>what</em> the developer needs to change. No silent failures.</p>
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DRAWER 05: Anti-Fragility -->
+<!-- ============================================================ -->
+<div class="drawer" id="drawer-05">
+  <div class="drawer-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="drawer-chevron">&#9654;</div>
+    <div class="drawer-title">
+      <h2>05 &mdash; Anti-Fragility (Risk Dept)</h2>
+      <div class="drawer-summary">Freeze-on-failure, domain isolation, circuit breakers</div>
+    </div>
+  </div>
+  <div class="drawer-body-wrap"><div class="drawer-body"><div class="drawer-body-inner">
+
+    <p>The engine treats design domains as <strong>isolated failure zones</strong>. If the color system breaks, spacing and layout continue unaffected. The Risk Manager enforces domain boundaries and triggers freeze-on-failure when a domain produces invalid output.</p>
+
+    <div class="mermaid-container">
+      <pre class="mermaid">
+graph TD
+    subgraph Color Domain
+        C1[Color tokens]
+        C2[Color constraints]
+    end
+    subgraph Spacing Domain
+        S1[Spacing tokens]
+        S2[Spacing constraints]
+    end
+    subgraph Layout Domain
+        L1[Layout rules]
+    end
+    C1 -.->|"fails: freeze"| C2
+    S1 --> S2
+    L1 --> RENDER[Publisher]
+    S2 --> RENDER
+    C2 -.->|"frozen values"| RENDER
+      </pre>
+    </div>
+
+    <h3>Resilience Strategies</h3>
+    <div class="two-col">
+      <div class="card">
+        <h3>Freeze-on-Failure</h3>
+        <p>When a domain produces invalid output, the engine <strong>freezes the last known good values</strong> for that domain. The rest of the pipeline continues with fresh data. The user sees stale-but-correct rather than broken.</p>
+      </div>
+      <div class="card">
+        <h3>Circuit Breakers</h3>
+        <p>After 3 consecutive failures in a domain, the circuit opens. The domain stops being evaluated entirely until a <strong>manual reset or successful health check</strong>. This prevents cascading resource waste.</p>
+      </div>
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DRAWER 06: V1 Build Plan -->
+<!-- ============================================================ -->
+<div class="drawer" id="drawer-06">
+  <div class="drawer-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="drawer-chevron">&#9654;</div>
+    <div class="drawer-title">
+      <h2>06 &mdash; V1 Build Plan</h2>
+      <div class="drawer-summary">6 roles first &mdash; minimum viable engine</div>
+    </div>
+  </div>
+  <div class="drawer-body-wrap"><div class="drawer-body"><div class="drawer-body-inner">
+
+    <p>V1 proves the architecture with the <strong>smallest possible team</strong>. Six roles, one page (Journal), real constraints validating real tokens.</p>
+
+    <h3>V1 Team</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Role</th><th>Produces</th><th>File</th></tr></thead>
+        <tbody>
+          <tr><td><strong>CEO</strong></td><td>Orchestration loop</td><td><code>engine/orchestrator.ts</code></td></tr>
+          <tr><td><strong>Strategist</strong></td><td>Purpose interpretation</td><td><code>engine/strategist.ts</code></td></tr>
+          <tr><td><strong>Receptionist</strong></td><td>Brief parsing</td><td><code>engine/receptionist.ts</code></td></tr>
+          <tr><td><strong>Treasurer</strong></td><td>Token resolution</td><td><code>engine/treasurer.ts</code></td></tr>
+          <tr><td><strong>Compliance Officer</strong></td><td>Constraint validation</td><td><code>engine/compliance.ts</code></td></tr>
+          <tr><td><strong>Publisher</strong></td><td>React render output</td><td><code>engine/publisher.tsx</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="verdict-box">
+      <strong>The Verdict:</strong> The Journal page is the proof-of-concept. If purpose-driven layout works for ONE page with REAL constraints validating REAL tokens, the architecture is proven. Everything else &mdash; the Art Director's scoring, the Architect's composition, the Risk Manager's circuit breakers &mdash; is additive, not foundational.
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DRAWER 07: Research Findings -->
+<!-- ============================================================ -->
+<div class="drawer" id="drawer-07">
+  <div class="drawer-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="drawer-chevron">&#9654;</div>
+    <div class="drawer-title">
+      <h2>07 &mdash; Research Findings</h2>
+      <div class="drawer-summary">5 deep research queries &mdash; 3 unexpected discoveries</div>
+    </div>
+  </div>
+  <div class="drawer-body-wrap"><div class="drawer-body"><div class="drawer-body-inner">
+
+    <p>Five deep research queries across parametric UI, constraint-driven layout, and agent-to-UI compilation. Three findings stood out as directly applicable.</p>
+
+    <div class="two-col">
+      <div class="card card-highlight">
+        <h3>A2UI by Google</h3>
+        <p>Agent-to-UI framework that compiles <strong>agent intent into component trees</strong>. Closest prior art to the Dashboard Engine's Brief-to-layout pipeline. Key difference: A2UI is LLM-driven per-request; our engine is deterministic with pre-compiled Briefs.</p>
+        <p><span class="tag tag-blue">AGENT-UI</span> <span class="tag tag-purple">GOOGLE RESEARCH</span></p>
+      </div>
+      <div class="card card-highlight">
+        <h3>Zag.js</h3>
+        <p>Headless <strong>state machines for UI components</strong>. Each component is a finite state machine with typed transitions. Validates our approach: the Operations department (Dispatcher, Change Manager) should use FSM patterns internally.</p>
+        <p><span class="tag tag-blue">STATE MACHINES</span> <span class="tag tag-green">APPLICABLE</span></p>
+      </div>
+    </div>
+
+    <div class="card card-highlight">
+      <h3>RL-Based Layout Optimization</h3>
+      <p>Reinforcement learning applied to <strong>dashboard layout scoring</strong>. Trains on user engagement metrics to optimize widget placement. Maps directly to our Art Director role &mdash; but V1 uses heuristic scoring, with RL as a future upgrade path for the Art Director's scoring algorithm.</p>
+      <p><span class="tag tag-blue">LAYOUT</span> <span class="tag tag-amber">FUTURE V2</span></p>
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DRAWER 08: What Exists vs What's New -->
+<!-- ============================================================ -->
+<div class="drawer" id="drawer-08">
+  <div class="drawer-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="drawer-chevron">&#9654;</div>
+    <div class="drawer-title">
+      <h2>08 &mdash; What Exists vs What's New</h2>
+      <div class="drawer-summary">7 files exist. 15 new files in engine/. 25 total code artifacts.</div>
+    </div>
+  </div>
+  <div class="drawer-body-wrap"><div class="drawer-body"><div class="drawer-body-inner">
+
+    <p>The engine builds on top of the existing Refinery Platform codebase. Seven files already handle data fetching, token resolution, and rendering. Fifteen new files in <code>engine/</code> add the semantic layer, constraint system, and orchestration.</p>
+
+    <h3>Existing (Enhanced)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Role</th><th>File</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Treasurer</td><td><code>app/globals.css</code></td><td><span class="tag tag-green">DONE</span></td></tr>
+          <tr><td>Interior Designer</td><td><code>app/globals.css</code></td><td><span class="tag tag-green">DONE</span></td></tr>
+          <tr><td>Field Reporter</td><td><code>lib/api-client.ts</code></td><td><span class="tag tag-green">DONE</span></td></tr>
+          <tr><td>Editor</td><td><code>lib/transforms.ts</code></td><td><span class="tag tag-green">DONE</span></td></tr>
+          <tr><td>Publisher</td><td><code>components/*.tsx</code></td><td><span class="tag tag-green">DONE</span></td></tr>
+          <tr><td>Navigator</td><td><code>app/layout.tsx</code></td><td><span class="tag tag-amber">PARTIAL</span></td></tr>
+          <tr><td>Dispatcher</td><td><code>lib/events.ts</code></td><td><span class="tag tag-amber">PARTIAL</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>New (engine/)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Role</th><th>File</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>CEO</td><td><code>engine/orchestrator.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Strategist</td><td><code>engine/strategist.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Receptionist</td><td><code>engine/receptionist.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>ER Nurse</td><td><code>engine/error-interpreter.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Bookkeeper</td><td><code>engine/state-cache.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Compliance Officer</td><td><code>engine/compliance.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>General Counsel</td><td><code>engine/governance.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Auditor</td><td><code>engine/auditor.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Art Director</td><td><code>engine/art-director.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Architect</td><td><code>engine/layout-composer.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Pattern Maker</td><td><code>engine/recipes.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Ops Manager</td><td><code>engine/controls.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Change Manager</td><td><code>engine/transactions.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Risk Manager</td><td><code>engine/risk.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+          <tr><td>Performance Analyst</td><td><code>engine/budgets.ts</code></td><td><span class="tag tag-red">NOT BUILT</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <p><strong>3 additional support files:</strong> <code>engine/types.ts</code> (shared types), <code>engine/brief-schema.ts</code> (YAML parser + validator), <code>briefs/*.yaml</code> (semantic file directory). Total: <strong>25 artifacts</strong> across existing + new + support.</p>
+    </div>
+
+  </div></div></div>
+</div>
+
+<!-- Footer -->
+<div class="separator"></div>
+<div class="footer">
+  Dashboard Engine Architecture &mdash; PROJECT_elements / Refinery Platform<br>
+  Generated 2026-03-16 &middot; Self-contained interactive document
+</div>
+
+<script>
+  /* ================================================================
+     BRIGHTNESS ENGINE — exact copy from three-pillars design system
+     ================================================================ */
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function lerpHex(dark, light, t) {
+    const p = h => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+    const [rA,gA,bA] = p(dark), [rB,gB,bB] = p(light);
+    const c = (a,b) => Math.round(lerp(a, b, t)).toString(16).padStart(2,'0');
+    return '#' + c(rA,rB) + c(gA,gB) + c(bA,bB);
+  }
+
+  const tokens = {
+    bg:             ['#000000', '#f8f7f5'],
+    surface:        ['#0e1018', '#ffffff'],
+    'surface-muted':['#181c26', '#f0ede9'],
+    border:         ['#2e3545', '#d0c9c0'],
+    'border-light': ['#3a4255', '#e2ddd6'],
+    text:           ['#f2f0ec', '#111111'],
+    'text-secondary':['#d8d0c5', '#333028'],
+    'text-muted':   ['#b0a89e', '#686460'],
+    accent:         ['#dab880', '#7a5f3e'],
+    'accent-light': ['#e8cca0', '#96784a'],
+    'blue-deep':    ['#90c0f0', '#1a3858'],
+    'blue-mid':     ['#a0d0ff', '#3a6aa0'],
+    'blue-soft':    ['#b8dcff', '#5590c8'],
+    ink:            ['#ffffff', '#000000'],
+    positive:       ['#80d898', '#2a6838'],
+    warning:        ['#e0c468', '#806018'],
+    negative:       ['#d87878', '#701818'],
+    'diagram-bg':   ['#08090e', '#ffffff'],
+    p1:             ['#dab880', '#7a5f3e'],
+    p2:             ['#a0d0ff', '#3a6aa0'],
+    p3:             ['#b8a0d0', '#584870'],
+    'p1-fill':      ['#201810', '#f0e4d0'],
+    'p2-fill':      ['#0e1828', '#dce8f8'],
+    'p3-fill':      ['#1a1020', '#e8e0f0'],
+    'pos-fill':     ['#0a1a0a', '#dce8dc'],
+    'warn-fill':    ['#1a1808', '#f5ecd0'],
+    'neg-fill':     ['#1e0808', '#f2d8d8'],
+  };
+
+  const textTokens = new Set(['text', 'text-secondary', 'text-muted', 'ink', 'accent',
+    'accent-light', 'blue-deep', 'blue-mid', 'blue-soft', 'positive', 'warning', 'negative',
+    'p1', 'p2', 'p3']);
+
+  function contrastCurve(t) {
+    if (t < 0.5) { const n = t * 2; return n * n * n * 0.5; }
+    const n = (1 - t) * 2; return 1 - n * n * n * 0.5;
+  }
+
+  /* ================================================================
+     MERMAID THEME BUILDER
+     ================================================================ */
+  function buildMermaidTheme(isDark) {
+    const t = isDark ? 0.10 : 0.90;
+    const tText = isDark ? 0.02 : 0.98;
+    return {
+      theme: 'base',
+      themeVariables: {
+        primaryColor:       lerpHex('#0e1828', '#dce8f8', t),
+        secondaryColor:     lerpHex('#201810', '#f0e4d0', t),
+        tertiaryColor:      lerpHex('#0a1a0a', '#dce8dc', t),
+        primaryTextColor:   lerpHex('#ffffff', '#000000', tText),
+        secondaryTextColor: lerpHex('#d8d0c5', '#333028', tText),
+        primaryBorderColor: lerpHex('#90c0f0', '#3a6aa0', t),
+        secondaryBorderColor:lerpHex('#dab880', '#7a5f3e', t),
+        lineColor:          lerpHex('#90a8c0', '#4a5868', t),
+        textColor:          lerpHex('#ffffff', '#000000', tText),
+        mainBkg:            lerpHex('#0e1828', '#dce8f8', t),
+        nodeBorder:         lerpHex('#90c0f0', '#3a6aa0', t),
+        clusterBkg:         lerpHex('#0a1018', '#f0ede9', t),
+        clusterBorder:      lerpHex('#3a4255', '#b8b0a5', t),
+        titleColor:         lerpHex('#ffffff', '#000000', tText),
+        edgeLabelBackground:lerpHex('#0a1018', '#faf9f7', t),
+        fontFamily: 'Inter, system-ui, sans-serif',
+        fontSize: '14px',
+      }
+    };
+  }
+
+  /* ================================================================
+     DOM REFERENCES
+     ================================================================ */
+  const root = document.documentElement;
+  const slider = document.getElementById('brightness-slider');
+  const spacingSlider = document.getElementById('spacing-slider');
+  const settingsToggle = document.getElementById('settings-toggle');
+  const settingsDropdown = document.getElementById('settings-dropdown');
+  const valBrightness = document.getElementById('val-brightness');
+  const valSpacing = document.getElementById('val-spacing');
+
+  let currentThemeIsDark = false;
+  let mermaidReady = false;
+  let spacingLevel = 30;
+
+  /* ================================================================
+     SPACING ENGINE
+     ================================================================ */
+  function applySpacing(level) {
+    spacingLevel = level;
+    const t = level / 100;
+    root.style.setProperty('--typo-letter', (-0.02 + t * 0.08).toFixed(4) + 'em');
+    root.style.setProperty('--typo-word', (-0.04 + t * 0.22).toFixed(4) + 'em');
+    valSpacing.textContent = level;
+  }
+
+  /* ================================================================
+     BRIGHTNESS ENGINE
+     ================================================================ */
+  function applyBrightness(b01) {
+    for (const [name, [dark, light]] of Object.entries(tokens)) {
+      const t = textTokens.has(name) ? contrastCurve(b01) : b01;
+      root.style.setProperty('--' + name, lerpHex(dark, light, t));
+    }
+    const accentRgb = b01 < 0.5 ? '218,184,128' : '122,95,62';
+    const blueRgb = b01 < 0.5 ? '144,192,240' : '58,106,160';
+    root.style.setProperty('--accent-faint', `rgba(${accentRgb}, ${b01 < 0.5 ? 0.15 : 0.07})`);
+    root.style.setProperty('--blue-faint', `rgba(${blueRgb}, ${b01 < 0.5 ? 0.18 : 0.07})`);
+    valBrightness.textContent = b01.toFixed(2);
+
+    const shouldBeDark = b01 < 0.5;
+    if (shouldBeDark !== currentThemeIsDark && mermaidReady) {
+      currentThemeIsDark = shouldBeDark;
+      rerenderMermaid(shouldBeDark);
+    }
+  }
+
+  /* ================================================================
+     MERMAID SOURCE CAPTURE
+     ================================================================ */
+  const mermaidSources = [];
+  document.querySelectorAll('pre.mermaid').forEach((el, i) => {
+    mermaidSources.push({ el, source: el.textContent, id: 'mermaid-' + i });
+    el.setAttribute('id', 'mermaid-' + i);
+  });
+
+  /* ================================================================
+     SVG DARK MODE PATCH
+     ================================================================ */
+  function patchSvgDarkMode(svgEl) {
+    if (!svgEl) return;
+    svgEl.querySelectorAll('rect, polygon, circle, path').forEach(shape => {
+      const fill = shape.getAttribute('fill');
+      if (fill && ['#ffffff','#fff','white','#ececff','#ECECFF','#f4f4f4','#e8e8e8','#eee','#ddd','#f8f7f5','#f0ede9'].includes(fill)) {
+        shape.setAttribute('fill', '#142030');
+      }
+    });
+    svgEl.querySelectorAll('text, tspan').forEach(txt => {
+      const fill = txt.getAttribute('fill');
+      if (fill && ['#000','#000000','black','#333','#333333','#1a1a1a','#141414','#111111'].includes(fill)) {
+        txt.setAttribute('fill', '#ffffff');
+      }
+    });
+  }
+
+  /* ================================================================
+     MERMAID RERENDER
+     ================================================================ */
+  let rerenderMermaid = async function(isDark) {
+    const theme = buildMermaidTheme(isDark);
+    mermaid.initialize({ startOnLoad: false, ...theme });
+    for (const { el, source, id } of mermaidSources) {
+      el.removeAttribute('data-processed');
+      el.innerHTML = source;
+      try {
+        const { svg } = await mermaid.render(id + '-svg', source);
+        el.innerHTML = svg;
+        const svgEl = el.querySelector('svg');
+        if (isDark) patchSvgDarkMode(svgEl);
+      } catch (e) { /* keep existing on error */ }
+    }
+  };
+
+  /* ================================================================
+     SLIDER WIRING
+     ================================================================ */
+  slider.addEventListener('input', function() { applyBrightness(this.value / 100); });
+  spacingSlider.addEventListener('input', function() { applySpacing(+this.value); });
+
+  // Settings panel
+  settingsToggle.addEventListener('click', () => {
+    settingsToggle.classList.toggle('open');
+    settingsDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.settings-dropdown') && !e.target.closest('.toolbar-settings-btn')) {
+      settingsToggle.classList.remove('open');
+      settingsDropdown.classList.remove('open');
+    }
+  });
+
+  // Debounced resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (mermaidReady) rerenderMermaid(currentThemeIsDark);
+    }, 400);
+  });
+
+  // Table scroll shadows
+  document.querySelectorAll('.table-wrap').forEach(wrap => {
+    const update = () => {
+      wrap.classList.toggle('scrolled-left', wrap.scrollLeft > 4);
+      wrap.classList.toggle('scrolled-right', wrap.scrollLeft < wrap.scrollWidth - wrap.clientWidth - 4);
+    };
+    wrap.addEventListener('scroll', update, { passive: true });
+    setTimeout(update, 100);
+  });
+
+  /* ================================================================
+     INITIALIZATION
+     ================================================================ */
+  currentThemeIsDark = false;
+  mermaid.initialize({ startOnLoad: true, ...buildMermaidTheme(false) });
+
+  setTimeout(() => {
+    mermaidReady = true;
+  }, 2500);
+
+  applyBrightness(0.85);
+  applySpacing(30);
+
+  /* ================================================================
+     SECTION INDEX — click to scroll + open, track visited
+     ================================================================ */
+  document.querySelectorAll('.section-index-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const drawerId = item.dataset.drawer;
+      const drawer = document.getElementById(drawerId);
+      if (!drawer) return;
+      if (!drawer.classList.contains('open')) drawer.classList.add('open');
+      item.classList.add('visited');
+      drawer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Mark index item as visited when drawer opened directly
+  document.querySelectorAll('.drawer-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const drawer = header.parentElement;
+      const id = drawer.id;
+      const indexItem = document.querySelector(`.section-index-item[data-drawer="${id}"]`);
+      if (indexItem) indexItem.classList.add('visited');
+    });
+  });
+
+  // Escape to close settings
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      settingsToggle.classList.remove('open');
+      settingsDropdown.classList.remove('open');
+    }
+  });
+</script>
+</body>
+</html>

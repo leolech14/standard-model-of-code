@@ -20,6 +20,7 @@ import {
   Settings,
   Inbox,
   BookOpen,
+  FileText,
   ChevronRight,
   Globe,
 } from 'lucide-react';
@@ -75,6 +76,7 @@ const NAV_GROUPS: NavGroup[] = [
     label: 'INTELLIGENCE',
     items: [
       { path: '/journal', label: 'Journal', icon: BookOpen },
+      { path: '/docs', label: 'Knowledge Base', icon: FileText },
       { path: '/inbox', label: 'Inbox', icon: Inbox },
       { path: '/memory', label: 'Memory', icon: Database },
       { path: '/tools', label: 'Tools', icon: Wrench },
