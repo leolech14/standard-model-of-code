@@ -136,21 +136,57 @@ function TreeNode({
   );
 }
 
-/* ── Content Items ───────────────────────────── */
+/* ── Content Items (rich preview cards) ──────── */
+
+function FolderThumbnail({ node }: { node: FileSystemNode }) {
+  const children = node.children || [];
+  const dirCount = children.filter((c) => c.type === 'directory').length;
+  const fileCount = children.filter((c) => c.type === 'file').length;
+  const maxItems = 9;
+  const preview = children.slice(0, maxItems);
+
+  if (children.length === 0) {
+    return (
+      <div className="w-20 h-20 mb-2 flex items-center justify-center bg-[var(--color-surface)]/20 rounded-[var(--radius)] border border-[var(--color-border)] group-hover:border-[var(--color-text-muted)] transition-all">
+        <Folder className="w-8 h-8 text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)]" strokeWidth={1} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-20 h-20 mb-2 bg-[var(--color-bg)]/50 rounded-[var(--radius)] border border-[var(--color-border)] p-1.5 flex flex-col gap-1 group-hover:border-[var(--color-text-muted)] transition-all overflow-hidden shadow-sm">
+      <div className="grid grid-cols-3 gap-0.5 w-full flex-1 auto-rows-fr">
+        {preview.map((child, i) => (
+          <div
+            key={i}
+            title={child.name}
+            className={`rounded-[2px] transition-colors ${
+              child.type === 'directory'
+                ? 'bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/20 group-hover:bg-[var(--color-accent)]/60'
+                : 'bg-[var(--color-emerald)]/40 border border-[var(--color-emerald)]/20 group-hover:bg-[var(--color-emerald)]/60'
+            }`}
+          />
+        ))}
+        {Array.from({ length: Math.max(0, maxItems - preview.length) }).map((_, i) => (
+          <div key={`e-${i}`} className="rounded-[2px] bg-[var(--color-surface)]/50" />
+        ))}
+      </div>
+      <div className="h-1 w-full flex rounded-full overflow-hidden bg-[var(--color-surface)] shrink-0">
+        <div className="bg-[var(--color-accent)]" style={{ width: `${(dirCount / (dirCount + fileCount || 1)) * 100}%` }} />
+        <div className="bg-[var(--color-emerald)]" style={{ width: `${(fileCount / (dirCount + fileCount || 1)) * 100}%` }} />
+      </div>
+    </div>
+  );
+}
 
 function FolderCard({ node, onClick }: { node: FileSystemNode; onClick: () => void }) {
-  const dirCount = node.children?.filter((c) => c.type === 'directory').length ?? 0;
-  const fileCount = node.children?.filter((c) => c.type === 'file').length ?? 0;
-  const total = node.childCount ?? dirCount + fileCount;
-
+  const total = node.childCount ?? (node.children?.length ?? 0);
   return (
     <div
       onClick={onClick}
-      className="group flex flex-col items-center p-3 rounded-[var(--radius)] border border-transparent hover:border-[var(--color-border)] hover:bg-[var(--color-surface-hover)]/40 cursor-pointer transition-all"
+      className="group flex flex-col items-center p-3 rounded-[var(--radius-lg)] border border-transparent hover:border-[var(--color-border)] hover:bg-[var(--color-surface-hover)]/40 cursor-pointer transition-all h-44 justify-start"
     >
-      <div className="w-16 h-16 mb-2 bg-[var(--color-surface)]/50 rounded-[var(--radius)] border border-[var(--color-border)] flex items-center justify-center group-hover:border-[var(--color-text-muted)] transition-colors">
-        <Folder className="w-7 h-7 text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)]" strokeWidth={1.2} />
-      </div>
+      <FolderThumbnail node={node} />
       <span className="text-xs text-[var(--color-text-secondary)] font-medium text-center truncate w-full">{node.name}</span>
       <span className="text-[10px] text-[var(--color-text-muted)] mt-0.5 font-mono">{total} items</span>
     </div>
@@ -160,14 +196,20 @@ function FolderCard({ node, onClick }: { node: FileSystemNode; onClick: () => vo
 function FileCard({ node }: { node: FileSystemNode }) {
   const Icon = getFileIcon(node.extension);
   return (
-    <div className="group flex flex-col p-3 rounded-[var(--radius)] border border-[var(--color-border)] bg-[var(--color-surface)]/20 hover:bg-[var(--color-surface-hover)]/60 hover:border-[var(--color-text-muted)] cursor-pointer transition-all">
-      <div className="flex-1 flex items-center justify-center mb-2 opacity-50 group-hover:opacity-80 transition-opacity">
-        <Icon className="w-7 h-7 text-[var(--color-text-muted)]" strokeWidth={1.2} />
+    <div className="group relative flex flex-col p-3 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)]/20 hover:bg-[var(--color-surface-hover)]/60 hover:border-[var(--color-text-muted)] cursor-pointer transition-all h-44">
+      <div className="flex justify-end">
+        <span className="text-[9px] font-mono uppercase text-[var(--color-text-muted)] bg-[var(--color-surface)]/60 px-1.5 py-0.5 rounded-[var(--radius-sm)]">
+          {node.extension?.replace('.', '') || '?'}
+        </span>
       </div>
-      <div className="text-xs font-medium text-[var(--color-text-secondary)] truncate">{node.name}</div>
-      <div className="text-[10px] font-mono text-[var(--color-text-muted)] flex items-center justify-between mt-0.5">
-        <span>{node.extension?.replace('.', '') || '?'}</span>
-        <span>{formatSize(node.size)}</span>
+      <div className="flex-1 flex items-center justify-center opacity-40 group-hover:opacity-70 transition-opacity">
+        <Icon className="w-10 h-10 text-[var(--color-text-muted)]" strokeWidth={1} />
+      </div>
+      <div className="min-w-0">
+        <div className="text-xs font-medium text-[var(--color-text-secondary)] truncate">{node.name}</div>
+        <div className="text-[10px] font-mono text-[var(--color-text-muted)] mt-0.5">
+          {formatSize(node.size)}{node.modified && ` · ${formatDate(node.modified)}`}
+        </div>
       </div>
     </div>
   );
