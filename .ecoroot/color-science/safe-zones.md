@@ -1,0 +1,1 @@
+/Users/lech/PROJECTS_all/PROJECT_vector-ui/UI_ALGEBRA_SAFE_ZONES.md
