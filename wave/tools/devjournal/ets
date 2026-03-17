@@ -1,0 +1,87 @@
+#!/bin/bash
+# ETS — Ecosystem Trace & Signature CLI wrapper
+#
+# Usage:
+#   ets                    # Run pipeline for today
+#   ets 2026-03-17         # Specific date
+#   ets --range 7          # Last 7 days
+#   ets --no-correlate     # Skip correlation
+#   ets correlate          # Run correlator only
+#   ets status             # Show ledger stats
+#   ets stamp              # Install post-commit hook in current repo
+#
+# Install as alias:
+#   echo 'alias ets="bash ~/PROJECTS_all/PROJECT_elements/wave/tools/devjournal/ets"' >> ~/.zshrc
+
+set -euo pipefail
+
+ETS_DIR="$HOME/PROJECTS_all/PROJECT_elements/wave/tools/devjournal"
+LEDGER="$HOME/.devjournal/devjournal.jsonl"
+ETS_OUTPUT="$HOME/.ets"
+
+case "${1:-run}" in
+  run|"")
+    shift 2>/dev/null || true
+    python3 "$ETS_DIR/run.py" "$@"
+    ;;
+
+  correlate)
+    shift
+    DATE="${1:-$(date +%Y-%m-%d)}"
+    python3 "$ETS_DIR/correlator.py" "$DATE" --append
+    ;;
+
+  status)
+    echo "ETS Status"
+    echo "  Ledger: $LEDGER"
+    if [ -f "$LEDGER" ]; then
+      LINES=$(wc -l < "$LEDGER" | tr -d ' ')
+      SIZE=$(du -h "$LEDGER" | cut -f1)
+      echo "  Events: $LINES"
+      echo "  Size: $SIZE"
+    else
+      echo "  Events: 0 (ledger not found)"
+    fi
+
+    if [ -d "$HOME/.devjournal/days" ]; then
+      DAYS=$(ls "$HOME/.devjournal/days/"*.json 2>/dev/null | wc -l | tr -d ' ')
+      echo "  Daily digests: $DAYS"
+    fi
+
+    if [ -d "$ETS_OUTPUT/maps/correlations" ]; then
+      CORRS=$(ls "$ETS_OUTPUT/maps/correlations/"*.json 2>/dev/null | wc -l | tr -d ' ')
+      echo "  Correlation reports: $CORRS"
+    fi
+
+    if [ -f "$ETS_OUTPUT/trace_registry.yaml" ]; then
+      ACTIVE=$(grep -c 'status: active' "$ETS_OUTPUT/trace_registry.yaml" 2>/dev/null || echo 0)
+      echo "  Active collectors: $ACTIVE"
+    fi
+    ;;
+
+  stamp)
+    # Install post-commit hook in current repo
+    HOOK_SRC="$ETS_DIR/hooks/ets-post-commit"
+    if [ ! -d .git ]; then
+      echo "Error: not in a git repository"
+      exit 1
+    fi
+    HOOK_DST=".git/hooks/post-commit"
+    if [ -f "$HOOK_DST" ]; then
+      echo "Warning: post-commit hook already exists at $HOOK_DST"
+      echo "  Appending ETS hook..."
+      echo "" >> "$HOOK_DST"
+      echo "# ETS Signature Protocol" >> "$HOOK_DST"
+      cat "$HOOK_SRC" >> "$HOOK_DST"
+    else
+      cp "$HOOK_SRC" "$HOOK_DST"
+      chmod +x "$HOOK_DST"
+    fi
+    echo "ETS post-commit hook installed in $(pwd)"
+    ;;
+
+  *)
+    # Pass everything to run.py
+    python3 "$ETS_DIR/run.py" "$@"
+    ;;
+esac

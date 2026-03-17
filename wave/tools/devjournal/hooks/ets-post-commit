@@ -1,0 +1,57 @@
+#!/bin/bash
+# ETS Post-Commit Hook — stamps Signature Protocol metadata on commits.
+#
+# WRITE side of the git notes protocol. After each commit:
+# 1. Parses Agent-Model/Agent-Access/Agent-Orchestration trailers
+# 2. Falls back to Co-Authored-By heuristic
+# 3. Writes JSON signature to git notes (refs/notes/ets-signatures)
+#
+# Install:
+#   cp wave/tools/devjournal/hooks/ets-post-commit .git/hooks/post-commit
+#   chmod +x .git/hooks/post-commit
+#
+# Or use git config:
+#   git config core.hooksPath wave/tools/devjournal/hooks/
+
+set -euo pipefail
+
+SHA=$(git rev-parse HEAD)
+BODY=$(git log -1 --format='%b' "$SHA")
+HOSTNAME=$(hostname -s)
+TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+# Parse trailers
+MODEL=""
+ACCESS=""
+ORCHESTRATION=""
+SESSION_ID=""
+
+while IFS= read -r line; do
+  case "$line" in
+    Agent-Model:*)       MODEL="${line#Agent-Model: }" ;;
+    Agent-Access:*)      ACCESS="${line#Agent-Access: }" ;;
+    Agent-Orchestration:*) ORCHESTRATION="${line#Agent-Orchestration: }" ;;
+    Agent-Session:*)     SESSION_ID="${line#Agent-Session: }" ;;
+  esac
+done <<< "$BODY"
+
+# Fallback: detect Co-Authored-By Claude
+if [ -z "$MODEL" ] && echo "$BODY" | grep -q "Co-Authored-By.*Claude"; then
+  MODEL="claude"
+  ACCESS="${ACCESS:-cli}"
+  ORCHESTRATION="${ORCHESTRATION:-direct}"
+fi
+
+# Only stamp if we have attribution
+if [ -z "$MODEL" ]; then
+  exit 0
+fi
+
+# Build JSON signature
+NOTE_JSON=$(cat <<ENDJSON
+{"model":"${MODEL}","access_point":"${ACCESS:-unknown}","orchestration":"${ORCHESTRATION:-unknown}","session_id":"${SESSION_ID}","hostname":"${HOSTNAME}","stamped_at":"${TS}","sha":"${SHA:0:12}"}
+ENDJSON
+)
+
+# Write to git notes (create ref if needed)
+git notes --ref=refs/notes/ets-signatures add -f -m "$NOTE_JSON" "$SHA" 2>/dev/null || true
