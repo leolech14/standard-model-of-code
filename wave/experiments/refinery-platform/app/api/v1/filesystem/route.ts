@@ -25,8 +25,13 @@ interface ScanStats {
 /* ── Constants ──────────────────────────────── */
 
 const HOME = homedir();
+const IS_VPS = HOME === '/root';
+const MAC_TAILSCALE_IP = '100.111.18.33';
+const MAC_API_PORT = 3001;
+const MAC_API_TIMEOUT = 3000; // 3s — fail fast if Mac is offline
 
-const ROOTS: Record<string, string> = {
+// Roots available on THIS machine
+const LOCAL_ROOTS: Record<string, string> = {
   PROJECTS_all: join(HOME, 'PROJECTS_all'),
   Downloads: join(HOME, 'Downloads'),
   _inbox: join(HOME, '_inbox'),
@@ -34,6 +39,11 @@ const ROOTS: Record<string, string> = {
   'music-production': join(HOME, 'music-production'),
   '3d-workshop': join(HOME, '3d-workshop'),
 };
+
+// On VPS, some roots only exist on Mac — proxy via Tailscale
+const MAC_ONLY_ROOTS = new Set(['Downloads', '_inbox', 'music-production', '3d-workshop']);
+
+const ROOTS = LOCAL_ROOTS;
 
 const EXCLUDED = new Set([
   '.git', 'node_modules', '.venv', '__pycache__', '.next', '.cache',
@@ -127,12 +137,43 @@ async function scanDirectory(
 
 /* ── Route Handler ──────────────────────────── */
 
+/** Try to proxy a filesystem request to the Mac via Tailscale */
+async function proxyToMac(rootKey: string, subPath: string, depth: number): Promise<NextResponse | null> {
+  // Only proxy on VPS for Mac-only roots
+  if (HOME !== '/root') return null;
+  if (!MAC_ONLY_ROOTS.has(rootKey)) return null;
+
+  const params = new URLSearchParams({ root: rootKey, depth: String(depth) });
+  if (subPath) params.set('path', subPath);
+  const url = `http://${MAC_TAILSCALE_IP}:${MAC_API_PORT}/api/v1/filesystem?${params}`;
+
+  try {
+    const res = await fetch(url, {
+      signal: AbortSignal.timeout(MAC_API_TIMEOUT),
+      cache: 'no-store',
+    });
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    if (data?.data) data.data.source = 'mac';
+    return NextResponse.json(data);
+  } catch {
+    // Mac offline or Refinery not running — fall back to local
+    return null;
+  }
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const rootKey = searchParams.get('root') || 'PROJECTS_all';
     const subPath = searchParams.get('path') || '';
     const depth = Math.min(Math.max(parseInt(searchParams.get('depth') || String(DEFAULT_DEPTH)), 1), MAX_DEPTH);
+
+    // On VPS: try Mac proxy for Mac-only roots
+    const macResponse = await proxyToMac(rootKey, subPath, depth);
+    if (macResponse) return macResponse;
 
     // Validate root
     const rootDir = ROOTS[rootKey];
@@ -166,6 +207,7 @@ export async function GET(request: Request) {
         rootKey,
         rootPath: rootDir,
         roots: Object.keys(ROOTS),
+        source: 'local',
       },
     });
   } catch (err) {
