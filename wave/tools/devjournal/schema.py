@@ -95,6 +95,8 @@ class Source(str, Enum):
     OPENFINANCE = "openfinance"
     GEMINI = "gemini"
     GITHUB = "github"
+    # Sensor collectors (tools that feed intelligence)
+    EMAIL = "email"
 
 
 class EventKind(str, Enum):
