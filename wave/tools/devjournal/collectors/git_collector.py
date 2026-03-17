@@ -1,22 +1,50 @@
 """
-Git Collector — scans PROJECTS_all for repos with activity on target date.
+Git Trace Collector — scans PROJECTS_all for repos with activity on target date.
 
-Uses REH EvolutionCompiler for per-project temporal analysis,
-then emits individual events (commit, file_born, milestone) to the ledger.
+Extracts commits, file births, and milestones. Parses ETS Signature Protocol
+trailers (Agent-Model, Agent-Access, Agent-Orchestration, Agent-Session) from
+commit messages to populate Signature provenance blocks.
 """
 
+import re
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 import sys
 _devjournal = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_devjournal))
 from schema import (
-    CollectorResult, DevJournalEvent, EventKind, Source,
+    CollectorResult, DevJournalEvent, EventKind, Signature, Source,
     PROJECTS_ROOT, generate_oid,
 )
+
+
+# ── Signature Protocol trailer keys ─────────────────────
+
+TRAILER_MAP = {
+    "Agent-Model": "model",
+    "Agent-Access": "access_point",
+    "Agent-Orchestration": "orchestration",
+    "Agent-Session": "session_id",
+}
+
+# ── Conventional commit prefix patterns for milestone detection ──
+
+FEAT_PATTERNS = re.compile(r"^(feat|add|implement|create|build|launch|new)\b", re.IGNORECASE)
+FIX_PATTERNS = re.compile(r"^(fix|bugfix|hotfix|patch|repair)\b", re.IGNORECASE)
+REFACTOR_PATTERNS = re.compile(r"^(refactor|rename|restructure|reorganize|simplify|clean)\b", re.IGNORECASE)
+DOCS_PATTERNS = re.compile(r"^(docs|doc|document|spec|plan)\b", re.IGNORECASE)
+INFRA_PATTERNS = re.compile(r"^(ci|cd|deploy|infra|ops|build|chore)\b", re.IGNORECASE)
+
+# Milestone threshold: any project meeting ONE of these qualifies
+MILESTONE_THRESHOLDS = {
+    "min_commits": 3,          # lowered from 5
+    "min_insertions": 500,     # significant code volume
+    "min_files": 10,           # broad change
+    "min_feat_commits": 2,     # multiple features in a day
+}
 
 
 def _run_git(repo: str, args: list) -> Optional[str]:
@@ -40,6 +68,63 @@ def _is_git_repo(path: Path) -> bool:
     return (path / ".git").is_dir()
 
 
+def _parse_trailers(repo: str, sha: str) -> Optional[Signature]:
+    """Parse ETS Signature Protocol trailers from a commit message."""
+    body = _run_git(repo, ["log", "-1", "--format=%b", sha])
+    if not body:
+        return None
+
+    sig_fields: Dict[str, str] = {}
+    for line in body.split("\n"):
+        line = line.strip()
+        for trailer_key, sig_key in TRAILER_MAP.items():
+            if line.startswith(f"{trailer_key}:"):
+                value = line[len(trailer_key) + 1:].strip()
+                if value:
+                    sig_fields[sig_key] = value
+
+    if not sig_fields:
+        return None
+
+    # Also check Co-Authored-By for model hints
+    for line in body.split("\n"):
+        if "Co-Authored-By:" in line and "Claude" in line and "model" not in sig_fields:
+            sig_fields["model"] = "claude"
+            if "access_point" not in sig_fields:
+                sig_fields["access_point"] = "cli"
+            if "orchestration" not in sig_fields:
+                sig_fields["orchestration"] = "direct"
+
+    if not sig_fields.get("model"):
+        return None
+
+    return Signature(
+        model=sig_fields.get("model", "unknown"),
+        access_point=sig_fields.get("access_point", "unknown"),
+        orchestration=sig_fields.get("orchestration", "unknown"),
+        session_id=sig_fields.get("session_id"),
+        hostname="",
+    )
+
+
+def _classify_commit(message: str) -> str:
+    """Classify a commit message by conventional commit type."""
+    # Strip scope: "feat(refinery):" -> "feat"
+    clean = re.sub(r"^(\w+)\(.*?\):\s*", r"\1: ", message)
+
+    if FEAT_PATTERNS.search(clean):
+        return "feat"
+    if FIX_PATTERNS.search(clean):
+        return "fix"
+    if REFACTOR_PATTERNS.search(clean):
+        return "refactor"
+    if DOCS_PATTERNS.search(clean):
+        return "docs"
+    if INFRA_PATTERNS.search(clean):
+        return "infra"
+    return "other"
+
+
 def _find_active_repos(date_str: str) -> List[Path]:
     """Find all PROJECT_* repos that have commits on the target date."""
     active = []
@@ -50,7 +135,6 @@ def _find_active_repos(date_str: str) -> List[Path]:
             continue
         if not _is_git_repo(d):
             continue
-        # Check if repo has commits on target date
         out = _run_git(str(d), [
             "log", "--oneline",
             f"--since={date_str}T00:00:00",
@@ -67,7 +151,6 @@ def _collect_commits(repo: Path, date_str: str) -> List[DevJournalEvent]:
     events = []
     project_name = repo.name
 
-    # Get commits with full detail
     out = _run_git(str(repo), [
         "log",
         f"--since={date_str}T00:00:00",
@@ -91,7 +174,7 @@ def _collect_commits(repo: Path, date_str: str) -> List[DevJournalEvent]:
         except ValueError:
             ts = datetime.now(timezone.utc)
 
-        # Get changed file count
+        # Parse shortstat
         stat = _run_git(str(repo), ["diff", "--shortstat", f"{sha}^..{sha}"])
         files_changed = 0
         insertions = 0
@@ -106,6 +189,12 @@ def _collect_commits(repo: Path, date_str: str) -> List[DevJournalEvent]:
                 elif "deletion" in part:
                     deletions = int(part.split()[0])
 
+        # Parse Signature Protocol trailers
+        signature = _parse_trailers(str(repo), sha)
+
+        # Classify commit type
+        commit_type = _classify_commit(message)
+
         oid = generate_oid(ts, "git", "commit", sha[:12])
         events.append(DevJournalEvent(
             oid=oid,
@@ -119,7 +208,10 @@ def _collect_commits(repo: Path, date_str: str) -> List[DevJournalEvent]:
                 "files_changed": files_changed,
                 "insertions": insertions,
                 "deletions": deletions,
+                "commit_type": commit_type,
             },
+            tags=[commit_type],
+            signature=signature,
         ))
 
     return events
@@ -147,13 +239,11 @@ def _collect_file_births(repo: Path, date_str: str) -> List[DevJournalEvent]:
         line = line.strip()
         if not line:
             continue
-        # Try to parse as ISO timestamp
         try:
             current_ts = datetime.fromisoformat(line)
             continue
         except ValueError:
             pass
-        # It's a filename
         if current_ts and not any(noise in line for noise in [
             "node_modules/", ".git/", "__pycache__/", ".next/",
             ".venv/", "dist/", "build/",
@@ -175,28 +265,73 @@ def _collect_file_births(repo: Path, date_str: str) -> List[DevJournalEvent]:
 
 
 def _detect_milestones(commits: List[DevJournalEvent], project_name: str) -> List[DevJournalEvent]:
-    """Detect milestone events from commit patterns."""
-    if len(commits) < 5:
+    """Detect milestones using semantic analysis of commit patterns.
+
+    A milestone is detected when a project's daily activity meets any of:
+    - 3+ commits (sustained work)
+    - 500+ insertions (significant volume)
+    - 10+ files changed (broad scope)
+    - 2+ feat commits (multiple capabilities added)
+
+    Milestones are classified by dominant commit type and tagged with
+    all commit types present in the day's work.
+    """
+    if not commits:
         return []
 
-    milestones = []
-    total_files = sum(c.data.get("files_changed", 0) for c in commits)
+    total_commits = len(commits)
     total_insertions = sum(c.data.get("insertions", 0) for c in commits)
+    total_files = sum(c.data.get("files_changed", 0) for c in commits)
 
-    # High-activity day = milestone
-    msgs = " ".join(c.data.get("message", "") for c in commits).lower()
-    if "feat" in msgs or "add" in msgs:
+    # Count by type
+    type_counts: Dict[str, int] = {}
+    for c in commits:
+        ct = c.data.get("commit_type", "other")
+        type_counts[ct] = type_counts.get(ct, 0) + 1
+
+    feat_count = type_counts.get("feat", 0)
+
+    # Check if ANY threshold is met
+    qualifies = (
+        total_commits >= MILESTONE_THRESHOLDS["min_commits"]
+        or total_insertions >= MILESTONE_THRESHOLDS["min_insertions"]
+        or total_files >= MILESTONE_THRESHOLDS["min_files"]
+        or feat_count >= MILESTONE_THRESHOLDS["min_feat_commits"]
+    )
+
+    if not qualifies:
+        return []
+
+    # Determine dominant type
+    if feat_count > 0:
         milestone_type = "capability_added"
-    elif "refactor" in msgs or "rename" in msgs:
-        milestone_type = "refactor"
-    elif "fix" in msgs:
+    elif type_counts.get("fix", 0) > type_counts.get("refactor", 0):
         milestone_type = "bugfix_wave"
+    elif type_counts.get("refactor", 0) > 0:
+        milestone_type = "refactor"
+    elif type_counts.get("docs", 0) > 0:
+        milestone_type = "documentation"
+    elif type_counts.get("infra", 0) > 0:
+        milestone_type = "infrastructure"
     else:
         milestone_type = "major_change"
 
-    ts = commits[-1].ts  # Use last commit timestamp
+    # Build descriptive title from feat commits, or first commit
+    feat_msgs = [c.data.get("message", "") for c in commits if c.data.get("commit_type") == "feat"]
+    if feat_msgs:
+        title = feat_msgs[0]
+        if len(feat_msgs) > 1:
+            title += f" (+{len(feat_msgs) - 1} more features)"
+    else:
+        title = commits[0].data.get("message", "")
+
+    # Tags: all commit types present + milestone type
+    tags = list(set([milestone_type] + list(type_counts.keys())))
+
+    ts = commits[-1].ts
     oid = generate_oid(ts, "git", "milestone", f"{project_name}:{ts.strftime('%Y%m%d')}")
-    milestones.append(DevJournalEvent(
+
+    return [DevJournalEvent(
         oid=oid,
         ts=ts,
         source=Source.GIT,
@@ -204,25 +339,20 @@ def _detect_milestones(commits: List[DevJournalEvent], project_name: str) -> Lis
         project=project_name,
         data={
             "type": milestone_type,
-            "commit_count": len(commits),
+            "commit_count": total_commits,
             "files_changed": total_files,
             "insertions": total_insertions,
-            "title": commits[0].data.get("message", ""),
+            "deletions": sum(c.data.get("deletions", 0) for c in commits),
+            "title": title,
+            "commit_types": type_counts,
+            "has_signature": any(c.signature is not None for c in commits),
         },
-        tags=[milestone_type],
-    ))
-    return milestones
+        tags=tags,
+    )]
 
 
 def collect(date_str: str) -> CollectorResult:
-    """Run the git collector for a target date.
-
-    Args:
-        date_str: Target date in YYYY-MM-DD format.
-
-    Returns:
-        CollectorResult with all git events for the day.
-    """
+    """Run the git trace collector for a target date."""
     all_events: List[DevJournalEvent] = []
     repos = _find_active_repos(date_str)
     projects_found = []
@@ -237,7 +367,6 @@ def collect(date_str: str) -> CollectorResult:
         if commits:
             projects_found.append(repo.name)
 
-    # Sort by timestamp
     all_events.sort(key=lambda e: e.ts)
 
     return CollectorResult(
@@ -250,6 +379,7 @@ def collect(date_str: str) -> CollectorResult:
             "total_commits": sum(1 for e in all_events if e.kind == EventKind.COMMIT),
             "total_file_births": sum(1 for e in all_events if e.kind == EventKind.FILE_BORN),
             "total_milestones": sum(1 for e in all_events if e.kind == EventKind.MILESTONE),
+            "signed_commits": sum(1 for e in all_events if e.kind == EventKind.COMMIT and e.signature),
         },
     )
 
@@ -262,5 +392,6 @@ if __name__ == "__main__":
     print(f"Git collector: {len(result.events)} events from {result.stats.get('repos_scanned', 0)} repos")
     print(f"  Active: {result.stats.get('projects_active', [])}")
     print(f"  Commits: {result.stats.get('total_commits', 0)}")
+    print(f"  Signed: {result.stats.get('signed_commits', 0)}")
     print(f"  File births: {result.stats.get('total_file_births', 0)}")
     print(f"  Milestones: {result.stats.get('total_milestones', 0)}")
