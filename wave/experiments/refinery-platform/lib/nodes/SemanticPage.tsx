@@ -137,17 +137,28 @@ export function SemanticPage({
   const Icon = config?.icon;
 
   // 8. Group + sort nodes for rendering
+  //    Compass→Cartographer: purpose.relevance drives sort when available,
+  //    falls back to representation.order for nodes without purpose.
   const nodesByGroup = useMemo(() => {
     const groups = new Map<string, NodeDefinition[]>();
     for (const node of nodes) {
-      const g = node.representation.group ?? 'default';
+      const g = node.purpose?.narrativeRole ?? node.representation.group ?? 'default';
       const arr = groups.get(g) ?? [];
       arr.push(node);
       groups.set(g, arr);
     }
-    // Sort within each group by order
     for (const [, arr] of groups) {
-      arr.sort((a, b) => (a.representation.order ?? 0) - (b.representation.order ?? 0));
+      arr.sort((a, b) => {
+        const relA = a.purpose?.relevance;
+        const relB = b.purpose?.relevance;
+        // If both have relevance, sort descending (higher = first)
+        if (relA != null && relB != null) return relB - relA;
+        // If only one has relevance, it wins
+        if (relA != null) return -1;
+        if (relB != null) return 1;
+        // Fallback to manual order
+        return (a.representation.order ?? 0) - (b.representation.order ?? 0);
+      });
     }
     return groups;
   }, [nodes]);

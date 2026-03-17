@@ -27,6 +27,7 @@ interface BrowseData {
   stats: { totalDirs: number; totalFiles: number; scanDurationMs: number };
   rootKey: string;
   roots: string[];
+  source?: 'local' | 'mac';
 }
 
 /* ── Helpers ─────────────────────────────────── */
@@ -138,57 +139,77 @@ function TreeNode({
 
 /* ── Content Items (rich preview cards) ──────── */
 
-function FolderThumbnail({ node }: { node: FileSystemNode }) {
-  const children = node.children || [];
-  const dirCount = children.filter((c) => c.type === 'directory').length;
-  const fileCount = children.filter((c) => c.type === 'file').length;
-  const maxItems = 9;
-  const preview = children.slice(0, maxItems);
-
-  if (children.length === 0) {
+/** Mini card inside folder preview — recursive pit effect */
+function MiniItem({ child }: { child: FileSystemNode }) {
+  if (child.type === 'directory') {
+    const kids = child.children || [];
+    const hasContent = kids.length > 0;
     return (
-      <div className="w-20 h-20 mb-2 flex items-center justify-center bg-[var(--color-surface)]/20 rounded-[var(--radius)] border border-[var(--color-border)] group-hover:border-[var(--color-text-muted)] transition-all">
-        <Folder className="w-8 h-8 text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)]" strokeWidth={1} />
+      <div className="flex flex-col rounded-[3px] border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/15 overflow-hidden h-full" title={child.name}>
+        {hasContent ? (
+          <div className="flex-1 grid grid-cols-3 gap-px p-[2px] auto-rows-fr">
+            {kids.slice(0, 9).map((k, i) => (
+              <div key={i} className={`rounded-[1px] ${k.type === 'directory' ? 'bg-[var(--color-accent)]/50' : 'bg-[var(--color-emerald)]/50'}`} />
+            ))}
+          </div>
+        ) : (
+          <div className="flex-1 flex items-center justify-center">
+            <Folder className="w-3 h-3 text-[var(--color-accent)]/60" strokeWidth={1.5} />
+          </div>
+        )}
+        <div className="px-1 py-[1px] text-[6px] text-[var(--color-text-muted)] truncate leading-tight border-t border-[var(--color-accent)]/10">{child.name}</div>
       </div>
     );
   }
-
+  // File mini card
+  const Icon = getFileIcon(child.extension);
   return (
-    <div className="w-20 h-20 mb-2 bg-[var(--color-bg)]/50 rounded-[var(--radius)] border border-[var(--color-border)] p-1.5 flex flex-col gap-1 group-hover:border-[var(--color-text-muted)] transition-all overflow-hidden shadow-sm">
-      <div className="grid grid-cols-3 gap-0.5 w-full flex-1 auto-rows-fr">
-        {preview.map((child, i) => (
-          <div
-            key={i}
-            title={child.name}
-            className={`rounded-[2px] transition-colors ${
-              child.type === 'directory'
-                ? 'bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/20 group-hover:bg-[var(--color-accent)]/60'
-                : 'bg-[var(--color-emerald)]/40 border border-[var(--color-emerald)]/20 group-hover:bg-[var(--color-emerald)]/60'
-            }`}
-          />
-        ))}
-        {Array.from({ length: Math.max(0, maxItems - preview.length) }).map((_, i) => (
-          <div key={`e-${i}`} className="rounded-[2px] bg-[var(--color-surface)]/50" />
-        ))}
-      </div>
-      <div className="h-1 w-full flex rounded-full overflow-hidden bg-[var(--color-surface)] shrink-0">
-        <div className="bg-[var(--color-accent)]" style={{ width: `${(dirCount / (dirCount + fileCount || 1)) * 100}%` }} />
-        <div className="bg-[var(--color-emerald)]" style={{ width: `${(fileCount / (dirCount + fileCount || 1)) * 100}%` }} />
-      </div>
+    <div className="flex flex-col items-center justify-center rounded-[3px] border border-[var(--color-emerald)]/25 bg-[var(--color-emerald)]/10 overflow-hidden h-full gap-0.5 p-1" title={child.name}>
+      <Icon className="w-3.5 h-3.5 text-[var(--color-emerald)]/60 shrink-0" strokeWidth={1.2} />
+      <div className="text-[5px] text-[var(--color-text-muted)] truncate w-full text-center leading-tight">{child.name}</div>
     </div>
   );
 }
 
 function FolderCard({ node, onClick }: { node: FileSystemNode; onClick: () => void }) {
-  const total = node.childCount ?? (node.children?.length ?? 0);
+  const children = node.children || [];
+  const total = node.childCount ?? children.length;
+  const dirCount = children.filter((c) => c.type === 'directory').length;
+  const fileCount = children.filter((c) => c.type === 'file').length;
+  const preview = children.slice(0, 16);
+
   return (
     <div
       onClick={onClick}
-      className="group flex flex-col items-center p-3 rounded-[var(--radius-lg)] border border-transparent hover:border-[var(--color-border)] hover:bg-[var(--color-surface-hover)]/40 cursor-pointer transition-all h-44 justify-start"
+      className="group flex flex-col rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-bg)]/50 hover:border-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)]/30 cursor-pointer transition-all h-48 overflow-hidden"
     >
-      <FolderThumbnail node={node} />
-      <span className="text-xs text-[var(--color-text-secondary)] font-medium text-center truncate w-full">{node.name}</span>
-      <span className="text-[10px] text-[var(--color-text-muted)] mt-0.5 font-mono">{total} items</span>
+      {/* Preview area — fills most of card */}
+      <div className="flex-1 p-1 overflow-hidden">
+        {preview.length > 0 ? (
+          <div className={`grid ${preview.length > 6 ? 'grid-cols-4' : 'grid-cols-3'} gap-[3px] h-full auto-rows-fr`}>
+            {preview.map((child, i) => (
+              <MiniItem key={i} child={child} />
+            ))}
+          </div>
+        ) : (
+          <div className="h-full flex items-center justify-center">
+            <Folder className="w-10 h-10 text-[var(--color-text-muted)]/30" strokeWidth={1} />
+          </div>
+        )}
+      </div>
+      {/* Footer — name + stats */}
+      <div className="px-2.5 pb-2 pt-1 border-t border-[var(--color-border)]/50">
+        <div className="text-xs font-medium text-[var(--color-text-secondary)] truncate">{node.name}</div>
+        <div className="flex items-center gap-2 mt-0.5">
+          <span className="text-[9px] text-[var(--color-text-muted)] font-mono">{total} items</span>
+          {dirCount > 0 && fileCount > 0 && (
+            <div className="flex-1 h-1 flex rounded-full overflow-hidden bg-[var(--color-surface)]">
+              <div className="bg-[var(--color-accent)]/60" style={{ width: `${(dirCount / (dirCount + fileCount)) * 100}%` }} />
+              <div className="bg-[var(--color-emerald)]/60" style={{ width: `${(fileCount / (dirCount + fileCount)) * 100}%` }} />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -196,18 +217,21 @@ function FolderCard({ node, onClick }: { node: FileSystemNode; onClick: () => vo
 function FileCard({ node }: { node: FileSystemNode }) {
   const Icon = getFileIcon(node.extension);
   return (
-    <div className="group relative flex flex-col p-3 rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)]/20 hover:bg-[var(--color-surface-hover)]/60 hover:border-[var(--color-text-muted)] cursor-pointer transition-all h-44">
-      <div className="flex justify-end">
-        <span className="text-[9px] font-mono uppercase text-[var(--color-text-muted)] bg-[var(--color-surface)]/60 px-1.5 py-0.5 rounded-[var(--radius-sm)]">
+    <div className="group relative flex flex-col rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)]/20 hover:bg-[var(--color-surface-hover)]/60 hover:border-[var(--color-text-muted)] cursor-pointer transition-all h-48 overflow-hidden">
+      {/* Preview area — large centered icon */}
+      <div className="flex-1 flex items-center justify-center opacity-30 group-hover:opacity-60 transition-opacity">
+        <Icon className="w-14 h-14 text-[var(--color-text-muted)]" strokeWidth={0.8} />
+      </div>
+      {/* Extension badge top-right */}
+      <div className="absolute top-2 right-2">
+        <span className="text-[8px] font-mono uppercase text-[var(--color-text-muted)] bg-[var(--color-surface)]/80 px-1.5 py-0.5 rounded-[var(--radius-sm)] backdrop-blur-sm">
           {node.extension?.replace('.', '') || '?'}
         </span>
       </div>
-      <div className="flex-1 flex items-center justify-center opacity-40 group-hover:opacity-70 transition-opacity">
-        <Icon className="w-10 h-10 text-[var(--color-text-muted)]" strokeWidth={1} />
-      </div>
-      <div className="min-w-0">
+      {/* Footer */}
+      <div className="px-2.5 pb-2 pt-1 border-t border-[var(--color-border)]/50">
         <div className="text-xs font-medium text-[var(--color-text-secondary)] truncate">{node.name}</div>
-        <div className="text-[10px] font-mono text-[var(--color-text-muted)] mt-0.5">
+        <div className="text-[9px] font-mono text-[var(--color-text-muted)] mt-0.5">
           {formatSize(node.size)}{node.modified && ` · ${formatDate(node.modified)}`}
         </div>
       </div>
@@ -494,10 +518,16 @@ export default function ExplorerPage() {
 
           {/* Status bar */}
           <div className="h-6 bg-[var(--color-surface)] border-t border-[var(--color-border)] flex items-center px-4 justify-between text-[9px] text-[var(--color-text-muted)] select-none">
-            <span className="font-mono">/{selectedRoot}/{activePath === '.' ? '' : activePath}</span>
+            <div className="flex items-center gap-2">
+              <span className="font-mono">/{selectedRoot}/{activePath === '.' ? '' : activePath}</span>
+              {data?.source === 'mac' && (
+                <span className="px-1 py-px rounded-[var(--radius-sm)] bg-[var(--color-accent)]/15 text-[var(--color-accent)] text-[8px] font-medium">via Mac</span>
+              )}
+            </div>
             <div className="flex items-center gap-3">
               <span>{contents.filter((c) => c.type === 'directory').length} folders</span>
               <span>{contents.filter((c) => c.type === 'file').length} files</span>
+              {data?.stats.scanDurationMs != null && <span>{data.stats.scanDurationMs}ms</span>}
             </div>
           </div>
         </div>
