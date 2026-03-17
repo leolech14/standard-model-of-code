@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-DevJournal CLI — run the full ingestion pipeline.
+ETS CLI — run the Ecosystem Trace & Signature ingestion pipeline.
 
 Usage:
-    python run.py                    # Today
-    python run.py 2026-03-16         # Specific date
-    python run.py --range 3          # Last 3 days
-    python run.py --materialize-only # Re-materialize from existing ledger
+    python run.py                        # Today
+    python run.py 2026-03-16             # Specific date
+    python run.py --range 3              # Last 3 days
+    python run.py --materialize-only     # Re-materialize from existing ledger
+    python run.py --registry ~/.ets/trace_registry.yaml  # Use trace registry
 """
 
 import argparse
@@ -19,19 +20,28 @@ sys.path.insert(0, str(_devjournal))
 
 from compiler import compile_day
 from materializer import materialize_day
-from schema import DEVJOURNAL_DIR, DAYS_DIR, LEDGER_PATH
+from schema import DEVJOURNAL_DIR, DAYS_DIR, LEDGER_PATH, ETS_REGISTRY_PATH
 
 
 def main():
-    parser = argparse.ArgumentParser(description="DevJournal — Refinery ingestion pipeline")
+    parser = argparse.ArgumentParser(description="ETS — Ecosystem Trace & Signature pipeline")
     parser.add_argument("date", nargs="?", default=None, help="Target date (YYYY-MM-DD). Default: today.")
     parser.add_argument("--range", type=int, default=1, help="Number of days to process (backwards from date).")
     parser.add_argument("--materialize-only", action="store_true", help="Skip collectors, re-materialize from ledger.")
     parser.add_argument("--quiet", action="store_true", help="Suppress output.")
+    parser.add_argument("--registry", type=str, default=None,
+                        help="Path to trace_registry.yaml. Default: ~/.ets/trace_registry.yaml if exists.")
     args = parser.parse_args()
 
     verbose = not args.quiet
     target = args.date or date.today().isoformat()
+
+    # Resolve registry path
+    registry_path = None
+    if args.registry:
+        registry_path = Path(args.registry).expanduser()
+    elif ETS_REGISTRY_PATH.exists():
+        registry_path = ETS_REGISTRY_PATH
 
     # Validate date format
     try:
@@ -44,8 +54,12 @@ def main():
     dates.reverse()  # Process chronologically
 
     if verbose:
-        print(f"DevJournal Pipeline")
+        mode = "ETS" if registry_path else "DevJournal (legacy)"
+        print(f"Ecosystem Trace & Signature Pipeline")
+        print(f"  Mode: {mode}")
         print(f"  Output: {DEVJOURNAL_DIR}")
+        if registry_path:
+            print(f"  Registry: {registry_path}")
         print(f"  Dates: {dates}")
         print()
 
@@ -54,7 +68,7 @@ def main():
             print(f"=== {date_str} ===")
 
         if not args.materialize_only:
-            summary = compile_day(date_str, verbose=verbose)
+            summary = compile_day(date_str, verbose=verbose, registry_path=registry_path)
             if verbose:
                 print(f"  Compiled: {summary['new_events']} new events in {summary['duration_ms']}ms")
                 print()

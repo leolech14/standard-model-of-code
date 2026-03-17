@@ -1,8 +1,14 @@
 """
-DevJournal Schema — Pydantic models for the Refinery ingestion pipeline.
+Ecosystem Trace & Signature (ETS) Schema.
+
+Extends the DevJournal ingestion pipeline with provenance metadata (Signatures),
+expanded trace sources, and pluggable collector architecture.
 
 Every event is a tracked object with a deterministic oid.
-Append-only ledger (devjournal.jsonl) + materialized daily views.
+Append-only ledger (traces.jsonl) + materialized daily views (Trace Maps).
+
+Canon naming: Trace Source, Trace Event, Signature, Corroborated Trace,
+Trace Collector, Trace Map, Trace Correlator, Trace Registry.
 """
 
 import hashlib
@@ -17,6 +23,18 @@ from pydantic import BaseModel, Field
 
 # ── Constants ──────────────────────────────────────────────
 
+# ETS output directory (new canonical location)
+ETS_DIR = Path.home() / ".ets"
+ETS_LEDGER_PATH = ETS_DIR / "traces.jsonl"
+ETS_MAPS_DIR = ETS_DIR / "maps"
+ETS_DAYS_DIR = ETS_MAPS_DIR / "days"
+ETS_WEEKS_DIR = ETS_MAPS_DIR / "weeks"
+ETS_PROJECTS_DIR = ETS_MAPS_DIR / "projects"
+ETS_META_INDEX_PATH = ETS_DIR / "meta_index.jsonl"
+ETS_SIGNATURES_PATH = ETS_DIR / "signatures.jsonl"
+ETS_REGISTRY_PATH = ETS_DIR / "trace_registry.yaml"
+
+# Legacy paths (backward compatibility — symlinked or fallback)
 DEVJOURNAL_DIR = Path.home() / ".devjournal"
 LEDGER_PATH = DEVJOURNAL_DIR / "devjournal.jsonl"
 DAYS_DIR = DEVJOURNAL_DIR / "days"
@@ -27,13 +45,19 @@ META_INDEX_PATH = DEVJOURNAL_DIR / "meta_index.jsonl"
 PROJECTS_ROOT = Path.home() / "PROJECTS_all"
 CLI_HISTORY_PATH = Path.home() / ".claude" / "history.jsonl"
 
-# Directories to scan for filesystem events
+# Directories to scan for filesystem events (all 20 home dirs per filesystem blueprint)
 FS_SCAN_DIRS = [
     PROJECTS_ROOT,
     Path.home() / "Downloads",
     Path.home() / "_inbox",
+    Path.home() / "_archive",
+    Path.home() / "_tools",
     Path.home() / "music-production",
     Path.home() / "3d-workshop",
+    Path.home() / "media",
+    Path.home() / "personal-docs",
+    Path.home() / "business",
+    Path.home() / "SCREENSHOTS",
 ]
 
 # Noise patterns to skip in filesystem scanning
@@ -52,6 +76,7 @@ FS_NOISE_EXTENSIONS = {
 # ── Enums ──────────────────────────────────────────────────
 
 class Source(str, Enum):
+    # Core sources (v1 — DevJournal)
     GIT = "git"
     CLI = "cli"
     FS = "fs"
@@ -59,6 +84,17 @@ class Source(str, Enum):
     COLLIDER = "collider"
     ATLAS = "atlas"
     SYSTEM = "system"
+    # ETS trace sources (v2)
+    MEMORY = "memory"
+    PLAN = "plan"
+    XATTR = "xattr"
+    GIT_NOTES = "git_notes"
+    VPS = "vps"
+    OPENCLAW = "openclaw"
+    NOTION = "notion"
+    OPENFINANCE = "openfinance"
+    GEMINI = "gemini"
+    GITHUB = "github"
 
 
 class EventKind(str, Enum):
@@ -74,11 +110,24 @@ class EventKind(str, Enum):
     FILE_CREATED = "file_created"
     FILE_MODIFIED = "file_modified"
     DIR_CREATED = "dir_created"
-    # Future: session, collider, atlas, system events
+    # Session/collider/atlas/system events
     CONVERSATION = "conversation"
     ANALYSIS_RUN = "analysis_run"
     COMPONENT_REGISTERED = "component_registered"
     SYNC_COMPLETE = "sync_complete"
+    # ETS trace event kinds (v2)
+    MEMORY_WRITTEN = "memory_written"
+    MEMORY_UPDATED = "memory_updated"
+    PLAN_CREATED = "plan_created"
+    PLAN_UPDATED = "plan_updated"
+    GIT_NOTE_ADDED = "git_note_added"
+    CRON_EXECUTED = "cron_executed"
+    VOICE_CALL = "voice_call"
+    NOTION_SYNC = "notion_sync"
+    FINANCE_EVENT = "finance_event"
+    RESEARCH_QUERY = "research_query"
+    CORROBORATED = "corroborated"
+    SIGNATURE_STAMPED = "signature_stamped"
 
 
 # ── OID Generation ─────────────────────────────────────────
@@ -99,8 +148,18 @@ def generate_oid(ts: datetime, source: str, kind: str, data_key: str) -> str:
 
 # ── Core Models ────────────────────────────────────────────
 
+class Signature(BaseModel):
+    """Provenance block — EXIF-for-code. Who did it, how, under what authority."""
+    model: str                              # "claude-opus-4-6", "gemini-3-pro", "human", "cron"
+    access_point: str                       # "cli", "mcp", "api", "dashboard", "notion", "vps-ssh", "hook"
+    orchestration: str                      # "direct" | "subagent" | "automated" | "human-only"
+    session_id: Optional[str] = None        # Claude session UUID, links back to transcript
+    parent_agent: Optional[str] = None      # If subagent, who dispatched it
+    hostname: str = ""                      # "mac", "vps", "github-actions"
+
+
 class DevJournalEvent(BaseModel):
-    """A single tracked event in the devjournal ledger."""
+    """A single tracked event in the ETS ledger (backward-compatible with DevJournal)."""
     oid: str
     ts: datetime
     source: Source
@@ -108,6 +167,7 @@ class DevJournalEvent(BaseModel):
     project: Optional[str] = None  # None for ecosystem-wide events
     data: Dict[str, Any] = Field(default_factory=dict)
     tags: List[str] = Field(default_factory=list)
+    signature: Optional[Signature] = None  # ETS provenance block (v2)
 
     def to_jsonl(self) -> str:
         """Serialize to a single JSONL line."""
@@ -124,8 +184,12 @@ class DevJournalEvent(BaseModel):
         return cls(**d)
 
 
+# Canon naming alias — TraceEvent IS DevJournalEvent with Signature support
+TraceEvent = DevJournalEvent
+
+
 class CollectorResult(BaseModel):
-    """Output from a collector — a batch of events."""
+    """Output from a trace collector — a batch of events."""
     source: Source
     collected_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     target_date: str  # YYYY-MM-DD
@@ -165,6 +229,12 @@ class RunEnvelope(BaseModel):
 def ensure_dirs():
     """Create output directories if they don't exist."""
     for d in [DEVJOURNAL_DIR, DAYS_DIR, WEEKS_DIR, PROJECTS_DIR]:
+        d.mkdir(parents=True, exist_ok=True)
+
+
+def ensure_ets_dirs():
+    """Create ETS output directories."""
+    for d in [ETS_DIR, ETS_MAPS_DIR, ETS_DAYS_DIR, ETS_WEEKS_DIR, ETS_PROJECTS_DIR]:
         d.mkdir(parents=True, exist_ok=True)
 
 

@@ -1,16 +1,20 @@
 """
-DevJournal Compiler — merges collector outputs into the unified ledger.
+ETS Compiler — merges trace collector outputs into the unified ledger.
 
-Runs all collectors for a target date, deduplicates by oid,
-appends to devjournal.jsonl (idempotent).
+Runs all active collectors (from trace registry or defaults),
+deduplicates by oid, appends to the ledger (idempotent).
 """
 
+import importlib
+import importlib.util
+import json
+import socket
 import sys
 import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Any, Dict, List, Optional, Set
 
 _devjournal = Path(__file__).resolve().parent
 sys.path.insert(0, str(_devjournal))
@@ -19,9 +23,60 @@ from schema import (
     LEDGER_PATH, META_INDEX_PATH,
     append_to_ledger, ensure_dirs,
 )
-from collectors.git_collector import collect as git_collect
-from collectors.cli_collector import collect as cli_collect
-from collectors.fs_collector import collect as fs_collect
+
+# Default collectors (v1 behavior when no registry is provided)
+_DEFAULT_COLLECTORS = ["git_collector", "cli_collector", "fs_collector"]
+
+
+def _load_registry(registry_path: Optional[Path] = None) -> List[Dict[str, Any]]:
+    """Load trace registry YAML and return list of active trace entries."""
+    if registry_path is None or not registry_path.exists():
+        return []
+    try:
+        import yaml
+        with open(registry_path) as f:
+            data = yaml.safe_load(f)
+        traces = data.get("traces", [])
+        return [t for t in traces if t.get("status") == "active"]
+    except Exception:
+        return []
+
+
+def _discover_collectors(registry_path: Optional[Path] = None) -> List[tuple]:
+    """Discover collector functions from registry or defaults.
+
+    Each collector must be a module in collectors/ with a collect(date_str) function.
+    Returns list of (name, collect_fn) tuples.
+    """
+    collectors_dir = _devjournal / "collectors"
+    collect_fns = []
+
+    # Try registry first
+    active_traces = _load_registry(registry_path)
+    if active_traces:
+        # Sort by priority
+        active_traces.sort(key=lambda t: t.get("priority", 99))
+        collector_names = [t["collector"] for t in active_traces]
+    else:
+        # Fall back to hardcoded defaults
+        collector_names = _DEFAULT_COLLECTORS
+
+    for name in collector_names:
+        module_path = collectors_dir / f"{name}.py"
+        if not module_path.exists():
+            continue
+        try:
+            spec = importlib.util.spec_from_file_location(name, module_path)
+            if spec is None or spec.loader is None:
+                continue
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            if hasattr(mod, "collect"):
+                collect_fns.append((name, mod.collect))
+        except Exception:
+            continue
+
+    return collect_fns
 
 
 def _load_existing_oids(date_str: str) -> Set[str]:
@@ -46,12 +101,17 @@ def _load_existing_oids(date_str: str) -> Set[str]:
     return existing
 
 
-def compile_day(date_str: str, verbose: bool = False) -> Dict:
+def compile_day(
+    date_str: str,
+    verbose: bool = False,
+    registry_path: Optional[Path] = None,
+) -> Dict:
     """Run all collectors and merge into the ledger.
 
     Args:
         date_str: Target date in YYYY-MM-DD format.
         verbose: Print progress to stdout.
+        registry_path: Path to trace_registry.yaml (None = use defaults).
 
     Returns:
         Summary dict with stats.
@@ -64,20 +124,19 @@ def compile_day(date_str: str, verbose: bool = False) -> Dict:
     if verbose and existing_oids:
         print(f"  Found {len(existing_oids)} existing events for {date_str}")
 
-    # Run collectors
+    # Discover and run collectors
+    collector_fns = _discover_collectors(registry_path)
     results: List[CollectorResult] = []
 
-    if verbose:
-        print("  Running git collector...")
-    results.append(git_collect(date_str))
-
-    if verbose:
-        print("  Running CLI collector...")
-    results.append(cli_collect(date_str))
-
-    if verbose:
-        print("  Running FS collector...")
-    results.append(fs_collect(date_str))
+    for name, collect_fn in collector_fns:
+        if verbose:
+            print(f"  Running {name}...")
+        try:
+            result = collect_fn(date_str)
+            results.append(result)
+        except Exception as e:
+            if verbose:
+                print(f"    {name} failed: {e}")
 
     # Merge and deduplicate
     all_events: List[DevJournalEvent] = []
@@ -106,7 +165,6 @@ def compile_day(date_str: str, verbose: bool = False) -> Dict:
     elapsed_ms = int((time.time() - start_ms) * 1000)
 
     # Write run envelope to meta_index
-    import socket
     envelope = RunEnvelope(
         run_id=str(uuid.uuid4()),
         run_ts=datetime.now(timezone.utc),
@@ -118,7 +176,6 @@ def compile_day(date_str: str, verbose: bool = False) -> Dict:
         hostname=socket.gethostname(),
     )
     with open(META_INDEX_PATH, "a") as f:
-        import json
         f.write(json.dumps(envelope.model_dump(mode="json"), default=str, separators=(",", ":")) + "\n")
 
     return {
